@@ -1,0 +1,744 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
+		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
+		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
+		CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC187222E205B001283EA /* LaunchScreen.storyboard */; };
+		CE0CC18C222E205B001283EA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC18B222E205B001283EA /* main.m */; };
+		CE0CC196222E205C001283EA /* MRMobileRunTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC195222E205C001283EA /* MRMobileRunTests.m */; };
+		CE0CC1A1222E205C001283EA /* MRMobileRunUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1A0222E205C001283EA /* MRMobileRunUITests.m */; };
+		CE0CC1B5222E4938001283EA /* MRMainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1B4222E4938001283EA /* MRMainTabBarController.m */; };
+		CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1BA222E4D37001283EA /* MRHomeViewController.m */; };
+		CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1BE222E4F73001283EA /* MRRouterManager.m */; };
+		CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1CA222E5038001283EA /* MRDemoTableViewCell.m */; };
+		CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1CD222E5048001283EA /* MRDemoModel.m */; };
+		CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1D0222E505C001283EA /* MRDemoViewController.m */; };
+		CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC1D3222E506B001283EA /* MRDemoViewModel.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE0CC192222E205B001283EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CC171222E2059001283EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE0CC178222E2059001283EA;
+			remoteInfo = MRMobileRun;
+		};
+		CE0CC19D222E205C001283EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CC171222E2059001283EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE0CC178222E2059001283EA;
+			remoteInfo = MRMobileRun;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
+		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE0CC17C222E2059001283EA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CE0CC17D222E2059001283EA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CE0CC185222E205B001283EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE0CC188222E205B001283EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE0CC18A222E205B001283EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE0CC18B222E205B001283EA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CE0CC191222E205B001283EA /* MRMobileRunTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MRMobileRunTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE0CC195222E205C001283EA /* MRMobileRunTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRMobileRunTests.m; sourceTree = "<group>"; };
+		CE0CC197222E205C001283EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE0CC19C222E205C001283EA /* MRMobileRunUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MRMobileRunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE0CC1A0222E205C001283EA /* MRMobileRunUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRMobileRunUITests.m; sourceTree = "<group>"; };
+		CE0CC1A2222E205C001283EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE0CC1B3222E4938001283EA /* MRMainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRMainTabBarController.h; sourceTree = "<group>"; };
+		CE0CC1B4222E4938001283EA /* MRMainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRMainTabBarController.m; sourceTree = "<group>"; };
+		CE0CC1B9222E4D37001283EA /* MRHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRHomeViewController.h; sourceTree = "<group>"; };
+		CE0CC1BA222E4D37001283EA /* MRHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRHomeViewController.m; sourceTree = "<group>"; };
+		CE0CC1BD222E4F73001283EA /* MRRouterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRouterManager.h; sourceTree = "<group>"; };
+		CE0CC1BE222E4F73001283EA /* MRRouterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRRouterManager.m; sourceTree = "<group>"; };
+		CE0CC1C9222E5038001283EA /* MRDemoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRDemoTableViewCell.h; sourceTree = "<group>"; };
+		CE0CC1CA222E5038001283EA /* MRDemoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRDemoTableViewCell.m; sourceTree = "<group>"; };
+		CE0CC1CC222E5048001283EA /* MRDemoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRDemoModel.h; sourceTree = "<group>"; };
+		CE0CC1CD222E5048001283EA /* MRDemoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRDemoModel.m; sourceTree = "<group>"; };
+		CE0CC1CF222E505C001283EA /* MRDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRDemoViewController.h; sourceTree = "<group>"; };
+		CE0CC1D0222E505C001283EA /* MRDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRDemoViewController.m; sourceTree = "<group>"; };
+		CE0CC1D2222E506B001283EA /* MRDemoViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRDemoViewModel.h; sourceTree = "<group>"; };
+		CE0CC1D3222E506B001283EA /* MRDemoViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRDemoViewModel.m; sourceTree = "<group>"; };
+		CE0CC1D9222E5C9F001283EA /* MRRouterPublic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRouterPublic.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE0CC176222E2059001283EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CC18E222E205B001283EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CC199222E205C001283EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1B011DB0C0CCA19896847627 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */,
+				152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2B186BF3715610DC086E3283 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE0CC170222E2059001283EA = {
+			isa = PBXGroup;
+			children = (
+				CE0CC17B222E2059001283EA /* MRMobileRun */,
+				CE0CC194222E205C001283EA /* MRMobileRunTests */,
+				CE0CC19F222E205C001283EA /* MRMobileRunUITests */,
+				CE0CC17A222E2059001283EA /* Products */,
+				1B011DB0C0CCA19896847627 /* Pods */,
+				2B186BF3715610DC086E3283 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CE0CC17A222E2059001283EA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC179222E2059001283EA /* MRMobileRun.app */,
+				CE0CC191222E205B001283EA /* MRMobileRunTests.xctest */,
+				CE0CC19C222E205C001283EA /* MRMobileRunUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE0CC17B222E2059001283EA /* MRMobileRun */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
+				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
+				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
+				CE0CC17C222E2059001283EA /* AppDelegate.h */,
+				CE0CC17D222E2059001283EA /* AppDelegate.m */,
+				CE0CC185222E205B001283EA /* Assets.xcassets */,
+				CE0CC187222E205B001283EA /* LaunchScreen.storyboard */,
+				CE0CC18A222E205B001283EA /* Info.plist */,
+				CE0CC18B222E205B001283EA /* main.m */,
+			);
+			path = MRMobileRun;
+			sourceTree = "<group>";
+		};
+		CE0CC194222E205C001283EA /* MRMobileRunTests */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC195222E205C001283EA /* MRMobileRunTests.m */,
+				CE0CC197222E205C001283EA /* Info.plist */,
+			);
+			path = MRMobileRunTests;
+			sourceTree = "<group>";
+		};
+		CE0CC19F222E205C001283EA /* MRMobileRunUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1A0222E205C001283EA /* MRMobileRunUITests.m */,
+				CE0CC1A2222E205C001283EA /* Info.plist */,
+			);
+			path = MRMobileRunUITests;
+			sourceTree = "<group>";
+		};
+		CE0CC1AE222E22FB001283EA /* MRMainUIModule */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1AF222E4859001283EA /* ViewController */,
+			);
+			name = MRMainUIModule;
+			sourceTree = "<group>";
+		};
+		CE0CC1AF222E4859001283EA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1B3222E4938001283EA /* MRMainTabBarController.h */,
+				CE0CC1B4222E4938001283EA /* MRMainTabBarController.m */,
+				CE0CC1B9222E4D37001283EA /* MRHomeViewController.h */,
+				CE0CC1BA222E4D37001283EA /* MRHomeViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1C4222E4FA6001283EA /* View */,
+				CE0CC1C3222E4F9F001283EA /* Model */,
+				CE0CC1C2222E4F96001283EA /* Controller */,
+				CE0CC1C1222E4F8C001283EA /* ViewModel */,
+			);
+			path = MVVMDemoModule;
+			sourceTree = "<group>";
+		};
+		CE0CC1C1222E4F8C001283EA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1D2222E506B001283EA /* MRDemoViewModel.h */,
+				CE0CC1D3222E506B001283EA /* MRDemoViewModel.m */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CE0CC1C2222E4F96001283EA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1CF222E505C001283EA /* MRDemoViewController.h */,
+				CE0CC1D0222E505C001283EA /* MRDemoViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		CE0CC1C3222E4F9F001283EA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1CC222E5048001283EA /* MRDemoModel.h */,
+				CE0CC1CD222E5048001283EA /* MRDemoModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CE0CC1C4222E4FA6001283EA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1C9222E5038001283EA /* MRDemoTableViewCell.h */,
+				CE0CC1CA222E5038001283EA /* MRDemoTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CE0CC1D8222E5C61001283EA /* MRRouterManager */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CC1BD222E4F73001283EA /* MRRouterManager.h */,
+				CE0CC1BE222E4F73001283EA /* MRRouterManager.m */,
+				CE0CC1D9222E5C9F001283EA /* MRRouterPublic.h */,
+			);
+			path = MRRouterManager;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE0CC178222E2059001283EA /* MRMobileRun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE0CC1A5222E205C001283EA /* Build configuration list for PBXNativeTarget "MRMobileRun" */;
+			buildPhases = (
+				893EAF1A64BC8FA3C9FB4A95 /* [CP] Check Pods Manifest.lock */,
+				CE0CC175222E2059001283EA /* Sources */,
+				CE0CC176222E2059001283EA /* Frameworks */,
+				CE0CC177222E2059001283EA /* Resources */,
+				CC63DBE60E7BA3743D463243 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MRMobileRun;
+			productName = MRMobileRun;
+			productReference = CE0CC179222E2059001283EA /* MRMobileRun.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE0CC190222E205B001283EA /* MRMobileRunTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE0CC1A8222E205C001283EA /* Build configuration list for PBXNativeTarget "MRMobileRunTests" */;
+			buildPhases = (
+				CE0CC18D222E205B001283EA /* Sources */,
+				CE0CC18E222E205B001283EA /* Frameworks */,
+				CE0CC18F222E205B001283EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE0CC193222E205B001283EA /* PBXTargetDependency */,
+			);
+			name = MRMobileRunTests;
+			productName = MRMobileRunTests;
+			productReference = CE0CC191222E205B001283EA /* MRMobileRunTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CE0CC19B222E205C001283EA /* MRMobileRunUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE0CC1AB222E205C001283EA /* Build configuration list for PBXNativeTarget "MRMobileRunUITests" */;
+			buildPhases = (
+				CE0CC198222E205C001283EA /* Sources */,
+				CE0CC199222E205C001283EA /* Frameworks */,
+				CE0CC19A222E205C001283EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE0CC19E222E205C001283EA /* PBXTargetDependency */,
+			);
+			name = MRMobileRunUITests;
+			productName = MRMobileRunUITests;
+			productReference = CE0CC19C222E205C001283EA /* MRMobileRunUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE0CC171222E2059001283EA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				TargetAttributes = {
+					CE0CC178222E2059001283EA = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					CE0CC190222E205B001283EA = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = CE0CC178222E2059001283EA;
+					};
+					CE0CC19B222E205C001283EA = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = CE0CC178222E2059001283EA;
+					};
+				};
+			};
+			buildConfigurationList = CE0CC174222E2059001283EA /* Build configuration list for PBXProject "MRMobileRun" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE0CC170222E2059001283EA;
+			productRefGroup = CE0CC17A222E2059001283EA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE0CC178222E2059001283EA /* MRMobileRun */,
+				CE0CC190222E205B001283EA /* MRMobileRunTests */,
+				CE0CC19B222E205C001283EA /* MRMobileRunUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE0CC177222E2059001283EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */,
+				CE0CC186222E205B001283EA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CC18F222E205B001283EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CC19A222E205C001283EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		893EAF1A64BC8FA3C9FB4A95 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MRMobileRun-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC63DBE60E7BA3743D463243 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources.sh",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE0CC175222E2059001283EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
+				CE0CC18C222E205B001283EA /* main.m in Sources */,
+				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
+				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
+				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
+				CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */,
+				CE0CC1B5222E4938001283EA /* MRMainTabBarController.m in Sources */,
+				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
+				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CC18D222E205B001283EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE0CC196222E205C001283EA /* MRMobileRunTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE0CC198222E205C001283EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE0CC1A1222E205C001283EA /* MRMobileRunUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE0CC193222E205B001283EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE0CC178222E2059001283EA /* MRMobileRun */;
+			targetProxy = CE0CC192222E205B001283EA /* PBXContainerItemProxy */;
+		};
+		CE0CC19E222E205C001283EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE0CC178222E2059001283EA /* MRMobileRun */;
+			targetProxy = CE0CC19D222E205C001283EA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE0CC187222E205B001283EA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE0CC188222E205B001283EA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE0CC1A3222E205C001283EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CE0CC1A4222E205C001283EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE0CC1A6222E205C001283EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MRMobileRun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRun;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE0CC1A7222E205C001283EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MRMobileRun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRun;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CE0CC1A9222E205C001283EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MRMobileRunTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRunTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MRMobileRun.app/MRMobileRun";
+			};
+			name = Debug;
+		};
+		CE0CC1AA222E205C001283EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MRMobileRunTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRunTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MRMobileRun.app/MRMobileRun";
+			};
+			name = Release;
+		};
+		CE0CC1AC222E205C001283EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MRMobileRunUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRunUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MRMobileRun;
+			};
+			name = Debug;
+		};
+		CE0CC1AD222E205C001283EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MRMobileRunUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRunUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MRMobileRun;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE0CC174222E2059001283EA /* Build configuration list for PBXProject "MRMobileRun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE0CC1A3222E205C001283EA /* Debug */,
+				CE0CC1A4222E205C001283EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE0CC1A5222E205C001283EA /* Build configuration list for PBXNativeTarget "MRMobileRun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE0CC1A6222E205C001283EA /* Debug */,
+				CE0CC1A7222E205C001283EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE0CC1A8222E205C001283EA /* Build configuration list for PBXNativeTarget "MRMobileRunTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE0CC1A9222E205C001283EA /* Debug */,
+				CE0CC1AA222E205C001283EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE0CC1AB222E205C001283EA /* Build configuration list for PBXNativeTarget "MRMobileRunUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE0CC1AC222E205C001283EA /* Debug */,
+				CE0CC1AD222E205C001283EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE0CC171222E2059001283EA /* Project object */;
+}
