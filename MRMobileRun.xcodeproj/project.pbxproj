@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F36BCF62240CACC00C1D8FC /* MRHomePageTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BCEE2240CACC00C1D8FC /* MRHomePageTabBar.m */; };
+		2F36BCF72240CACC00C1D8FC /* UIButton+TabBarBtu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BCF12240CACC00C1D8FC /* UIButton+TabBarBtu.m */; };
+		2F36BCF82240CACC00C1D8FC /* MRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BCF32240CACC00C1D8FC /* MRTabBarController.m */; };
+		2F36BCF92240CACC00C1D8FC /* MRTabBarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BCF52240CACC00C1D8FC /* MRTabBarModel.m */; };
+		2F36BCFC2240CB9200C1D8FC /* MRStartRunningBtu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BCFA2240CB9200C1D8FC /* MRStartRunningBtu.m */; };
+		2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */; };
+		2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */; };
+		2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
 		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
 		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
@@ -42,6 +50,20 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		2F36BCEE2240CACC00C1D8FC /* MRHomePageTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRHomePageTabBar.m; sourceTree = "<group>"; };
+		2F36BCEF2240CACC00C1D8FC /* MRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTabBarController.h; sourceTree = "<group>"; };
+		2F36BCF02240CACC00C1D8FC /* MRTabBarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTabBarModel.h; sourceTree = "<group>"; };
+		2F36BCF12240CACC00C1D8FC /* UIButton+TabBarBtu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+TabBarBtu.m"; sourceTree = "<group>"; };
+		2F36BCF22240CACC00C1D8FC /* MRHomePageTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRHomePageTabBar.h; sourceTree = "<group>"; };
+		2F36BCF32240CACC00C1D8FC /* MRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTabBarController.m; sourceTree = "<group>"; };
+		2F36BCF42240CACC00C1D8FC /* UIButton+TabBarBtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+TabBarBtu.h"; sourceTree = "<group>"; };
+		2F36BCF52240CACC00C1D8FC /* MRTabBarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTabBarModel.m; sourceTree = "<group>"; };
+		2F36BCFA2240CB9200C1D8FC /* MRStartRunningBtu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRStartRunningBtu.m; sourceTree = "<group>"; };
+		2F36BCFB2240CB9200C1D8FC /* MRStartRunningBtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStartRunningBtu.h; sourceTree = "<group>"; };
+		2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeProgressCircle.xib; sourceTree = "<group>"; };
+		2F36BCFF2240CF4A00C1D8FC /* WeProgressCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeProgressCircle.h; sourceTree = "<group>"; };
+		2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WeProgressCircle.png; sourceTree = "<group>"; };
+		2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeProgressCircle.m; sourceTree = "<group>"; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +139,34 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F36BCED2240CACC00C1D8FC /* MRTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2F36BCEF2240CACC00C1D8FC /* MRTabBarController.h */,
+				2F36BCF32240CACC00C1D8FC /* MRTabBarController.m */,
+				2F36BCF22240CACC00C1D8FC /* MRHomePageTabBar.h */,
+				2F36BCEE2240CACC00C1D8FC /* MRHomePageTabBar.m */,
+				2F36BCF42240CACC00C1D8FC /* UIButton+TabBarBtu.h */,
+				2F36BCF12240CACC00C1D8FC /* UIButton+TabBarBtu.m */,
+				2F36BCF02240CACC00C1D8FC /* MRTabBarModel.h */,
+				2F36BCF52240CACC00C1D8FC /* MRTabBarModel.m */,
+				2F36BCFB2240CB9200C1D8FC /* MRStartRunningBtu.h */,
+				2F36BCFA2240CB9200C1D8FC /* MRStartRunningBtu.m */,
+			);
+			path = MRTabBar;
+			sourceTree = "<group>";
+		};
+		2F36BCFD2240CF4A00C1D8FC /* MRWeProgress */ = {
+			isa = PBXGroup;
+			children = (
+				2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */,
+				2F36BCFF2240CF4A00C1D8FC /* WeProgressCircle.h */,
+				2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */,
+				2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */,
+			);
+			path = MRWeProgress;
+			sourceTree = "<group>";
+		};
 		CE0CC170222E2059001283EA = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +192,8 @@
 		CE0CC17B222E2059001283EA /* MRMobileRun */ = {
 			isa = PBXGroup;
 			children = (
+				2F36BCFD2240CF4A00C1D8FC /* MRWeProgress */,
+				2F36BCED2240CACC00C1D8FC /* MRTabBar */,
 				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
@@ -353,7 +405,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */,
 				CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */,
+				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
 				CE0CC186222E205B001283EA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,11 +484,17 @@
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
+				2F36BCF62240CACC00C1D8FC /* MRHomePageTabBar.m in Sources */,
+				2F36BCFC2240CB9200C1D8FC /* MRStartRunningBtu.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
+				2F36BCF72240CACC00C1D8FC /* UIButton+TabBarBtu.m in Sources */,
 				CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */,
 				CE0CC1B5222E4938001283EA /* MRMainTabBarController.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
+				2F36BCF82240CACC00C1D8FC /* MRTabBarController.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
+				2F36BCF92240CACC00C1D8FC /* MRTabBarModel.m in Sources */,
+				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +659,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JGMUD2VWJ4;
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -617,6 +678,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JGMUD2VWJ4;
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
