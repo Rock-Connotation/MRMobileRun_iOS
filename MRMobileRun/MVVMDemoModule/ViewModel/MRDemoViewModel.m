@@ -12,7 +12,7 @@
 @implementation MRDemoViewModel
 
 - (void)fetchNetWorkDataCompleted:(void (^)(void))completedBlock {
-    //请求数据。将 model 加入 modelArray 
+    //请求数据。将 model 加入 modelArray
     
     //请求完执行 completedBlock() 来刷新 tableview 等
 }

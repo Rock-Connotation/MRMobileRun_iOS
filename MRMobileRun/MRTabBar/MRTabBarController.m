@@ -1,53 +1,53 @@
-
-
-
 //
 //  MRTabBarController.m
-//  MobileRun
+//  MRMobileRun
 //
-//  Created by 郑沛越 on 2017/11/20.
-//  Copyright © 2017年 郑沛越. All rights reserved.
+//  Created by 丁磊 on 2019/3/23.
 //
+
+
+
+/*
+ 学艺不精啊，终于把这部分写完了，把封装性提高了
+ 后面要改tabBar的item数目和内容直接修改addAllChildViewController方法里的添加方法就行了
+ 这部分自定义TabBar就是直接把自己写的TabBarView（继承自UIView）把原有TabBar覆盖了
+ 不要把自定义View加到原有的TabBar上，它始终在底层不会响应button点击方法
+ */
 
 #import "MRTabBarController.h"
+#import "MRTabBarView.h"
+#import <Masonry.h>
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+@interface MRTabBarController ()<MRTabBarViewDelegate>
 
-@interface MRTabBarController ()<UITabBarDelegate>
-//@property(nonatomic) MRHomePageViewController *homePageVC;
-//@property(nonatomic) MRPersonaInformationViewController *personalInformationVC;
-//@property(nonatomic) MRRankViewController *rankVC;
-//@property(nonatomic) MRRunningViewController *runningVC;
+@property (strong, nonatomic) MRTabBarView *tabView;
+@property (strong, nonatomic) NSMutableArray *btnArr;
+@property (strong, nonatomic) NSMutableArray<NSString *> *textArr;
 @end
 
 @implementation MRTabBarController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[UITabBar appearance] setShadowImage:[UIImage new]];
-    [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];
-    //隐藏分割线
-    self.tabBar.hidden = YES; //隐藏原先的tabBar
-//    self.homePageTabBar = [[MRHomePageTabBar alloc]initWithFrame:CGRectMake(0, screenHeigth/1334.0 *123.0, 0, 0)];
+    self.textArr = [NSMutableArray array];
+    self.btnArr = [NSMutableArray array];
 
-//    self.homePageVC = [[MRHomePageViewController alloc]init];
-//    self.personalInformationVC = [[MRPersonaInformationViewController alloc] init];
-//    self.runningVC = [[MRRunningViewController alloc]init];
-//    self.rankVC = [[MRRankViewController alloc]init];
-//
-//    UINavigationController *homePageNav =[[UINavigationController alloc]initWithRootViewController:self.homePageVC];
-//    UINavigationController *personalInformationNav =[[UINavigationController alloc]initWithRootViewController:self.personalInformationVC];
-//    UINavigationController *runningNav =[[UINavigationController alloc]initWithRootViewController:self.runningVC];
-//    UINavigationController *rankNav =[[UINavigationController alloc]initWithRootViewController:self.rankVC];
-//    UINavigationController *rankNav1 =[[UINavigationController alloc]initWithRootViewController:self.rankVC];
-//
-//    [self addChildViewController:homePageNav];
-//    [self addChildViewController:rankNav];
-//    [self addChildViewController:runningNav];
-//    [self addChildViewController:personalInformationNav];
-//    [self addChildViewController:rankNav1];
+    self.tabView = [[MRTabBarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - self.tabBar.bounds.size.height, SCREEN_WIDTH, self.tabBar.bounds.size.height)];
+    self.tabBar.backgroundColor = [UIColor whiteColor];
+    self.tabBar.userInteractionEnabled = NO;
+    [self.view addSubview: self.tabView];
+    [self.view bringSubviewToFront:self.tabView];
+    [self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.left.equalTo(self.view.mas_left);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.equalTo(self.tabBar.mas_height);
+    }];
     
-    
-    // Do any additional setup after loading the view.
+    [self addAllChildViewController];
+    [self.tabView setArray: self.btnArr];
+    [self.tabView setTextArray: self.textArr];
+    self.tabView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,37 +55,50 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)addAllChildViewController{
+    UIViewController *vc1 = [[UIViewController alloc] init];
+    vc1.view.backgroundColor = [UIColor redColor];
+    [self addChildViewController:vc1 title:@"首页" imageNamed:@"首页icon（未许选中）" selectedImageNamed:@"首页icon（未选中）" tag:0];
     
-    CGRect frame = self.tabBar.frame;
-//    frame.size.height = screenHeigth/1334.0 *123.0;
-    frame.origin.y = self.view.frame.size.height - frame.size.height;
-    self.tabBar.frame = frame;
-    self.tabBar.backgroundColor = [UIColor colorWithRed:244.0/255.0 green:246.0/255.0 blue:247.0/255.0 alpha:1];
+    UIViewController *vc2 = [[UIViewController alloc] init];
+    vc2.view.backgroundColor = [UIColor blueColor];
+    [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:nil tag:1];
+    
+    UIViewController *vc3 = [[UIViewController alloc] init];
+    vc3.view.backgroundColor = [UIColor blackColor];
+    [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:nil tag:2];
+    
+    UIViewController *vc4 = [[UIViewController alloc] init];
+    vc4.view.backgroundColor = [UIColor whiteColor];
+    [self addChildViewController:vc4 title:@"邀约" imageNamed:@"邀约icon（未选中）" selectedImageNamed:nil tag:4];
+    
+    UIViewController *vc5 = [[UIViewController alloc] init];
+    [self addChildViewController:vc5 title:@"我的" imageNamed:@"我的icon(未选中）" selectedImageNamed:nil tag:5];
 }
 
-- (void)addButtonAction{
-   
-}
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+// 添加某个 childViewController
+- (void)addChildViewController:(UIViewController *)vc title:(NSString *)title imageNamed:(NSString *)imageNamed selectedImageNamed:(NSString *)selectedImageName tag:(NSInteger)i
 {
-    
-    NSLog(@"\n\n\n\n\n%s\n\n\n\n\n","click");
-    
-    self.homePageTabBar.hidden = YES;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    // 如果同时有navigationbar 和 tabbar的时候最好分别设置它们的title
+    vc.navigationItem.title = title;
+    [self.textArr addObject:title];
+    UIButton *btn = [[UIButton alloc] init];
+    [btn setImage:[UIImage imageNamed: imageNamed] forState: UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed: selectedImageName] forState: UIControlStateDisabled];
+    [self.btnArr addObject: btn];
+    [self addChildViewController:nav];
 }
 
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     Get the new view controller using [segue destinationViewController].
-     Pass the selected object to the new view controller.
+#pragma mark -  TabBarViewDelegate
+-(void)tabBarView:(MRTabBarView *)view didSelectedItemAtIndex:(NSInteger)index
+{
+    // 切换到对应index的viewController
+    self.selectedIndex = index;
+    
 }
-*/
 
 @end
+

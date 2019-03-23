@@ -6,6 +6,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MRTabBar/MRTabBarController.h"
 #import "MRMainTabBarController.h"
 
 @interface AppDelegate ()
@@ -17,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    MRMainTabBarController *tabBarVC = [[MRMainTabBarController alloc] init];
+    MRTabBarController *tabBarVC = [[MRTabBarController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tabBarVC];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

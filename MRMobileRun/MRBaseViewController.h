@@ -1,5 +1,5 @@
 //
-//  MRTabBarController.h
+//  MRBaseViewController.h
 //  MRMobileRun
 //
 //  Created by 丁磊 on 2019/3/23.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MRTabBarController : UITabBarController
+@interface MRBaseViewController : UIViewController
 
 @end
 
