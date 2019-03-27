@@ -8,7 +8,7 @@
 
 
 /*
- 学艺不精啊，终于把这部分写完了，把封装性提高了
+ 学艺不精啊，终于把这部分写完了，把封装性提高了（我觉得）
  后面要改tabBar的item数目和内容直接修改addAllChildViewController方法里的添加方法就行了
  这部分自定义TabBar就是直接把自己写的TabBarView（继承自UIView）把原有TabBar覆盖了
  不要把自定义View加到原有的TabBar上，它始终在底层不会响应button点击方法
@@ -16,16 +16,20 @@
 
 #import "MRTabBarController.h"
 #import "MRTabBarView.h"
+#import "ZYLMainViewController.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 @interface MRTabBarController ()<MRTabBarViewDelegate>
-
+@property (strong, nonatomic) ZYLMainViewController *mainVC;
 @property (strong, nonatomic) MRTabBarView *tabView;
 @property (strong, nonatomic) NSMutableArray *btnArr;
 @property (strong, nonatomic) NSMutableArray<NSString *> *textArr;
 @end
 
 @implementation MRTabBarController
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,10 +59,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+//设置子页面
 - (void)addAllChildViewController{
-    UIViewController *vc1 = [[UIViewController alloc] init];
-    vc1.view.backgroundColor = [UIColor redColor];
-    [self addChildViewController:vc1 title:@"首页" imageNamed:@"首页icon（未许选中）" selectedImageNamed:@"首页icon（未选中）" tag:0];
+    self.mainVC = [[ZYLMainViewController alloc] init];
+    [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未许选中）" selectedImageNamed:@"首页icon（未选中）" tag:0];
     
     UIViewController *vc2 = [[UIViewController alloc] init];
     vc2.view.backgroundColor = [UIColor blueColor];

@@ -1,0 +1,40 @@
+//
+//  PrefixHeader.pch
+//  MRMobileRun
+//
+//  Created by 丁磊 on 2019/3/23.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#define kHeadHeight 44
+#define kStatusBarHeigh [[UIApplication sharedApplication] statusBarFrame].size.height
+#define screenHeigth  [UIScreen mainScreen].bounds.size.height
+#define screenWidth   [UIScreen mainScreen].bounds.size.width
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+//邀约历史记录
+#define kInvitationHistoryRecordUrl @"http://running-together.redrock.team/sanzou/invite/history/"
+//头像url 后面加学号
+#define kUserAvatarUrl @"http://running-together.redrock.team/sanzou/user/image/"
+//查询被邀请人的消息
+#define kSearchInfoUrl @"http://running-together.redrock.team/sanzou/invite/searchinfo"
+//发送邀约
+#define kStatrInviteUrl @"http://running-together.redrock.team/sanzou/invite/update/"
+//邀约是否结束(轮询)
+#define kJudegEndUrl @"http://running-together.redrock.team/sanzou/invite/end/"
+//查询最后一次邀约是否成功
+#define kJudegLastInvitationStatus @"http://running-together.redrock.team/sanzou/invite/history/result/"
+//获取是否被邀请
+#define kBeInvited @"http://running-together.redrock.team/sanzou/invite/invited/"
+//是否接受邀请
+#define kIfAcceptInvite @"http://running-together.redrock.team/sanzou/invite/result/"
+//取消邀约
+#define kCancelInvite @"http://running-together.redrock.team/sanzou/invite/cancel/"
+#define HEADERHEIGHT (STATUSBARHEIGHT+NVGBARHEIGHT)
+
+#define NVGBARHEIGHT (44)
+
+#define STATUSBARHEIGHT [[UIApplication sharedApplication] statusBarFrame].size.height
+
+#endif /* PrefixHeader_pch */

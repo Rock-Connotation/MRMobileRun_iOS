@@ -13,6 +13,25 @@
 		2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */; };
 		2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B602245FCF70014B249 /* MRTabBarView.m */; };
 		2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B66224610580014B249 /* MRTabBarController.m */; };
+		2F5A1B6B2246451F0014B249 /* ZYLMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B6A2246451F0014B249 /* ZYLMainViewController.m */; };
+		2F5A1B72224659BB0014B249 /* ZYLArrowBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B71224659BB0014B249 /* ZYLArrowBtn.m */; };
+		2F5A1B7522465A250014B249 /* ZYLAvatarBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B7422465A250014B249 /* ZYLAvatarBtn.m */; };
+		2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B7722465B1D0014B249 /* ZYLTitleLabel.m */; };
+		2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B7D224670A90014B249 /* ZYLLeaderboardBtn.m */; };
+		2F5A1B81224671140014B249 /* ZYLRunningRecordBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B80224671140014B249 /* ZYLRunningRecordBtn.m */; };
+		2F5A1B84224671920014B249 /* ZYLBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B83224671920014B249 /* ZYLBackgroundView.m */; };
+		2F5A1B87224688280014B249 /* ZYLMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B86224688280014B249 /* ZYLMainView.m */; };
+		2F5A1B9922468A890014B249 /* NSString+We.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B8C22468A890014B249 /* NSString+We.m */; };
+		2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B8D22468A890014B249 /* UIButton+We.m */; };
+		2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B8F22468A890014B249 /* UIColor+We.m */; };
+		2F5A1B9C22468A890014B249 /* WeKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B9122468A890014B249 /* WeKit.m */; };
+		2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B9422468A890014B249 /* UILabel+We.m */; };
+		2F5A1B9E22468A890014B249 /* UIView+We.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B9522468A890014B249 /* UIView+We.m */; };
+		2F5A1B9F22468A890014B249 /* UIImage+We.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B9622468A890014B249 /* UIImage+We.m */; };
+		2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1BA122468BA80014B249 /* MRBackBtu.m */; };
+		2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1BA422468BBA0014B249 /* MRChineseLabel.m */; };
+		2F5A1BA922468BC80014B249 /* MRNumLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1BA822468BC70014B249 /* MRNumLabel.m */; };
+		2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1BAB22468BD40014B249 /* MRTimeLabel.m */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
 		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
 		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
@@ -58,6 +77,46 @@
 		2F5A1B602245FCF70014B249 /* MRTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRTabBarView.m; sourceTree = "<group>"; };
 		2F5A1B65224610580014B249 /* MRTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRTabBarController.h; sourceTree = "<group>"; };
 		2F5A1B66224610580014B249 /* MRTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRTabBarController.m; sourceTree = "<group>"; };
+		2F5A1B692246451F0014B249 /* ZYLMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLMainViewController.h; sourceTree = "<group>"; };
+		2F5A1B6A2246451F0014B249 /* ZYLMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLMainViewController.m; sourceTree = "<group>"; };
+		2F5A1B70224659BB0014B249 /* ZYLArrowBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLArrowBtn.h; sourceTree = "<group>"; };
+		2F5A1B71224659BB0014B249 /* ZYLArrowBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLArrowBtn.m; sourceTree = "<group>"; };
+		2F5A1B7322465A250014B249 /* ZYLAvatarBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLAvatarBtn.h; sourceTree = "<group>"; };
+		2F5A1B7422465A250014B249 /* ZYLAvatarBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLAvatarBtn.m; sourceTree = "<group>"; };
+		2F5A1B7622465B1D0014B249 /* ZYLTitleLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLTitleLabel.h; sourceTree = "<group>"; };
+		2F5A1B7722465B1D0014B249 /* ZYLTitleLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLTitleLabel.m; sourceTree = "<group>"; };
+		2F5A1B7B224662B00014B249 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		2F5A1B7C224670A90014B249 /* ZYLLeaderboardBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLLeaderboardBtn.h; sourceTree = "<group>"; };
+		2F5A1B7D224670A90014B249 /* ZYLLeaderboardBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLLeaderboardBtn.m; sourceTree = "<group>"; };
+		2F5A1B7F224671140014B249 /* ZYLRunningRecordBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRunningRecordBtn.h; sourceTree = "<group>"; };
+		2F5A1B80224671140014B249 /* ZYLRunningRecordBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRunningRecordBtn.m; sourceTree = "<group>"; };
+		2F5A1B82224671920014B249 /* ZYLBackgroundView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLBackgroundView.h; sourceTree = "<group>"; };
+		2F5A1B83224671920014B249 /* ZYLBackgroundView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLBackgroundView.m; sourceTree = "<group>"; };
+		2F5A1B85224688280014B249 /* ZYLMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLMainView.h; sourceTree = "<group>"; };
+		2F5A1B86224688280014B249 /* ZYLMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLMainView.m; sourceTree = "<group>"; };
+		2F5A1B8A22468A890014B249 /* UIView+We.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+We.h"; sourceTree = "<group>"; };
+		2F5A1B8B22468A890014B249 /* UILabel+We.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+We.h"; sourceTree = "<group>"; };
+		2F5A1B8C22468A890014B249 /* NSString+We.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+We.m"; sourceTree = "<group>"; };
+		2F5A1B8D22468A890014B249 /* UIButton+We.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+We.m"; sourceTree = "<group>"; };
+		2F5A1B8E22468A890014B249 /* UIImage+We.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+We.h"; sourceTree = "<group>"; };
+		2F5A1B8F22468A890014B249 /* UIColor+We.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+We.m"; sourceTree = "<group>"; };
+		2F5A1B9022468A890014B249 /* LxDBAnything.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LxDBAnything.h; sourceTree = "<group>"; };
+		2F5A1B9122468A890014B249 /* WeKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeKit.m; sourceTree = "<group>"; };
+		2F5A1B9222468A890014B249 /* UIButton+We.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+We.h"; sourceTree = "<group>"; };
+		2F5A1B9322468A890014B249 /* NSString+We.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+We.h"; sourceTree = "<group>"; };
+		2F5A1B9422468A890014B249 /* UILabel+We.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+We.m"; sourceTree = "<group>"; };
+		2F5A1B9522468A890014B249 /* UIView+We.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+We.m"; sourceTree = "<group>"; };
+		2F5A1B9622468A890014B249 /* UIImage+We.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+We.m"; sourceTree = "<group>"; };
+		2F5A1B9722468A890014B249 /* UIColor+We.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+We.h"; sourceTree = "<group>"; };
+		2F5A1B9822468A890014B249 /* WeKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeKit.h; sourceTree = "<group>"; };
+		2F5A1BA122468BA80014B249 /* MRBackBtu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBackBtu.m; sourceTree = "<group>"; };
+		2F5A1BA222468BA80014B249 /* MRBackBtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRBackBtu.h; sourceTree = "<group>"; };
+		2F5A1BA422468BBA0014B249 /* MRChineseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRChineseLabel.m; sourceTree = "<group>"; };
+		2F5A1BA522468BBA0014B249 /* MRChineseLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRChineseLabel.h; sourceTree = "<group>"; };
+		2F5A1BA722468BC70014B249 /* MRNumLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRNumLabel.h; sourceTree = "<group>"; };
+		2F5A1BA822468BC70014B249 /* MRNumLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRNumLabel.m; sourceTree = "<group>"; };
+		2F5A1BAA22468BD40014B249 /* MRTimeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTimeLabel.h; sourceTree = "<group>"; };
+		2F5A1BAB22468BD40014B249 /* MRTimeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTimeLabel.m; sourceTree = "<group>"; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,8 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */,
-				2F36BCFF2240CF4A00C1D8FC /* WeProgressCircle.h */,
 				2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */,
+				2F36BCFF2240CF4A00C1D8FC /* WeProgressCircle.h */,
 				2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */,
 			);
 			path = MRWeProgress;
@@ -153,6 +212,102 @@
 				2F5A1B602245FCF70014B249 /* MRTabBarView.m */,
 			);
 			path = MRTabBar;
+			sourceTree = "<group>";
+		};
+		2F5A1B68224644470014B249 /* MRMainView */ = {
+			isa = PBXGroup;
+			children = (
+				2F5A1B6F224646A50014B249 /* ViewModel */,
+				2F5A1B6D2246468E0014B249 /* Model */,
+				2F5A1B6C224646790014B249 /* Controller */,
+			);
+			path = MRMainView;
+			sourceTree = "<group>";
+		};
+		2F5A1B6C224646790014B249 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2F5A1B692246451F0014B249 /* ZYLMainViewController.h */,
+				2F5A1B6A2246451F0014B249 /* ZYLMainViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		2F5A1B6D2246468E0014B249 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2F5A1B6E2246469B0014B249 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2F36BCFD2240CF4A00C1D8FC /* MRWeProgress */,
+				2F5A1B70224659BB0014B249 /* ZYLArrowBtn.h */,
+				2F5A1B71224659BB0014B249 /* ZYLArrowBtn.m */,
+				2F5A1B7322465A250014B249 /* ZYLAvatarBtn.h */,
+				2F5A1B7422465A250014B249 /* ZYLAvatarBtn.m */,
+				2F5A1B7622465B1D0014B249 /* ZYLTitleLabel.h */,
+				2F5A1B7722465B1D0014B249 /* ZYLTitleLabel.m */,
+				2F5A1B7C224670A90014B249 /* ZYLLeaderboardBtn.h */,
+				2F5A1B7D224670A90014B249 /* ZYLLeaderboardBtn.m */,
+				2F5A1B7F224671140014B249 /* ZYLRunningRecordBtn.h */,
+				2F5A1B80224671140014B249 /* ZYLRunningRecordBtn.m */,
+				2F5A1B82224671920014B249 /* ZYLBackgroundView.h */,
+				2F5A1B83224671920014B249 /* ZYLBackgroundView.m */,
+				2F5A1B85224688280014B249 /* ZYLMainView.h */,
+				2F5A1B86224688280014B249 /* ZYLMainView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2F5A1B6F224646A50014B249 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2F5A1B6E2246469B0014B249 /* View */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		2F5A1B8922468A890014B249 /* WeKit */ = {
+			isa = PBXGroup;
+			children = (
+				2F5A1B8A22468A890014B249 /* UIView+We.h */,
+				2F5A1B8B22468A890014B249 /* UILabel+We.h */,
+				2F5A1B8C22468A890014B249 /* NSString+We.m */,
+				2F5A1B8D22468A890014B249 /* UIButton+We.m */,
+				2F5A1B8E22468A890014B249 /* UIImage+We.h */,
+				2F5A1B8F22468A890014B249 /* UIColor+We.m */,
+				2F5A1B9022468A890014B249 /* LxDBAnything.h */,
+				2F5A1B9122468A890014B249 /* WeKit.m */,
+				2F5A1B9222468A890014B249 /* UIButton+We.h */,
+				2F5A1B9322468A890014B249 /* NSString+We.h */,
+				2F5A1B9422468A890014B249 /* UILabel+We.m */,
+				2F5A1B9522468A890014B249 /* UIView+We.m */,
+				2F5A1B9622468A890014B249 /* UIImage+We.m */,
+				2F5A1B9722468A890014B249 /* UIColor+We.h */,
+				2F5A1B9822468A890014B249 /* WeKit.h */,
+			);
+			path = WeKit;
+			sourceTree = "<group>";
+		};
+		2F5A1BA022468A910014B249 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				2F5A1B8922468A890014B249 /* WeKit */,
+				2F5A1B4B2245DAB90014B249 /* MRBaseViewController.h */,
+				2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */,
+				2F5A1BA222468BA80014B249 /* MRBackBtu.h */,
+				2F5A1BA122468BA80014B249 /* MRBackBtu.m */,
+				2F5A1BA522468BBA0014B249 /* MRChineseLabel.h */,
+				2F5A1BA422468BBA0014B249 /* MRChineseLabel.m */,
+				2F5A1BA722468BC70014B249 /* MRNumLabel.h */,
+				2F5A1BA822468BC70014B249 /* MRNumLabel.m */,
+				2F5A1BAA22468BD40014B249 /* MRTimeLabel.h */,
+				2F5A1BAB22468BD40014B249 /* MRTimeLabel.m */,
+			);
+			name = Base;
 			sourceTree = "<group>";
 		};
 		CE0CC170222E2059001283EA = {
@@ -180,10 +335,9 @@
 		CE0CC17B222E2059001283EA /* MRMobileRun */ = {
 			isa = PBXGroup;
 			children = (
-				2F5A1B4B2245DAB90014B249 /* MRBaseViewController.h */,
-				2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */,
+				2F5A1BA022468A910014B249 /* Base */,
 				2F5A1B522245DFB00014B249 /* MRTabBar */,
-				2F36BCFD2240CF4A00C1D8FC /* MRWeProgress */,
+				2F5A1B68224644470014B249 /* MRMainView */,
 				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
@@ -191,6 +345,7 @@
 				CE0CC17D222E2059001283EA /* AppDelegate.m */,
 				CE0CC185222E205B001283EA /* Assets.xcassets */,
 				CE0CC187222E205B001283EA /* LaunchScreen.storyboard */,
+				2F5A1B7B224662B00014B249 /* PrefixHeader.pch */,
 				CE0CC18A222E205B001283EA /* Info.plist */,
 				CE0CC18B222E205B001283EA /* main.m */,
 			);
@@ -470,17 +625,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F5A1B84224671920014B249 /* ZYLBackgroundView.m in Sources */,
+				2F5A1B72224659BB0014B249 /* ZYLArrowBtn.m in Sources */,
+				2F5A1BA922468BC80014B249 /* MRNumLabel.m in Sources */,
 				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
+				2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */,
+				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
+				2F5A1B9922468A890014B249 /* NSString+We.m in Sources */,
 				2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */,
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
+				2F5A1B87224688280014B249 /* ZYLMainView.m in Sources */,
 				CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */,
+				2F5A1B6B2246451F0014B249 /* ZYLMainViewController.m in Sources */,
 				CE0CC1B5222E4938001283EA /* MRMainTabBarController.m in Sources */,
+				2F5A1B81224671140014B249 /* ZYLRunningRecordBtn.m in Sources */,
+				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
+				2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */,
 				2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */,
+				2F5A1B7522465A250014B249 /* ZYLAvatarBtn.m in Sources */,
+				2F5A1B9F22468A890014B249 /* UIImage+We.m in Sources */,
+				2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */,
+				2F5A1B9E22468A890014B249 /* UIView+We.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
+				2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */,
+				2F5A1B9C22468A890014B249 /* WeKit.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
+				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
+				2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */,
 				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,
 				2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */,
 			);
@@ -648,6 +822,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JGMUD2VWJ4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -667,6 +843,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JGMUD2VWJ4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
