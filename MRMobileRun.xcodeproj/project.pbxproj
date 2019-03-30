@@ -310,6 +310,45 @@
 			name = Base;
 			sourceTree = "<group>";
 		};
+		2FD8E783224F4FF3003EC09E /* MRRankView */ = {
+			isa = PBXGroup;
+			children = (
+				2FD8E787224F5033003EC09E /* ViewModel */,
+				2FD8E786224F5026003EC09E /* Controller */,
+				2FD8E785224F501C003EC09E /* Model */,
+				2FD8E784224F500F003EC09E /* View */,
+			);
+			path = MRRankView;
+			sourceTree = "<group>";
+		};
+		2FD8E784224F500F003EC09E /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2FD8E785224F501C003EC09E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2FD8E786224F5026003EC09E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		2FD8E787224F5033003EC09E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
 		CE0CC170222E2059001283EA = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +377,7 @@
 				2F5A1BA022468A910014B249 /* Base */,
 				2F5A1B522245DFB00014B249 /* MRTabBar */,
 				2F5A1B68224644470014B249 /* MRMainView */,
+				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
