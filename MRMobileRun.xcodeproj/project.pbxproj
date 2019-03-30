@@ -217,6 +217,7 @@
 		2F5A1B68224644470014B249 /* MRMainView */ = {
 			isa = PBXGroup;
 			children = (
+				2F5A1B6E2246469B0014B249 /* View */,
 				2F5A1B6F224646A50014B249 /* ViewModel */,
 				2F5A1B6D2246468E0014B249 /* Model */,
 				2F5A1B6C224646790014B249 /* Controller */,
@@ -265,7 +266,6 @@
 		2F5A1B6F224646A50014B249 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				2F5A1B6E2246469B0014B249 /* View */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";

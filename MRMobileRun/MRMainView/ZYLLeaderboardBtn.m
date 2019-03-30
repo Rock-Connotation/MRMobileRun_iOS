@@ -21,7 +21,11 @@
         self.leaderboardImageView.image = [UIImage imageNamed:@"Group 11"];
         [self addSubview:self.leaderboardImageView];
         [self.leaderboardImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(24.0/1334.0*screenHeigth, 26.0/750.0*screenWidth, 32.0/1334.0*screenHeigth, 36.0/750.0*screenWidth));
+            //            make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(24.0/1334.0*screenHeigth, 26.0/750.0*screenWidth, 32.0/1334.0*screenHeigth, 36.0/750.0*screenWidth));
+            make.centerY.equalTo(self.mas_centerY).mas_offset(-2);
+            make.centerX.equalTo(self.mas_centerX).mas_offset(-2);
+            make.width.mas_equalTo(18);
+            make.height.mas_equalTo(23);
         }];
     }
     return self;

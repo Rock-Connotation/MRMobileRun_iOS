@@ -21,14 +21,16 @@
         self.runningRecordImageView.image = [UIImage imageNamed:@"路程按钮icon"];
         [self addSubview:self.runningRecordImageView];
         [self.runningRecordImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(25.0/1334.0*screenHeigth, 28.0/750*screenWidth, 24.0/1334.0*screenHeigth, 32.0/750.0*screenWidth));
+            //            make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(25.0/1334.0*screenHeigth, 28.0/750*screenWidth, 24.0/1334.0*screenHeigth, 32.0/750.0*screenWidth));
+            make.centerY.equalTo(self.mas_centerY);
+            make.centerX.equalTo(self.mas_centerX).mas_offset(-1);
+            make.width.mas_equalTo(18);
+            make.height.mas_equalTo(23);
         }];
     }
     return self;
 }
 
-- (void)click{
-}
 
 /*
 // Only override drawRect: if you perform custom drawing.

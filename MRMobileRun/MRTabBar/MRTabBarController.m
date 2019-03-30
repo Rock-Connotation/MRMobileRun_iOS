@@ -62,22 +62,22 @@
 //设置子页面
 - (void)addAllChildViewController{
     self.mainVC = [[ZYLMainViewController alloc] init];
-    [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未许选中）" selectedImageNamed:@"首页icon（未选中）" tag:0];
+    [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"首页icon（未许选中）" tag:0];
     
     UIViewController *vc2 = [[UIViewController alloc] init];
     vc2.view.backgroundColor = [UIColor blueColor];
-    [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:nil tag:1];
+    [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:@"排行榜icon（选中）" tag:1];
     
     UIViewController *vc3 = [[UIViewController alloc] init];
     vc3.view.backgroundColor = [UIColor blackColor];
-    [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:nil tag:2];
+    [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:@"开始跑步icon（按） 2" tag:2];
     
     UIViewController *vc4 = [[UIViewController alloc] init];
     vc4.view.backgroundColor = [UIColor whiteColor];
-    [self addChildViewController:vc4 title:@"邀约" imageNamed:@"邀约icon（未选中）" selectedImageNamed:nil tag:4];
+    [self addChildViewController:vc4 title:@"邀约" imageNamed:@"邀约icon（未选中）" selectedImageNamed:@"邀约icon（选中）" tag:4];
     
     UIViewController *vc5 = [[UIViewController alloc] init];
-    [self addChildViewController:vc5 title:@"我的" imageNamed:@"我的icon(未选中）" selectedImageNamed:nil tag:5];
+    [self addChildViewController:vc5 title:@"我的" imageNamed:@"我的icon(未选中）" selectedImageNamed:@"我的icon（选中）" tag:5];
 }
 
 

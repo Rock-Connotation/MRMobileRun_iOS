@@ -31,7 +31,7 @@
     //这个是黑色显示统计数字label
     [self initRunningTime];
     [self initNameLabel];
-//    [self initTabBar];
+    //    [self initTabBar];
     [self initbeginRuningBtu];
 }
 
@@ -52,19 +52,25 @@
 
 
 
-
-
 - (void)initAvatarBtu{
     self.avatarBtu = [[ZYLAvatarBtn alloc] init];
     [self addSubview:self.avatarBtu];
     [self.avatarBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(52.0/1334.0*screenHeigth, 42.0/750*screenWidth, 1217.0/1334.0*screenHeigth, 643.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(52.0/1334.0*screenHeigth, 42.0/750*screenWidth, 1217.0/1334.0*screenHeigth, 643.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(60);
+        make.left.equalTo(self.mas_left).mas_offset(30);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(50);
     }];
     
     self.avatarImage = [[UIImageView alloc]init];
     [self addSubview:self.avatarImage];
     [self.avatarImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(52.0/1334.0*screenHeigth, 42.0/750*screenWidth, 1217.0/1334.0*screenHeigth, 643.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(52.0/1334.0*screenHeigth, 42.0/750*screenWidth, 1217.0/1334.0*screenHeigth, 643.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(60);
+        make.left.equalTo(self.mas_left).mas_offset(30);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(50);
         
     }];
     
@@ -82,17 +88,22 @@
     self.runingRecordBtu = [[ZYLRunningRecordBtn alloc] init];
     [self addSubview:self.runingRecordBtu];
     [self.runingRecordBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(370.0/1334.0*screenHeigth, 609.0/750.0*screenWidth, 872.0/1334.0*screenHeigth, 49.0/750.0*screenWidth));
-        make.top.equalTo(self).mas_offset(370.0/1334.0*screenHeigth);
-        make.right.equalTo(self).mas_equalTo(609.0/750.0*screenWidth);
-//        make.width
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(370.0/1334.0*screenHeigth, 609.0/750.0*screenWidth, 872.0/1334.0*screenHeigth, 49.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(205.0);
+        make.right.equalTo(self.mas_right).mas_equalTo(-30);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(50);
     }];
     //设置跑步记录按钮
     
     self.runingRecordArrowBtu = [[ZYLArrowBtn alloc] init];
     [self addSubview:self.runingRecordArrowBtu];
     [self.runingRecordArrowBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(791.0/1334.0*screenHeigth, 697.0/750.0*screenWidth, 511.0/1334.0*screenHeigth, 40.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(791.0/1334.0*screenHeigth, 697.0/750.0*screenWidth, 511.0/1334.0*screenHeigth, 40.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(445);
+        make.right.equalTo(self.mas_right).mas_offset(-25);
+        make.width.mas_equalTo(8);
+        make.height.mas_equalTo(18);
     }];
     //跑步记录箭头按钮
     
@@ -108,14 +119,21 @@
     self.leaderboardBtu = [[ZYLLeaderboardBtn alloc] init];
     [self addSubview:self.leaderboardBtu];
     [self.leaderboardBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(370.0/1334.0*screenHeigth, 49.0/750.0*screenWidth, 868.0/1334.0*screenHeigth, 609.0/750.0*screenWidth));
+        make.centerY.equalTo(self.runingRecordBtu.mas_centerY);
+        make.left.equalTo(self.mas_left).mas_equalTo(30);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(55);
     }];
     //设置排行榜按钮
     
     self.leaderboardArrowBtu = [[ZYLArrowBtn alloc] init];
     [self addSubview:self.leaderboardArrowBtu];
     [self.leaderboardArrowBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1015.0/1334.0*screenHeigth, 697.0/750.0*screenWidth, 287.0/1334.0*screenHeigth, 40.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1015.0/1334.0*screenHeigth, 697.0/750.0*screenWidth, 287.0/1334.0*screenHeigth, 40.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(560);
+        make.right.equalTo(self.mas_right).mas_offset(-25);
+        make.width.mas_equalTo(8);
+        make.height.mas_equalTo(18);
     }];
     //排行榜记录箭头按钮
     
@@ -130,10 +148,12 @@
     self.dayMileage = [[MRNumLabel alloc]init];
     [self.dayMileage setFontWithSize:80*screenWidth/414.0 andFloatTitle:0.00];
     self.dayMileage.textAlignment =NSTextAlignmentCenter;
-    
     [self addSubview:self.dayMileage];
     [self.dayMileage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(345.0/1334.0*screenHeigth, 272.0/750.0*screenWidth, 844.0/1334.0*screenHeigth, 267.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(190);
+        make.centerX.equalTo(self.mas_centerX);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(60);
     }];
     //当日里程
     
@@ -141,7 +161,11 @@
     [self.totalDistance setFontWithSize:32*screenWidth/414.0 andFloatTitle:0.000];
     [self addSubview:self.totalDistance];
     [self.totalDistance mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(782.0/1334.0*screenHeigth, 39.0/750.0*screenWidth, 479.0/1334.0*screenHeigth, 570.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(782.0/1334.0*screenHeigth, 39.0/750.0*screenWidth, 479.0/1334.0*screenHeigth, 570.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(425);
+        make.left.equalTo(self.mas_left).mas_offset(39.0/750.0*screenWidth);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(50);
     }];
     self.totalDistance.adjustsFontSizeToFitWidth =NO;
     //跑步记录旁的总路程
@@ -152,7 +176,11 @@
     
     [self addSubview:self.smallTotalDistance];
     [self.smallTotalDistance mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(994.0/1334.0*screenHeigth, 436.0/750.0*screenWidth, 316.0/1334.0*screenHeigth, 252.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(994.0/1334.0*screenHeigth, 436.0/750.0*screenWidth, 316.0/1334.0*screenHeigth, 252.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(545);
+        make.left.mas_equalTo(436.0/750.0*screenWidth);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(20);
     }];
     //排行榜旁的总路程
     
@@ -162,7 +190,11 @@
     [self.distanceGap setFontWithSize:14*screenWidth/414.0 andIntTitle:0.0];
     [self addSubview:self.distanceGap];
     [self.distanceGap mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 527.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 179.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 527.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 179.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(573);
+        make.left.mas_equalTo(527.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(20);
     }];
     self.distanceGap.adjustsFontSizeToFitWidth =YES;
     //设置文字自适应
@@ -177,7 +209,11 @@
     
     [self addSubview:self.Ranking];
     [self.Ranking mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1011.0/1334.0*screenHeigth, 34.0/750.0*screenWidth, 260.0/1334.0*screenHeigth, 655.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1011.0/1334.0*screenHeigth, 34.0/750.0*screenWidth, 260.0/1334.0*screenHeigth, 655.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(550);
+        make.left.mas_equalTo(34.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(50);
     }];
     self.Ranking.adjustsFontSizeToFitWidth = YES;
     //排名
@@ -187,16 +223,16 @@
 
 - (void)initRunningTime{
     
-//    MRTimeReversalModel *timeModel = [[MRTimeReversalModel alloc]init];
+    //    MRTimeReversalModel *timeModel = [[MRTimeReversalModel alloc]init];
     
     
     self.timeLabel = [[UILabel alloc]init];
     self.timeLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:35*screenWidth/414.0];
-//    self.timeLabel.text = [timeModel getTimeStringWithSecond:0];
+    //    self.timeLabel.text = [timeModel getTimeStringWithSecond:0];
     
     [self addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(787.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 474.0/1334.0*screenHeigth, 156.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(787.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 474.0/1334.0*screenHeigth, 156.0/750.0*screenWidth));
     }];
     self.Ranking.adjustsFontSizeToFitWidth = YES;
     //排名
@@ -208,7 +244,7 @@
     self.nameLabel.textAlignment =NSTextAlignmentCenter;
     [self addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(68.0/1334.0*screenHeigth, 0/750.0*screenWidth, 1224.0/1334.0*screenHeigth, 0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(68.0/1334.0*screenHeigth, 0/750.0*screenWidth, 1224.0/1334.0*screenHeigth, 0/750.0*screenWidth));
     }];
     
 }

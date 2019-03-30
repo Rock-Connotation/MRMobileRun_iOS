@@ -52,8 +52,8 @@
     self.backgroundImageTwo.image = [UIImage imageNamed:@"跑步记录按钮背景底"];
     [self addSubview:self.backgroundImageTwo];
     [self.backgroundImageTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(22.0/1334.0*screenHeigth, 406.0/750.0*screenWidth, 796.0/1334.0*screenHeigth,0));
-        make.top.equalTo(self.mas_top).mas_offset(22.0/1334.0*screenHeigth);
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(22.0/1334.0*screenHeigth, 406.0/750.0*screenWidth, 796.0/1334.0*screenHeigth,0));
+        make.top.equalTo(self.mas_top).mas_offset(22);
         make.right.equalTo(self.mas_right);
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(280);
@@ -65,24 +65,35 @@
     self.dividingLine.image = [UIImage imageNamed:@"分割线"];
     [self addSubview:self.dividingLine];
     [self.dividingLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(886.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 447.0/1334.0*screenHeigth, 41.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(886.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 447.0/1334.0*screenHeigth, 41.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(488);
+        make.left.equalTo(self.mas_left).mas_offset(42.0/750.0*screenWidth);
+        make.width.equalTo(self.mas_width).mas_offset(-2*42.0/750.0*screenWidth);
+        make.height.mas_equalTo(1);
     }];
     //分割线
     
     self.distanceImageView = [[UIImageView alloc]init];
     self.distanceImageView.image = [UIImage imageNamed:@"跑步记录icon"];
     [self addSubview:self.distanceImageView];
-//    [self.distanceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(686.0/1334.0*screenHeigth, 44.0/750.0*screenWidth, 616.0/1334.0*screenHeigth,678.0/750.0*screenWidth));
-//    }];
+    [self.distanceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_top).mas_offset(375);
+        make.left.mas_equalTo(44.0/750.0*screenWidth);
+        make.width.mas_equalTo(30/750.0*screenWidth);
+        make.height.mas_equalTo(35/750.0*screenWidth);
+    }];
     
     
     self.leaderboardImageView = [[UIImageView alloc]init];
     self.leaderboardImageView.image = [UIImage imageNamed:@"Group 11"];
     [self addSubview:self.leaderboardImageView];
-//    [self.leaderboardImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 383.0/1334.0*screenHeigth,680.0/750.0*screenWidth));
-//    }];
+    [self.leaderboardImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 383.0/1334.0*screenHeigth,680.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(505);
+        make.left.mas_equalTo(44.0/750.0*screenWidth);
+        make.width.mas_equalTo(30/750.0*screenWidth);
+        make.height.mas_equalTo(35/750.0*screenWidth);
+    }];
     
     
 }
@@ -95,7 +106,11 @@
     self.runningRecordLabel.textColor = [UIColor colorWithRed:170.0/255.0 green:174.0/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.runningRecordLabel];
     [self.runningRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(680.0/1334.0*screenHeigth, 98.0/750.0*screenWidth, 614.0/1334.0*screenHeigth, 500.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(680.0/1334.0*screenHeigth, 98.0/750.0*screenWidth, 614.0/1334.0*screenHeigth, 500.0/750.0*screenWidth));
+        make.centerY.equalTo(self.distanceImageView.mas_centerY);
+        make.left.mas_equalTo(98.0/750.0*screenWidth);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
     }];
     
     self.distanceLabel = [[ZYLTitleLabel alloc] init];
@@ -104,7 +119,11 @@
     self.distanceLabel.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.distanceLabel];
     [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(749.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 548.0/1334.0*screenHeigth, 657.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(749.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 548.0/1334.0*screenHeigth, 657.0/750.0*screenWidth));
+        make.top.equalTo(self.runningRecordLabel.mas_bottom).mas_offset(15);
+        make.left.mas_equalTo(42.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(20);
     }];
     
     
@@ -116,7 +135,11 @@
     [self addSubview:self.KMLabel];
     
     [self.KMLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(820.0/1334.0*screenHeigth, 187.0/750.0*screenWidth, 484.0/1334.0*screenHeigth, 525/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(820.0/1334.0*screenHeigth, 187.0/750.0*screenWidth, 484.0/1334.0*screenHeigth, 525/750.0*screenWidth));
+        make.top.equalTo(self.distanceLabel.mas_bottom).mas_offset(20);
+        make.left.mas_equalTo(187.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(17);
     }];
     
     self.timeRecordLabel = [[ZYLTitleLabel alloc] init];
@@ -126,7 +149,11 @@
     [self addSubview:self.timeRecordLabel];
     
     [self.timeRecordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(750.0/1334.0*screenHeigth, 373.0/750.0*screenWidth, 547.0/1334.0*screenHeigth, 326.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(750.0/1334.0*screenHeigth, 373.0/750.0*screenWidth, 547.0/1334.0*screenHeigth, 326.0/750.0*screenWidth));
+        make.top.equalTo(self.runningRecordLabel.mas_bottom).mas_offset(15);
+        make.left.mas_equalTo(373.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(20);
     }];
     
 }
@@ -140,7 +167,11 @@
     self.leaderboardLabel.textColor = [UIColor colorWithRed:170.0/255.0 green:174.0/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.leaderboardLabel];
     [self.leaderboardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 96.0/750.0*screenWidth, 380.0/1334.0*screenHeigth, 568.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 96.0/750.0*screenWidth, 380.0/1334.0*screenHeigth, 568.0/750.0*screenWidth));
+        make.centerY.equalTo(self.leaderboardImageView.mas_centerY);
+        make.left.mas_equalTo(98.0/750.0*screenWidth);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
     }];
     
     
@@ -150,7 +181,11 @@
     self.distanceLabelTwo.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.distanceLabelTwo];
     [self.distanceLabelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(985.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 312.0/1334.0*screenHeigth, 324.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(985.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 312.0/1334.0*screenHeigth, 324.0/750.0*screenWidth));
+        make.top.equalTo(self.leaderboardLabel.mas_bottom).mas_offset(19);
+        make.left.mas_equalTo(373.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(20);
     }];
     
     self.rankingLabel = [[ZYLTitleLabel alloc] init];
@@ -159,7 +194,11 @@
     self.rankingLabel.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.rankingLabel];
     [self.rankingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(977.0/1334.0*screenHeigth, 39.0/750.0*screenWidth, 320.0/1334.0*screenHeigth, 660.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(977.0/1334.0*screenHeigth, 39.0/750.0*screenWidth, 320.0/1334.0*screenHeigth, 660.0/750.0*screenWidth));
+        make.top.equalTo(self.leaderboardLabel.mas_bottom).mas_offset(15);
+        make.left.mas_equalTo(42.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(20);
     }];
     
     self.rankingLabeltwo = [[ZYLTitleLabel alloc] init];
@@ -168,7 +207,11 @@
     self.rankingLabeltwo.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.rankingLabeltwo];
     [self.rankingLabeltwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1045.0/1334.0*screenHeigth, 106.0/750.0*screenWidth, 263.0/1334.0*screenHeigth, 602.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1045.0/1334.0*screenHeigth, 106.0/750.0*screenWidth, 263.0/1334.0*screenHeigth, 602.0/750.0*screenWidth));
+        make.top.equalTo(self.rankingLabel.mas_bottom).mas_offset(17);
+        make.left.mas_equalTo(106.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(17);
     }];
     
     self.KMLabelTwo = [[ZYLTitleLabel alloc] init];
@@ -177,7 +220,11 @@
     self.KMLabelTwo.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.KMLabelTwo];
     [self.KMLabelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(991.0/1334.0*screenHeigth, 511.0/750.0*screenWidth, 313.0/1334.0*screenHeigth, 204.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(991.0/1334.0*screenHeigth, 511.0/750.0*screenWidth, 313.0/1334.0*screenHeigth, 204.0/750.0*screenWidth));
+        make.top.equalTo(self.leaderboardLabel.mas_bottom).mas_offset(23);
+        make.left.mas_equalTo(511.0/750.0*screenWidth);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(17);
     }];
     
     self.KMLabelThree = [[ZYLTitleLabel alloc] init];
@@ -186,7 +233,11 @@
     self.KMLabelThree.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.KMLabelThree];
     [self.KMLabelThree mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 578.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 138.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 578.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 138.0/750.0*screenWidth));
+        make.top.equalTo(self.distanceLabelTwo.mas_bottom).mas_offset(13);
+        make.left.mas_equalTo(578.0/750.0*screenWidth);
+        make.width.mas_equalTo(20);
+        make.height.mas_equalTo(16);
     }];
     
     self.gapLabel = [[ZYLTitleLabel alloc] init];
@@ -195,7 +246,11 @@
     self.gapLabel.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.gapLabel];
     [self.gapLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 138.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 138.0/750.0*screenWidth));
+        make.top.equalTo(self.distanceLabelTwo.mas_bottom).mas_offset(9);
+        make.left.mas_equalTo(373.0/750.0*screenWidth);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
     }];
     
 }
@@ -205,7 +260,7 @@
     [self addSubview: self.progressCircle];
     [self.progressCircle mas_makeConstraints:^(MASConstraintMaker *make) {
         //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(228.0/1334.0*screenHeigth, 190.0/750*screenWidth, 736.0/1334.0*screenHeigth, 180.0/750.0*screenWidth));
-        make.top.equalTo(self.mas_top).mas_offset(230.0/1334.0*screenHeigth);
+        make.top.equalTo(self.mas_top).mas_offset(135.0);
         make.centerX.equalTo(self.mas_centerX);
         make.width.mas_equalTo(189.5);
         make.height.mas_equalTo(185);
@@ -216,40 +271,30 @@
     self.oneDayDistanceLabel = [[ZYLTitleLabel alloc] init];
     self.oneDayDistanceLabel.font = [UIFont boldSystemFontOfSize:13*screenWidth/414.0];
     self.oneDayDistanceLabel.text = @"当天里程";
+    self.oneDayDistanceLabel.textAlignment = NSTextAlignmentCenter;
     self.oneDayDistanceLabel.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.oneDayDistanceLabel];
     [self.oneDayDistanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(298.0/1334.0*screenHeigth, 326.0/750.0*screenWidth, 1003.0/1334.0*screenHeigth, 327.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(298.0/1334.0*screenHeigth, 326.0/750.0*screenWidth, 1003.0/1334.0*screenHeigth, 327.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(165.0);
+        make.centerX.equalTo(self.mas_centerX);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
     }];
     
     self.KMLabelFour = [[ZYLTitleLabel alloc] init];
     self.KMLabelFour.font = [UIFont boldSystemFontOfSize:24*screenWidth/414.0];
     self.KMLabelFour.text = @"KM";
+    self.KMLabelFour.textAlignment = NSTextAlignmentCenter;
     self.KMLabelFour.textColor = [UIColor colorWithRed:170.0/255.0 green:174/255.0 blue:203.0/255.0 alpha:1];
     [self addSubview:self.KMLabelFour];
     [self.KMLabelFour mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(491.0/1334.0*screenHeigth, 345.0/750.0*screenWidth, 786.0/1334.0*screenHeigth, 336.0/750.0*screenWidth));
+        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(491.0/1334.0*screenHeigth, 345.0/750.0*screenWidth, 786.0/1334.0*screenHeigth, 336.0/750.0*screenWidth));
+        make.top.equalTo(self.mas_top).mas_offset(270);
+        make.centerX.equalTo(self.mas_centerX);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
     }];
     //设置旋转的圆环
-    [self layout];
 }
-
-//修改部分约束
-- (void)layout{
-    [self.distanceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(686.0/1334.0*screenHeigth, 44.0/750.0*screenWidth, 616.0/1334.0*screenHeigth,678.0/750.0*screenWidth));
-        make.centerY.equalTo(self.runningRecordLabel.mas_centerY);
-        make.left.mas_equalTo(44.0/750.0*screenWidth);
-        make.width.mas_equalTo(30/750.0*screenWidth);
-        make.height.mas_equalTo(35/750.0*screenWidth);
-    }];
-    [self.leaderboardImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 383.0/1334.0*screenHeigth,680.0/750.0*screenWidth));
-        make.centerY.equalTo(self.leaderboardLabel.mas_centerY);
-        make.left.mas_equalTo(44.0/750.0*screenWidth);
-        make.width.mas_equalTo(30/750.0*screenWidth);
-        make.height.mas_equalTo(35/750.0*screenWidth);
-    }];
-}
-
 @end
