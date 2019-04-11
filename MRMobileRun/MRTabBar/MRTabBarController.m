@@ -17,11 +17,11 @@
 #import "MRTabBarController.h"
 #import "MRTabBarView.h"
 #import "ZYLMainViewController.h"
+#import "ZYLRankViewController.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 @interface MRTabBarController ()<MRTabBarViewDelegate>
 @property (strong, nonatomic) ZYLMainViewController *mainVC;
-@property (strong, nonatomic) MRTabBarView *tabView;
 @property (strong, nonatomic) NSMutableArray *btnArr;
 @property (strong, nonatomic) NSMutableArray<NSString *> *textArr;
 @end
@@ -39,6 +39,7 @@
     self.tabView = [[MRTabBarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - self.tabBar.bounds.size.height, SCREEN_WIDTH, self.tabBar.bounds.size.height)];
     self.tabBar.backgroundColor = [UIColor whiteColor];
     self.tabBar.userInteractionEnabled = NO;
+    self.tabBar.hidden = YES;
     [self.view addSubview: self.tabView];
     [self.view bringSubviewToFront:self.tabView];
     [self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -64,7 +65,7 @@
     self.mainVC = [[ZYLMainViewController alloc] init];
     [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"首页icon（未许选中）" tag:0];
     
-    UIViewController *vc2 = [[UIViewController alloc] init];
+    ZYLRankViewController *vc2 = [[ZYLRankViewController alloc] init];
     vc2.view.backgroundColor = [UIColor blueColor];
     [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:@"排行榜icon（选中）" tag:1];
     
@@ -85,8 +86,7 @@
 - (void)addChildViewController:(UIViewController *)vc title:(NSString *)title imageNamed:(NSString *)imageNamed selectedImageNamed:(NSString *)selectedImageName tag:(NSInteger)i
 {
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    // 如果同时有navigationbar 和 tabbar的时候最好分别设置它们的title
-    vc.navigationItem.title = title;
+    [vc.navigationController setNavigationBarHidden:YES animated:YES];
     [self.textArr addObject:title];
     UIButton *btn = [[UIButton alloc] init];
     [btn setImage:[UIImage imageNamed: imageNamed] forState: UIControlStateNormal];
@@ -102,6 +102,10 @@
     // 切换到对应index的viewController
     self.selectedIndex = index;
     
+    //隐藏Tabbar
+//    if (index == 1) {
+//        self.tabView.hidden = YES;
+//    }
 }
 
 @end

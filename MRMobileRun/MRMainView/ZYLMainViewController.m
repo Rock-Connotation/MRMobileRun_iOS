@@ -6,12 +6,12 @@
 //
 
 #import "ZYLMainViewController.h"
+#import "ZYLMainViewModel.h"
 #import "ZYLMainView.h"
 
 @interface ZYLMainViewController ()
 @property (strong, nonatomic) ZYLMainView *mainView;
 @property (strong, nonatomic) WeProgressCircle *progressCircle;
-
 @end
 
 @implementation ZYLMainViewController
@@ -29,6 +29,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [ZYLMainViewModel test];
     [self.view addSubview: self.mainView];
     // Do any additional setup after loading the view.
 }
