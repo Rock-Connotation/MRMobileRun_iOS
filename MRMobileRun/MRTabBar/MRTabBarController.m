@@ -17,7 +17,7 @@
 #import "MRTabBarController.h"
 #import "MRTabBarView.h"
 #import "ZYLMainViewController.h"
-#import "ZYLRankViewController.h"
+#import "XIGRankViewViewController.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 @interface MRTabBarController ()<MRTabBarViewDelegate>
@@ -33,11 +33,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.textArr = [NSMutableArray array];
     self.btnArr = [NSMutableArray array];
 
     self.tabView = [[MRTabBarView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - self.tabBar.bounds.size.height, SCREEN_WIDTH, self.tabBar.bounds.size.height)];
-    self.tabBar.backgroundColor = [UIColor whiteColor];
+    self.tabView.backgroundColor = [UIColor whiteColor];
     self.tabBar.userInteractionEnabled = NO;
     self.tabBar.hidden = YES;
     [self.view addSubview: self.tabView];
@@ -65,8 +66,7 @@
     self.mainVC = [[ZYLMainViewController alloc] init];
     [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"首页icon（未许选中）" tag:0];
     
-    ZYLRankViewController *vc2 = [[ZYLRankViewController alloc] init];
-    vc2.view.backgroundColor = [UIColor blueColor];
+    XIGRankViewViewController *vc2 = [[XIGRankViewViewController alloc] init];
     [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:@"排行榜icon（选中）" tag:1];
     
     UIViewController *vc3 = [[UIViewController alloc] init];

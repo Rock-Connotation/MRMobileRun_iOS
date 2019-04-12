@@ -26,7 +26,7 @@
     NSLog(@"%f",WIDTH);
     for (int i = 0; i < _array.count; i++) {
 //        判断是否属于中心的button
-//        如果tabBarItems不是偶数，记得加个判断
+//        如果tabBarItems不是偶数，记得加个判断（不过我觉得不可能滴）
         if (i != _array.count/2) {
 //            设置正常button
             UIButton *btn = _array[i];

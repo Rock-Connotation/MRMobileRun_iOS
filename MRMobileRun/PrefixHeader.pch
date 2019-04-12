@@ -13,10 +13,29 @@
 #define screenWidth   [UIScreen mainScreen].bounds.size.width
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define kToken @"mcPu7uHiLT6-rEeechpgZ8V_K-z7KhXCL54_xNRMIprF-bh46phnPO0dZl1wClDeWAZ-IkDOdyEn8hZ5E8YLpR8FFW49JfjuKAYj_VHNaJFtrA29p6ni0JeFsMG7DU0OF-yC8-zli-cGQJCUbiDAQ3rrPk-Xxs2_P2wrciswCcI="
 //登陆URL 跟学号和身份证后六位(post)
 #define kLoginURL @"http://111.230.169.17:8080/mobilerun/user/login"
 //注销登陆(get)
-#define kLoginout @"http://111.230.169.17:8080/mobilerun/user/loginout"
+#define kLoginoutURL @"http://111.230.169.17:8080/mobilerun/user/loginout"
+//获取头像，后接学号+.jpg
+#define kAvatorURL @"http://111.230.169.17:8080/mobilerun/head_img/"
+//排名名单
+//token作为header
+/*
+ 后跟time(时间段：days,  weekends, months, all)
+ rank（哪一个榜单（student_distance_rank, student_invitation_rank, class_distance_rank））
+ page 分页
+ */
+#define kRankListURL @"http://111.230.169.17:8080/mobilerun/rank_list"
+//排名
+/*
+ 后跟time(时间段：days,  weekends, months, all)
+ rank（哪一个榜单（student_distance_rank, student_invitation_rank, class_distance_rank））
+ 学号，id
+ */
+#define kRankURL @"http://111.230.169.17:8080/mobilerun/rank"
 //邀约历史记录()
 //#define kInvitationHistoryRecordUrl @"http://running-together.redrock.team/sanzou/invite/history/"
 //头像url 后面加学号.jpg
