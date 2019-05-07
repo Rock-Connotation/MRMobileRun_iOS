@@ -31,9 +31,18 @@
 		2F0E8178225F774800D5E511 /* ZYLStudentRankViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E8177225F774800D5E511 /* ZYLStudentRankViewModel.m */; };
 		2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E817A225F775600D5E511 /* ZYLInvitationRankViewModel.m */; };
 		2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E817D22605E8A00D5E511 /* ZYLRankModel.m */; };
+		2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E818022608BB400D5E511 /* ZYLPersonalInformationView.m */; };
+		2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E818322608BD600D5E511 /* ZYLPersonalBackGroud.m */; };
+		2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E818922608C1300D5E511 /* ZYLSetAvatarBtn.m */; };
+		2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E818C22608C3F00D5E511 /* ZYLNicknameTextField.m */; };
+		2F0E819022608C9300D5E511 /* ZYLLogoutBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E818F22608C9300D5E511 /* ZYLLogoutBtn.m */; };
+		2F0E819322608CB800D5E511 /* ZYLPhotoSelectedVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E819222608CB800D5E511 /* ZYLPhotoSelectedVIew.m */; };
+		2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F14BF8C226AE62800CCA2B8 /* ZYLHomePageModel.m */; };
+		2F14BF90226AEC9100CCA2B8 /* ZYLAvatarRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F14BF8F226AEC9100CCA2B8 /* ZYLAvatarRequest.m */; };
 		2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */; };
 		2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */; };
 		2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */; };
+		2F495E1D2281BD99003DD714 /* ZYLPolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E1C2281BD99003DD714 /* ZYLPolling.m */; };
 		2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */; };
 		2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B602245FCF70014B249 /* MRTabBarView.m */; };
 		2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B66224610580014B249 /* MRTabBarController.m */; };
@@ -59,6 +68,27 @@
 		2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CBE95225F00A000813943 /* GTMBase64.m */; };
 		2F5CBE98225F00A000813943 /* AES128Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CBE96225F00A000813943 /* AES128Util.m */; };
 		2F5EA38A225358A500050A9B /* ZYLMainViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EA389225358A500050A9B /* ZYLMainViewModel.m */; };
+		2F60AB40227C7E5300109420 /* MRAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB3F227C7E5300109420 /* MRAlertView.m */; };
+		2F60AB43227C816400109420 /* ZYLUptateRunningData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB42227C816400109420 /* ZYLUptateRunningData.m */; };
+		2F60AB46227C858C00109420 /* ZYLTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB45227C858C00109420 /* ZYLTimeStamp.m */; };
+		2F60AB48227C934A00109420 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F60AB47227C934900109420 /* CoreMotion.framework */; };
+		2F60AB4B227C939D00109420 /* ZYLSteps.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB4A227C939C00109420 /* ZYLSteps.m */; };
+		2F60AB4E227C9A1200109420 /* ZYLUpdateData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB4D227C9A1200109420 /* ZYLUpdateData.m */; };
+		2F6DF0B8227B2E2700BA6099 /* ZYLRunningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6DF0B7227B2E2700BA6099 /* ZYLRunningViewController.m */; };
+		2F6DF0BA227B2E4000BA6099 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F6DF0B9227B2E4000BA6099 /* MapKit.framework */; };
+		2F6DF0BC227B2E4A00BA6099 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F6DF0BB227B2E4A00BA6099 /* CoreLocation.framework */; };
+		2F6DF0BF227B300800BA6099 /* ZYLRunningTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6DF0BE227B300800BA6099 /* ZYLRunningTabView.m */; };
+		2F6DF0C2227B301B00BA6099 /* ZYLRunningRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6DF0C1227B301B00BA6099 /* ZYLRunningRecordView.m */; };
+		2F6DF0C4227B303900BA6099 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F6DF0C3227B303900BA6099 /* HealthKit.framework */; };
+		2F6DF0C7227B349D00BA6099 /* MRPauseAndResumeBtu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6DF0C6227B349D00BA6099 /* MRPauseAndResumeBtu.m */; };
+		2F6DF0CC227B34A400BA6099 /* MRStopBtu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6DF0C8227B34A400BA6099 /* MRStopBtu.m */; };
+		2F6DF0CD227B34A400BA6099 /* MRRunningLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6DF0CA227B34A400BA6099 /* MRRunningLabel.m */; };
+		2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F734CC322675CC6006D8B63 /* ZYLPersonalModel.m */; };
+		2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F734CC922675EF9006D8B63 /* ZYLUploadAvatar.m */; };
+		2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F734CCC22676997006D8B63 /* ZYLChangeNickname.m */; };
+		2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB21107227D77D0000D5A2E /* ZYLMD5Encrypt.m */; };
+		2FB2110B22806711000D5A2E /* ZYLRecordTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */; };
+		2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
 		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
 		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
@@ -138,10 +168,28 @@
 		2F0E817A225F775600D5E511 /* ZYLInvitationRankViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLInvitationRankViewModel.m; sourceTree = "<group>"; };
 		2F0E817C22605E8A00D5E511 /* ZYLRankModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRankModel.h; sourceTree = "<group>"; };
 		2F0E817D22605E8A00D5E511 /* ZYLRankModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRankModel.m; sourceTree = "<group>"; };
+		2F0E817F22608BB400D5E511 /* ZYLPersonalInformationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPersonalInformationView.h; sourceTree = "<group>"; };
+		2F0E818022608BB400D5E511 /* ZYLPersonalInformationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPersonalInformationView.m; sourceTree = "<group>"; };
+		2F0E818222608BD600D5E511 /* ZYLPersonalBackGroud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPersonalBackGroud.h; sourceTree = "<group>"; };
+		2F0E818322608BD600D5E511 /* ZYLPersonalBackGroud.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPersonalBackGroud.m; sourceTree = "<group>"; };
+		2F0E818822608C1300D5E511 /* ZYLSetAvatarBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLSetAvatarBtn.h; sourceTree = "<group>"; };
+		2F0E818922608C1300D5E511 /* ZYLSetAvatarBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLSetAvatarBtn.m; sourceTree = "<group>"; };
+		2F0E818B22608C3F00D5E511 /* ZYLNicknameTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLNicknameTextField.h; sourceTree = "<group>"; };
+		2F0E818C22608C3F00D5E511 /* ZYLNicknameTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLNicknameTextField.m; sourceTree = "<group>"; };
+		2F0E818E22608C9300D5E511 /* ZYLLogoutBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLLogoutBtn.h; sourceTree = "<group>"; };
+		2F0E818F22608C9300D5E511 /* ZYLLogoutBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLLogoutBtn.m; sourceTree = "<group>"; };
+		2F0E819122608CB800D5E511 /* ZYLPhotoSelectedVIew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPhotoSelectedVIew.h; sourceTree = "<group>"; };
+		2F0E819222608CB800D5E511 /* ZYLPhotoSelectedVIew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPhotoSelectedVIew.m; sourceTree = "<group>"; };
+		2F14BF8B226AE62800CCA2B8 /* ZYLHomePageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLHomePageModel.h; sourceTree = "<group>"; };
+		2F14BF8C226AE62800CCA2B8 /* ZYLHomePageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLHomePageModel.m; sourceTree = "<group>"; };
+		2F14BF8E226AEC9100CCA2B8 /* ZYLAvatarRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLAvatarRequest.h; sourceTree = "<group>"; };
+		2F14BF8F226AEC9100CCA2B8 /* ZYLAvatarRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLAvatarRequest.m; sourceTree = "<group>"; };
 		2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeProgressCircle.xib; sourceTree = "<group>"; };
 		2F36BCFF2240CF4A00C1D8FC /* WeProgressCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeProgressCircle.h; sourceTree = "<group>"; };
 		2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WeProgressCircle.png; sourceTree = "<group>"; };
 		2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeProgressCircle.m; sourceTree = "<group>"; };
+		2F495E1B2281BD99003DD714 /* ZYLPolling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPolling.h; sourceTree = "<group>"; };
+		2F495E1C2281BD99003DD714 /* ZYLPolling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPolling.m; sourceTree = "<group>"; };
 		2F5A1B4B2245DAB90014B249 /* MRBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRBaseViewController.h; sourceTree = "<group>"; };
 		2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRBaseViewController.m; sourceTree = "<group>"; };
 		2F5A1B5F2245FCF70014B249 /* MRTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRTabBarView.h; sourceTree = "<group>"; };
@@ -195,6 +243,44 @@
 		2F5CBE96225F00A000813943 /* AES128Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AES128Util.m; sourceTree = "<group>"; };
 		2F5EA388225358A500050A9B /* ZYLMainViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLMainViewModel.h; sourceTree = "<group>"; };
 		2F5EA389225358A500050A9B /* ZYLMainViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLMainViewModel.m; sourceTree = "<group>"; };
+		2F60AB3E227C7E5300109420 /* MRAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRAlertView.h; sourceTree = "<group>"; };
+		2F60AB3F227C7E5300109420 /* MRAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRAlertView.m; sourceTree = "<group>"; };
+		2F60AB41227C816400109420 /* ZYLUptateRunningData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLUptateRunningData.h; sourceTree = "<group>"; };
+		2F60AB42227C816400109420 /* ZYLUptateRunningData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLUptateRunningData.m; sourceTree = "<group>"; };
+		2F60AB44227C858C00109420 /* ZYLTimeStamp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLTimeStamp.h; sourceTree = "<group>"; };
+		2F60AB45227C858C00109420 /* ZYLTimeStamp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLTimeStamp.m; sourceTree = "<group>"; };
+		2F60AB47227C934900109420 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		2F60AB49227C939C00109420 /* ZYLSteps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLSteps.h; sourceTree = "<group>"; };
+		2F60AB4A227C939C00109420 /* ZYLSteps.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLSteps.m; sourceTree = "<group>"; };
+		2F60AB4C227C9A1200109420 /* ZYLUpdateData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLUpdateData.h; sourceTree = "<group>"; };
+		2F60AB4D227C9A1200109420 /* ZYLUpdateData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLUpdateData.m; sourceTree = "<group>"; };
+		2F6DF0B6227B2E2700BA6099 /* ZYLRunningViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRunningViewController.h; sourceTree = "<group>"; };
+		2F6DF0B7227B2E2700BA6099 /* ZYLRunningViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRunningViewController.m; sourceTree = "<group>"; };
+		2F6DF0B9227B2E4000BA6099 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2F6DF0BB227B2E4A00BA6099 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2F6DF0BD227B300800BA6099 /* ZYLRunningTabView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRunningTabView.h; sourceTree = "<group>"; };
+		2F6DF0BE227B300800BA6099 /* ZYLRunningTabView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRunningTabView.m; sourceTree = "<group>"; };
+		2F6DF0C0227B301B00BA6099 /* ZYLRunningRecordView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRunningRecordView.h; sourceTree = "<group>"; };
+		2F6DF0C1227B301B00BA6099 /* ZYLRunningRecordView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRunningRecordView.m; sourceTree = "<group>"; };
+		2F6DF0C3227B303900BA6099 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		2F6DF0C5227B349D00BA6099 /* MRPauseAndResumeBtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPauseAndResumeBtu.h; sourceTree = "<group>"; };
+		2F6DF0C6227B349D00BA6099 /* MRPauseAndResumeBtu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPauseAndResumeBtu.m; sourceTree = "<group>"; };
+		2F6DF0C8227B34A400BA6099 /* MRStopBtu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRStopBtu.m; sourceTree = "<group>"; };
+		2F6DF0C9227B34A400BA6099 /* MRRunningLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRRunningLabel.h; sourceTree = "<group>"; };
+		2F6DF0CA227B34A400BA6099 /* MRRunningLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRRunningLabel.m; sourceTree = "<group>"; };
+		2F6DF0CB227B34A400BA6099 /* MRStopBtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopBtu.h; sourceTree = "<group>"; };
+		2F734CC222675CC6006D8B63 /* ZYLPersonalModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPersonalModel.h; sourceTree = "<group>"; };
+		2F734CC322675CC6006D8B63 /* ZYLPersonalModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPersonalModel.m; sourceTree = "<group>"; };
+		2F734CC822675EF9006D8B63 /* ZYLUploadAvatar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLUploadAvatar.h; sourceTree = "<group>"; };
+		2F734CC922675EF9006D8B63 /* ZYLUploadAvatar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLUploadAvatar.m; sourceTree = "<group>"; };
+		2F734CCB22676997006D8B63 /* ZYLChangeNickname.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLChangeNickname.h; sourceTree = "<group>"; };
+		2F734CCC22676997006D8B63 /* ZYLChangeNickname.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLChangeNickname.m; sourceTree = "<group>"; };
+		2FB21106227D77D0000D5A2E /* ZYLMD5Encrypt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLMD5Encrypt.h; sourceTree = "<group>"; };
+		2FB21107227D77D0000D5A2E /* ZYLMD5Encrypt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLMD5Encrypt.m; sourceTree = "<group>"; };
+		2FB2110922806711000D5A2E /* ZYLRecordTimeString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRecordTimeString.h; sourceTree = "<group>"; };
+		2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRecordTimeString.m; sourceTree = "<group>"; };
+		2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLBackBtn.h; sourceTree = "<group>"; };
+		2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLBackBtn.m; sourceTree = "<group>"; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +318,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F60AB48227C934A00109420 /* CoreMotion.framework in Frameworks */,
+				2F6DF0C4227B303900BA6099 /* HealthKit.framework in Frameworks */,
+				2F6DF0BC227B2E4A00BA6099 /* CoreLocation.framework in Frameworks */,
+				2F6DF0BA227B2E4000BA6099 /* MapKit.framework in Frameworks */,
 				A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +355,10 @@
 		2B186BF3715610DC086E3283 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2F60AB47227C934900109420 /* CoreMotion.framework */,
+				2F6DF0C3227B303900BA6099 /* HealthKit.framework */,
+				2F6DF0BB227B2E4A00BA6099 /* CoreLocation.framework */,
+				2F6DF0B9227B2E4000BA6099 /* MapKit.framework */,
 				AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */,
 			);
 			name = Frameworks;
@@ -287,8 +381,8 @@
 		2F0E8162225F451D00D5E511 /* MRPersonalView */ = {
 			isa = PBXGroup;
 			children = (
-				2F0E8166225F457200D5E511 /* ViewController */,
 				2F0E8165225F456B00D5E511 /* View */,
+				2F0E8166225F457200D5E511 /* ViewController */,
 				2F0E8164225F456500D5E511 /* Model */,
 				2F0E8163225F454F00D5E511 /* ViewModel */,
 			);
@@ -298,6 +392,10 @@
 		2F0E8163225F454F00D5E511 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2F734CC822675EF9006D8B63 /* ZYLUploadAvatar.h */,
+				2F734CC922675EF9006D8B63 /* ZYLUploadAvatar.m */,
+				2F734CCB22676997006D8B63 /* ZYLChangeNickname.h */,
+				2F734CCC22676997006D8B63 /* ZYLChangeNickname.m */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -305,6 +403,8 @@
 		2F0E8164225F456500D5E511 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2F734CC222675CC6006D8B63 /* ZYLPersonalModel.h */,
+				2F734CC322675CC6006D8B63 /* ZYLPersonalModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -312,6 +412,18 @@
 		2F0E8165225F456B00D5E511 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2F0E817F22608BB400D5E511 /* ZYLPersonalInformationView.h */,
+				2F0E818022608BB400D5E511 /* ZYLPersonalInformationView.m */,
+				2F0E818222608BD600D5E511 /* ZYLPersonalBackGroud.h */,
+				2F0E818322608BD600D5E511 /* ZYLPersonalBackGroud.m */,
+				2F0E818822608C1300D5E511 /* ZYLSetAvatarBtn.h */,
+				2F0E818922608C1300D5E511 /* ZYLSetAvatarBtn.m */,
+				2F0E818B22608C3F00D5E511 /* ZYLNicknameTextField.h */,
+				2F0E818C22608C3F00D5E511 /* ZYLNicknameTextField.m */,
+				2F0E818E22608C9300D5E511 /* ZYLLogoutBtn.h */,
+				2F0E818F22608C9300D5E511 /* ZYLLogoutBtn.m */,
+				2F0E819122608CB800D5E511 /* ZYLPhotoSelectedVIew.h */,
+				2F0E819222608CB800D5E511 /* ZYLPhotoSelectedVIew.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -321,6 +433,75 @@
 			children = (
 				2F0E8167225F4B3400D5E511 /* ZYLPersonalViewController.h */,
 				2F0E8168225F4B3400D5E511 /* ZYLPersonalViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		2F14BF86226AE5A800CCA2B8 /* MRRunning */ = {
+			isa = PBXGroup;
+			children = (
+				2F14BF8A226AE5E400CCA2B8 /* ViewController */,
+				2F14BF89226AE5DA00CCA2B8 /* View */,
+				2F14BF88226AE5CD00CCA2B8 /* Model */,
+				2F14BF87226AE5BE00CCA2B8 /* ViewModel */,
+			);
+			path = MRRunning;
+			sourceTree = "<group>";
+		};
+		2F14BF87226AE5BE00CCA2B8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2F60AB41227C816400109420 /* ZYLUptateRunningData.h */,
+				2F60AB42227C816400109420 /* ZYLUptateRunningData.m */,
+				2F60AB44227C858C00109420 /* ZYLTimeStamp.h */,
+				2F60AB45227C858C00109420 /* ZYLTimeStamp.m */,
+				2F60AB49227C939C00109420 /* ZYLSteps.h */,
+				2F60AB4A227C939C00109420 /* ZYLSteps.m */,
+				2F60AB4C227C9A1200109420 /* ZYLUpdateData.h */,
+				2F60AB4D227C9A1200109420 /* ZYLUpdateData.m */,
+				2FB21106227D77D0000D5A2E /* ZYLMD5Encrypt.h */,
+				2FB21107227D77D0000D5A2E /* ZYLMD5Encrypt.m */,
+				2FB2110922806711000D5A2E /* ZYLRecordTimeString.h */,
+				2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */,
+				2F495E1B2281BD99003DD714 /* ZYLPolling.h */,
+				2F495E1C2281BD99003DD714 /* ZYLPolling.m */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		2F14BF88226AE5CD00CCA2B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2F14BF89226AE5DA00CCA2B8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2F60AB3E227C7E5300109420 /* MRAlertView.h */,
+				2F60AB3F227C7E5300109420 /* MRAlertView.m */,
+				2F6DF0C9227B34A400BA6099 /* MRRunningLabel.h */,
+				2F6DF0CA227B34A400BA6099 /* MRRunningLabel.m */,
+				2F6DF0CB227B34A400BA6099 /* MRStopBtu.h */,
+				2F6DF0C8227B34A400BA6099 /* MRStopBtu.m */,
+				2F6DF0C5227B349D00BA6099 /* MRPauseAndResumeBtu.h */,
+				2F6DF0C6227B349D00BA6099 /* MRPauseAndResumeBtu.m */,
+				2F6DF0BD227B300800BA6099 /* ZYLRunningTabView.h */,
+				2F6DF0BE227B300800BA6099 /* ZYLRunningTabView.m */,
+				2F6DF0C0227B301B00BA6099 /* ZYLRunningRecordView.h */,
+				2F6DF0C1227B301B00BA6099 /* ZYLRunningRecordView.m */,
+				2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */,
+				2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2F14BF8A226AE5E400CCA2B8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2F6DF0B6227B2E2700BA6099 /* ZYLRunningViewController.h */,
+				2F6DF0B7227B2E2700BA6099 /* ZYLRunningViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -370,6 +551,8 @@
 		2F5A1B6D2246468E0014B249 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2F14BF8B226AE62800CCA2B8 /* ZYLHomePageModel.h */,
+				2F14BF8C226AE62800CCA2B8 /* ZYLHomePageModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -401,6 +584,8 @@
 			children = (
 				2F5EA388225358A500050A9B /* ZYLMainViewModel.h */,
 				2F5EA389225358A500050A9B /* ZYLMainViewModel.m */,
+				2F14BF8E226AEC9100CCA2B8 /* ZYLAvatarRequest.h */,
+				2F14BF8F226AEC9100CCA2B8 /* ZYLAvatarRequest.m */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -564,8 +749,9 @@
 				2F5A1B68224644470014B249 /* MRMainView */,
 				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				2F0E8162225F451D00D5E511 /* MRPersonalView */,
-				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
+				2F14BF86226AE5A800CCA2B8 /* MRRunning */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
+				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
 				CE0CC17C222E2059001283EA /* AppDelegate.h */,
 				CE0CC17D222E2059001283EA /* AppDelegate.m */,
@@ -740,6 +926,14 @@
 				TargetAttributes = {
 					CE0CC178222E2059001283EA = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					CE0CC190222E205B001283EA = {
 						CreatedOnToolsVersion = 10.1;
@@ -857,21 +1051,30 @@
 			files = (
 				2F5A1B84224671920014B249 /* ZYLBackgroundView.m in Sources */,
 				2F5CBE98225F00A000813943 /* AES128Util.m in Sources */,
+				2F495E1D2281BD99003DD714 /* ZYLPolling.m in Sources */,
+				2F6DF0C7227B349D00BA6099 /* MRPauseAndResumeBtu.m in Sources */,
 				2F5A1B72224659BB0014B249 /* ZYLArrowBtn.m in Sources */,
+				2F0E819322608CB800D5E511 /* ZYLPhotoSelectedVIew.m in Sources */,
 				2F5A1BA922468BC80014B249 /* MRNumLabel.m in Sources */,
 				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
+				2F6DF0C2227B301B00BA6099 /* ZYLRunningRecordView.m in Sources */,
+				2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */,
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
 				2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */,
+				2FB2110B22806711000D5A2E /* ZYLRecordTimeString.m in Sources */,
 				2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
+				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
+				2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */,
 				2F5A1B9922468A890014B249 /* NSString+We.m in Sources */,
 				2F0E8178225F774800D5E511 /* ZYLStudentRankViewModel.m in Sources */,
 				2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */,
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
+				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
 				2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */,
 				2F0E815A225F33C400D5E511 /* UIFont+AdjustAuto.m in Sources */,
 				2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */,
@@ -884,28 +1087,45 @@
 				2F0E814D225F309B00D5E511 /* XIGRankViewViewController.m in Sources */,
 				2F0E8146225F309B00D5E511 /* XIGInviteTableViewCell.m in Sources */,
 				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
+				2F6DF0CD227B34A400BA6099 /* MRRunningLabel.m in Sources */,
 				2F0E8147225F309B00D5E511 /* XIGClassRankViewController.m in Sources */,
 				2F0E814A225F309B00D5E511 /* XIGClass.m in Sources */,
 				2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */,
+				2F6DF0BF227B300800BA6099 /* ZYLRunningTabView.m in Sources */,
+				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
+				2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */,
+				2F0E819022608C9300D5E511 /* ZYLLogoutBtn.m in Sources */,
+				2F60AB4B227C939D00109420 /* ZYLSteps.m in Sources */,
 				2F0E8175225F771700D5E511 /* ZYLClassRankViewModel.m in Sources */,
 				2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */,
 				2F5A1B7522465A250014B249 /* ZYLAvatarBtn.m in Sources */,
+				2F14BF90226AEC9100CCA2B8 /* ZYLAvatarRequest.m in Sources */,
 				2F5A1B9F22468A890014B249 /* UIImage+We.m in Sources */,
 				2F0E8160225F33D900D5E511 /* UILabel+LabelHeightAndWidth.m in Sources */,
 				2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */,
 				2F5A1B9E22468A890014B249 /* UIView+We.m in Sources */,
 				2F0E8152225F30A400D5E511 /* XIGStudentViewController.m in Sources */,
+				2F6DF0CC227B34A400BA6099 /* MRStopBtu.m in Sources */,
 				2F0E8169225F4B3400D5E511 /* ZYLPersonalViewController.m in Sources */,
 				2F0E815B225F33C400D5E511 /* UIImage+Extension.m in Sources */,
+				2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */,
 				2F0E8172225F74A700D5E511 /* ZYLInvitationRankModel.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
+				2F6DF0B8227B2E2700BA6099 /* ZYLRunningViewController.m in Sources */,
 				2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */,
+				2F60AB40227C7E5300109420 /* MRAlertView.m in Sources */,
+				2F60AB46227C858C00109420 /* ZYLTimeStamp.m in Sources */,
 				2F5EA38A225358A500050A9B /* ZYLMainViewModel.m in Sources */,
 				2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */,
 				2F5A1B9C22468A890014B249 /* WeKit.m in Sources */,
+				2F60AB4E227C9A1200109420 /* ZYLUpdateData.m in Sources */,
+				2F60AB43227C816400109420 /* ZYLUptateRunningData.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
+				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
+				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
+				2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */,
 				2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */,
 				2F0E816C225F745F00D5E511 /* ZYLClassRankModel.m in Sources */,
 				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,

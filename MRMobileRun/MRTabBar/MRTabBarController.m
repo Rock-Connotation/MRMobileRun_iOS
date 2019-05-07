@@ -17,6 +17,8 @@
 #import "MRTabBarController.h"
 #import "MRTabBarView.h"
 #import "ZYLMainViewController.h"
+#import "ZYLPersonalViewController.h"
+#import "ZYLRunningViewController.h"
 #import "XIGRankViewViewController.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -54,6 +56,9 @@
     [self.tabView setArray: self.btnArr];
     [self.tabView setTextArray: self.textArr];
     self.tabView.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideTabView) name:@"loadingRinningViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showTabView) name:@"showTabBar" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,15 +74,14 @@
     XIGRankViewViewController *vc2 = [[XIGRankViewViewController alloc] init];
     [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:@"排行榜icon（选中）" tag:1];
     
-    UIViewController *vc3 = [[UIViewController alloc] init];
-    vc3.view.backgroundColor = [UIColor blackColor];
+    ZYLRunningViewController *vc3 = [[ZYLRunningViewController alloc] init];
     [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:@"开始跑步icon（按） 2" tag:2];
     
     UIViewController *vc4 = [[UIViewController alloc] init];
     vc4.view.backgroundColor = [UIColor whiteColor];
     [self addChildViewController:vc4 title:@"邀约" imageNamed:@"邀约icon（未选中）" selectedImageNamed:@"邀约icon（选中）" tag:4];
     
-    UIViewController *vc5 = [[UIViewController alloc] init];
+    ZYLPersonalViewController *vc5 = [[ZYLPersonalViewController alloc] init];
     [self addChildViewController:vc5 title:@"我的" imageNamed:@"我的icon(未选中）" selectedImageNamed:@"我的icon（选中）" tag:5];
 }
 
@@ -95,6 +99,13 @@
     [self addChildViewController:nav];
 }
 
+- (void)hideTabView{
+    self.tabView.hidden = YES;
+}
+
+- (void)showTabView{
+    self.tabView.hidden = NO;
+}
 
 #pragma mark -  TabBarViewDelegate
 -(void)tabBarView:(MRTabBarView *)view didSelectedItemAtIndex:(NSInteger)index

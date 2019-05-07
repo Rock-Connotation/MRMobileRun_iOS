@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLMainViewModel : NSObject
-+ (void)test;
++ (NSArray *)ZYLGetRunningHistoryModelArrayAtPage:(NSString *)page;
 @end
 
 NS_ASSUME_NONNULL_END

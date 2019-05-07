@@ -12,7 +12,6 @@
 #import "XIGInviteViewController.h"
 #import "XIGStudentViewController.h"
 #import "YYkit.h"
-#import "ZYLRankViewModel.h"
 @interface XIGRankViewViewController ()
 
 @end
@@ -21,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [ZYLRankViewModel request];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     XIGStudentViewController *view1 = [[XIGStudentViewController  alloc]init];

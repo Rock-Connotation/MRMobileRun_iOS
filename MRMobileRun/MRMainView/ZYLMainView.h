@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry.h>
+#import "ZYLRankModel.h"
 #import "ZYLArrowBtn.h"
 #import "ZYLAvatarBtn.h"
 #import "ZYLTitleLabel.h"
@@ -20,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLMainView : UIView
 
+
+@property (strong, nonatomic)ZYLRankModel *rankModel;
 @property (nonatomic,strong) ZYLAvatarBtn *avatarBtu;
 //头像按钮
 @property (nonatomic,strong) UIImageView *avatarImage;

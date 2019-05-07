@@ -6,7 +6,6 @@
 //
 
 #import "ZYLMainViewController.h"
-#import "ZYLMainViewModel.h"
 #import "ZYLMainView.h"
 
 @interface ZYLMainViewController ()
@@ -29,7 +28,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [ZYLMainViewModel test];
     [self.view addSubview: self.mainView];
     // Do any additional setup after loading the view.
 }

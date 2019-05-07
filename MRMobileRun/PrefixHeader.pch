@@ -14,7 +14,7 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
-#define kToken @"mcPu7uHiLT6-rEeechpgZ8V_K-z7KhXCL54_xNRMIprF-bh46phnPO0dZl1wClDeWAZ-IkDOdyEn8hZ5E8YLpR8FFW49JfjuKAYj_VHNaJFtrA29p6ni0JeFsMG7DU0OF-yC8-zli-cGQJCUbiDAQ3rrPk-Xxs2_P2wrciswCcI="
+#define kToken @"mcPu7uHiLT6-rEeechpgZ8V_K-z7KhXCL54_xNRMIprF-bh46phnPO0dZl1wClDeWAZ-IkDOdyEn8hZ5E8YLpR8FFW49JfjuKAYj_VHNaJFtrA29p6ni0JeFsMG7DU0O4-0XRrxPa18fKQfTNxviZn1_ab7zVnYDpUogAz1a5aQ="
 //登陆URL 跟学号和身份证后六位(post)
 #define kLoginURL @"http://111.230.169.17:8080/mobilerun/user/login"
 //注销登陆(get)
@@ -36,10 +36,15 @@
  学号，id
  */
 #define kRankURL @"http://111.230.169.17:8080/mobilerun/rank"
-//邀约历史记录()
-//#define kInvitationHistoryRecordUrl @"http://running-together.redrock.team/sanzou/invite/history/"
 //头像url 后面加学号.jpg
 #define kUserAvatarUrl @"http://111.230.169.17:8080/mobilerun/"
+//上传头像(post)
+#define kUploadAvatarUrl @"http://111.230.169.17:8080/mobilerun/user/upload"
+//修改昵称（post）
+#define kNicknameUrl @"http://111.230.169.17:8080/mobilerun/user/info/update"
+//查询跑步记录(get)
+//后跟student_id和page
+#define kRunningHistoryUrl @"http://111.230.169.17:8080/mobilerun/user/lat_lng"
 //查询被邀请人的消息(post)
 #define kSearchInfoUrl @"http://111.230.169.17:8080/mobilerun/invite/searchinfo"
 //发送邀约
@@ -54,7 +59,8 @@
 #define kIfAcceptInvite @"http://running-together.redrock.team/sanzou/invite/result/"
 //取消邀约
 #define kCancelInvite @"http://running-together.redrock.team/sanzou/invite/cancel/"
-#define SALT @"redrockrunningtogether"
+
+#define SALT @"runningtogether"
 #define HEADERHEIGHT (STATUSBARHEIGHT+NVGBARHEIGHT)
 
 #define NVGBARHEIGHT (44)

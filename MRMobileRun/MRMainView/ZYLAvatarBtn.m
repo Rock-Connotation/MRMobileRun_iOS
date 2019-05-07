@@ -15,7 +15,7 @@
     if (self) {
         self.frame = CGRectMake(0, 0, 60, 60);
         
-        [self setBackgroundImage:[UIImage imageNamed:@"排行榜默认头像"] forState:UIControlStateNormal];
+        [self setBackgroundImage:[UIImage imageNamed:@"头像2"] forState:UIControlStateNormal];
         
         self.contentMode = UIViewContentModeScaleAspectFill;
         

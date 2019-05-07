@@ -7,13 +7,16 @@
 
 #import "ZYLMainView.h"
 #import "ZYLArrowBtn.h"
+#import "ZYLAvatarRequest.h"
+#import "ZYLStudentRankViewModel.h"
 
 
 @implementation ZYLMainView
 - (instancetype)init{
     if (self = [super init]) {
         self.bounds = [UIScreen mainScreen].bounds;
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addAvatar:) name:@"getAvatarSuccess" object:nil];
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRankData:) name:@"MyStuRankCatched" object:nil];
         [self initUI];
         
         return self;
@@ -33,6 +36,7 @@
     [self initNameLabel];
     //    [self initTabBar];
     [self initbeginRuningBtu];
+    [ZYLStudentRankViewModel ZYLGetMyStudentRankWithdtime: @"days"];
 }
 
 
@@ -73,8 +77,15 @@
         make.height.mas_equalTo(50);
         
     }];
-    
-    self.avatarImage.image = [UIImage imageNamed:@""];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"myAvatar"]) {
+        NSData *data = [defaults objectForKey: @"myAvatar"];
+        self.avatarImage.image = [UIImage imageWithData: data scale: 1];
+    }
+    else{
+        self.avatarImage.image = [UIImage imageNamed:@""];
+        [ZYLAvatarRequest ZYLGetAvatarWithStudent_id:@"2017214821"];
+    }
     self.avatarImage.contentMode=UIViewContentModeScaleAspectFill;
     
     self.avatarImage.clipsToBounds=YES;
@@ -249,16 +260,20 @@
     
 }
 
+- (void)addAvatar:(NSNotification *)notification{
+    self.avatarImage.image = notification.object;
+}
+
+
+- (void)addRankData:(NSNotification *)noti{
+    self.rankModel = noti.object;
+    self.Ranking.text = [self.rankModel.rank stringValue];
+    self.smallTotalDistance.text = [self.rankModel.distance stringValue];
+    self.distanceGap.text = self.rankModel.prev_difference;
+}
 
 - (void)initbeginRuningBtu{
    
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end
