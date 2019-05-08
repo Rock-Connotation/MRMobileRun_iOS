@@ -43,6 +43,22 @@
 		2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */; };
 		2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */; };
 		2F495E1D2281BD99003DD714 /* ZYLPolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E1C2281BD99003DD714 /* ZYLPolling.m */; };
+		2F495E232282BE19003DD714 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E222282BE19003DD714 /* HttpClient.m */; };
+		2F495E2B2282BE6F003DD714 /* MRLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E2A2282BE6F003DD714 /* MRLoginViewController.m */; };
+		2F495E2E2282BE8A003DD714 /* MRLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E2D2282BE8A003DD714 /* MRLoginModel.m */; };
+		2F495E322282BE9F003DD714 /* MRLoginTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E312282BE9F003DD714 /* MRLoginTextField.m */; };
+		2F495E372282BEAD003DD714 /* MRLoginBtu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E352282BEAD003DD714 /* MRLoginBtu.m */; };
+		2F495E392282BEB3003DD714 /* MRLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E382282BEB3003DD714 /* MRLoginView.m */; };
+		2F495E432282BFC4003DD714 /* LJJInviteRunVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E412282BFC4003DD714 /* LJJInviteRunVC.m */; };
+		2F495E452282BFD0003DD714 /* LJJInviteRunVCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E442282BFD0003DD714 /* LJJInviteRunVCViewController.m */; };
+		2F495E482282BFDD003DD714 /* LJJInviteSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E472282BFDD003DD714 /* LJJInviteSearchResultViewController.m */; };
+		2F495E4B2282BFEB003DD714 /* LJJInviteViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E492282BFEB003DD714 /* LJJInviteViewModel.m */; };
+		2F495E4E2282BFF3003DD714 /* LJJInviteSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E4D2282BFF3003DD714 /* LJJInviteSearchResultView.m */; };
+		2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E4F2282BFFA003DD714 /* LJJInviteRunModel.m */; };
+		2F495E542282C064003DD714 /* LJJInviteRunView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E532282C064003DD714 /* LJJInviteRunView.m */; };
+		2F495E572282D39B003DD714 /* ZYLRunningDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E562282D39B003DD714 /* ZYLRunningDataRequest.m */; };
+		2F495E5A2282E509003DD714 /* ZYLRunningRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E592282E509003DD714 /* ZYLRunningRecordModel.m */; };
+		2F495E602282FA90003DD714 /* MRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E5F2282FA90003DD714 /* MRTabBar.m */; };
 		2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */; };
 		2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B602245FCF70014B249 /* MRTabBarView.m */; };
 		2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1B66224610580014B249 /* MRTabBarController.m */; };
@@ -67,7 +83,6 @@
 		2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A1BAB22468BD40014B249 /* MRTimeLabel.m */; };
 		2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CBE95225F00A000813943 /* GTMBase64.m */; };
 		2F5CBE98225F00A000813943 /* AES128Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5CBE96225F00A000813943 /* AES128Util.m */; };
-		2F5EA38A225358A500050A9B /* ZYLMainViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5EA389225358A500050A9B /* ZYLMainViewModel.m */; };
 		2F60AB40227C7E5300109420 /* MRAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB3F227C7E5300109420 /* MRAlertView.m */; };
 		2F60AB43227C816400109420 /* ZYLUptateRunningData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB42227C816400109420 /* ZYLUptateRunningData.m */; };
 		2F60AB46227C858C00109420 /* ZYLTimeStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F60AB45227C858C00109420 /* ZYLTimeStamp.m */; };
@@ -190,6 +205,38 @@
 		2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeProgressCircle.m; sourceTree = "<group>"; };
 		2F495E1B2281BD99003DD714 /* ZYLPolling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPolling.h; sourceTree = "<group>"; };
 		2F495E1C2281BD99003DD714 /* ZYLPolling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPolling.m; sourceTree = "<group>"; };
+		2F495E212282BE19003DD714 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
+		2F495E222282BE19003DD714 /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
+		2F495E292282BE6F003DD714 /* MRLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRLoginViewController.h; sourceTree = "<group>"; };
+		2F495E2A2282BE6F003DD714 /* MRLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRLoginViewController.m; sourceTree = "<group>"; };
+		2F495E2C2282BE8A003DD714 /* MRLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRLoginModel.h; sourceTree = "<group>"; };
+		2F495E2D2282BE8A003DD714 /* MRLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRLoginModel.m; sourceTree = "<group>"; };
+		2F495E2F2282BE9E003DD714 /* MRLoginTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRLoginTextField.h; sourceTree = "<group>"; };
+		2F495E302282BE9E003DD714 /* MRLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRLoginView.h; sourceTree = "<group>"; };
+		2F495E312282BE9F003DD714 /* MRLoginTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRLoginTextField.m; sourceTree = "<group>"; };
+		2F495E342282BEAD003DD714 /* MRLoginBtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRLoginBtu.h; sourceTree = "<group>"; };
+		2F495E352282BEAD003DD714 /* MRLoginBtu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRLoginBtu.m; sourceTree = "<group>"; };
+		2F495E382282BEB3003DD714 /* MRLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRLoginView.m; sourceTree = "<group>"; };
+		2F495E402282BFC3003DD714 /* LJJInviteRunVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteRunVC.h; sourceTree = "<group>"; };
+		2F495E412282BFC4003DD714 /* LJJInviteRunVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteRunVC.m; sourceTree = "<group>"; };
+		2F495E422282BFC4003DD714 /* LJJInviteRunVCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteRunVCViewController.h; sourceTree = "<group>"; };
+		2F495E442282BFD0003DD714 /* LJJInviteRunVCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteRunVCViewController.m; sourceTree = "<group>"; };
+		2F495E462282BFDD003DD714 /* LJJInviteSearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchResultViewController.h; sourceTree = "<group>"; };
+		2F495E472282BFDD003DD714 /* LJJInviteSearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchResultViewController.m; sourceTree = "<group>"; };
+		2F495E492282BFEB003DD714 /* LJJInviteViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteViewModel.m; sourceTree = "<group>"; };
+		2F495E4A2282BFEB003DD714 /* LJJInviteViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteViewModel.h; sourceTree = "<group>"; };
+		2F495E4C2282BFF3003DD714 /* LJJInviteSearchResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchResultView.h; sourceTree = "<group>"; };
+		2F495E4D2282BFF3003DD714 /* LJJInviteSearchResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchResultView.m; sourceTree = "<group>"; };
+		2F495E4F2282BFFA003DD714 /* LJJInviteRunModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteRunModel.m; sourceTree = "<group>"; };
+		2F495E502282BFFA003DD714 /* LJJInviteRunModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteRunModel.h; sourceTree = "<group>"; };
+		2F495E522282C064003DD714 /* LJJInviteRunView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJJInviteRunView.h; sourceTree = "<group>"; };
+		2F495E532282C064003DD714 /* LJJInviteRunView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJJInviteRunView.m; sourceTree = "<group>"; };
+		2F495E552282D39B003DD714 /* ZYLRunningDataRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRunningDataRequest.h; sourceTree = "<group>"; };
+		2F495E562282D39B003DD714 /* ZYLRunningDataRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRunningDataRequest.m; sourceTree = "<group>"; };
+		2F495E582282E509003DD714 /* ZYLRunningRecordModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRunningRecordModel.h; sourceTree = "<group>"; };
+		2F495E592282E509003DD714 /* ZYLRunningRecordModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRunningRecordModel.m; sourceTree = "<group>"; };
+		2F495E5E2282FA90003DD714 /* MRTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRTabBar.h; sourceTree = "<group>"; };
+		2F495E5F2282FA90003DD714 /* MRTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRTabBar.m; sourceTree = "<group>"; };
 		2F5A1B4B2245DAB90014B249 /* MRBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRBaseViewController.h; sourceTree = "<group>"; };
 		2F5A1B4C2245DAB90014B249 /* MRBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRBaseViewController.m; sourceTree = "<group>"; };
 		2F5A1B5F2245FCF70014B249 /* MRTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRTabBarView.h; sourceTree = "<group>"; };
@@ -241,8 +288,6 @@
 		2F5CBE94225F00A000813943 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		2F5CBE95225F00A000813943 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		2F5CBE96225F00A000813943 /* AES128Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AES128Util.m; sourceTree = "<group>"; };
-		2F5EA388225358A500050A9B /* ZYLMainViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLMainViewModel.h; sourceTree = "<group>"; };
-		2F5EA389225358A500050A9B /* ZYLMainViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLMainViewModel.m; sourceTree = "<group>"; };
 		2F60AB3E227C7E5300109420 /* MRAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRAlertView.h; sourceTree = "<group>"; };
 		2F60AB3F227C7E5300109420 /* MRAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRAlertView.m; sourceTree = "<group>"; };
 		2F60AB41227C816400109420 /* ZYLUptateRunningData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLUptateRunningData.h; sourceTree = "<group>"; };
@@ -279,8 +324,8 @@
 		2FB21107227D77D0000D5A2E /* ZYLMD5Encrypt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLMD5Encrypt.m; sourceTree = "<group>"; };
 		2FB2110922806711000D5A2E /* ZYLRecordTimeString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLRecordTimeString.h; sourceTree = "<group>"; };
 		2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRecordTimeString.m; sourceTree = "<group>"; };
-		2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLBackBtn.h; sourceTree = "<group>"; };
-		2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLBackBtn.m; sourceTree = "<group>"; };
+		2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZYLBackBtn.h; path = MRRunning/ZYLBackBtn.h; sourceTree = "<group>"; };
+		2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZYLBackBtn.m; path = MRRunning/ZYLBackBtn.m; sourceTree = "<group>"; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,8 +536,6 @@
 				2F6DF0BE227B300800BA6099 /* ZYLRunningTabView.m */,
 				2F6DF0C0227B301B00BA6099 /* ZYLRunningRecordView.h */,
 				2F6DF0C1227B301B00BA6099 /* ZYLRunningRecordView.m */,
-				2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */,
-				2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -517,11 +560,124 @@
 			path = MRWeProgress;
 			sourceTree = "<group>";
 		};
+		2F495E1F2282BD34003DD714 /* MRLogin */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E282282BE55003DD714 /* Controller */,
+				2F495E272282BE46003DD714 /* ViewModel */,
+				2F495E262282BE3C003DD714 /* Model */,
+				2F495E242282BE27003DD714 /* View */,
+			);
+			path = MRLogin;
+			sourceTree = "<group>";
+		};
+		2F495E202282BD65003DD714 /* HTTPClient */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E212282BE19003DD714 /* HttpClient.h */,
+				2F495E222282BE19003DD714 /* HttpClient.m */,
+			);
+			path = HTTPClient;
+			sourceTree = "<group>";
+		};
+		2F495E242282BE27003DD714 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E342282BEAD003DD714 /* MRLoginBtu.h */,
+				2F495E352282BEAD003DD714 /* MRLoginBtu.m */,
+				2F495E2F2282BE9E003DD714 /* MRLoginTextField.h */,
+				2F495E312282BE9F003DD714 /* MRLoginTextField.m */,
+				2F495E302282BE9E003DD714 /* MRLoginView.h */,
+				2F495E382282BEB3003DD714 /* MRLoginView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2F495E262282BE3C003DD714 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E2C2282BE8A003DD714 /* MRLoginModel.h */,
+				2F495E2D2282BE8A003DD714 /* MRLoginModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2F495E272282BE46003DD714 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		2F495E282282BE55003DD714 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E292282BE6F003DD714 /* MRLoginViewController.h */,
+				2F495E2A2282BE6F003DD714 /* MRLoginViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		2F495E3B2282BF0F003DD714 /* MRInviteView */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E3F2282BF3B003DD714 /* Controller */,
+				2F495E3E2282BF31003DD714 /* ViewModel */,
+				2F495E3D2282BF2B003DD714 /* Model */,
+				2F495E3C2282BF24003DD714 /* View */,
+			);
+			path = MRInviteView;
+			sourceTree = "<group>";
+		};
+		2F495E3C2282BF24003DD714 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E522282C064003DD714 /* LJJInviteRunView.h */,
+				2F495E532282C064003DD714 /* LJJInviteRunView.m */,
+				2F495E4C2282BFF3003DD714 /* LJJInviteSearchResultView.h */,
+				2F495E4D2282BFF3003DD714 /* LJJInviteSearchResultView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2F495E3D2282BF2B003DD714 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E502282BFFA003DD714 /* LJJInviteRunModel.h */,
+				2F495E4F2282BFFA003DD714 /* LJJInviteRunModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2F495E3E2282BF31003DD714 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E4A2282BFEB003DD714 /* LJJInviteViewModel.h */,
+				2F495E492282BFEB003DD714 /* LJJInviteViewModel.m */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		2F495E3F2282BF3B003DD714 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2F495E462282BFDD003DD714 /* LJJInviteSearchResultViewController.h */,
+				2F495E472282BFDD003DD714 /* LJJInviteSearchResultViewController.m */,
+				2F495E402282BFC3003DD714 /* LJJInviteRunVC.h */,
+				2F495E412282BFC4003DD714 /* LJJInviteRunVC.m */,
+				2F495E422282BFC4003DD714 /* LJJInviteRunVCViewController.h */,
+				2F495E442282BFD0003DD714 /* LJJInviteRunVCViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		2F5A1B522245DFB00014B249 /* MRTabBar */ = {
 			isa = PBXGroup;
 			children = (
 				2F5A1B65224610580014B249 /* MRTabBarController.h */,
 				2F5A1B66224610580014B249 /* MRTabBarController.m */,
+				2F495E5E2282FA90003DD714 /* MRTabBar.h */,
+				2F495E5F2282FA90003DD714 /* MRTabBar.m */,
 				2F5A1B5F2245FCF70014B249 /* MRTabBarView.h */,
 				2F5A1B602245FCF70014B249 /* MRTabBarView.m */,
 			);
@@ -553,6 +709,8 @@
 			children = (
 				2F14BF8B226AE62800CCA2B8 /* ZYLHomePageModel.h */,
 				2F14BF8C226AE62800CCA2B8 /* ZYLHomePageModel.m */,
+				2F495E582282E509003DD714 /* ZYLRunningRecordModel.h */,
+				2F495E592282E509003DD714 /* ZYLRunningRecordModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -582,10 +740,10 @@
 		2F5A1B6F224646A50014B249 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				2F5EA388225358A500050A9B /* ZYLMainViewModel.h */,
-				2F5EA389225358A500050A9B /* ZYLMainViewModel.m */,
 				2F14BF8E226AEC9100CCA2B8 /* ZYLAvatarRequest.h */,
 				2F14BF8F226AEC9100CCA2B8 /* ZYLAvatarRequest.m */,
+				2F495E552282D39B003DD714 /* ZYLRunningDataRequest.h */,
+				2F495E562282D39B003DD714 /* ZYLRunningDataRequest.m */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -615,6 +773,7 @@
 		2F5A1BA022468A910014B249 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2F495E202282BD65003DD714 /* HTTPClient */,
 				2F0E8154225F33A000D5E511 /* categories */,
 				2F5CBE91225F00A000813943 /* EncryptionAndDecryption */,
 				2F5A1B8922468A890014B249 /* WeKit */,
@@ -628,6 +787,8 @@
 				2F5A1BA822468BC70014B249 /* MRNumLabel.m */,
 				2F5A1BAA22468BD40014B249 /* MRTimeLabel.h */,
 				2F5A1BAB22468BD40014B249 /* MRTimeLabel.m */,
+				2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */,
+				2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -750,7 +911,9 @@
 				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				2F0E8162225F451D00D5E511 /* MRPersonalView */,
 				2F14BF86226AE5A800CCA2B8 /* MRRunning */,
+				2F495E1F2282BD34003DD714 /* MRLogin */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
+				2F495E3B2282BF0F003DD714 /* MRInviteView */,
 				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
 				CE0CC17C222E2059001283EA /* AppDelegate.h */,
@@ -1051,6 +1214,7 @@
 			files = (
 				2F5A1B84224671920014B249 /* ZYLBackgroundView.m in Sources */,
 				2F5CBE98225F00A000813943 /* AES128Util.m in Sources */,
+				2F495E2B2282BE6F003DD714 /* MRLoginViewController.m in Sources */,
 				2F495E1D2281BD99003DD714 /* ZYLPolling.m in Sources */,
 				2F6DF0C7227B349D00BA6099 /* MRPauseAndResumeBtu.m in Sources */,
 				2F5A1B72224659BB0014B249 /* ZYLArrowBtn.m in Sources */,
@@ -1060,6 +1224,7 @@
 				2F6DF0C2227B301B00BA6099 /* ZYLRunningRecordView.m in Sources */,
 				2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */,
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
+				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
 				2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */,
@@ -1076,13 +1241,17 @@
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
 				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
 				2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */,
+				2F495E572282D39B003DD714 /* ZYLRunningDataRequest.m in Sources */,
 				2F0E815A225F33C400D5E511 /* UIFont+AdjustAuto.m in Sources */,
+				2F495E542282C064003DD714 /* LJJInviteRunView.m in Sources */,
 				2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */,
 				2F5A1B87224688280014B249 /* ZYLMainView.m in Sources */,
 				CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */,
 				2F5A1B6B2246451F0014B249 /* ZYLMainViewController.m in Sources */,
 				CE0CC1B5222E4938001283EA /* MRMainTabBarController.m in Sources */,
 				2F5A1B81224671140014B249 /* ZYLRunningRecordBtn.m in Sources */,
+				2F495E4B2282BFEB003DD714 /* LJJInviteViewModel.m in Sources */,
+				2F495E372282BEAD003DD714 /* MRLoginBtu.m in Sources */,
 				2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */,
 				2F0E814D225F309B00D5E511 /* XIGRankViewViewController.m in Sources */,
 				2F0E8146225F309B00D5E511 /* XIGInviteTableViewCell.m in Sources */,
@@ -1090,16 +1259,23 @@
 				2F6DF0CD227B34A400BA6099 /* MRRunningLabel.m in Sources */,
 				2F0E8147225F309B00D5E511 /* XIGClassRankViewController.m in Sources */,
 				2F0E814A225F309B00D5E511 /* XIGClass.m in Sources */,
+				2F495E392282BEB3003DD714 /* MRLoginView.m in Sources */,
+				2F495E602282FA90003DD714 /* MRTabBar.m in Sources */,
+				2F495E4E2282BFF3003DD714 /* LJJInviteSearchResultView.m in Sources */,
 				2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */,
+				2F495E452282BFD0003DD714 /* LJJInviteRunVCViewController.m in Sources */,
 				2F6DF0BF227B300800BA6099 /* ZYLRunningTabView.m in Sources */,
 				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
 				2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */,
+				2F495E322282BE9F003DD714 /* MRLoginTextField.m in Sources */,
+				2F495E2E2282BE8A003DD714 /* MRLoginModel.m in Sources */,
 				2F0E819022608C9300D5E511 /* ZYLLogoutBtn.m in Sources */,
 				2F60AB4B227C939D00109420 /* ZYLSteps.m in Sources */,
 				2F0E8175225F771700D5E511 /* ZYLClassRankViewModel.m in Sources */,
 				2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */,
 				2F5A1B7522465A250014B249 /* ZYLAvatarBtn.m in Sources */,
 				2F14BF90226AEC9100CCA2B8 /* ZYLAvatarRequest.m in Sources */,
+				2F495E432282BFC4003DD714 /* LJJInviteRunVC.m in Sources */,
 				2F5A1B9F22468A890014B249 /* UIImage+We.m in Sources */,
 				2F0E8160225F33D900D5E511 /* UILabel+LabelHeightAndWidth.m in Sources */,
 				2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */,
@@ -1111,11 +1287,12 @@
 				2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */,
 				2F0E8172225F74A700D5E511 /* ZYLInvitationRankModel.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
+				2F495E5A2282E509003DD714 /* ZYLRunningRecordModel.m in Sources */,
 				2F6DF0B8227B2E2700BA6099 /* ZYLRunningViewController.m in Sources */,
 				2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */,
 				2F60AB40227C7E5300109420 /* MRAlertView.m in Sources */,
 				2F60AB46227C858C00109420 /* ZYLTimeStamp.m in Sources */,
-				2F5EA38A225358A500050A9B /* ZYLMainViewModel.m in Sources */,
+				2F495E482282BFDD003DD714 /* LJJInviteSearchResultViewController.m in Sources */,
 				2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */,
 				2F5A1B9C22468A890014B249 /* WeKit.m in Sources */,
 				2F60AB4E227C9A1200109420 /* ZYLUpdateData.m in Sources */,
@@ -1129,6 +1306,7 @@
 				2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */,
 				2F0E816C225F745F00D5E511 /* ZYLClassRankModel.m in Sources */,
 				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,
+				2F495E232282BE19003DD714 /* HttpClient.m in Sources */,
 				2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

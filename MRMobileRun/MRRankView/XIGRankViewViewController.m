@@ -12,11 +12,39 @@
 #import "XIGInviteViewController.h"
 #import "XIGStudentViewController.h"
 #import "YYkit.h"
+#import "ZYLBackBtn.h"
+#import <MGJRouter.h>
+#import "ZYLMainViewController.h"
 @interface XIGRankViewViewController ()
 
 @end
 
 @implementation XIGRankViewViewController
+//实现NavigationBar背景渐变
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav+导航栏底板"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar  setShadowImage:[[UIImage alloc] init]];
+//    [self.navigationController.navigationBar setBackIndicatorImage:[UIImage imageNamed:@"<返回"]];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
+    ZYLBackBtn *backBtn = [[ZYLBackBtn alloc] init];
+    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barItem =[[UIBarButtonItem alloc] initWithCustomView: backBtn];
+    self.navigationItem.leftBarButtonItem = barItem;
+}
+
+- (void)back{
+    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
+    [UIApplication sharedApplication].keyWindow.rootViewController = nav;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,21 +83,9 @@
     segementView.titleTextFocusColor = [UIColor whiteColor];
     segementView.titleTextNormalColor = [UIColor colorWithHexString:@"#DEBDEC"];
     [self.view addSubview:segementView];
-    //实现背景渐变
-    [self setNavigation];
 
 }
 
-- (void)setNavigation{
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav+导航栏底板"] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar  setShadowImage:[[UIImage alloc] init]];
-    [self.navigationController.navigationBar setBackIndicatorImage:[UIImage imageNamed:@"<返回"]];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

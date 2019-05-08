@@ -6,17 +6,12 @@
 //
 
 #import "MRBaseViewController.h"
-
 @interface MRBaseViewController ()
 
 @end
 
 @implementation MRBaseViewController
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav+导航栏底板"] forBarMetrics: UIBarMetricsDefault];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

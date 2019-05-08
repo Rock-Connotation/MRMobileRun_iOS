@@ -68,13 +68,18 @@
     NSData *data = [self.defaults objectForKey:@"myAvatar"];
     [self.avatarBtu setImage: [UIImage imageWithData:data scale:1] forState: UIControlStateNormal];
     [self addSubview:self.avatarBtu];
-    [self.avatarBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(155.0/1334.0*screenHeigth, 584.0/750*screenWidth, 1056.0/1334.0*screenHeigth, 43.0/750.0*screenWidth));
-        make.top.mas_equalTo(155.0/1334.0*screenHeigth);
-        make.left.mas_equalTo(584.0/750*screenWidth);
-        make.width.mas_equalTo(80);
-        make.height.mas_equalTo(80);
-    }];
+    if (kIs_iPhoneX) {
+        [self.avatarBtu mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(155.0/1334.0*screenHeigth);
+            make.left.mas_equalTo(584.0/750*screenWidth);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(80);
+        }];
+    }else{
+        [self.avatarBtu mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(155.0/1334.0*screenHeigth, 584.0/750*screenWidth, 1056.0/1334.0*screenHeigth, 43.0/750.0*screenWidth));
+        }];
+    }
 }
 
 - (void)initBackBtu
@@ -84,17 +89,24 @@
     [self addSubview:self.backBtu];
     [self.backBtu mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(57.0/1334.0*screenHeigth, 31.0/750*screenWidth, 1212.0/1334.0*screenHeigth, 663.0/750.0*screenWidth));
+//        make.top.equalTo(self.mas_top).mas_offset(20);
+//        make.left.equalTo(self.mas_left).mas_offset(20);
+//        make.height.mas_equalTo(20);
+//        make.width.mas_equalTo(10);
     }];
     
     UIImageView * backLabel = [[UIImageView alloc]init];
     
-    backLabel.image = [UIImage imageNamed:@"返回箭头"];
+    backLabel.image = [UIImage imageNamed:@"返回箭头4"];
     
     [self addSubview:backLabel];
     [backLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(69.0/1334.0*screenHeigth, 44.0/750*screenWidth, 1229.0/1334.0*screenHeigth, 689.0/750.0*screenWidth));
+        make.top.equalTo(self.backgroundView.titleLabel.mas_top).mas_offset(5);
+        make.left.equalTo(self.mas_left).mas_offset(15);
+        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(10);
     }];
-    
+    [self bringSubviewToFront:self.backBtu];
     
 }
 

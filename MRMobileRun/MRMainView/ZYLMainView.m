@@ -9,7 +9,8 @@
 #import "ZYLArrowBtn.h"
 #import "ZYLAvatarRequest.h"
 #import "ZYLStudentRankViewModel.h"
-
+#import "ZYLRecordTimeString.h"
+#import "ZYLRunningRecordModel.h"
 
 @implementation ZYLMainView
 - (instancetype)init{
@@ -17,6 +18,7 @@
         self.bounds = [UIScreen mainScreen].bounds;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addAvatar:) name:@"getAvatarSuccess" object:nil];
          [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRankData:) name:@"MyStuRankCatched" object:nil];
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRecordData:) name:@"getPersonnalRunningRecordSuccess" object:nil];
         [self initUI];
         
         return self;
@@ -84,7 +86,7 @@
     }
     else{
         self.avatarImage.image = [UIImage imageNamed:@""];
-        [ZYLAvatarRequest ZYLGetAvatarWithStudent_id:@"2017214821"];
+        [ZYLAvatarRequest ZYLGetAvatar];
     }
     self.avatarImage.contentMode=UIViewContentModeScaleAspectFill;
     
@@ -184,7 +186,7 @@
     self.smallTotalDistance = [[MRNumLabel alloc]init];
     [self.smallTotalDistance setFontWithSize:14*screenWidth/414.0 andFloatTitle:0.000];
     self.smallTotalDistance.textAlignment =NSTextAlignmentCenter;
-    
+    self.smallTotalDistance.text = @"0.00";
     [self addSubview:self.smallTotalDistance];
     [self.smallTotalDistance mas_makeConstraints:^(MASConstraintMaker *make) {
         //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(994.0/1334.0*screenHeigth, 436.0/750.0*screenWidth, 316.0/1334.0*screenHeigth, 252.0/750.0*screenWidth));
@@ -199,6 +201,7 @@
     
     self.distanceGap = [[MRNumLabel alloc]init];
     [self.distanceGap setFontWithSize:14*screenWidth/414.0 andIntTitle:0.0];
+    self.distanceGap.text = @"0.00";
     [self addSubview:self.distanceGap];
     [self.distanceGap mas_makeConstraints:^(MASConstraintMaker *make) {
         //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1044.0/1334.0*screenHeigth, 527.0/750.0*screenWidth, 266.0/1334.0*screenHeigth, 179.0/750.0*screenWidth));
@@ -217,7 +220,7 @@
     self.Ranking = [[MRNumLabel alloc]init];
     [self.Ranking setFontWithSize:42*screenWidth/414.0 andIntTitle:0];
     self.Ranking.textAlignment =NSTextAlignmentCenter;
-    
+    self.Ranking.text = @"0";
     [self addSubview:self.Ranking];
     [self.Ranking mas_makeConstraints:^(MASConstraintMaker *make) {
         //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1011.0/1334.0*screenHeigth, 34.0/750.0*screenWidth, 260.0/1334.0*screenHeigth, 655.0/750.0*screenWidth));
@@ -239,11 +242,14 @@
     
     self.timeLabel = [[UILabel alloc]init];
     self.timeLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:35*screenWidth/414.0];
-    //    self.timeLabel.text = [timeModel getTimeStringWithSecond:0];
+    self.timeLabel.text = [ZYLRecordTimeString getTimeStringWithSecond:0];
     
     [self addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(787.0/1334.0*screenHeigth, 375.0/750.0*screenWidth, 474.0/1334.0*screenHeigth, 156.0/750.0*screenWidth));
+        make.top.equalTo(self.totalDistance.mas_top).mas_offset(5);
+        make.right.equalTo(self.mas_right).mas_offset(-90);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(50);
     }];
     self.Ranking.adjustsFontSizeToFitWidth = YES;
     //排名
@@ -256,6 +262,11 @@
     [self addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(68.0/1334.0*screenHeigth, 0/750.0*screenWidth, 1224.0/1334.0*screenHeigth, 0/750.0*screenWidth));
+        make.top.equalTo(self.totalDistance.mas_top);
+        make.right.equalTo(self.mas_right).mas_offset(-160);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(50);
+        
     }];
     
 }
@@ -267,9 +278,20 @@
 
 - (void)addRankData:(NSNotification *)noti{
     self.rankModel = noti.object;
-    self.Ranking.text = [self.rankModel.rank stringValue];
-    self.smallTotalDistance.text = [self.rankModel.distance stringValue];
-    self.distanceGap.text = self.rankModel.prev_difference;
+    if (self.rankModel.prev_difference) {
+        self.Ranking.text = [self.rankModel.rank stringValue];
+        self.smallTotalDistance.text = [self.rankModel.distance stringValue];
+        self.distanceGap.text = self.rankModel.prev_difference;
+        self.totalDistance.text = [self.rankModel.total stringValue];
+        self.dayMileage.text = [self.rankModel.total stringValue];
+    }
+}
+
+- (void)addRecordData:(NSNotification *)noti{
+    ZYLRunningRecordModel *model = noti.object;
+    if (model.student_id) {
+        self.timeLabel.text = [ZYLRecordTimeString getTimeStringWithSecond:[model.end_time intValue] - [model.begin_time intValue]];
+    }
 }
 
 - (void)initbeginRuningBtu{

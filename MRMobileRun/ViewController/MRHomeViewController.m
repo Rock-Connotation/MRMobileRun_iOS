@@ -29,9 +29,9 @@
     
     //不同 Module 不需要再相互 import 各自的viewcontroller 。
     //所有 module 引入"MRRouterPublic.h" 通过 URL 来跳转，实现解耦，可以每人负责一个module
-    [MGJRouter openURL:kTestViewControllerPageURL withUserInfo:nil completion:^(id result) {
-        NSLog(@"打开了 testVC");
-    }];
+//    [MGJRouter openURL:kTestViewControllerPageURL withUserInfo:nil completion:^(id result) {
+//        NSLog(@"打开了 testVC");
+//    }];
 }
 /*
 #pragma mark - Navigation

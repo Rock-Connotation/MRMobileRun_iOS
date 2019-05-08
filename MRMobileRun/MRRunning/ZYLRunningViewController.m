@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <Masonry.h>
+#import <MGJRouter.h>
 #import "ZYLTimeStamp.h"
 #import "ZYLSteps.h"
 #import "ZYLUptateRunningData.h"
@@ -41,12 +42,10 @@
 @implementation ZYLRunningViewController
 
 - (void)viewWillAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"loadingRinningViewController" object:nil];
     self.title = @"开始跑步";
     [self.navigationController setNavigationBarHidden:NO];
     
     ZYLBackBtn *backBtn = [[ZYLBackBtn alloc] init];
-//    [backBtn setImage:[UIImage imageNamed:@"返回箭头4"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *barItem =[[UIBarButtonItem alloc] initWithCustomView: backBtn];
     self.navigationItem.leftBarButtonItem = barItem;
@@ -77,26 +76,49 @@
 
 //加载约束
 - (void)loadConstrains{
-    [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top);
-        make.left.equalTo(self.view.mas_left);
-        make.height.equalTo(self.view.mas_height).mas_offset(-200);
-        make.width.equalTo(self.view.mas_width);
-    }];
-    
-    [self.runTabView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mapView.mas_bottom);
-        make.left.equalTo(self.view.mas_left);
-        make.height.mas_equalTo(200);
-        make.width.equalTo(self.view.mas_width);
-    }];
-    
-    [self.recordView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).mas_offset(120);
-        make.left.equalTo(self.view.mas_left).mas_offset(20);
-        make.height.mas_equalTo(120);
-        make.width.equalTo(self.view.mas_width).mas_offset(-40);
-    }];
+    if (kIs_iPhoneX) {
+        [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top);
+            make.left.equalTo(self.view.mas_left);
+            make.height.equalTo(self.view.mas_height).mas_offset(-160);
+            make.width.equalTo(self.view.mas_width);
+        }];
+        
+        [self.runTabView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.mapView.mas_bottom);
+            make.left.equalTo(self.view.mas_left);
+            make.height.mas_equalTo(160);
+            make.width.equalTo(self.view.mas_width);
+        }];
+        
+        [self.recordView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).mas_offset(120);
+            make.left.equalTo(self.view.mas_left).mas_offset(20);
+            make.height.mas_equalTo(120);
+            make.width.equalTo(self.view.mas_width).mas_offset(-40);
+        }];
+    }else{
+        [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top);
+            make.left.equalTo(self.view.mas_left);
+            make.height.equalTo(self.view.mas_height).mas_offset(-130);
+            make.width.equalTo(self.view.mas_width);
+        }];
+        
+        [self.runTabView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.mapView.mas_bottom);
+            make.left.equalTo(self.view.mas_left);
+            make.height.mas_equalTo(130);
+            make.width.equalTo(self.view.mas_width);
+        }];
+        
+        [self.recordView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).mas_offset(85);
+            make.left.equalTo(self.view.mas_left).mas_offset(20);
+            make.height.mas_equalTo(100);
+            make.width.equalTo(self.view.mas_width).mas_offset(-40);
+        }];
+    }
 }
 
 - (void)startTimer{
@@ -293,7 +315,10 @@
 
 //上传数据，返回首页
 - (void)back{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+    [MGJRouter openURL:kMainVCPageURL
+          withUserInfo:@{@"navigationVC" : self.navigationController,
+                         }
+            completion:nil];
 }
 
 - (void)stopRunning:(UIButton *)sender{

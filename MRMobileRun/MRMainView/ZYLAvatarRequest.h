@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLAvatarRequest : NSObject
 
-+ (void)ZYLGetAvatarWithStudent_id:(NSString *)student_id;
++ (void)ZYLGetAvatar;
 
 @end
 

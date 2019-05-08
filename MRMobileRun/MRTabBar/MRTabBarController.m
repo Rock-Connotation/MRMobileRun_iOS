@@ -20,6 +20,7 @@
 #import "ZYLPersonalViewController.h"
 #import "ZYLRunningViewController.h"
 #import "XIGRankViewViewController.h"
+#import "LJJInviteRunVC.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 @interface MRTabBarController ()<MRTabBarViewDelegate>
@@ -57,7 +58,7 @@
     [self.tabView setTextArray: self.textArr];
     self.tabView.delegate = self;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideTabView) name:@"loadingRinningViewController" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideTabView) name:@"hideTabBar" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showTabView) name:@"showTabBar" object:nil];
 }
 
@@ -70,17 +71,16 @@
 - (void)addAllChildViewController{
     self.mainVC = [[ZYLMainViewController alloc] init];
     [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"首页icon（未许选中）" tag:0];
-    
+
     XIGRankViewViewController *vc2 = [[XIGRankViewViewController alloc] init];
     [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:@"排行榜icon（选中）" tag:1];
-    
+
     ZYLRunningViewController *vc3 = [[ZYLRunningViewController alloc] init];
     [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:@"开始跑步icon（按） 2" tag:2];
-    
-    UIViewController *vc4 = [[UIViewController alloc] init];
-    vc4.view.backgroundColor = [UIColor whiteColor];
+
+    LJJInviteRunVC *vc4 = [[LJJInviteRunVC alloc] init];
     [self addChildViewController:vc4 title:@"邀约" imageNamed:@"邀约icon（未选中）" selectedImageNamed:@"邀约icon（选中）" tag:4];
-    
+
     ZYLPersonalViewController *vc5 = [[ZYLPersonalViewController alloc] init];
     [self addChildViewController:vc5 title:@"我的" imageNamed:@"我的icon(未选中）" selectedImageNamed:@"我的icon（选中）" tag:5];
 }
@@ -99,6 +99,7 @@
     [self addChildViewController:nav];
 }
 
+
 - (void)hideTabView{
     self.tabView.hidden = YES;
 }
@@ -108,15 +109,11 @@
 }
 
 #pragma mark -  TabBarViewDelegate
--(void)tabBarView:(MRTabBarView *)view didSelectedItemAtIndex:(NSInteger)index
+- (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index
 {
-    // 切换到对应index的viewController
+//     切换到对应index的viewController
     self.selectedIndex = index;
     
-    //隐藏Tabbar
-//    if (index == 1) {
-//        self.tabView.hidden = YES;
-//    }
 }
 
 @end

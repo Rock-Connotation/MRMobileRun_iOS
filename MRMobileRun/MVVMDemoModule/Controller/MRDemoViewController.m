@@ -21,17 +21,17 @@
 @implementation MRDemoViewController
 
 #pragma mark - lifecycle
-+ (void)load {
-    [MGJRouter registerURLPattern:kTestViewControllerPageURL toHandler:^(NSDictionary *routerParameters) {
-        //调用者执行完 OpenUrl 方法的回调
-        //此处应该做对此 VC 的操作
-        
-        MRDemoViewController *demoVC = [[MRDemoViewController alloc] init];
-        UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        [nav pushViewController:demoVC animated:YES];
-    }];
-}
-    
+//+ (void)load {
+//    [MGJRouter registerURLPattern:kTestViewControllerPageURL toHandler:^(NSDictionary *routerParameters) {
+//        //调用者执行完 OpenUrl 方法的回调
+//        //此处应该做对此 VC 的操作
+//
+//        MRDemoViewController *demoVC = [[MRDemoViewController alloc] init];
+//        UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+//        [nav pushViewController:demoVC animated:YES];
+//    }];
+//}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

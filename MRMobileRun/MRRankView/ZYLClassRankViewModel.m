@@ -12,9 +12,12 @@
 
 @implementation ZYLClassRankViewModel
 + (void)ZYLGetClassRankWithPages:(NSString *)page andtime:(NSString *)time{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{@"time": time, @"rank": @"class_distance_rank", @"page": page};
-    [manager.requestSerializer setValue:kToken forHTTPHeaderField:@"token"];
+    [manager.requestSerializer setValue:token forHTTPHeaderField:@"token"];
     [manager GET:kRankListURL parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = responseObject;
         NSMutableArray *modelArray = [NSMutableArray array];
@@ -32,9 +35,12 @@
 }
 
 + (void)ZYLGetMyClassRankWithdtime:(NSString *)time{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    NSString *student_id = [user objectForKey:@"studentID"];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"time": time, @"rank": @"class_distance_rank", @"id": @"2017211903"};
-    [manager.requestSerializer setValue:kToken forHTTPHeaderField:@"token"];
+    NSDictionary *params = @{@"time": time, @"rank": @"class_distance_rank", @"id": student_id};
+    [manager.requestSerializer setValue:token forHTTPHeaderField:@"token"];
     [manager GET:kRankURL parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic = responseObject;
         NSDictionary *dataDic = dic[@"data"];

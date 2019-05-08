@@ -19,11 +19,14 @@
 @implementation ZYLUptateRunningData
 
 + (void)ZYLPostUninviteRunningDataWithDictionary:(NSDictionary *)dic{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    
     NSString *timeStamp = [ZYLTimeStamp getCodeTimeStamp];
-    NSString *str = [NSString stringWithFormat:@"%@.%@.%@",kToken,timeStamp,SALT];
+    NSString *str = [NSString stringWithFormat:@"%@.%@.%@",token,timeStamp,SALT];
     NSString *salt = [ZYLMD5Encrypt MD5ForLower32Bate: str];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager.requestSerializer setValue:kToken forHTTPHeaderField:@"token"];
+    [manager.requestSerializer setValue:token forHTTPHeaderField:@"token"];
     [manager.requestSerializer setValue:timeStamp forHTTPHeaderField:@"timestamp"];
     [manager.requestSerializer setValue:salt forHTTPHeaderField:@"signature"];
     
@@ -37,11 +40,14 @@
 }
 
 + (void)ZYLPostInviteRunningDataWithDictionary:(NSDictionary *)dic{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    
     NSString *timeStamp = [ZYLTimeStamp getCodeTimeStamp];
-    NSString *str = [NSString stringWithFormat:@"%@.%@.%@",kToken,timeStamp,SALT];
+    NSString *str = [NSString stringWithFormat:@"%@.%@.%@",token,timeStamp,SALT];
     NSString *salt = [ZYLMD5Encrypt MD5ForLower32Bate: str];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager.requestSerializer setValue:kToken forHTTPHeaderField:@"token"];
+    [manager.requestSerializer setValue:token forHTTPHeaderField:@"token"];
     [manager.requestSerializer setValue:timeStamp forHTTPHeaderField:@"timestamp"];
     [manager.requestSerializer setValue:salt forHTTPHeaderField:@"signature"];
     

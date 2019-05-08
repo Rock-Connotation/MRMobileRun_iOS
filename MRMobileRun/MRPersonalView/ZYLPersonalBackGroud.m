@@ -6,7 +6,6 @@
 //
 
 #import "ZYLPersonalBackGroud.h"
-#import "MRChineseLabel.h"
 #import <Masonry.h>
 @interface ZYLPersonalBackGroud()
 @property (nonatomic,strong) UIImageView *dividingLine;
@@ -18,8 +17,6 @@
 @property (nonatomic,strong) UIImageView *whiteBackground;
 //第一个文本框下的白色底板
 @property (nonatomic,strong) UIImageView *whiteBackgroundTwo;
-//第二个文本框下的白色底板
-@property (nonatomic,strong) MRChineseLabel *titleLabel;
 //界面标题
 @property (nonatomic,strong) MRChineseLabel *avatarLabel;
 //头像文字标签

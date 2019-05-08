@@ -18,8 +18,11 @@
 
 @implementation ZYLChangeNickname
 + (void)uploadChangedNickname:(NSString *)nickname{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager.requestSerializer setValue: kToken forHTTPHeaderField: @"token"];
+    [manager.requestSerializer setValue: token forHTTPHeaderField: @"token"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSDictionary *dic = @{@"nickname": nickname};
     __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];

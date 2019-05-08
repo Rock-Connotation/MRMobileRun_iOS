@@ -11,7 +11,10 @@
 
 @implementation ZYLAvatarRequest
 
-+ (void)ZYLGetAvatarWithStudent_id:(NSString *)student_id{
++ (void)ZYLGetAvatar{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *student_id = [user objectForKey:@"studentID"];
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
 //    由于返回数据是NSData需要设置这一句，不然直接错误了
     manager.responseSerializer = [[AFHTTPResponseSerializer alloc]init];

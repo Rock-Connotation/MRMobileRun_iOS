@@ -7,15 +7,18 @@
 
 #import "ZYLMainViewController.h"
 #import "ZYLMainView.h"
-
-@interface ZYLMainViewController ()
+#import "MRTabBar.h"
+#import <MGJRouter.h>
+@interface ZYLMainViewController () <MRTabBarViewDelegate>
 @property (strong, nonatomic) ZYLMainView *mainView;
 @property (strong, nonatomic) WeProgressCircle *progressCircle;
+@property (strong, nonatomic) MRTabBar *tab;
+@property (assign, nonatomic) CGFloat tabBarHeight;
 @end
 
 @implementation ZYLMainViewController
 - (void)viewWillAppear:(BOOL)animated{
-     [super viewWillAppear:animated];
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -29,9 +32,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview: self.mainView];
+    self.tab = [[MRTabBar alloc] initWithFrame:CGRectMake(0, screenHeigth-kTabBarHeight, screenWidth, kTabBarHeight)];
+    [self.view addSubview:self.tab];
+    self.tab.tabView.delegate = self;
+//    [self.view bringSubviewToFront:self.tab.tabView];
     // Do any additional setup after loading the view.
 }
 //隐藏navigationBar
+- (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index
+{
+    // 切换到对应index的viewController
+    //    self.selectedIndex = index;
+    switch (index) {
+        case 1:
+            [MGJRouter openURL:kRankVCPageURL
+                  withUserInfo:@{@"navigationVC" : self.navigationController,
+                                 }
+                    completion:nil];
+            break;
+        case 2:
+            [MGJRouter openURL:kRunningVCPageURL
+                  withUserInfo:@{@"navigationVC" : self.navigationController,
+                                 }
+                    completion:nil];
+            break;
+        case 3:
+            [MGJRouter openURL:kInviteVCPageURL
+                  withUserInfo:@{@"navigationVC" : self.navigationController,
+                                 }
+                    completion:nil];
+            break;
+        case 4:
+            [MGJRouter openURL:kPersonnalVCPageURL
+                  withUserInfo:@{@"navigationVC" : self.navigationController,
+                                 }
+                    completion:nil];
+        default:
+            break;
+    }
+}
+
 
 - (ZYLMainView *)mainView{
     if (!_mainView) {
@@ -40,5 +80,6 @@
     }
     return _mainView;
 }
+
 
 @end

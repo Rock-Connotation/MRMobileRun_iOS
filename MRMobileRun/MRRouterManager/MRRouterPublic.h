@@ -11,5 +11,11 @@
 //
 //#endif /* MRRouterPublic_h */
 
-#define kTestViewControllerPageURL @"MRHome/test"
+#define kMainVCPageURL @"ZYL://pushMainVC"
+#define kPersonnalVCPageURL @"ZYL://pushPersonnalVC"
+#define kRankVCPageURL @"ZYL://pushRankVC"
+#define kRunningVCPageURL @"ZYL://pushRunningVC"
+#define kInviteVCPageURL @"ZYL://pushInviteVC"
+#define kLoginVCPageURL @"ZYL://pushLoginVC"
+//#define kHistoryVCPageURL @"ZYL://pushHistoryVC"
 

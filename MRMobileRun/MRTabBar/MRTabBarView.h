@@ -11,7 +11,7 @@
 
 @protocol MRTabBarViewDelegate <NSObject>
 
-- (void)tabBarView:(MRTabBarView *) view didSelectedItemAtIndex:(NSInteger) index;
+- (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index;
 
 @end
 NS_ASSUME_NONNULL_BEGIN

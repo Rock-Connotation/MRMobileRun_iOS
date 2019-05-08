@@ -68,7 +68,7 @@
     self.kmLabel.textColor = [UIColor colorWithRed:148.0/255.0 green:147.0/255.0 blue:174.0/255.0 alpha:1];
     [self addSubview:self.kmLabel];
     [self.kmLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.mas_centerX).mas_offset(-15);
+        make.right.equalTo(self.mas_centerX).mas_offset(-10);
         make.bottom.equalTo(self.mas_bottom).mas_offset(-25);
         make.width.mas_equalTo(30);
         make.height.mas_equalTo(20);

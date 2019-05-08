@@ -6,9 +6,9 @@
 //
 
 #import "AppDelegate.h"
-#import "MRTabBar/MRTabBarController.h"
-#import "MRMainTabBarController.h"
-
+#import "ZYLMainViewController.h"
+#import "MRLoginViewController.h"
+//#import "MRRouterManager.h"
 @interface AppDelegate ()
 
 @end
@@ -18,10 +18,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    MRTabBarController *tabBarVC = [[MRTabBarController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tabBarVC];
-    self.window.rootViewController = nav;
-    [self.window makeKeyAndVisible];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    MRLoginViewController *loginVC = [[MRLoginViewController alloc] init];
+    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
+    self.window.rootViewController = loginVC;
+    if ([user valueForKey:@"studentID"]) {
+        self.window.rootViewController = nav;
+        [self.window makeKeyAndVisible];
+    }
+    else{
+        self.window.rootViewController = loginVC;
+        [self.window makeKeyAndVisible];
+    }
     self.window.backgroundColor = [UIColor whiteColor];
     return YES;
 }

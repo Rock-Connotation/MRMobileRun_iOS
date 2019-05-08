@@ -9,8 +9,10 @@
 #import "ZYLPersonalInformationView.h"
 #import "ZYLUploadAvatar.h"
 #import "ZYLChangeNickname.h"
+#import "ZYLPhotoSelectedVIew.h"
+#import "ZYLBackBtn.h"
 #import <MBProgressHUD.h>
-
+#import <MGJRouter.h>
 @interface ZYLPersonalViewController () <UITextFieldDelegate>
 
 @property (strong, nonatomic) ZYLPersonalInformationView *personalInformationView;
@@ -23,7 +25,11 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden: YES];
-    
+//    self.title = @"个人信息";
+//    ZYLBackBtn *backBtn = [[ZYLBackBtn alloc] init];
+//    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *barItem =[[UIBarButtonItem alloc] initWithCustomView: backBtn];
+//    self.navigationItem.leftBarButtonItem = barItem;
 }
 
 - (void)viewDidLoad {
@@ -33,12 +39,33 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)back{
+    [MGJRouter openURL:kMainVCPageURL
+          withUserInfo:@{@"navigationVC" : self.navigationController,
+                         }
+            completion:nil];
+}
+
 - (void)clickLogoutBtu{
-    NSLog(@"点击");
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSDictionary *dic = [userDefaults dictionaryRepresentation];
+    for (id  key in dic) {
+        [userDefaults removeObjectForKey:key];
+    }
+    [userDefaults synchronize];
+    [MGJRouter openURL:kLoginVCPageURL
+          withUserInfo:@{@"navigationVC" : self.navigationController,
+                         }
+            completion:nil];
 }
 
 - (void)clickAvatarBtu{
-    NSLog(@"点击");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageWithData: [defaults objectForKey:@"myAvatar"]];
+    ZYLPhotoSelectedVIew *selectView = [ZYLPhotoSelectedVIew selectViewWithDestinationImageView: imageView delegate:self];
+    [self.view  addSubview:selectView];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
@@ -78,10 +105,10 @@
 - (ZYLPersonalInformationView *)personalInformationView{
     if (!_personalInformationView) {
         _personalInformationView = [[ZYLPersonalInformationView alloc] init];
-        _personalInformationView.frame = self.view.frame;
+        _personalInformationView.frame = CGRectMake(0, 0, screenWidth, screenHeigth);
         _personalInformationView.nickameTextField.delegate = self;
         _personalInformationView.nickameTextField.returnKeyType = UIReturnKeyDone;
-//        [_personalInformationView.backBtu addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [_personalInformationView.backBtu addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [_personalInformationView.logoutBtu addTarget:self action:@selector(clickLogoutBtu) forControlEvents:UIControlEventTouchUpInside];
         
         [_personalInformationView.avatarBtu addTarget:self action:@selector(clickAvatarBtu) forControlEvents:UIControlEventTouchUpInside];

@@ -19,7 +19,7 @@
 @implementation ZYLRunningTabView
 - (instancetype)init{
     if (self = [super init]) {
-        self.frame = CGRectMake(0, 0, screenWidth, 200);
+        self.frame = CGRectMake(0, 0, screenWidth, 160);
         [self initUI];
         
         return self;
@@ -40,13 +40,23 @@
 //    self.pauseAndResumeBtu.contentEdgeInsets = UIEdgeInsetsMake(screenHeigth *48.0 /1334,screenWidth *56.0/750, screenHeigth *64.0 /1334, screenWidth *52.0/750);
     [self addSubview:self.pauseAndResumeBtu];
     [self.pauseAndResumeBtu setTitle:@"暂停" forState:UIControlStateNormal];
-    [self.pauseAndResumeBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1074.0/1334.0*screenHeigth, 121.0/750*screenWidth, 50.0/1334.0*screenHeigth, 422.0/750.0*screenWidth));
-        make.left.equalTo(self.mas_left).mas_offset(50);
-        make.centerY.equalTo(self.mas_centerY).mas_offset(0);
-        make.width.mas_equalTo(120);
-        make.height.mas_equalTo(120);
-    }];
+    if (kIs_iPhoneX) {
+        [self.pauseAndResumeBtu mas_makeConstraints:^(MASConstraintMaker *make) {
+            //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1074.0/1334.0*screenHeigth, 121.0/750*screenWidth, 50.0/1334.0*screenHeigth, 422.0/750.0*screenWidth));
+            make.left.equalTo(self.mas_left).mas_offset(50);
+            make.centerY.equalTo(self.mas_centerY).mas_offset(0);
+            make.width.mas_equalTo(120);
+            make.height.mas_equalTo(120);
+        }];
+    }else{
+        [self.pauseAndResumeBtu mas_makeConstraints:^(MASConstraintMaker *make) {
+            //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1074.0/1334.0*screenHeigth, 121.0/750*screenWidth, 50.0/1334.0*screenHeigth, 422.0/750.0*screenWidth));
+            make.left.equalTo(self.mas_left).mas_offset(50);
+            make.centerY.equalTo(self.mas_centerY).mas_offset(0);
+            make.width.mas_equalTo(100);
+            make.height.mas_equalTo(100);
+        }];
+    }
 }
 
 - (void)initstopBtu{
@@ -55,27 +65,28 @@
     self.stopBtu = [[MRStopBtu alloc]init];
     [self addSubview:self.stopBtu];
 //    self.stopBtu.contentEdgeInsets = UIEdgeInsetsMake(screenHeigth *48.0 /1334,screenWidth *60.0/750, screenHeigth *64.0 /1334, screenWidth *56.0/750);
-    [self.stopBtu mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1074.0/1334.0*screenHeigth, 420.0/750*screenWidth, 50.0/1334.0*screenHeigth, 123.0/750.0*screenWidth));
-        make.right.equalTo(self.mas_right).mas_offset(-50);
-        make.centerY.equalTo(self.mas_centerY).mas_offset(0);
-        make.width.mas_equalTo(120);
-        make.height.mas_equalTo(120);
-    }];
+    if (kIs_iPhoneX) {
+        [self.stopBtu mas_makeConstraints:^(MASConstraintMaker *make) {
+            //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1074.0/1334.0*screenHeigth, 121.0/750*screenWidth, 50.0/1334.0*screenHeigth, 422.0/750.0*screenWidth));
+            make.right.equalTo(self.mas_right).mas_offset(-50);
+            make.centerY.equalTo(self.mas_centerY).mas_offset(0);
+            make.width.mas_equalTo(120);
+            make.height.mas_equalTo(120);
+        }];
+    }else{
+        [self.stopBtu mas_makeConstraints:^(MASConstraintMaker *make) {
+            //        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(1074.0/1334.0*screenHeigth, 121.0/750*screenWidth, 50.0/1334.0*screenHeigth, 422.0/750.0*screenWidth));
+            make.right.equalTo(self.mas_right).mas_offset(-50);
+            make.centerY.equalTo(self.mas_centerY).mas_offset(0);
+            make.width.mas_equalTo(100);
+            make.height.mas_equalTo(100);
+        }];
+    }
     
 }
 
 
 
-//- (void)initshowLabel{
-//    self.showColumnView = [[MRShowColumnView alloc]init];
-//    [self addSubview:self.showColumnView];
-//    [self.showColumnView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(161.0/1334.0*screenHeigth, 43.0/750*screenWidth, 972.0/1334.0*screenHeigth, 42.0/750.0*screenWidth));
-//    }];
-//    [self bringSubviewToFront:self.showColumnView];
-//
-//}
 
 - (void)initBackGruondView{
     self.bottomImageView = [[UIImageView alloc]init];

@@ -9,7 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZYLPhotoSelectedVIew : UIView
+@interface ZYLPhotoSelectedVIew : UIView <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
++ (instancetype)selectViewWithDestinationImageView:(UIImageView *)imageView delegate:(UIViewController *)delegate;
 
 @end
 

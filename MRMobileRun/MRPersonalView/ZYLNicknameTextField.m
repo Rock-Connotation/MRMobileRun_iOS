@@ -19,9 +19,11 @@
 }
 
 - (void)initTextField{
-    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *nickname = [user objectForKey:@"nickname"];
     self.textAlignment = NSTextAlignmentRight;
     self.font =[UIFont fontWithName:@"DINAlternate-Bold" size:16.0*screenWidth/414.0];
+    self.text = nickname;
 }
 
 /*

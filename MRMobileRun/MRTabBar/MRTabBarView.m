@@ -14,16 +14,12 @@
 #import "MRTabBarView.h"
 #define SELECTED_COLOR [UIColor colorWithRed:0 green:0 blue:31.0/255.0 alpha:1]
 #define DEFAULT_COLOR [UIColor colorWithRed:175.0/255.0 green:157.0/255.0 blue:206.0/255.0 alpha:1]
-#define screenHeigth [UIScreen mainScreen].bounds.size.height
-#define screenWidth [UIScreen mainScreen].bounds.size.width
 @implementation MRTabBarView
 
 
 - (void)setTextArray:(NSMutableArray *)textArray{
     _textArray = textArray;
     self.labArray = [NSMutableArray array];
-    CGFloat WIDTH = self.bounds.size.width;
-    NSLog(@"%f",WIDTH);
     for (int i = 0; i < _array.count; i++) {
 //        判断是否属于中心的button
 //        如果tabBarItems不是偶数，记得加个判断（不过我觉得不可能滴）
@@ -35,7 +31,7 @@
             [self addSubview: btn];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.mas_top).mas_offset(9);
-                make.left.mas_equalTo(i*WIDTH/self.textArray.count + WIDTH/self.textArray.count/2-10);
+                make.left.mas_equalTo(i*screenWidth/self.textArray.count + screenWidth/self.textArray.count/2-10);
                 make.width.mas_equalTo(20);
                 make.height.mas_equalTo(20);
             }];
@@ -64,12 +60,21 @@
             btn.tag = i;
              [btn addTarget:self action:@selector(selectedItem:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:btn];
-            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                 make.top.equalTo(self.mas_top).mas_offset(-30);
-                 make.centerX.mas_equalTo(self.mas_centerX);
-                make.width.mas_equalTo(80);
-                make.height.mas_equalTo(80);
-             }];
+            if (kIs_iPhoneX) {
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.mas_top).mas_offset(-30);
+                    make.centerX.mas_equalTo(self.mas_centerX);
+                    make.width.mas_equalTo(80);
+                    make.height.mas_equalTo(80);
+                }];
+            }else{
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.mas_top).mas_offset(-15);
+                    make.centerX.mas_equalTo(self.mas_centerX);
+                    make.width.mas_equalTo(60);
+                    make.height.mas_equalTo(60);
+                }];
+            }
         }
 
     }
@@ -82,7 +87,7 @@
 {
     // button的tag对应tabBarController的selectedIndex
     // 设置选中button的样式
-    self.selectIndex = sender.tag;
+//    self.selectIndex = sender.tag;
     // 让代理来处理切换viewController的操作
     if ([self.delegate respondsToSelector:@selector(tabBarView:didSelectedItemAtIndex:)]) {
         [self.delegate tabBarView:self didSelectedItemAtIndex:sender.tag];
