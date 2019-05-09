@@ -67,9 +67,9 @@
 //BeforeView的初始化
 - (void)setBeforeView:(ZYLRankModel *)rankModel{
     //在本地拿头像
-    NSString *path_document = NSHomeDirectory();
-    NSString *imagePath = [path_document stringByAppendingString:@"/Documents/avatar.png"];
-    UIImage *avatarImage = [UIImage imageWithContentsOfFile:imagePath];
+    NSUserDefaults *user = [[NSUserDefaults alloc]init];
+    NSData *data = [user objectForKey:@"myAvatar"];
+    UIImage *avatarImage = [UIImage imageWithData:data];
 
     _you = [[XIGBeforeYou alloc]init];
     _you.frame = CGRectMake(0, _btnArray[1].bottom + 1, screenWidth, 160);
@@ -176,7 +176,7 @@
 }
 #pragma mark 数据的交互
 - (void)loadDate:(NSString *)style{
-    [ZYLStudentRankViewModel ZYLGetMyStudentRankWithdtime: self.time];
+    [ZYLStudentRankViewModel ZYLGetStudentRankWithPages:self.page andtime: self.time];
     _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _hud.mode = MBProgressHUDModeText;
     _hud.label.text = @"正在加载数据";
@@ -197,6 +197,8 @@
         }
         else{
             _errorLab.text = @"暂无数据";
+            NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
             [self.view addSubview:_errorLab];
         }
     }
@@ -229,16 +231,23 @@
 -(void)UpdateYouView:(NSNotification *)notification{
     ZYLRankModel *rankModel = notification.object;
     [_you removeFromSuperview];
-    if (rankModel) {
+    if (rankModel.college) {
         [self setBeforeView: rankModel];
-        [ZYLStudentRankViewModel ZYLGetStudentRankWithPages:self.page andtime:self.time];
+        [ZYLStudentRankViewModel ZYLGetMyStudentRankWithdtime:self.time];
     }
     else{
         [_hud hideAnimated:YES];
         _errorLab.text = @"暂无数据";
+        NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
         [self.view addSubview:_errorLab];
     }
     
+}
+- (void)timerAction:(NSTimer *)timer{
+    [self.errorLab removeFromSuperview];
+    [timer invalidate];
+    timer = nil;
 }
 //下拉加载数据
 - (void)reloadData{
@@ -284,11 +293,11 @@
     }
     [cell.headImageView removeAllSubviews];
     ZYLStudentRankModel *model = _array[indexPath.row];
-//    NSString *urlString = [[NSString alloc]initWithFormat:@"http://running-together.redrock.team/sanzou/user/image/%@",dic[@"student_id"]];
-//    NSURL *imagePath = [NSURL URLWithString:urlString];
-//    UIImageView *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, cell.headImageView.width, cell.headImageView.height)];
-//    [headImage  sd_setImageWithURL:imagePath];
-//    [cell.headImageView addSubview:headImage];
+    NSString *urlString = [[NSString alloc]initWithFormat:@"%@%@.jpg",kAvatorURL,model.student_id];
+    NSURL *imagePath = [NSURL URLWithString:urlString];
+    UIImageView *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, cell.headImageView.width, cell.headImageView.height)];
+    [headImage  sd_setImageWithURL:imagePath];
+    [cell.headImageView addSubview:headImage];
    
     cell.nameLabel.text = model.nickname;
     cell.schoolLabel.text = model.college;

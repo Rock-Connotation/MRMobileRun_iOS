@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)initLeaderboard;
 - (void)initProgressCircle;
 @property (nonatomic,strong) WeProgressCircle *progressCircle;
-
+@property (nonatomic,strong) UILabel *timeRecordLabel;
 @end
 
 NS_ASSUME_NONNULL_END

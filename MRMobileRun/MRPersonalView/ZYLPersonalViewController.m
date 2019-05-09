@@ -19,23 +19,19 @@
 @property (nonatomic,strong) MBProgressHUD *hud;
 //@property (nonatomic,strong) UIImageView *imageView;
 @property (nonatomic,strong) NSMutableDictionary *nicknameDic;
+@property (strong, nonatomic) UIImageView *imageView;
 @end
 
 @implementation ZYLPersonalViewController
 
 - (void)viewWillAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden: YES];
-//    self.title = @"个人信息";
-//    ZYLBackBtn *backBtn = [[ZYLBackBtn alloc] init];
-//    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *barItem =[[UIBarButtonItem alloc] initWithCustomView: backBtn];
-//    self.navigationItem.leftBarButtonItem = barItem;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview: self.personalInformationView];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAvatar:)  name:@"getAvatar" object:nil];
     // Do any additional setup after loading the view.
 }
 
@@ -62,10 +58,22 @@
 
 - (void)clickAvatarBtu{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageWithData: [defaults objectForKey:@"myAvatar"]];
-    ZYLPhotoSelectedVIew *selectView = [ZYLPhotoSelectedVIew selectViewWithDestinationImageView: imageView delegate:self];
+    self.imageView = [[UIImageView alloc] init];
+    self.imageView.image = [UIImage imageWithData: [defaults objectForKey:@"myAvatar"]];
+    ZYLPhotoSelectedVIew *selectView = [ZYLPhotoSelectedVIew selectViewWithDestinationImageView: self.imageView delegate:self];
     [self.view  addSubview:selectView];
+}
+
+- (void)getAvatar:(NSNotification*)notification{
+    NSLog(@"\n\n\n\n获取成功\n\n\n\n");
+    NSData *imageData = UIImageJPEGRepresentation(self.imageView.image, 1);
+//    //        将图片存储在本地
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:imageData forKey: @"myAvatar"];
+    [defaults synchronize];
+    [self.personalInformationView.avatarBtu  setImage:self.imageView.image forState:UIControlStateNormal];
+
+    [ZYLUploadAvatar UpdateAvatarWithImage:self.imageView.image];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{

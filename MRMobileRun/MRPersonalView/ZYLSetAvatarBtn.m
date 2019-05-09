@@ -22,11 +22,9 @@
     self.frame = CGRectMake(0, 0, 60, 60);
     
     
-    NSString *path_document = NSHomeDirectory();
-    //图片的存储路径
-    NSString *imagePath = [path_document stringByAppendingString:@"/Documents/avatar.png"];
-    
-    UIImage *avatarImage = [UIImage imageWithContentsOfFile:imagePath];
+    NSUserDefaults *user = [[NSUserDefaults alloc]init];
+    NSData *data = [user objectForKey:@"myAvatar"];
+    UIImage *avatarImage = [UIImage imageWithData:data];
     
     
     

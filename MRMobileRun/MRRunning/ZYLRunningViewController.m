@@ -5,6 +5,10 @@
 //  Created by 丁磊 on 2019/5/2.
 //
 
+/*
+ *定位不是很准
+ *后面再改个sdk
+ */
 
 #import "ZYLRunningViewController.h"
 #import <CoreLocation/CoreLocation.h>
@@ -68,9 +72,9 @@
     
     self.manager = [[CLLocationManager alloc] init];
     [self.manager requestAlwaysAuthorization];
-    self.manager.delegate=self;
-    self.manager.distanceFilter = 20;
-    self.manager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.manager.delegate= self;
+    self.manager.distanceFilter = 10;
+    self.manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [self.manager startUpdatingLocation];
 }
 

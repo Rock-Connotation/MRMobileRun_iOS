@@ -247,7 +247,7 @@
     [self addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.totalDistance.mas_top).mas_offset(5);
-        make.right.equalTo(self.mas_right).mas_offset(-90);
+        make.left.equalTo(self.backGroundView.timeRecordLabel.mas_left);
         make.width.mas_equalTo(120);
         make.height.mas_equalTo(50);
     }];

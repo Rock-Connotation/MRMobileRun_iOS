@@ -21,8 +21,8 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager.requestSerializer setValue: token forHTTPHeaderField:@"token"];
-//    记得改拿出本地存储的student_id
-    __block NSString *student_id = @"2017210338";
+
+    __block NSString *student_id = [user objectForKey:@"studentID"];
     __block NSData *avatar = UIImageJPEGRepresentation(image, 1);
     
     [manager POST: kUploadAvatarUrl parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {

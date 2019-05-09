@@ -155,7 +155,7 @@
 }
 
 - (void)loadDate:(NSString *)style{
-    [ZYLClassRankViewModel ZYLGetMyClassRankWithdtime: self.time];
+    [ZYLClassRankViewModel ZYLGetClassRankWithPages:self.page andtime: self.time];
     _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _hud.mode = MBProgressHUDModeText;
     _hud.label.text = @"正在加载数据";
@@ -177,6 +177,8 @@
         }
         else{
             _errorLab.text = @"暂无数据";
+            NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
             [self.view addSubview:_errorLab];
         }
     }
@@ -209,17 +211,26 @@
 -(void)UpdateClassView:(NSNotification *)notification{
     ZYLRankModel *model = notification.object;
     [_classView removeFromSuperview];
-    if (model) {
+    if (model.distance) {
         [self setUpClassView: model];
-        [ZYLClassRankViewModel ZYLGetClassRankWithPages: self.page andtime:self.time];
+        [ZYLClassRankViewModel ZYLGetMyClassRankWithdtime: self.time];
     }
     else{
         [_hud hideAnimated:YES];
         _errorLab.text = @"暂无数据";
+        NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
         [self.view addSubview:_errorLab];
     }
     
 }
+
+- (void)timerAction:(NSTimer *)timer{
+    [self.errorLab removeFromSuperview];
+    [timer invalidate];
+    timer = nil;
+}
+
 - (void)reloadData{
     NSInteger page = [[self.page numberValue] integerValue];
     page++;

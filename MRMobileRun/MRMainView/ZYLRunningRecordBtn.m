@@ -15,7 +15,7 @@
     if (self) {
         self.frame = CGRectMake(0, 0, 100, 100);
         [self setImage:[UIImage imageNamed:@"跑步记录右按钮"] forState:UIControlStateNormal];
-        [self addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
+
         
         self.runningRecordImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
         self.runningRecordImageView.image = [UIImage imageNamed:@"路程按钮icon"];

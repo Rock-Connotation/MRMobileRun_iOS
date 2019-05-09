@@ -20,13 +20,13 @@
 + (void)uploadChangedNickname:(NSString *)nickname{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
-    
+    NSString *student_id = [user objectForKey:@"studentID"];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager.requestSerializer setValue: token forHTTPHeaderField: @"token"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSDictionary *dic = @{@"nickname": nickname};
     __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSDictionary *param = @{@"student_id": @"2017210338", @"data": data};
+    NSDictionary *param = @{@"student_id": student_id, @"data": data};
     
     [manager POST:kNicknameUrl parameters: param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         ;

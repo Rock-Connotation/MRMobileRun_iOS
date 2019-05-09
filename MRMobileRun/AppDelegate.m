@@ -8,7 +8,7 @@
 #import "AppDelegate.h"
 #import "ZYLMainViewController.h"
 #import "MRLoginViewController.h"
-//#import "MRRouterManager.h"
+#import "MRLoginModel.h"
 @interface AppDelegate ()
 
 @end
@@ -25,6 +25,8 @@
     self.window.rootViewController = loginVC;
     if ([user valueForKey:@"studentID"]) {
         self.window.rootViewController = nav;
+        MRLoginModel *model = [[MRLoginModel alloc] init];
+        [model postRequestWithStudentID:[user valueForKey:@"studentID"] andPassword:[user valueForKey:@"password"]];
         [self.window makeKeyAndVisible];
     }
     else{

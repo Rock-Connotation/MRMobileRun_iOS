@@ -104,6 +104,8 @@
 		2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB21107227D77D0000D5A2E /* ZYLMD5Encrypt.m */; };
 		2FB2110B22806711000D5A2E /* ZYLRecordTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */; };
 		2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */; };
+		2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25122845E3300779B7B /* AVFoundation.framework */; };
+		2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25322845E3B00779B7B /* Photos.framework */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
 		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
 		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
@@ -326,6 +328,8 @@
 		2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRecordTimeString.m; sourceTree = "<group>"; };
 		2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZYLBackBtn.h; path = MRRunning/ZYLBackBtn.h; sourceTree = "<group>"; };
 		2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZYLBackBtn.m; path = MRRunning/ZYLBackBtn.m; sourceTree = "<group>"; };
+		2FF4B25122845E3300779B7B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2FF4B25322845E3B00779B7B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -363,6 +367,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */,
+				2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */,
 				2F60AB48227C934A00109420 /* CoreMotion.framework in Frameworks */,
 				2F6DF0C4227B303900BA6099 /* HealthKit.framework in Frameworks */,
 				2F6DF0BC227B2E4A00BA6099 /* CoreLocation.framework in Frameworks */,
@@ -400,6 +406,8 @@
 		2B186BF3715610DC086E3283 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2FF4B25322845E3B00779B7B /* Photos.framework */,
+				2FF4B25122845E3300779B7B /* AVFoundation.framework */,
 				2F60AB47227C934900109420 /* CoreMotion.framework */,
 				2F6DF0C3227B303900BA6099 /* HealthKit.framework */,
 				2F6DF0BB227B2E4A00BA6099 /* CoreLocation.framework */,

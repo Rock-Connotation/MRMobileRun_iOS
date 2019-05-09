@@ -56,10 +56,9 @@
     [ZYLInvitationRankViewModel ZYLGetMyInvitationRankWithdtime: self.time];
 }
 - (void)setBeforeView:(ZYLRankModel *)model{
-    NSString *path_document = NSHomeDirectory();
-    //图片的存储路径
-    NSString *imagePath = [path_document stringByAppendingString:@"/Documents/avatar.png"];
-    UIImage *avatarImage = [UIImage imageWithContentsOfFile:imagePath];
+    NSUserDefaults *user = [[NSUserDefaults alloc]init];
+    NSData *data = [user objectForKey:@"myAvatar"];
+    UIImage *avatarImage = [UIImage imageWithData:data];
     _you = [[XIGBeforeYou alloc]init];
     _you.frame = CGRectMake(0, _btnArray[1].bottom + 1, screenWidth, 160);
     _you.nameLabel.text = model.nickname;
@@ -160,7 +159,7 @@
     
 }
 - (void)loadDate:(NSString *)style{
-    [ZYLInvitationRankViewModel ZYLGetMyInvitationRankWithdtime: self.time];
+    [ZYLInvitationRankViewModel ZYLGetInvitationRankWithPages:self.page andtime: self.time];
     _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _hud.mode = MBProgressHUDModeText;
     _hud.label.text = @"正在加载数据";
@@ -181,6 +180,8 @@
         }
         else{
             _errorLab.text = @"暂无数据";
+            NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
             [self.view addSubview:_errorLab];
         }
     }
@@ -212,17 +213,26 @@
 -(void)UpdateYouView:(NSNotification *)notification{
     ZYLRankModel *model = notification.object;
     [_you removeFromSuperview];
-    if (model) {
+    if (model.college) {
         [self setBeforeView:model];
-        [ZYLInvitationRankViewModel ZYLGetInvitationRankWithPages: self.page andtime: self.time];
+        [ZYLInvitationRankViewModel ZYLGetMyInvitationRankWithdtime:self.time];
     }
     else{
         [_hud hideAnimated:YES];
         _errorLab.text = @"暂无数据";
+        NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
         [self.view addSubview:_errorLab];
     }
     
 }
+
+- (void)timerAction:(NSTimer *)timer{
+    [self.errorLab removeFromSuperview];
+    [timer invalidate];
+    timer = nil;
+}
+
 - (void)reloadData{
     NSInteger page = [[self.page numberValue] integerValue];
     page += 1;
@@ -278,11 +288,11 @@
     cell.schoolLabel.text = model.college;
     double total = [model.total doubleValue];
     cell.recordLabel.text = [NSString stringWithFormat:@"%.2fPts", total];
-//    NSString *urlString = [[NSString alloc]initWithFormat:@"http://running-together.redrock.team/sanzou/user/image/%@",dic[@"student_id"]];
-//    NSURL *imagePath = [NSURL URLWithString:urlString];
-//    UIImageView *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, cell.headImageView.width, cell.headImageView.height)];
-//    [headImage  sd_setImageWithURL:imagePath];
-//    [cell.headImageView addSubview:headImage];
+    NSString *urlString = [[NSString alloc]initWithFormat:@"%@%@.jpg",kAvatorURL,model.student_id];
+    NSURL *imagePath = [NSURL URLWithString:urlString];
+    UIImageView *headImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, cell.headImageView.width, cell.headImageView.height)];
+    [headImage  sd_setImageWithURL:imagePath];
+    [cell.headImageView addSubview:headImage];
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

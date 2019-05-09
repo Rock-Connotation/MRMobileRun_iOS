@@ -50,6 +50,8 @@
             
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"nickname"] forKey:@"nickname"];
             //存储昵称
+            [user setObject:password forKey:@"password"];
+            [user synchronize];
             //请求成功时发送广播
             [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginSuccess" object:nil];
             NSLog(@"%@",responseObject);

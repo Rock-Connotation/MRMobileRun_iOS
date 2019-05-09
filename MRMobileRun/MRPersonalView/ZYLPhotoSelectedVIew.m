@@ -7,6 +7,9 @@
 
 #import "ZYLPhotoSelectedVIew.h"
 #import "WeKit.h"
+#import <Photos/Photos.h>
+#import <AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
 #import <Masonry.h>
 
 static const NSInteger alertColor = 0xef6253;
@@ -36,6 +39,7 @@ static const NSInteger normalColor = 0x1A165B;
         self.rateY = ScreenHeight / 667;
         self.destinationImageView = imageView;
         self.delegate = delegate;
+        
         [self initEffectView];
         [self initAlertView];
     }
@@ -44,6 +48,14 @@ static const NSInteger normalColor = 0x1A165B;
     
     return self;
     
+}
+
+- (void)getCameraAndAlbumPrivicy{
+    PHAuthorizationStatus photoStatus = [PHPhotoLibrary authorizationStatus];
+    printf("%s",photoStatus);
+    
+    AVAuthorizationStatus avStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    printf("%s",avStatus);
 }
 
 - (void)initEffectView {

@@ -23,7 +23,6 @@
 @property (nonatomic,strong) UILabel *runningRecordLabel;
 @property (nonatomic,strong) UILabel *distanceLabel;
 @property (nonatomic,strong) UILabel *KMLabel;
-@property (nonatomic,strong) UILabel *timeRecordLabel;
 //跑步记录周围的灰色文字
 @property (nonatomic,strong) UILabel *leaderboardLabel;
 @property (nonatomic,strong) UILabel *rankingLabel;
