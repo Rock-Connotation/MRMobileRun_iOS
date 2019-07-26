@@ -17,7 +17,6 @@
 
 @property (strong, nonatomic) ZYLPersonalInformationView *personalInformationView;
 @property (nonatomic,strong) MBProgressHUD *hud;
-//@property (nonatomic,strong) UIImageView *imageView;
 @property (nonatomic,strong) NSMutableDictionary *nicknameDic;
 @property (strong, nonatomic) UIImageView *imageView;
 @end
@@ -43,15 +42,30 @@
 }
 
 - (void)clickLogoutBtu{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
+    //程序易崩原因:
+    //查询邀约是否成功接口反应时间为7.77
+    //登陆成功后轮询是否收到邀约
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"turnOffTimer" object:nil];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *dic = [userDefaults dictionaryRepresentation];
-    for (id  key in dic) {
-        [userDefaults removeObjectForKey:key];
+    for (NSString *key in [dic allKeys])
+    {
+        if (![[userDefaults objectForKey:key] isEqual:nil])
+        {
+            NSLog(@"非空%@ is %@",key,[userDefaults objectForKey:key]);
+            [userDefaults removeObjectForKey:key];
+        }
+        else
+        {
+            NSLog(@"空%@ is %@",key,[userDefaults objectForKey:key]);
+        }
+        [userDefaults synchronize];
     }
-    [userDefaults synchronize];
     [MGJRouter openURL:kLoginVCPageURL
-          withUserInfo:@{@"navigationVC" : self.navigationController,
+          withUserInfo:@{@"navigationVC" :  self.navigationController,
                          }
             completion:nil];
 }
@@ -96,8 +110,6 @@
             self.nicknameDic = [[NSMutableDictionary alloc]init];
             [self.nicknameDic setObject:self.personalInformationView.nickameTextField.text forKey:@"nickname"];
             [ZYLChangeNickname uploadChangedNickname:nickName.text];
-            
-            
         }
     }];
     

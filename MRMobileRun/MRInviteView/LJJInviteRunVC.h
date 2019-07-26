@@ -10,8 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LJJInviteRunVC : UIViewController
-//邀约搜索textfield
-@property (nonatomic,strong) UITextField *inviteTextField;
+
+- (void)pressBtn;
++ (UIColor *)colorWithHexString:(NSString *)color;
+
 @end
 
 
