@@ -7,19 +7,13 @@
 
 #import "LJJInviteRunVC.h"
 #import "LJJInviteRunView.h"
-#import "LJJInviteRunModel.h"
-#import "LJJInviteViewModel.h"
-#import "LJJInviteSearchResultViewController.h"
+#import "LJJInviteSearchVC.h"
 #import <MGJRouter.h>
 @interface LJJInviteRunVC ()
-
+@property NSUInteger flag;
 @end
 
 @implementation LJJInviteRunVC
-- (void)viewWillAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,14 +46,6 @@
     
 }
 
-- (void)pressBtn
-{
-    [MGJRouter openURL:kMainVCPageURL
-          withUserInfo:@{@"navigationVC" : self.navigationController,
-                         }
-            completion:nil];
-}
-
 - (void)setTheFlowBallsAndBoard:(LJJInviteRunView *)VC
 {
     //ImageView
@@ -82,7 +68,9 @@
     VC.imageFront.frame = CGRectMake(0, screenHeigth * 0.93478, screenWidth * 2.3616, screenHeigth * 0.1035);
     //Label
     VC.loading = [[UILabel alloc] init];
-    VC.loading.textColor = [self colorWithHexString:@"#FF599F"];
+    //[self.colorWithHexString:@"#FF599F"];
+
+    VC.loading.textColor = [LJJInviteRunVC colorWithHexString:@"FF599F"];
     VC.loading.text = @"邀约跑步加载中...";
     VC.loading.backgroundColor = [UIColor clearColor];
     VC.loading.textAlignment = NSTextAlignmentCenter;
@@ -98,9 +86,6 @@
     
     [UIView animateWithDuration:0.999 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:17.f options:UIViewAnimationOptionTransitionNone animations:^{
         VC.searchBoard.frame = CGRectMake(screenWidth * 0.053, screenHeigth * 0.2436, screenWidth * 0.892, screenHeigth * 0.39);
-        //历史记录网络请求
-        LJJInviteRunModel *model = [[LJJInviteRunModel alloc] init];
-        [model catchTheLoginToken];
     } completion:^(BOOL finished) {
         [self Begin:VC];
     }];
@@ -114,6 +99,20 @@
     [VC.searchBoard addSubview:VC.cancel];
     [self.view addSubview:VC.imageBack];
     [self.view addSubview:VC.imageFront];
+    
+    _flag = 1;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
+}
+- (void)pressBtn
+{
+    [MGJRouter openURL:kMainVCPageURL
+          withUserInfo:@{@"navigationVC" : self.navigationController,
+                         }
+            completion:nil];
+    _flag = 0;
 }
 
 - (void)Begin:(LJJInviteRunView *)VC
@@ -127,150 +126,16 @@
         VC.imageFront.frame = CGRectMake(screenWidth * -0.9344, screenHeigth * 0.93478, screenWidth * 2.3616, screenHeigth * 0.1035);
     }completion:^(BOOL finished)
     {
-        [self showSearchView:VC];
+        NSLog(@"animationed");
+        if (self->_flag != 0) {
+            LJJInviteSearchVC *vc = [[LJJInviteSearchVC alloc] init];
+            [self presentViewController:vc animated:NO completion:nil];
+        }
     }];
-}
-
-- (void)showSearchView:(LJJInviteRunView *)VC
-{
-    //设置返回按钮
-    VC.whiteBack = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"返回箭头_白"]];
-    if (screenHeigth > 800)
-    {
-        //Invite.head = [[UILabel alloc] initWithFrame:
-        VC.whiteBack.frame = CGRectMake(screenWidth * 0.058, screenHeigth * 0.06, screenWidth * 0.034444, screenWidth * 0.0493333);
-    }
-    else if (screenHeigth > 600 && screenHeigth < 800)
-    {
-        VC.whiteBack.frame = CGRectMake(screenWidth * 0.058, screenHeigth * 0.0455, screenWidth * 0.03, screenWidth * 0.06);
-    }
-    else if (screenHeigth < 600)
-    {
-        VC.whiteBack.frame = CGRectMake(screenWidth * 0.058, screenHeigth * 0.06, screenWidth * 0.03, screenWidth * 0.06);
-    }
-    [self.view addSubview:VC.whiteBack];
-    
-    //设置手势
-    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressBtn)];
-    VC.whiteBack.userInteractionEnabled = YES;
-    [VC.whiteBack addGestureRecognizer:gesture];
-
-    
-    [UIView animateWithDuration:0.999 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:17.f options:UIViewAnimationOptionTransitionNone animations:^{
-        VC.searchBoard.frame = CGRectMake(screenWidth * 0.053, screenHeigth * 0.1754, screenWidth * 0.892, screenHeigth * 0.39);
-        [VC.flowBall01 removeFromSuperview];
-    } completion:^(BOOL finished) {
-        
-    }];
-    
-    VC.loading.text = @"提示:约跑邀约一次只能邀请1至4位小伙伴哦～";
-    VC.loading.frame = CGRectMake(0, screenHeigth * 0.305097, screenWidth * 0.892, screenHeigth * 0.0247376);
-    VC.loading.textColor = [UIColor grayColor];
-    _inviteTextField = [[UITextField alloc] initWithFrame:CGRectMake(screenWidth * 0.10666, screenHeigth * 0.2248, screenWidth * 0.5, screenHeigth * 0.0375)];
-    NSString *holderText = @"请输入学号";
-    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
-    [placeholder addAttribute:NSForegroundColorAttributeName value:[self colorWithHexString:@"#D4D8EA"] range:NSMakeRange(0, holderText.length)];
-    _inviteTextField.textColor = [self colorWithHexString:@"#6F7584"];
-    _inviteTextField.attributedPlaceholder = placeholder;
-    _inviteTextField.borderStyle = UITextBorderStyleNone;
-    _inviteTextField.keyboardType = UIKeyboardTypeNumberPad;
-
-    
-    [VC.searchBoard addSubview:_inviteTextField];
-    VC.flowBall01.image = [UIImage imageNamed:@"输入框填入线"];
-    VC.flowBall01.frame = CGRectMake(screenWidth * 0.10666, screenHeigth * 0.2624, screenWidth * 0.6786666, screenHeigth * 0.00149925);
-    [VC.searchBoard addSubview:VC.flowBall01];
-    
-    VC.inviteTextCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [VC.inviteTextCancel setImage:[UIImage imageNamed:@"取消输入"] forState:UIControlStateNormal];
-    [VC.inviteTextCancel addTarget:self action:@selector(pressBtnCancel:) forControlEvents:UIControlEventTouchUpInside];
-    VC.inviteTextCancel.frame = CGRectMake(screenWidth * 0.7853266 - screenHeigth * 0.03, screenHeigth * 0.2249, screenHeigth * 0.033, screenHeigth * 0.033);
-    [VC.searchBoard addSubview:VC.inviteTextCancel];
-    
-    [VC.cancel removeFromSuperview];
-    VC.cancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [VC.cancel setImage:[UIImage imageNamed:@"下一步按钮"] forState:UIControlStateNormal];
-    VC.cancel.frame = CGRectMake(screenWidth * 0.4, screenHeigth * 0.52248876, screenWidth * 0.233, screenWidth * 0.233);
-    [self.view addSubview:VC.cancel];
-    
-    [VC.cancel addTarget:self action:@selector(invitePeopleToRun) forControlEvents:UIControlEventTouchUpInside];
-    
-    //历史记录label
-    VC.historyLabel = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.098, screenHeigth * 0.64, screenWidth * 0.37, screenHeigth * 0.02998501)];
-    VC.historyLabel.text = @"历史记录";
-    VC.historyLabel.textColor = [UIColor grayColor];
-    [self.view addSubview:VC.historyLabel];
-    
-    //添加历史记录底板
-//    LJJInviteViewModel *VM = [[LJJInviteViewModel alloc] init];
-//    [VM setHisrotyViewWhenNoHistoryWithViewController:self andView:VC];
-    
-    if (screenHeigth > 800)
-    {
-        [placeholder addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, holderText.length)];
-        VC.loading.font = [UIFont systemFontOfSize:14];
-        VC.historyLabel.font = [UIFont systemFontOfSize:18];
-    }
-    else if (screenHeigth > 600 && screenHeigth < 800)
-    {
-        [placeholder addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, holderText.length)];
-        VC.loading.font = [UIFont systemFontOfSize:12];
-        VC.historyLabel.font = [UIFont systemFontOfSize:16];
-    }
-    else if (screenHeigth <  600)
-    {
-        [placeholder addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:11] range:NSMakeRange(0, holderText.length)];
-        VC.loading.font = [UIFont systemFontOfSize:10];
-        VC.historyLabel.font = [UIFont systemFontOfSize:14];
-    }
-    
-    //头像
-    [VC.flowBall02 removeFromSuperview];
-    [VC.flowBall03 removeFromSuperview];
-    [VC.imageBack removeFromSuperview];
-    [VC.imageFront removeFromSuperview];
-}
-
-- (void)invitePeopleToRun
-{
-    NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
-    [store setObject:_inviteTextField.text forKey:@"textName"];
-    LJJInviteRunModel *model = [[LJJInviteRunModel alloc] init];
-    [model invitePeopleToRunURL];
-    NSLog(@"%@",_inviteTextField.text);
-    [self setNotification];
-}
-
-- (void)setNotification
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchSuccessful)  name:@"isSearchSuccessful" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchFail)  name:@"isSearchFail" object:nil];
-}
-
-- (void)searchSuccessful
-{
-    LJJInviteSearchResultViewController *resultVC = [[LJJInviteSearchResultViewController alloc] init];
-    [self presentViewController:resultVC animated:NO completion:nil];
-}
-
-- (void)searchFail
-{
-    NSLog(@"查询失败查询失败查询失败查询失败查询失败查询失败");
-}
-
-- (void)pressBtnCancel:(LJJInviteRunView *)VC
-{
-    [_inviteTextField setText:nil];
-    NSLog(@"按钮已被按下");
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [_inviteTextField resignFirstResponder];
 }
 
 //十六进制转color
-- (UIColor *)colorWithHexString:(NSString *)color{
++ (UIColor *)colorWithHexString:(NSString *)color{
     NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet     whitespaceAndNewlineCharacterSet]] uppercaseString];
     if ([cString length] < 6) {
         return [UIColor clearColor];

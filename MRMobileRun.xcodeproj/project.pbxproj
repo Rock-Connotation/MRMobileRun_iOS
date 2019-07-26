@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */; };
+		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
+		28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */; };
+		28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A5EDFD22DE927A00CA6B6A /* LJJInviteOk.m */; };
 		2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E8129225F309900D5E511 /* XIGBeforeYou.m */; };
 		2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F0E812C225F309900D5E511 /* XIGClassTableViewCell.xib */; };
 		2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E812D225F309900D5E511 /* XIGSegementView.m */; };
@@ -141,6 +145,14 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchVC.h; sourceTree = "<group>"; };
+		280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchVC.m; sourceTree = "<group>"; };
+		280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchView.h; sourceTree = "<group>"; };
+		280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchView.m; sourceTree = "<group>"; };
+		28A5EDF922DE925600CA6B6A /* LJJInviteCancel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteCancel.h; sourceTree = "<group>"; };
+		28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteCancel.m; sourceTree = "<group>"; };
+		28A5EDFC22DE927A00CA6B6A /* LJJInviteOk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteOk.h; sourceTree = "<group>"; };
+		28A5EDFD22DE927A00CA6B6A /* LJJInviteOk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteOk.m; sourceTree = "<group>"; };
 		2F0E8129225F309900D5E511 /* XIGBeforeYou.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIGBeforeYou.m; sourceTree = "<group>"; };
 		2F0E812C225F309900D5E511 /* XIGClassTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XIGClassTableViewCell.xib; sourceTree = "<group>"; };
 		2F0E812D225F309900D5E511 /* XIGSegementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIGSegementView.m; sourceTree = "<group>"; };
@@ -622,6 +634,10 @@
 			children = (
 				2F495E292282BE6F003DD714 /* MRLoginViewController.h */,
 				2F495E2A2282BE6F003DD714 /* MRLoginViewController.m */,
+				28A5EDF922DE925600CA6B6A /* LJJInviteCancel.h */,
+				28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */,
+				28A5EDFC22DE927A00CA6B6A /* LJJInviteOk.h */,
+				28A5EDFD22DE927A00CA6B6A /* LJJInviteOk.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -642,6 +658,8 @@
 			children = (
 				2F495E522282C064003DD714 /* LJJInviteRunView.h */,
 				2F495E532282C064003DD714 /* LJJInviteRunView.m */,
+				280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */,
+				280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */,
 				2F495E4C2282BFF3003DD714 /* LJJInviteSearchResultView.h */,
 				2F495E4D2282BFF3003DD714 /* LJJInviteSearchResultView.m */,
 			);
@@ -673,6 +691,8 @@
 				2F495E472282BFDD003DD714 /* LJJInviteSearchResultViewController.m */,
 				2F495E402282BFC3003DD714 /* LJJInviteRunVC.h */,
 				2F495E412282BFC4003DD714 /* LJJInviteRunVC.m */,
+				280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */,
+				280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */,
 				2F495E422282BFC4003DD714 /* LJJInviteRunVCViewController.h */,
 				2F495E442282BFD0003DD714 /* LJJInviteRunVCViewController.m */,
 			);
@@ -1229,6 +1249,7 @@
 				2F0E819322608CB800D5E511 /* ZYLPhotoSelectedVIew.m in Sources */,
 				2F5A1BA922468BC80014B249 /* MRNumLabel.m in Sources */,
 				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
+				28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */,
 				2F6DF0C2227B301B00BA6099 /* ZYLRunningRecordView.m in Sources */,
 				2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */,
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
@@ -1276,6 +1297,7 @@
 				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
 				2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */,
 				2F495E322282BE9F003DD714 /* MRLoginTextField.m in Sources */,
+				280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */,
 				2F495E2E2282BE8A003DD714 /* MRLoginModel.m in Sources */,
 				2F0E819022608C9300D5E511 /* ZYLLogoutBtn.m in Sources */,
 				2F60AB4B227C939D00109420 /* ZYLSteps.m in Sources */,
@@ -1292,6 +1314,7 @@
 				2F6DF0CC227B34A400BA6099 /* MRStopBtu.m in Sources */,
 				2F0E8169225F4B3400D5E511 /* ZYLPersonalViewController.m in Sources */,
 				2F0E815B225F33C400D5E511 /* UIImage+Extension.m in Sources */,
+				28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */,
 				2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */,
 				2F0E8172225F74A700D5E511 /* ZYLInvitationRankModel.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
@@ -1307,6 +1330,7 @@
 				2F60AB43227C816400109420 /* ZYLUptateRunningData.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
 				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
+				280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
@@ -1480,7 +1504,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JGMUD2VWJ4;
+				DEVELOPMENT_TEAM = 4792Q3FLUK;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -1501,7 +1525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JGMUD2VWJ4;
+				DEVELOPMENT_TEAM = 4792Q3FLUK;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;

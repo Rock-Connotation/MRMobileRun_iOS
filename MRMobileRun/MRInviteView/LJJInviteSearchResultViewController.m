@@ -7,13 +7,16 @@
 
 #import "LJJInviteSearchResultViewController.h"
 #import "LJJInviteSearchResultView.h"
-#import "LJJInviteRunVC.h"
 #import "LJJInviteViewModel.h"
+#import "LJJInviteSearchView.h"
+#import "HttpClient.h"
+#import "ZYLMainViewController.h"
 
 @interface LJJInviteSearchResultViewController ()
 
 @property (nonatomic,strong) LJJInviteSearchResultView *resultView;
-
+@property (nonatomic,strong) NSUserDefaults *personData;
+@property (nonatomic,strong) NSTimer *timer;
 @end
 
 @implementation LJJInviteSearchResultViewController
@@ -73,6 +76,7 @@
     //个人信息底板
     _resultView.cellImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"个人信息卡片底板"]];
     _resultView.cellImage.frame = CGRectMake(screenWidth * 0.012, screenHeigth * 0.1746626, screenWidth * 0.976, screenHeigth * 0.15);
+    
     [self.view addSubview:_resultView.cellImage];
     
     
@@ -94,20 +98,20 @@
 
 - (void)setLabelInformation
 {
-    NSUserDefaults *personData = [NSUserDefaults standardUserDefaults];
-//    NSLog(@"学院 = %@",[personData valueForKey:@"personCollege"]);
-//    NSLog(@"姓名 = %@",[personData valueForKey:@"personNickname"]);
-//    NSLog(@"学号 = %@",[personData valueForKey:@"personStuID"]);
+    _personData = [NSUserDefaults standardUserDefaults];
+    NSLog(@"hahaha学院 = %@",[_personData valueForKey:@"personCollege"]);
+    NSLog(@"hahaha姓名 = %@",[_personData valueForKey:@"personNickname"]);
+    NSLog(@"hahaha学号 = %@",[_personData valueForKey:@"personStuID"]);
     
     //昵称
     _resultView.labelName = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.123, screenHeigth * 0.20764618, screenWidth * 0.5, screenHeigth * 0.023)];
     _resultView.labelName.textColor = [UIColor darkGrayColor];
-    _resultView.labelName.text = [personData valueForKey:@"personNickname"];
+    _resultView.labelName.text = [_personData valueForKey:@"personNickname"];
     [self.view addSubview:_resultView.labelName];
     
     //学院
     _resultView.labelCollege = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.123, screenHeigth * 0.24333, screenWidth * 0.2573333, screenHeigth * 0.02473333)];
-    _resultView.labelCollege.text = [personData valueForKey:@"personCollege"];
+    _resultView.labelCollege.text = [_personData valueForKey:@"personCollege"];
     _resultView.labelCollege.textColor = [UIColor grayColor];
     
     [self.view addSubview:_resultView.labelCollege];
@@ -115,7 +119,7 @@
     //学号
     _resultView.labelStuID = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.5, screenHeigth * 0.24333, screenWidth * 0.2573333, screenHeigth * 0.02473333)];
     _resultView.labelStuID.textColor = [UIColor grayColor];
-    _resultView.labelStuID.text = [personData valueForKey:@"personStuID"];
+    _resultView.labelStuID.text = [_personData valueForKey:@"personStuID"];
     [self.view addSubview:_resultView.labelStuID];
     if (screenHeigth > 700)
     {
@@ -152,14 +156,82 @@
     //为cellImage添加手势
     UISwipeGestureRecognizer *left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(LeftSwipe:)];
     left.direction = UISwipeGestureRecognizerDirectionLeft;
+    _resultView.cellImage.userInteractionEnabled = YES;
     [_resultView.cellImage addGestureRecognizer:left];
+    
+    [self searchNetWork];
+}
+
+- (void)searchNetWork
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    
+    HttpClient *client = [HttpClient defaultClient];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:[_personData valueForKey:@"personStuID"] forKey:@"student_id"];
+    [dic setObject:[NSString stringWithFormat:@"[%@]",[_personData valueForKey:@"personStuID"]] forKey:@"invitees"];
+    NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded",@"token":[user objectForKey:@"token"]};
+    [client requestWithHead:kCommitRunTogetherInfo method:HttpRequestPost parameters:dic head:head prepareExecute:^{
+        //
+    } progress:^(NSProgress *progress) {
+        //
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"发射成功");
+        NSLog(@"%@",responseObject);
+        
+        //查询邀约是否成功
+        [self judgeTheLastInviteOkOrNot];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"发射失败");
+        NSLog(@"%@",error);
+    }];
+    
+}
+
+- (void)judgeTheLastInviteOkOrNot
+{
+    NSLog(@"查询最近一次邀约是否邀约成功");
+    //被邀请人
+    NSLog(@"%@",[_personData valueForKey:@"personStuID"]);
+    
+    //默认时间为7.77秒
+    _timer = [NSTimer scheduledTimerWithTimeInterval:7.77 target:self selector:@selector(lastInviteNetWork) userInfo:nil repeats:YES];
+}
+
+- (void)lastInviteNetWork
+{
+    [_timer invalidate];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+
+    HttpClient *client = [HttpClient defaultClient];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:[_personData valueForKey:@"personStuID"] forKey:@"student_id"];
+    NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded",@"token":[user objectForKey:@"token"]};
+    [client requestWithHead:kTheLastInviteOkOrNot method:HttpRequestGet parameters:dic head:head prepareExecute:^{
+        //
+    } progress:^(NSProgress *progress) {
+        //
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@",responseObject);
+        
+        
+        NSArray *array = [responseObject objectForKey:@"data"];
+        NSString *string = [[array objectAtIndex:0] objectForKey:@"result"];
+        NSString *copyStr = [NSString stringWithFormat:@"%@",string];
+        if ([copyStr isEqualToString:@"1"])
+        {
+            NSLog(@"接受邀请");
+            self.view.backgroundColor = [UIColor blackColor];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        //NSLog(@"发射失败");
+        NSLog(@"%@",error);
+    }];
 }
 
 - (void)LeftSwipe:(UISwipeGestureRecognizer *)swipe
 {
-//    NSLog(@"左滑");
-////    CGRectMake(screenWidth * 0.012, screenHeigth * 0.1746626, screenWidth * 0.976, screenHeigth * 0.15)
-//    _resultView.cellImage.frame = CGRectMake(screenWidth * 0.0001, screenHeigth * 0.1746626, screenWidth * 0.976, screenHeigth * 0.15);
     if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
     {
         NSLog(@"左");
@@ -168,8 +240,24 @@
 
 - (void)backBtn
 {
-    LJJInviteRunVC *vc = [[LJJInviteRunVC alloc] init];
-    [self presentViewController:vc animated:NO completion:nil];
+    [self removeChildVc:self];
+    NSLog(@"back");
+    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
+    [UIApplication sharedApplication].keyWindow.rootViewController = nav;
+}
+
+//移除当前VC
+- (void)removeChildVc:(UIViewController *)vc
+{
+    [vc willMoveToParentViewController:nil];
+    if (![vc isViewLoaded])
+        [vc removeFromParentViewController];
+    else
+    {
+        [vc.view removeFromSuperview];
+        [vc removeFromParentViewController];
+    }
 }
 
 /*

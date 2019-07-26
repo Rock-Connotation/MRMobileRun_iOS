@@ -29,13 +29,6 @@
 - (void)setSearchResponseObject:(id)responseObject
 {
     NSLog(@"the responseObject is %@",responseObject);
-    //解析数据
-//    NSArray *arrayData = [responseObject objectForKey:@"data"];
-//    NSDictionary *dicData = [arrayData objectAtIndex:0];
-//    NSString *strCollege = [dicData objectForKey:@"college"];
-//    NSString *strName = [dicData objectForKey:@"name"];
-//    NSString *strStuID = [dicData objectForKey:@"student_id"];
-//    NSLog(@"学院 = %@ 姓名 = %@ 学号 = %@",strCollege,strName,strStuID);
     NSDictionary *dicData = [responseObject objectForKey:@"data"];
     NSString *strCollege = [dicData objectForKey:@"college"];
     NSString *strName = [dicData objectForKey:@"nickname"];
