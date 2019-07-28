@@ -54,6 +54,7 @@
     NSUserDefaults *a = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setValue:[a valueForKey:@"textName"] forKey:@"info"];
+    NSString *textName = [a valueForKey:@"textName"];
     //网络请求
     [client requestWithHead:kSearchInfoUrl method:HttpRequestPost parameters:dic head:head prepareExecute:^{
         //
@@ -63,8 +64,11 @@
         //
         NSLog(@"查找该学生为 : %@",responseObject);
         LJJInviteViewModel *m = [[LJJInviteViewModel alloc] init];
-        LJJInviteSearchResultViewController *VC = [[LJJInviteSearchResultViewController alloc] init];
         if ([[responseObject objectForKey:@"status"]  isEqual: @-1001] || [[responseObject objectForKey:@"status"]  isEqual: @19])
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"isSearchFail" object:nil];
+        }
+        else if ([textName isEqualToString:@""] || textName.length == 0)
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"isSearchFail" object:nil];
         }

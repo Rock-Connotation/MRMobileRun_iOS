@@ -28,6 +28,16 @@
 #define kLoginVCPageURL @"ZYL://pushLoginVC"
 
 
+//上传邀约信息
+#define kCommitRunTogetherInfo @"http://111.230.169.17:8080/mobilerun/invite/update"
+//轮询是否收到邀约
+#define kCycleYesOrNoInviteSuccess @"http://111.230.169.17:8080/mobilerun/invite/invited"
+//查询最近一次邀约是否成功
+#define kTheLastInviteOkOrNot @"http://111.230.169.17:8080/mobilerun/invite/history/result"
+//回传是否接受邀请
+#define kWhetherAcceptTheInvite @"http://111.230.169.17:8080/mobilerun/invite/result"
+
+
 //登陆URL 跟学号和身份证后六位(post)
 #define kLoginURL @"http://111.230.169.17:8080/mobilerun/user/login"
 //注销登陆(get)

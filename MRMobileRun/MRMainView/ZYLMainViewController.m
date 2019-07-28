@@ -42,6 +42,7 @@
     [self initButtons];
 //    [self.view bringSubviewToFront:self.tab.tabView];
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)initButtons{

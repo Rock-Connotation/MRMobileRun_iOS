@@ -10,7 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MRLoginModel : NSObject
+@property (nonatomic, strong) NSTimer *threadTimer;
+@property (nonatomic, strong) NSThread *thread1;
 - (NSMutableDictionary *)postRequestWithStudentID:(NSString *)studentID andPassword:(NSString *)password;
 @end
-
 NS_ASSUME_NONNULL_END
