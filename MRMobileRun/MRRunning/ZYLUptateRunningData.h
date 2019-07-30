@@ -10,8 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLUptateRunningData : NSObject
-+ (void)ZYLPostUninviteRunningDataWithDictionary:(NSDictionary *)dic;
-//+ (void)ZYLPostInviteRunningDataWithDictionary:(NSDictionary *)dic;
++ (void)ZYLPostUninviteRunningDataWithDataString:(NSString *)dataStr;
+//+ (void)ZYLPostInviteRunningDataWithDataString:(NSString *)dataStr;
 @end
 
 NS_ASSUME_NONNULL_END

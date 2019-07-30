@@ -6,9 +6,10 @@
 //
 
 #import "ZYLUpdateData.h"
+#import "AESCipher.h"
 
 @implementation ZYLUpdateData
-+ (NSDictionary *)ZYLGetUpdateDataDictionaryWithBegintime:(NSNumber *)begin Endtime:(NSNumber *)end distance:(NSNumber *)distance lat_lng:(NSArray *)lat_lng andSteps:(NSNumber *)steps{
++ (NSString *)ZYLGetUpdateDataDictionaryWithBegintime:(NSNumber *)begin Endtime:(NSNumber *)end distance:(NSNumber *)distance lat_lng:(NSArray *)lat_lng andSteps:(NSNumber *)steps{
     NSUserDefaults *user = [[NSUserDefaults alloc] init];
     NSString *student = [user objectForKey:@"studentID"];
     NSDictionary *dic = @{@"begin_time": begin,
@@ -18,7 +19,12 @@
                           @"steps": steps,
                           @"student_id": student
                           };
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSString *encryptedText = aesEncryptString(str, kDECRYPTKEY);
     
-    return dic;
+    return encryptedText;
 }
+
 @end

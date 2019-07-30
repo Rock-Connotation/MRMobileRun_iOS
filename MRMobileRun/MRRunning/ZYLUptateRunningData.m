@@ -18,7 +18,7 @@
 
 @implementation ZYLUptateRunningData
 
-+ (void)ZYLPostUninviteRunningDataWithDictionary:(NSDictionary *)dic{
++ (void)ZYLPostUninviteRunningDataWithDataString:(NSString *)dataStr{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     
@@ -31,7 +31,7 @@
     [manager.requestSerializer setValue:salt forHTTPHeaderField:@"signature"];
     
     [manager POST:UNINVITE_UPDATERUNNUNGDATAURL parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        [fromData appendPartWithFormData:<#(NSData *)#> name:<#(NSString *)#>]
+        [formData appendPartWithFormData: [dataStr dataUsingEncoding:NSUTF8StringEncoding] name:@"rundata"];
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@",responseObject);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -39,7 +39,7 @@
     }];
 }
 
-+ (void)ZYLPostInviteRunningDataWithDictionary:(NSDictionary *)dic{
++ (void)ZYLPostInviteRunningDataWithDataString:(NSString *)dataStr{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     
@@ -51,8 +51,8 @@
     [manager.requestSerializer setValue:timeStamp forHTTPHeaderField:@"timestamp"];
     [manager.requestSerializer setValue:salt forHTTPHeaderField:@"signature"];
     
-    [manager POST:UNINVITE_UPDATERUNNUNGDATAURL parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        //        [fromData appendPartWithFormData:<#(NSData *)#> name:<#(NSString *)#>]
+    [manager POST:INVITE_UPDATERUNNUNGDATAURL parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFormData: [dataStr dataUsingEncoding:NSUTF8StringEncoding] name:@"rundata"];
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@",responseObject);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
