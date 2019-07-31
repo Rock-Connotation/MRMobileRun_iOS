@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)getTimeStamp;
 + (NSString *)getCodeTimeStamp;
++ (NSDate *)getDateFromTimeStamp:(NSString *)timeStamp;
 @end
 
 NS_ASSUME_NONNULL_END

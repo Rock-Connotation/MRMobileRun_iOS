@@ -23,7 +23,8 @@
 #import "MRAlertView.h"
 #import "ZYLBackBtn.h"
 #import "ZYLRecordTimeString.h"
-#import "ZYLPolling.h"
+//#import "ZYLPolling.h"
+#import "ZYLUpdateData.h"
 
 @interface ZYLRunningViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 @property (strong, nonatomic) CLLocationManager *manager;
@@ -37,7 +38,7 @@
 @property (strong, nonatomic) ZYLRunningRecordView *recordView;
 @property (strong, nonatomic) MRAlertView *alertView;
 @property (assign, nonatomic) double distance;
-@property (assign, nonatomic) int steps;
+@property (copy, nonatomic) NSNumber *steps;
 @property (nonatomic) int hour;
 @property (nonatomic) int minute;
 @property (nonatomic) int second;
@@ -58,7 +59,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.beginTime = [ZYLTimeStamp getTimeStamp];
-    [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDictionary: @{}];
+//    [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDataString: ];
     self.distance = 0;
     self.locationArray = [NSMutableArray array];
     self.runTime = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startTimer) userInfo:nil repeats:YES];
@@ -133,6 +134,7 @@
         if (self.second == 86400) {
             self.second = 0;
         }
+        NSLog(@"%d",self.second);
         
     }
     
@@ -174,7 +176,7 @@
         //移动距离的计算
         double meters = [self calculateDistanceWithStart:startCoordinate end:endCoordinate];
         self.distance += meters;
-//        NSLog(@"移动的距离为%f米",meters);
+        NSLog(@"移动的距离为%f米",meters);
         
         //为了美化移动的轨迹,移动的位置超过10米,方可添加进位置的数组
         if (meters >= 10){
@@ -275,14 +277,14 @@
  */
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-//     //设备的当前位置
-//    CLLocation *currLocation = [locations lastObject];
-//
-//    NSString *latitude = [NSString stringWithFormat:@"纬度:%3.5f",currLocation.coordinate.latitude];
-//    NSString *longitude = [NSString stringWithFormat:@"经度:%3.5f",currLocation.coordinate.longitude];
-//    NSString *altitude = [NSString stringWithFormat:@"高度值:%3.5f",currLocation.altitude];
-//
-//    NSLog(@"位置发生改变:纬度:%@,经度:%@,高度:%@",latitude,longitude,altitude);
+     //设备的当前位置
+    CLLocation *currLocation = [locations lastObject];
+
+    NSString *latitude = [NSString stringWithFormat:@"纬度:%3.5f",currLocation.coordinate.latitude];
+    NSString *longitude = [NSString stringWithFormat:@"经度:%3.5f",currLocation.coordinate.longitude];
+    NSString *altitude = [NSString stringWithFormat:@"高度值:%3.5f",currLocation.altitude];
+
+    NSLog(@"位置发生改变:纬度:%@,经度:%@,高度:%@",latitude,longitude,altitude);
     
     [manager stopUpdatingLocation];
 }
@@ -325,6 +327,11 @@
             completion:nil];
 }
 
+- (void)backAndUpdateData{
+    [self updateRunningData];
+    [self back];
+}
+
 - (void)stopRunning:(UIButton *)sender{
     [self.runTabView.pauseAndResumeBtu setTitle:@"暂停" forState:UIControlStateNormal];
     [self.runTabView.pauseAndResumeBtu setBackgroundImage:[UIImage imageNamed:@"暂停按钮"] forState:UIControlStateNormal];
@@ -341,13 +348,23 @@
     else{
         self.alertView = [MRAlertView alertViewWithTitle:@"确定结束此次跑步了吗？" action:^{
             NSLog(@"哈哈哈哈哈");
-            
         }];
-        [self.alertView.okButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-        
+        [self.alertView.okButton addTarget:self action:@selector(backAndUpdateData) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.alertView];
     }
 
+}
+
+- (void) updateRunningData{
+    self.zylSteps = [[ZYLSteps alloc] init];
+    self.endTime = [ZYLTimeStamp getTimeStamp];
+    self.steps = [self.zylSteps getStepsFromBeginTime:[ZYLTimeStamp getDateFromTimeStamp:self.beginTime] ToEndTime:[ZYLTimeStamp getDateFromTimeStamp:self.endTime]];
+    dispatch_queue_t updateRunningQueue = dispatch_queue_create("com.mr.MRMobileRunDisoatchQueue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(updateRunningQueue, ^{
+        NSString *dataStr = [ZYLUpdateData ZYLGetUpdateDataDictionaryWithBegintime: @([self.beginTime integerValue]) Endtime:@([self.endTime integerValue]) distance:[NSNumber numberWithDouble: self.distance]  lat_lng:self.locationArray andSteps: self.steps];
+        
+        [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDataString: dataStr];
+    });
 }
 
 #pragma mark - 懒加载

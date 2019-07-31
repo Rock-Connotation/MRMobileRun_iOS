@@ -7,7 +7,7 @@
 //
 
 #import "MRPauseAndResumeBtu.h"
-
+#import <Masonry.h>
 @interface MRPauseAndResumeBtu ()
 
 @property (nonatomic,strong) UIImageView *pauseAndResumeImageView;
@@ -34,9 +34,11 @@
     [self addTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:20.0*screenWidth/414.0];
     
-    self.contentEdgeInsets = UIEdgeInsetsMake(screenHeigth *59.0 /1334,screenWidth *59.0/750, screenHeigth *95.0 /1334, screenWidth *47.0/750);
-
-
+//    self.contentEdgeInsets = UIEdgeInsetsMake(screenHeigth *59.0 /1334,screenWidth *59.0/750, screenHeigth *95.0 /1334, screenWidth *47.0/750);
+//    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.mas_centerX);
+//        make.centerY.equalTo(self.mas_centerY);
+//    }];
 }
 
 - (void)pause{
