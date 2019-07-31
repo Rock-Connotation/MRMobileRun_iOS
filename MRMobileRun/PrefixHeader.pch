@@ -75,6 +75,7 @@
 //查询被邀请人的消息
 #define kSearchInfoUrl @"http://111.230.169.17:8080/mobilerun/invite/searchinfo"
 #define SALT @"runningtogether"
+#define kDECRYPTKEY @"redrockmobilerun"
 #define HEADERHEIGHT (STATUSBARHEIGHT+NVGBARHEIGHT)
 
 #define NVGBARHEIGHT (44)

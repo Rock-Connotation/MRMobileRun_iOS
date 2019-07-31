@@ -23,7 +23,7 @@
     ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
     self.window.rootViewController = loginVC;
-    if ([user valueForKey:@"studentID"]) {
+    if ([user valueForKey:@"password"]) {
         self.window.rootViewController = nav;
         MRLoginModel *model = [[MRLoginModel alloc] init];
         [model postRequestWithStudentID:[user valueForKey:@"studentID"] andPassword:[user valueForKey:@"password"]];

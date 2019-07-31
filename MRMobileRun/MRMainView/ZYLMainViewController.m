@@ -49,19 +49,29 @@
     [self.view addSubview: self.recordBtn];
     [self.view addSubview: self.rankBtn];
     
-    [self.recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).mas_offset(375);
-        make.left.equalTo(self.view.mas_left);
-        make.right.equalTo(self.view.mas_right);
-        make.bottom.equalTo(self.view.mas_top).mas_offset(488);
-    }];
-    
-    [self.rankBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.recordBtn.mas_bottom);
-        make.left.equalTo(self.view.mas_left);
-        make.right.equalTo(self.view.mas_right);
-        make.height.mas_equalTo(105);
-    }];
+    if (kIs_iPhoneX) {
+        [self.recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).mas_offset(375);
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.bottom.equalTo(self.view.mas_top).mas_offset(488);
+        }];
+        
+        [self.rankBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.recordBtn.mas_bottom);
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.height.mas_equalTo(105);
+        }];
+    }else{
+        [self.recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+           make.edges.equalTo (self.view).with.insets(UIEdgeInsetsMake(750.0/1334.0*screenHeigth, 0, 479.0/1334.0*screenHeigth, 0));
+        }];
+        
+        [self.rankBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+           make.edges.equalTo (self.view).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 0, 266.0/1334.0*screenHeigth, 0));
+        }];
+    }
 }
 
 - (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index

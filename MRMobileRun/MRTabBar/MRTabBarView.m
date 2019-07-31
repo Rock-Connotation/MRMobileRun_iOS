@@ -7,8 +7,6 @@
 
 /*
  TabBar view
- 
- 
  */
 
 #import "MRTabBarView.h"
@@ -29,12 +27,21 @@
             btn.tag = i;
             [btn addTarget:self action:@selector(selectedItem:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview: btn];
-            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.mas_top).mas_offset(9);
-                make.left.mas_equalTo(i*screenWidth/self.textArray.count + screenWidth/self.textArray.count/2-10);
-                make.width.mas_equalTo(20);
-                make.height.mas_equalTo(20);
-            }];
+            if (kIs_iPhoneX) {
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.mas_top).mas_offset(9);
+                    make.left.mas_equalTo(i*screenWidth/self.textArray.count + screenWidth/self.textArray.count/2-10);
+                    make.width.mas_equalTo(20);
+                    make.height.mas_equalTo(20);
+                }];
+            }else{
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.mas_top).mas_offset(5);
+                    make.left.mas_equalTo(i*screenWidth/self.textArray.count + screenWidth/self.textArray.count/2-10);
+                    make.width.mas_equalTo(25);
+                    make.height.mas_equalTo(25);
+                }];
+            }
             [_array replaceObjectAtIndex:i withObject: btn];
             
             UILabel *lab = [[UILabel alloc] init];

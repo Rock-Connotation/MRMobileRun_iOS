@@ -10,6 +10,7 @@
 //
 
 #import "MRStopBtu.h"
+#import <Masonry.h>
 
 @implementation MRStopBtu
 
@@ -27,7 +28,10 @@
     [self setBackgroundImage:[UIImage imageNamed:@"结束按钮"] forState:UIControlStateNormal];
 //    [self addTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
     [self setTitle:@"结束" forState:UIControlStateNormal];
-    self.titleLabel.font = [UIFont boldSystemFontOfSize:18*screenWidth/414.0
-                            ];
+    self.titleLabel.font = [UIFont boldSystemFontOfSize:18*screenWidth/414.0];
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mas_centerX);
+        make.centerY.equalTo(self.mas_centerY);
+    }];
 }
 @end
