@@ -132,6 +132,21 @@
         VC.historyLabel.font = [UIFont systemFontOfSize:14];
         VC.whiteBack.frame = CGRectMake(screenWidth * 0.058, screenHeigth * 0.06, screenWidth * 0.03, screenWidth * 0.06);
     }
+    
+    //添加下拉查看更多icon
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"下拉查看更多icon"]];
+//    imageView.frame = CGRectMake(screenWidth *353.3/750, screenHeigth * 1278.1/1330, screenWidth *40.2/750, screenWidth *13.7/750);
+    
+    UIButton *btnWithImage = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnWithImage setImage:[UIImage imageNamed:@"下拉查看更多icon"] forState:UIControlStateNormal];
+    btnWithImage.frame = CGRectMake(screenWidth *353.3/750, screenHeigth * 1278.1/1330, screenWidth *40.2/750, screenWidth *13.7/750);
+    [self.view addSubview:btnWithImage];
+    [btnWithImage addTarget:self action:@selector(showTheHistoryView) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)showTheHistoryView
+{
+    
 }
 
 //十六进制转color

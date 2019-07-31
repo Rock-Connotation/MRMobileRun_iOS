@@ -90,7 +90,7 @@
          //
      } success:^(NSURLSessionDataTask *task, id responseObject)
      {
-         
+         NSLog(@"the responseObject is %@",responseObject);
          MRLoginViewController *vc = [[MRLoginViewController alloc] init];
          NSString *status = [responseObject objectForKey:@"status"];
          NSLog(@"stasus is %@",status);
