@@ -22,6 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong, nonatomic) UIImageView *cutLine;
 //头像图片
 @property(strong, nonatomic) UIImageView *headView;
+//查看图片滑动View
+@property(strong, nonatomic) UIScrollView *idInfoScroView;
+//信息label
+@property(strong, nonatomic) UILabel *infoCollege;
+@property(strong, nonatomic) UILabel *infoName;
+@property(strong, nonatomic) UILabel *infoDistance;
 @end
 
 NS_ASSUME_NONNULL_END

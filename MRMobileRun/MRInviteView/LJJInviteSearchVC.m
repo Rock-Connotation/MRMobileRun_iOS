@@ -10,6 +10,8 @@
 #import "LJJInviteRunModel.h"
 #import "LJJInviteSearchResultViewController.h"
 #import "ZYLMainViewController.h"
+#import "LJJSearchedVC.h"
+#import "LJJInviteRunVC.h"
 #import <MGJRouter.h>
 @interface LJJInviteSearchVC ()
 @property (nonatomic, strong) LJJInviteSearchView *searchView;
@@ -70,8 +72,8 @@
     _inviteTextField = [[UITextField alloc] initWithFrame:CGRectMake(screenWidth * 0.10666, screenHeigth * 0.2248, screenWidth * 0.5, screenHeigth * 0.0375)];
     NSString *holderText = @"请输入学号";
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:holderText];
-    [placeholder addAttribute:NSForegroundColorAttributeName value:[self colorWithHexString:@"#D4D8EA"] range:NSMakeRange(0, holderText.length)];
-    _inviteTextField.textColor = [self colorWithHexString:@"#6F7584"];
+    [placeholder addAttribute:NSForegroundColorAttributeName value:[LJJInviteRunVC colorWithHexString:@"#D4D8EA"] range:NSMakeRange(0, holderText.length)];
+    _inviteTextField.textColor = [LJJInviteRunVC colorWithHexString:@"#6F7584"];
     _inviteTextField.attributedPlaceholder = placeholder;
     _inviteTextField.borderStyle = UITextBorderStyleNone;
     _inviteTextField.keyboardType = UIKeyboardTypeNumberPad;
@@ -107,10 +109,6 @@
     VC.historyLabel.textColor = [UIColor grayColor];
     [self.view addSubview:VC.historyLabel];
     
-    //添加历史记录底板
-    //    LJJInviteViewModel *VM = [[LJJInviteViewModel alloc] init];
-    //    [VM setHisrotyViewWhenNoHistoryWithViewController:self andView:VC];
-    
     if (screenHeigth > 800)
     {
         [placeholder addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:18] range:NSMakeRange(0, holderText.length)];
@@ -133,10 +131,6 @@
         VC.whiteBack.frame = CGRectMake(screenWidth * 0.058, screenHeigth * 0.06, screenWidth * 0.03, screenWidth * 0.06);
     }
     
-    //添加下拉查看更多icon
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"下拉查看更多icon"]];
-//    imageView.frame = CGRectMake(screenWidth *353.3/750, screenHeigth * 1278.1/1330, screenWidth *40.2/750, screenWidth *13.7/750);
-    
     UIButton *btnWithImage = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnWithImage setImage:[UIImage imageNamed:@"下拉查看更多icon"] forState:UIControlStateNormal];
     btnWithImage.frame = CGRectMake(screenWidth *353.3/750, screenHeigth * 1278.1/1330, screenWidth *40.2/750, screenWidth *13.7/750);
@@ -146,45 +140,8 @@
 
 - (void)showTheHistoryView
 {
-    
-}
-
-//十六进制转color
-- (UIColor *)colorWithHexString:(NSString *)color{
-    NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet     whitespaceAndNewlineCharacterSet]] uppercaseString];
-    if ([cString length] < 6) {
-        return [UIColor clearColor];
-    }
-    
-    // 判断前缀并剪切掉
-    if ([cString hasPrefix:@"0X"])
-        cString = [cString substringFromIndex:2];
-    if ([cString hasPrefix:@"#"])
-        cString = [cString substringFromIndex:1];
-    if ([cString length] != 6)
-        return [UIColor clearColor];
-    
-    // 从六位数值中找到RGB对应的位数并转换
-    NSRange range;
-    range.location = 0;
-    range.length = 2;
-    
-    //R、G、B
-    NSString *rString = [cString substringWithRange:range];
-    
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
-    
-    // Scan values
-    unsigned int r, g, b;
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
-    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:1.0f];
+    LJJSearchedVC *searchedVC = [[LJJSearchedVC alloc] init];
+    [self presentViewController:searchedVC animated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event

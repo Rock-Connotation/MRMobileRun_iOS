@@ -6,17 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "LJJSearchedView.h"
 NS_ASSUME_NONNULL_BEGIN
-
-@class LJJInviteRunVC;
-@class LJJInviteRunView;
 @class LJJInviteSearchResultViewController;
 @interface LJJInviteViewModel : NSObject
 
 - (void)setHistoryViewByTheHistoryNet:(id)responseObject;
-- (void)setHisrotyViewWhenNoHistoryWithViewController:(LJJInviteRunVC *)VC andView:(LJJInviteRunView *)View;
 - (void)setSearchResponseObject:(id)responseObject;
+- (void)setHisrotyViewWithViewControllerAndView:(LJJSearchedView *)View;
 
 @end
 

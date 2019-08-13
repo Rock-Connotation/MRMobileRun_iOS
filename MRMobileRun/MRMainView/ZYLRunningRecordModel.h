@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *date;
 @property (copy, nonatomic) NSString *distance;
 @property (copy, nonatomic) NSString *end_time;
-@property (copy, nonatomic) NSString *invite_id;
+@property (copy, nonatomic) NSString *position;
 @property (copy, nonatomic) NSString *student_id;
 
 - (instancetype)initWithDic:(NSDictionary*)dic;

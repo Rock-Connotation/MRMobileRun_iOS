@@ -59,6 +59,8 @@
             NSLog(@"the data is JJ EDC Michael %@",responseObject);
             self->_threadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateTimer)  name:@"turnOffTimer" object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer)  name:@"offTimer" object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keepTimer)  name:@"keepTimer" object:nil];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"the error is %@",error);
@@ -71,6 +73,17 @@
 - (void)invalidateTimer
 {
     [_threadTimer invalidate];
+}
+
+- (void)keepTimer
+{
+    [_threadTimer setFireDate:[NSDate distantPast]];
+}
+
+- (void)stopTimer
+{
+    NSLog(@"定时器关闭定时器关闭定时器关闭");
+    [_threadTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)cycleToNetWork
@@ -96,14 +109,20 @@
          NSLog(@"stasus is %@",status);
          NSString *codeStr = [NSString stringWithFormat:@"%@",status];
          vc.invitedID = [[responseObject objectForKey:@"data"] objectForKey:@"invited_id"];
+         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+         [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"invited_id"] forKey:@"invite_ID"];
          if ([codeStr isEqualToString:@"200"])
          {
              NSLog(@"发射成功");
              NSLog(@"%@",responseObject);
              //设置弹窗效果
              vc.nickName = [[responseObject objectForKey:@"data"] objectForKey:@"nickname"];
-             NSLog(@"nickName == %@",vc.nickName);
-             [vc setTheSpringWindow];
+             //NSLog(@"nickName == %@",vc.nickName);
+             if (![vc.nickName isEqualToString:[user objectForKey:@"nickname"]])
+             {
+                 [self stopTimer];
+                 [vc setTheSpringWindow];
+             }
          }
          else
          {
