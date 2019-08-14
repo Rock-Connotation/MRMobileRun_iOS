@@ -58,5 +58,38 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@",error);
     }];
+    
+    //    //上传跑步数据
+    //    //时间戳
+    //    NSString *timestamp = [ZYLRunningViewController currentDateInterval];
+    //    NSLog(@"timestamp is %@",timestamp);
+    //    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    //    NSString *data = [NSString stringWithFormat:@"%@.%@.runningtogether",[user objectForKey:@"token"],timestamp];
+    //    NSString *signature = [ZYLRunningViewController MD5:data];
+    //    NSLog(@"%@",signature);
+    //    NSLog(@"the ID is hpqewig %@",[user valueForKey:@"invite_ID"]);
+    //    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    //    [dic setObject:[user valueForKey:@"invite_ID"] forKey:@"invited_id"];
+    //
+    //    [self.runTime invalidate];
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"keepTimer" object:nil];
+    //    //    NSLog(@"the last second is %d",self.second);
+    //    NSDictionary *head = @{@"Content-Type":@"application/json",@"token":[user objectForKey:@"token"],@"timestamp":timestamp,@"signature":signature};
+    //
+    //    //decrypt加密
+    //
+    //    HttpClient *client = [HttpClient defaultClient];
+    //    [client requestWithHead:kLaunchTheInviteRunData method:HttpRequestPost parameters:dic head:head prepareExecute:^{
+    //        //
+    //    } progress:^(NSProgress *progress) {
+    //        //
+    //    } success:^(NSURLSessionDataTask *task, id responseObject) {
+    //        NSLog(@"上传邀约数据成功");
+    //        NSLog(@"%@",responseObject);
+    //    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    //        NSLog(@"上传邀约数据失败");
+    //        NSLog(@"%@",error);
+    //        //
+    //    }];
 }
 @end

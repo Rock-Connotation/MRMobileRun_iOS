@@ -11,6 +11,8 @@
 		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
 		28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */; };
 		28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A5EDFD22DE927A00CA6B6A /* LJJInviteOk.m */; };
+		28EBE4EC22F07A70001B4293 /* LJJSearchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EBE4EB22F07A70001B4293 /* LJJSearchedView.m */; };
+		28ED985F22F14431003AA58D /* LJJSearchedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED985E22F14431003AA58D /* LJJSearchedVC.m */; };
 		2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E8129225F309900D5E511 /* XIGBeforeYou.m */; };
 		2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F0E812C225F309900D5E511 /* XIGClassTableViewCell.xib */; };
 		2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E812D225F309900D5E511 /* XIGSegementView.m */; };
@@ -154,6 +156,10 @@
 		28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteCancel.m; sourceTree = "<group>"; };
 		28A5EDFC22DE927A00CA6B6A /* LJJInviteOk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteOk.h; sourceTree = "<group>"; };
 		28A5EDFD22DE927A00CA6B6A /* LJJInviteOk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteOk.m; sourceTree = "<group>"; };
+		28EBE4EA22F07A70001B4293 /* LJJSearchedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJSearchedView.h; sourceTree = "<group>"; };
+		28EBE4EB22F07A70001B4293 /* LJJSearchedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJSearchedView.m; sourceTree = "<group>"; };
+		28ED985D22F14431003AA58D /* LJJSearchedVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJSearchedVC.h; sourceTree = "<group>"; };
+		28ED985E22F14431003AA58D /* LJJSearchedVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJSearchedVC.m; sourceTree = "<group>"; };
 		2F0E8129225F309900D5E511 /* XIGBeforeYou.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIGBeforeYou.m; sourceTree = "<group>"; };
 		2F0E812C225F309900D5E511 /* XIGClassTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XIGClassTableViewCell.xib; sourceTree = "<group>"; };
 		2F0E812D225F309900D5E511 /* XIGSegementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIGSegementView.m; sourceTree = "<group>"; };
@@ -661,6 +667,8 @@
 			children = (
 				2F495E522282C064003DD714 /* LJJInviteRunView.h */,
 				2F495E532282C064003DD714 /* LJJInviteRunView.m */,
+				28EBE4EA22F07A70001B4293 /* LJJSearchedView.h */,
+				28EBE4EB22F07A70001B4293 /* LJJSearchedView.m */,
 				280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */,
 				280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */,
 				2F495E4C2282BFF3003DD714 /* LJJInviteSearchResultView.h */,
@@ -692,6 +700,8 @@
 			children = (
 				2F495E462282BFDD003DD714 /* LJJInviteSearchResultViewController.h */,
 				2F495E472282BFDD003DD714 /* LJJInviteSearchResultViewController.m */,
+				28ED985D22F14431003AA58D /* LJJSearchedVC.h */,
+				28ED985E22F14431003AA58D /* LJJSearchedVC.m */,
 				2F495E402282BFC3003DD714 /* LJJInviteRunVC.h */,
 				2F495E412282BFC4003DD714 /* LJJInviteRunVC.m */,
 				280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */,
@@ -1282,6 +1292,7 @@
 				2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */,
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
+				28ED985F22F14431003AA58D /* LJJSearchedVC.m in Sources */,
 				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
 				2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */,
 				2F495E572282D39B003DD714 /* ZYLRunningDataRequest.m in Sources */,
@@ -1296,6 +1307,7 @@
 				2F495E4B2282BFEB003DD714 /* LJJInviteViewModel.m in Sources */,
 				2F495E372282BEAD003DD714 /* MRLoginBtu.m in Sources */,
 				2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */,
+				28EBE4EC22F07A70001B4293 /* LJJSearchedView.m in Sources */,
 				2F0E814D225F309B00D5E511 /* XIGRankViewViewController.m in Sources */,
 				2F0E8146225F309B00D5E511 /* XIGInviteTableViewCell.m in Sources */,
 				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
@@ -1518,7 +1530,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JGMUD2VWJ4;
+				DEVELOPMENT_TEAM = 4792Q3FLUK;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -1539,7 +1551,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JGMUD2VWJ4;
+				DEVELOPMENT_TEAM = 4792Q3FLUK;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;

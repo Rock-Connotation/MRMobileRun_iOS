@@ -8,6 +8,7 @@
 #import "LJJInviteSearchResultViewController.h"
 #import "LJJInviteSearchResultView.h"
 #import "LJJInviteViewModel.h"
+#import "ZYLRunningViewController.h"
 #import "LJJInviteSearchView.h"
 #import "HttpClient.h"
 #import "ZYLMainViewController.h"
@@ -17,6 +18,8 @@
 @property (nonatomic,strong) LJJInviteSearchResultView *resultView;
 @property (nonatomic,strong) NSUserDefaults *personData;
 @property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) UISwipeGestureRecognizer *left;
+@property (nonatomic,strong) NSString *inviteStr;
 @end
 
 @implementation LJJInviteSearchResultViewController
@@ -104,23 +107,24 @@
     NSLog(@"hahaha学号 = %@",[_personData valueForKey:@"personStuID"]);
     
     //昵称
-    _resultView.labelName = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.123, screenHeigth * 0.20764618, screenWidth * 0.5, screenHeigth * 0.023)];
+    _resultView.labelName = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.111, screenHeigth * 0.03298358, screenWidth * 0.5, screenHeigth * 0.023)];
     _resultView.labelName.textColor = [UIColor darkGrayColor];
     _resultView.labelName.text = [_personData valueForKey:@"personNickname"];
-    [self.view addSubview:_resultView.labelName];
+    [_resultView.cellImage addSubview:_resultView.labelName];
     
     //学院
-    _resultView.labelCollege = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.123, screenHeigth * 0.24333, screenWidth * 0.2573333, screenHeigth * 0.02473333)];
+    _resultView.labelCollege = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.111, screenHeigth * 0.0686674, screenWidth * 0.2573333, screenHeigth * 0.02473333)];
     _resultView.labelCollege.text = [_personData valueForKey:@"personCollege"];
     _resultView.labelCollege.textColor = [UIColor grayColor];
     
-    [self.view addSubview:_resultView.labelCollege];
+    [_resultView.cellImage addSubview:_resultView.labelCollege];
     
     //学号
-    _resultView.labelStuID = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.5, screenHeigth * 0.24333, screenWidth * 0.2573333, screenHeigth * 0.02473333)];
+    _resultView.labelStuID = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth * 0.488, screenHeigth * 0.0686674, screenWidth * 0.2573333, screenHeigth * 0.02473333)];
     _resultView.labelStuID.textColor = [UIColor grayColor];
     _resultView.labelStuID.text = [_personData valueForKey:@"personStuID"];
-    [self.view addSubview:_resultView.labelStuID];
+    [_resultView.cellImage addSubview:_resultView.labelStuID];
+    
     if (screenHeigth > 700)
     {
         _resultView.labelName.font = [UIFont systemFontOfSize:19];
@@ -142,9 +146,9 @@
 }
 
 - (void)addPerson
-{
+{  
     _resultView.labelResult.text = @"已邀约";
-    _resultView.labelStuID.frame = CGRectMake(screenWidth * 0.66, screenHeigth * 0.24333, screenWidth * 0.2573333, screenHeigth * 0.02473333);
+    _resultView.labelStuID.frame = CGRectMake(screenWidth * 0.648, screenHeigth * 0.0686674, screenWidth * 0.2573333, screenHeigth * 0.02473333);
 
     [_resultView.btnAdd setImage:[UIImage imageNamed:@"继续添加icon"] forState:UIControlStateNormal];
     _resultView.btnAdd.frame = CGRectMake(screenWidth * 0.877, screenHeigth * 0.1222, screenHeigth * 0.03, screenHeigth * 0.03);
@@ -154,12 +158,13 @@
     NSLog(@"按钮");
     
     //为cellImage添加手势
-    UISwipeGestureRecognizer *left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(LeftSwipe:)];
-    left.direction = UISwipeGestureRecognizerDirectionLeft;
+    _left = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(LeftSwipe:)];
+    _left.direction = UISwipeGestureRecognizerDirectionLeft;
     _resultView.cellImage.userInteractionEnabled = YES;
-    [_resultView.cellImage addGestureRecognizer:left];
+    [_resultView.cellImage addGestureRecognizer:_left];
     
     [self searchNetWork];
+    [_timer setFireDate:[NSDate distantPast]];
 }
 
 - (void)searchNetWork
@@ -168,7 +173,9 @@
     
     HttpClient *client = [HttpClient defaultClient];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:[_personData valueForKey:@"personStuID"] forKey:@"student_id"];
+    //邀请人
+    [dic setObject:[_personData valueForKey:@"studentID"] forKey:@"student_id"];
+    //被邀请人
     [dic setObject:[NSString stringWithFormat:@"[%@]",[_personData valueForKey:@"personStuID"]] forKey:@"invitees"];
     NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded",@"token":[user objectForKey:@"token"]};
     [client requestWithHead:kCommitRunTogetherInfo method:HttpRequestPost parameters:dic head:head prepareExecute:^{
@@ -179,6 +186,8 @@
         NSLog(@"发射成功");
         NSLog(@"%@",responseObject);
         
+        self->_inviteStr = [responseObject objectForKey:@"data"];
+        NSLog(@"the data is %@",self->_inviteStr);
         //查询邀约是否成功
         [self judgeTheLastInviteOkOrNot];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -197,15 +206,41 @@
     //默认时间为7.77秒
     _timer = [NSTimer scheduledTimerWithTimeInterval:7.77 target:self selector:@selector(lastInviteNetWork) userInfo:nil repeats:YES];
 }
+- (void)LeftSwipe:(UISwipeGestureRecognizer *)swipe
+{
+    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
+    {
+        NSLog(@"左");
+        
+        self.resultView.imgEraser01 = [[UIButton alloc] initWithFrame:CGRectMake(screenWidth *560.0/750, screenHeigth * 0.1746626, screenWidth *160.0/750,  screenHeigth * 0.15)];
+        UIImage *image = [UIImage imageNamed:@"取消按钮卡片底板"];
+        [self.resultView.imgEraser01 addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+        [self.resultView.imgEraser01 setBackgroundImage:image forState:UIControlStateNormal];
+        [self.view addSubview:self.resultView.imgEraser01];
+        
+        self.resultView.imgEraser02 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"取消icon"]];
+        self.resultView.imgEraser02.frame = CGRectMake(screenWidth *56.0/750, screenHeigth *63.5/1334, screenWidth *45.0/750, screenWidth *45.0/750);
+        [self.resultView.imgEraser01 addSubview:self.resultView.imgEraser02];
+        
+        
+        [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:33.f options:UIViewAnimationOptionCurveEaseInOut animations:
+         ^{
+             self->_resultView.cellImage.frame = CGRectMake(screenWidth * -130.0/750, screenHeigth * 0.1746626, screenWidth * 0.976, screenHeigth * 0.15);
+        } completion:nil];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touches)];
+        [self.resultView.cellImage addGestureRecognizer:tap];
+        [self.resultView.cellImage removeGestureRecognizer:swipe];
+    }
+}
 
 - (void)lastInviteNetWork
 {
-    [_timer invalidate];
+    [_timer setFireDate:[NSDate distantFuture]];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-
     HttpClient *client = [HttpClient defaultClient];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:[_personData valueForKey:@"personStuID"] forKey:@"student_id"];
+    [dic setObject:[_personData valueForKey:@"studentID"] forKey:@"student_id"];
+    NSLog(@"邀请人的学号::::::::::::::::::::%@",[_personData valueForKey:@"studentID"]);
     NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded",@"token":[user objectForKey:@"token"]};
     [client requestWithHead:kTheLastInviteOkOrNot method:HttpRequestGet parameters:dic head:head prepareExecute:^{
         //
@@ -216,31 +251,64 @@
         
         
         NSArray *array = [responseObject objectForKey:@"data"];
-        NSString *string = [[array objectAtIndex:0] objectForKey:@"result"];
-        NSString *copyStr = [NSString stringWithFormat:@"%@",string];
-        if ([copyStr isEqualToString:@"1"])
+        for (NSDictionary *info in array)
         {
-            NSLog(@"接受邀请");
-            self.view.backgroundColor = [UIColor blackColor];
+            if (![[info objectForKey:@"student_id"] isEqualToString:[self->_personData valueForKey:@"studentID"]])
+            {
+                NSLog(@"%@",[info objectForKey:@"result"]);
+                if ([[info objectForKey:@"result"] isEqualToString:@"1"])
+                {
+                    NSLog(@"接受邀请");
+                    ZYLRunningViewController *runVC = [[ZYLRunningViewController alloc] init];
+                    [self presentViewController:runVC animated:YES completion:nil];
+                }
+            }
         }
-        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         //NSLog(@"发射失败");
         NSLog(@"%@",error);
     }];
 }
 
-- (void)LeftSwipe:(UISwipeGestureRecognizer *)swipe
+
+- (void)cancel
 {
-    if (swipe.direction == UISwipeGestureRecognizerDirectionLeft)
-    {
-        NSLog(@"左");
-    }
+    [self.resultView.cellImage removeFromSuperview];
+    [self.resultView.imgEraser01 removeFromSuperview];
+    
+    HttpClient *client = [HttpClient defaultClient];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSDictionary *head = @{@"token":[user objectForKey:@"token"]};
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    //邀请人
+    [dic setObject:_inviteStr forKey:@"invited_id"];
+    [client requestWithHead:cancelTheInvite method:HttpRequestPost parameters:dic head:head prepareExecute:^{
+        //
+    } progress:^(NSProgress *progress) {
+        //
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        //
+        NSLog(@"%@",responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        //
+        NSLog(@"%@",error);
+    }];
+}
+
+- (void)touches
+{
+    [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:27.f options:UIViewAnimationOptionCurveEaseInOut animations:
+     ^{
+         self.resultView.cellImage.frame = CGRectMake(screenWidth * 0.012, screenHeigth * 0.1746626, screenWidth * 0.976, screenHeigth * 0.15);
+     } completion:nil];
+    [self.resultView.cellImage addGestureRecognizer:_left];
+    [self.resultView.imgEraser01 removeFromSuperview];
 }
 
 - (void)backBtn
 {
-    [self removeChildVc:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"keepTimer" object:nil];
+    [LJJInviteSearchResultViewController removeChildVc:self];
     NSLog(@"back");
     ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
@@ -248,7 +316,7 @@
 }
 
 //移除当前VC
-- (void)removeChildVc:(UIViewController *)vc
++(void)removeChildVc:(UIViewController *)vc
 {
     [vc willMoveToParentViewController:nil];
     if (![vc isViewLoaded])

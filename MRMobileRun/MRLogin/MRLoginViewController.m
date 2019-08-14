@@ -18,7 +18,7 @@
 #import "MRLoginView.h"
 #import "LJJInviteCancel.h"
 #import "ZYLRunningViewController.h"
-
+#import "MRLoginModel.h"
 @interface MRLoginViewController ()
 //@property (nonatomic,strong) ZYLMainView *homePageVC;
 
@@ -115,79 +115,7 @@
     [UIApplication sharedApplication].keyWindow.rootViewController = nav;
     //登录成功后进入主界面
     NSLog(@"登陆成功");
-    //_timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
-    
-//        __weak __typeof(self) weakSelf = self;
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            __strong __typeof(weakSelf) strongSelf = weakSelf;
-//            if (strongSelf)
-//            {
-//                strongSelf.thread1 = [NSThread currentThread];
-//                [strongSelf.thread1 setName:@"线程A"];
-//                strongSelf.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:strongSelf selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
-//                NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-//                [runLoop addTimer:strongSelf.timer forMode:NSDefaultRunLoopMode];
-//                [runLoop run];
-//            }
-//        });
-    
 }
-//- (void)cycleToNetWork
-//{
-//    
-//    //[_timer invalidate];
-//    
-//    NSLog(@"repeat");
-//    //轮询是否收到邀约网络请求
-//    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-//    HttpClient *client = [HttpClient defaultClient];
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-//    [dic setObject:self.loginView.idTextfield.text forKey:@"student_id"];
-//    NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded",@"token":[user objectForKey:@"token"]};
-//    [client requestWithHead:kCycleYesOrNoInviteSuccess method:HttpRequestGet parameters:dic head:head prepareExecute:^
-//    {
-//        //
-//    } progress:^(NSProgress *progress)
-//    {
-//        //
-//    } success:^(NSURLSessionDataTask *task, id responseObject)
-//     {
-//    
-//         NSString *status = [responseObject objectForKey:@"status"];
-//         NSLog(@"stasus is %@",status);
-//         NSString *codeStr = [NSString stringWithFormat:@"%@",status];
-//         self->_invitedID = [[responseObject objectForKey:@"data"] objectForKey:@"invited_id"];
-//         if ([codeStr isEqualToString:@"200"])
-//         {
-//             NSLog(@"发射成功");
-//             NSLog(@"%@",responseObject);
-//             //[self->_timer invalidate];
-//             [self cancel];
-//             //设置弹窗效果
-//             self->_nickName = [[responseObject objectForKey:@"data"] objectForKey:@"nickname"];
-//             NSLog(@"nickName == %@",self->_nickName);
-//             [self setTheSpringWindow];
-//         }
-//         else
-//         {
-//             NSLog(@"发射失败");
-//             NSLog(@"%@",responseObject);
-//         }
-//    } failure:nil];
-//    
-//}
-
-//- (void)cancel{
-//
-//    if (self.timer) {
-//
-//        [self.timer invalidate];
-//
-//        self.timer = nil;
-//
-//    }
-//
-//}
 
 - (void)setTheSpringWindow
 {
@@ -210,7 +138,7 @@
     img.frame = CGRectMake(screenWidth *202.0/750, screenHeigth *69.0/1334, screenWidth *52.0/750, screenWidth *52.0/750);
     [_imageView addSubview:img];
     
-    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth *272.5/750, screenHeigth *68.0/1334, screenWidth *146.0/750, screenHeigth *50.0/1334)];
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth *272.5/750, screenHeigth *68.0/1334, screenWidth *200.0/750, screenHeigth *50.0/1334)];
     message.text = @"邀约消息";
     message.textColor = [LJJInviteRunVC colorWithHexString:@"#7A5595"];
     [_imageView addSubview:message];
@@ -249,6 +177,9 @@
         NSLog(@"the 被邀请人的学号:%@",[user objectForKey:@"studentID"]);
         NSLog(@"2");
         //拒绝返回2
+        //继续轮询
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"keepTimer" object:nil];
+
         
         HttpClient *client = [HttpClient defaultClient];
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];

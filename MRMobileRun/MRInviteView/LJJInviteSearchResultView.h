@@ -33,6 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *btnAdd;
 //分割线
 @property (nonatomic,strong) UIImageView *imageCut;
+//删除img
+@property (nonatomic,strong) UIButton *imgEraser01;
+@property (nonatomic,strong) UIImageView *imgEraser02;
 @end
 
 NS_ASSUME_NONNULL_END
