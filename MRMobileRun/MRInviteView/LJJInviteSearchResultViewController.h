@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LJJInviteSearchResultViewController : UIViewController
-
++ (void)removeChildVc:(UIViewController *)vc;
 @end
 
 NS_ASSUME_NONNULL_END

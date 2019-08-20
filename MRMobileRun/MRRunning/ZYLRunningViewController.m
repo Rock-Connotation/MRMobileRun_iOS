@@ -12,9 +12,10 @@
 
 #import "ZYLRunningViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "LJJInviteSearchResultViewController.h"
 #import <MapKit/MapKit.h>
 #import <Masonry.h>
-#import <MGJRouter.h>
+//#import <MGJRouter.h>
 #import "ZYLTimeStamp.h"
 #import "ZYLSteps.h"
 #import "ZYLUptateRunningData.h"
@@ -23,8 +24,12 @@
 #import "MRAlertView.h"
 #import "ZYLBackBtn.h"
 #import "ZYLRecordTimeString.h"
+#import "ZYLMainViewController.h"
+#import <CommonCrypto/CommonDigest.h>
+#import "MRLoginViewController.h"
 //#import "ZYLPolling.h"
 #import "ZYLUpdateData.h"
+#import "HttpClient.h"
 
 @interface ZYLRunningViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 @property (strong, nonatomic) CLLocationManager *manager;
@@ -286,6 +291,7 @@
 
     NSLog(@"位置发生改变:纬度:%@,经度:%@,高度:%@",latitude,longitude,altitude);
     
+    
     [manager stopUpdatingLocation];
 }
 
@@ -321,10 +327,15 @@
 
 //上传数据，返回首页
 - (void)back{
-    [MGJRouter openURL:kMainVCPageURL
-          withUserInfo:@{@"navigationVC" : self.navigationController,
-                         }
-            completion:nil];
+    //返回首页
+//    [MGJRouter openURL:kMainVCPageURL
+//          withUserInfo:@{@"navigationVC" : self.navigationController,
+//                         }
+//            completion:nil];
+    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
+    [UIApplication sharedApplication].keyWindow.rootViewController = nav;
+    [LJJInviteSearchResultViewController removeChildVc:self];
 }
 
 - (void)backAndUpdateData{
@@ -338,12 +349,10 @@
     if ( self.distance <100 ||self.second <  60 ){
         self.alertView = [MRAlertView alertViewWithTitle:@"此次跑步路程过短哦，不能作为跑步记录保存，确定不跑了吗？" action:^{
             NSLog(@"哈哈哈哈哈");
-            
         }];
         [self.alertView.okButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         
         [self.view addSubview:self.alertView];
-        
     }
     else{
         self.alertView = [MRAlertView alertViewWithTitle:@"确定结束此次跑步了吗？" action:^{
@@ -352,17 +361,15 @@
         [self.alertView.okButton addTarget:self action:@selector(backAndUpdateData) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.alertView];
     }
-
 }
 
 - (void) updateRunningData{
     self.zylSteps = [[ZYLSteps alloc] init];
     self.endTime = [ZYLTimeStamp getTimeStamp];
     self.steps = [self.zylSteps getStepsFromBeginTime:[ZYLTimeStamp getDateFromTimeStamp:self.beginTime] ToEndTime:[ZYLTimeStamp getDateFromTimeStamp:self.endTime]];
-    dispatch_queue_t updateRunningQueue = dispatch_queue_create("com.mr.MRMobileRunDisoatchQueue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_queue_t updateRunningQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     dispatch_async(updateRunningQueue, ^{
         NSString *dataStr = [ZYLUpdateData ZYLGetUpdateDataDictionaryWithBegintime: @([self.beginTime integerValue]) Endtime:@([self.endTime integerValue]) distance:[NSNumber numberWithDouble: self.distance]  lat_lng:self.locationArray andSteps: self.steps];
-        
         [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDataString: dataStr];
     });
 }
@@ -391,5 +398,25 @@
         [_runTabView.stopBtu addTarget:self action:@selector(stopRunning:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _runTabView;
+}
+
++(NSString *)currentDateInterval
+{
+    NSDate *dateNow = [NSDate date];
+    NSString *time = [NSString stringWithFormat:@"%ld",(long)([dateNow timeIntervalSince1970] * 1000)];
+    return time;
+}
+
++(NSString *)MD5:(NSString *)input
+{
+    const char *str = [input UTF8String];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, strlen(str), digest);
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH *2];
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i ++)
+    {
+        [output appendFormat:@"%02x",digest[i]];
+    }
+    return output;
 }
 @end

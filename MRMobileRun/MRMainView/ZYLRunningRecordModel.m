@@ -15,7 +15,7 @@
         self.begin_time = dic[@"begin_time"];
         self.end_time = dic[@"end_time"];
         self.distance = dic[@"distance"];
-        self.invite_id = dic[@"id"];
+        self.position = dic[@"lat_lng"];
         self.student_id = dic[@"student_id"];
         self.date = dic[@"date"];
     }

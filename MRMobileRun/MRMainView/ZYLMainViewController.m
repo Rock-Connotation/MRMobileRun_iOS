@@ -13,7 +13,7 @@
 @interface ZYLMainViewController () <MRTabBarViewDelegate>
 @property (strong, nonatomic) ZYLMainView *mainView;
 @property (strong, nonatomic) WeProgressCircle *progressCircle;
-@property (strong, nonatomic) MRTabBar *tab;
+//@property (strong, nonatomic)
 @property (strong, nonatomic) UIButton *recordBtn;
 @property (strong, nonatomic) UIButton *rankBtn;
 @property (assign, nonatomic) CGFloat tabBarHeight;
