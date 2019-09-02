@@ -35,7 +35,10 @@
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@",responseObject);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"%@",error);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateRunningDataError" object: nil];
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:dataStr forKey:@"runningData"];
+        [user synchronize];
     }];
 }
 

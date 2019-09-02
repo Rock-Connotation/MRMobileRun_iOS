@@ -48,6 +48,7 @@
 		2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BCFE2240CF4A00C1D8FC /* WeProgressCircle.xib */; };
 		2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */; };
 		2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */; };
+		2F3ACABD230C41E2008D51E5 /* ZYLStartRunningButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3ACABC230C41E2008D51E5 /* ZYLStartRunningButton.m */; };
 		2F495E1D2281BD99003DD714 /* ZYLPolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E1C2281BD99003DD714 /* ZYLPolling.m */; };
 		2F495E232282BE19003DD714 /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E222282BE19003DD714 /* HttpClient.m */; };
 		2F495E2B2282BE6F003DD714 /* MRLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F495E2A2282BE6F003DD714 /* MRLoginViewController.m */; };
@@ -111,6 +112,8 @@
 		2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB21107227D77D0000D5A2E /* ZYLMD5Encrypt.m */; };
 		2FB2110B22806711000D5A2E /* ZYLRecordTimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */; };
 		2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */; };
+		2FBE8938230C446F0042AB0D /* ZYLNoticeBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBE8937230C446E0042AB0D /* ZYLNoticeBanner.m */; };
+		2FBE893B230C448D0042AB0D /* ZYLButtonNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBE893A230C448D0042AB0D /* ZYLButtonNoticeView.m */; };
 		2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25122845E3300779B7B /* AVFoundation.framework */; };
 		2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25322845E3B00779B7B /* Photos.framework */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
@@ -224,6 +227,8 @@
 		2F36BCFF2240CF4A00C1D8FC /* WeProgressCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeProgressCircle.h; sourceTree = "<group>"; };
 		2F36BD002240CF4A00C1D8FC /* WeProgressCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WeProgressCircle.png; sourceTree = "<group>"; };
 		2F36BD012240CF4A00C1D8FC /* WeProgressCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeProgressCircle.m; sourceTree = "<group>"; };
+		2F3ACABB230C41E2008D51E5 /* ZYLStartRunningButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLStartRunningButton.h; sourceTree = "<group>"; };
+		2F3ACABC230C41E2008D51E5 /* ZYLStartRunningButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLStartRunningButton.m; sourceTree = "<group>"; };
 		2F495E1B2281BD99003DD714 /* ZYLPolling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLPolling.h; sourceTree = "<group>"; };
 		2F495E1C2281BD99003DD714 /* ZYLPolling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLPolling.m; sourceTree = "<group>"; };
 		2F495E212282BE19003DD714 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
@@ -349,6 +354,10 @@
 		2FB2110A22806711000D5A2E /* ZYLRecordTimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRecordTimeString.m; sourceTree = "<group>"; };
 		2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZYLBackBtn.h; path = MRRunning/ZYLBackBtn.h; sourceTree = "<group>"; };
 		2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZYLBackBtn.m; path = MRRunning/ZYLBackBtn.m; sourceTree = "<group>"; };
+		2FBE8936230C446E0042AB0D /* ZYLNoticeBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLNoticeBanner.h; sourceTree = "<group>"; };
+		2FBE8937230C446E0042AB0D /* ZYLNoticeBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLNoticeBanner.m; sourceTree = "<group>"; };
+		2FBE8939230C448D0042AB0D /* ZYLButtonNoticeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZYLButtonNoticeView.h; sourceTree = "<group>"; };
+		2FBE893A230C448D0042AB0D /* ZYLButtonNoticeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLButtonNoticeView.m; sourceTree = "<group>"; };
 		2FF4B25122845E3300779B7B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2FF4B25322845E3B00779B7B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -774,6 +783,8 @@
 				2F5A1B83224671920014B249 /* ZYLBackgroundView.m */,
 				2F5A1B85224688280014B249 /* ZYLMainView.h */,
 				2F5A1B86224688280014B249 /* ZYLMainView.m */,
+				2F3ACABB230C41E2008D51E5 /* ZYLStartRunningButton.h */,
+				2F3ACABC230C41E2008D51E5 /* ZYLStartRunningButton.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -831,6 +842,10 @@
 				2F5A1BAB22468BD40014B249 /* MRTimeLabel.m */,
 				2FB2110C22807D90000D5A2E /* ZYLBackBtn.h */,
 				2FB2110D22807D90000D5A2E /* ZYLBackBtn.m */,
+				2FBE8936230C446E0042AB0D /* ZYLNoticeBanner.h */,
+				2FBE8937230C446E0042AB0D /* ZYLNoticeBanner.m */,
+				2FBE8939230C448D0042AB0D /* ZYLButtonNoticeView.h */,
+				2FBE893A230C448D0042AB0D /* ZYLButtonNoticeView.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -1279,6 +1294,7 @@
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
 				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
+				2FBE893B230C448D0042AB0D /* ZYLButtonNoticeView.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
 				2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */,
 				2FB2110B22806711000D5A2E /* ZYLRecordTimeString.m in Sources */,
@@ -1297,8 +1313,10 @@
 				2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */,
 				2F495E572282D39B003DD714 /* ZYLRunningDataRequest.m in Sources */,
 				2F0E815A225F33C400D5E511 /* UIFont+AdjustAuto.m in Sources */,
+				2FBE8938230C446F0042AB0D /* ZYLNoticeBanner.m in Sources */,
 				2F495E542282C064003DD714 /* LJJInviteRunView.m in Sources */,
 				2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */,
+				2F3ACABD230C41E2008D51E5 /* ZYLStartRunningButton.m in Sources */,
 				2F5A1B87224688280014B249 /* ZYLMainView.m in Sources */,
 				CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */,
 				2F5A1B6B2246451F0014B249 /* ZYLMainViewController.m in Sources */,
@@ -1530,7 +1548,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4792Q3FLUK;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -1551,7 +1569,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4792Q3FLUK;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;

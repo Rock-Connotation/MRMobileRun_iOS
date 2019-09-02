@@ -27,7 +27,7 @@
 #import "ZYLMainViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "MRLoginViewController.h"
-//#import "ZYLPolling.h"
+#import "ZYLButtonNoticeView.h"
 #import "ZYLUpdateData.h"
 #import "HttpClient.h"
 
@@ -38,6 +38,8 @@
 @property (strong, nonatomic) NSString *beginTime;
 @property (strong, nonatomic) NSString *endTime;
 @property (nonatomic, weak) NSTimer *runTime;
+@property (nonatomic, weak) NSTimer *presentTime;
+@property (nonatomic, strong) ZYLButtonNoticeView *noticeView;
 @property (strong, nonatomic) ZYLSteps *zylSteps;
 @property (strong, nonatomic) ZYLRunningTabView *runTabView;
 @property (strong, nonatomic) ZYLRunningRecordView *recordView;
@@ -63,6 +65,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.beginTime = [ZYLTimeStamp getTimeStamp];
 //    [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDataString: ];
     self.distance = 0;
@@ -75,6 +78,13 @@
     [self.view addSubview: self.runTabView];
     [self.view addSubview: self.recordView];
     [self loadConstrains];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(UpdataDataError) name:@"UpdateRunningDataError" object:nil];
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    if ([user objectForKey:@"runningData"]) {
+        [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDataString: [user objectForKey:@"runningData"]];
+    }
     
     self.manager = [[CLLocationManager alloc] init];
     [self.manager requestAlwaysAuthorization];
@@ -338,9 +348,9 @@
     [LJJInviteSearchResultViewController removeChildVc:self];
 }
 
-- (void)backAndUpdateData{
+- (void)UpdateData{
     [self updateRunningData];
-    [self back];
+//    [self UpdataDataError];
 }
 
 - (void)stopRunning:(UIButton *)sender{
@@ -358,7 +368,7 @@
         self.alertView = [MRAlertView alertViewWithTitle:@"确定结束此次跑步了吗？" action:^{
             NSLog(@"哈哈哈哈哈");
         }];
-        [self.alertView.okButton addTarget:self action:@selector(backAndUpdateData) forControlEvents:UIControlEventTouchUpInside];
+        [self.alertView.okButton addTarget:self action:@selector(UpdateData) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.alertView];
     }
 }
@@ -367,11 +377,22 @@
     self.zylSteps = [[ZYLSteps alloc] init];
     self.endTime = [ZYLTimeStamp getTimeStamp];
     self.steps = [self.zylSteps getStepsFromBeginTime:[ZYLTimeStamp getDateFromTimeStamp:self.beginTime] ToEndTime:[ZYLTimeStamp getDateFromTimeStamp:self.endTime]];
-    dispatch_queue_t updateRunningQueue = dispatch_queue_create("com.mr.MRMobileRunDisoatchQueue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_queue_t updateRunningQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     dispatch_async(updateRunningQueue, ^{
         NSString *dataStr = [ZYLUpdateData ZYLGetUpdateDataDictionaryWithBegintime: @([self.beginTime integerValue]) Endtime:@([self.endTime integerValue]) distance:[NSNumber numberWithDouble: self.distance]  lat_lng:self.locationArray andSteps: self.steps];
         [ZYLUptateRunningData ZYLPostUninviteRunningDataWithDataString: dataStr];
     });
+}
+
+- (void)UpdataDataError{
+    self.noticeView = [ZYLButtonNoticeView viewInitWithText:@"无网络，我们将自动记录你这次的跑步数据"];
+    [self.view addSubview:self.noticeView];
+    [self.noticeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.runTabView.mas_top).mas_offset(-20);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(50);
+    }];
 }
 
 #pragma mark - 懒加载
