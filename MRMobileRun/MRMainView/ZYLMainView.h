@@ -14,14 +14,14 @@
 #import "ZYLBackgroundView.h"
 #import "ZYLLeaderboardBtn.h"
 #import "ZYLRunningRecordBtn.h"
-//#import ""
+#import "ZYLNoticeBanner.h"
 #import "MRNumLabel.h"
 #import "MRTimeLabel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLMainView : UIView
 
-
+@property (nonatomic, strong) UILabel *nicknameLab;
 @property (strong, nonatomic)ZYLRankModel *rankModel;
 @property (nonatomic,strong) ZYLAvatarBtn *avatarBtu;
 //头像按钮
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 //跑步记录的箭头按钮
 @property (nonatomic,strong) UIButton *backGroundOne;
 @property (nonatomic,strong) UIButton *backGroundTwo;
-//@property (nonatomic,strong) MRHomePageTabBar *tabBar;
+@property (nonatomic, strong) ZYLNoticeBanner *noticeBanner;
 @end
 
 NS_ASSUME_NONNULL_END

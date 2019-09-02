@@ -21,7 +21,6 @@
     }
     else
     {
-    NSString *url = @"http://111.230.169.17:8080/mobilerun/user/login";
     HttpClient *client = [HttpClient defaultClient];
     NSLog(@"studentID = %@",studentID);
     NSLog(@"password = %@",password);
@@ -29,7 +28,7 @@
     [dic setObject:password forKey:@"password"];
     NSLog(@"%@",dic);
     NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
-    [client requestWithHead:url method:HttpRequestPost parameters:dic head:head prepareExecute:^{
+    [client requestWithHead:kLoginURL method:HttpRequestPost parameters:dic head:head prepareExecute:^{
         //
     } progress:^(NSProgress *progress) {
         //

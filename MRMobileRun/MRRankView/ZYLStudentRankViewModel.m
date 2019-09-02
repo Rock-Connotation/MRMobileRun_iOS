@@ -49,7 +49,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MyStuRankCatched" object: model];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"PersonalStudentRankRequest----%@",error);
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyStuRankCatched" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyStuRankCatchedError" object: nil];
     }];
 }
 

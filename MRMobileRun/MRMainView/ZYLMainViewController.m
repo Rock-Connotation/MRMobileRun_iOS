@@ -7,13 +7,13 @@
 
 #import "ZYLMainViewController.h"
 #import "ZYLMainView.h"
-#import "MRTabBar.h"
+#import "ZYLStartRunningButton.h"
 #import <MGJRouter.h>
 #import <Masonry.h>
-@interface ZYLMainViewController () <MRTabBarViewDelegate>
+@interface ZYLMainViewController ()
 @property (strong, nonatomic) ZYLMainView *mainView;
 @property (strong, nonatomic) WeProgressCircle *progressCircle;
-@property (strong, nonatomic) MRTabBar *tab;
+@property (strong, nonatomic) ZYLStartRunningButton *runningBtn;
 @property (strong, nonatomic) UIButton *recordBtn;
 @property (strong, nonatomic) UIButton *rankBtn;
 @property (assign, nonatomic) CGFloat tabBarHeight;
@@ -35,9 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview: self.mainView];
-    self.tab = [[MRTabBar alloc] initWithFrame:CGRectMake(0, screenHeigth-kTabBarHeight, screenWidth, kTabBarHeight)];
-    [self.view addSubview:self.tab];
-    self.tab.tabView.delegate = self;
+
     
     [self initButtons];
 //    [self.view bringSubviewToFront:self.tab.tabView];
@@ -48,6 +46,9 @@
 - (void)initButtons{
     [self.view addSubview: self.recordBtn];
     [self.view addSubview: self.rankBtn];
+    [self.view addSubview: self.runningBtn];
+    
+
     
     if (kIs_iPhoneX) {
         [self.recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -63,6 +64,12 @@
             make.right.equalTo(self.view.mas_right);
             make.height.mas_equalTo(105);
         }];
+        [self.runningBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.bottom.equalTo(self.view.mas_bottom).mas_offset(-40);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(80);
+        }];
     }else{
         [self.recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
            make.edges.equalTo (self.view).with.insets(UIEdgeInsetsMake(750.0/1334.0*screenHeigth, 0, 479.0/1334.0*screenHeigth, 0));
@@ -71,41 +78,16 @@
         [self.rankBtn mas_makeConstraints:^(MASConstraintMaker *make) {
            make.edges.equalTo (self.view).with.insets(UIEdgeInsetsMake(914.0/1334.0*screenHeigth, 0, 266.0/1334.0*screenHeigth, 0));
         }];
+        [self.runningBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.bottom.equalTo(self.view.mas_bottom).mas_offset(-15);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(60);
+        }];
     }
 }
 
-- (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index
-{
-    // 切换到对应index的viewController
-    //    self.selectedIndex = index;
-    switch (index) {
-        case 1:
-            [MGJRouter openURL:kRankVCPageURL
-                  withUserInfo:@{@"navigationVC" : self.navigationController,
-                                 }
-                    completion:nil];
-            break;
-        case 2:
-            [MGJRouter openURL:kRunningVCPageURL
-                  withUserInfo:@{@"navigationVC" : self.navigationController,
-                                 }
-                    completion:nil];
-            break;
-        case 3:
-            [MGJRouter openURL:kInviteVCPageURL
-                  withUserInfo:@{@"navigationVC" : self.navigationController,
-                                 }
-                    completion:nil];
-            break;
-        case 4:
-            [MGJRouter openURL:kPersonnalVCPageURL
-                  withUserInfo:@{@"navigationVC" : self.navigationController,
-                                 }
-                    completion:nil];
-        default:
-            break;
-    }
-}
+
 
 #pragma mark - 点击事件
 - (void)clickAvatar{
@@ -125,6 +107,13 @@
 - (void)pushToHistoryView
 {
     NSLog(@"pushToHistoryView");
+}
+
+- (void)didClickRunningButton{
+    [MGJRouter openURL:kRunningVCPageURL
+          withUserInfo:@{@"navigationVC" : self.navigationController,
+                         }
+            completion:nil];
 }
 
 #pragma mark - 懒加载
@@ -155,5 +144,13 @@
         _rankBtn.backgroundColor = [UIColor clearColor];
     }
     return _rankBtn;
+}
+
+- (ZYLStartRunningButton *)runningBtn{
+    if (!_runningBtn) {
+        _runningBtn = [[ZYLStartRunningButton alloc] init];
+        [_runningBtn addTarget: self action:@selector(didClickRunningButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _runningBtn;
 }
 @end

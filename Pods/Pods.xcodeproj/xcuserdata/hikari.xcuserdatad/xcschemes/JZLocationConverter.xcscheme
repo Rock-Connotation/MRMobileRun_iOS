@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "956C2473531D8D92BCDD6337C85F5E10"
-               BlueprintName = "MGJRouter"
+               BlueprintIdentifier = "24179B871C4A692762C1727D40D06E39"
+               BlueprintName = "JZLocationConverter"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libMGJRouter.a">
+               BuildableName = "libJZLocationConverter.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

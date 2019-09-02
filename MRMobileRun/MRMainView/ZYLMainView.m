@@ -19,6 +19,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addAvatar:) name:@"getAvatarSuccess" object:nil];
          [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRankData:) name:@"MyStuRankCatched" object:nil];
          [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRecordData:) name:@"getPersonnalRunningRecordSuccess" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(NetError:) name:@"isLoginFail" object:nil];
         [self initUI];
         
         return self;
@@ -30,13 +31,13 @@
     
     [self initBackground];
     [self initAvatarBtu];
+    [self initNickNameLabel];
     [self initRunningRecordBtu];
     [self initLeaderboardBtu];
     [self initNumLabel];
     //这个是黑色显示统计数字label
     [self initRunningTime];
     [self initNameLabel];
-    //    [self initTabBar];
     [self initbeginRuningBtu];
     [self initConstrains];
     [ZYLStudentRankViewModel ZYLGetMyStudentRankWithdtime: @"days"];
@@ -65,6 +66,7 @@
     
     
     self.avatarImage = [[UIImageView alloc]init];
+    self.avatarImage.image = [UIImage imageNamed: @""];
     [self addSubview:self.avatarImage];
    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -82,6 +84,18 @@
     
     self.avatarImage.layer.cornerRadius=65.0/4.0 *screenWidth /375.0 ;
     //设置头像按钮
+}
+
+- (void)initNickNameLabel{
+    self.nicknameLab = [[UILabel alloc] init];
+    self.nicknameLab.font = [UIFont systemFontOfSize:20];
+    self.nicknameLab.textAlignment = NSTextAlignmentCenter;
+    self.nicknameLab.backgroundColor = [UIColor clearColor];
+    self.nicknameLab.textColor = [UIColor blackColor];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *nickname = [user objectForKey:@"nickname"];
+    [self.nicknameLab setText:nickname];
+    [self addSubview:self.nicknameLab];
 }
 
 - (void)initRunningRecordBtu{
@@ -205,6 +219,18 @@
     }
 }
 
+- (void)NetError:(NSNotification *)noti{
+    ZYLNoticeBanner *banner = [[ZYLNoticeBanner alloc] init];
+    [self addSubview:banner];
+    [banner mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nicknameLab.mas_bottom);
+        make.centerX.equalTo(self.mas_centerX);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(20);
+    }];
+}
+
+
 - (void)addRecordData:(NSNotification *)noti{
     ZYLRunningRecordModel *model = noti.object;
     if (model.student_id) {
@@ -229,6 +255,12 @@
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
             
+        }];
+        [self.nicknameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.mas_top).mas_offset(60);
+            make.centerX.equalTo(self.mas_centerX);
+            make.width.mas_equalTo(150);
+            make.height.mas_equalTo(50);
         }];
         [self.runingRecordBtu mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.mas_top).mas_offset(205.0);
@@ -321,6 +353,12 @@
             make.top.equalTo(self.mas_top).mas_offset(20);
             make.left.equalTo(self.mas_left).mas_offset(20);
             make.width.mas_equalTo(40);
+            make.height.mas_equalTo(40);
+        }];
+        [self.nicknameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.mas_top).mas_offset(20);
+            make.centerX.equalTo(self.mas_centerX);
+            make.width.mas_equalTo(150);
             make.height.mas_equalTo(40);
         }];
         [self.runingRecordBtu mas_makeConstraints:^(MASConstraintMaker *make) {

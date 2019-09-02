@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLRunningDataRequest : NSObject
-
++ (void)ZYLGetPersonnalRunningRecord;
 @end
 
 NS_ASSUME_NONNULL_END
