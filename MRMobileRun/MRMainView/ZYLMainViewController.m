@@ -122,7 +122,8 @@
             completion:nil];
 }
 
-- (void)pushToHistoryView{
+- (void)pushToHistoryView
+{
     NSLog(@"pushToHistoryView");
 }
 
