@@ -13,7 +13,6 @@
 
 @interface ZYLBackgroundView ()
 @property (nonatomic,strong) UIImageView *backgroundImageOne;
-@property (nonatomic,strong) UIImageView *backgroundImageTwo;
 @property (nonatomic,strong) UIImageView *backgroundImageThree;
 @property (nonatomic,strong) UIImageView *dividingLine;
 @property (nonatomic,strong) UIImageView *distanceImageView;
@@ -46,11 +45,6 @@
     self.backgroundImageOne.image = [UIImage imageNamed:@"纯色背景"];
     self.backgroundImageOne.frame = self.frame;
     [self addSubview:self.backgroundImageOne];
-    
-    self.backgroundImageTwo = [[UIImageView alloc]init];
-    self.backgroundImageTwo.image = [UIImage imageNamed:@"跑步记录按钮背景底"];
-    [self addSubview:self.backgroundImageTwo];
-    
     
     self.dividingLine = [[UIImageView alloc]init];
     self.dividingLine.image = [UIImage imageNamed:@"分割线"];
@@ -200,12 +194,6 @@
 
 - (void) initConstraints{
     if (kIs_iPhoneX) {
-        [self.backgroundImageTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.mas_top).mas_offset(22);
-            make.right.equalTo(self.mas_right);
-            make.width.mas_equalTo(180);
-            make.height.mas_equalTo(280);
-        }];
         
         [self.dividingLine mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.mas_top).mas_offset(488);
@@ -326,9 +314,6 @@
             make.height.mas_equalTo(20);
         }];
     }else{
-        [self.backgroundImageTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(22.0/1334.0*screenHeigth, 406.0/750.0*screenWidth, 796.0/1334.0*screenHeigth,0));
-        }];
         //顺序上，左，下，右
         [self.dividingLine mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(886.0/1334.0*screenHeigth, 42.0/750.0*screenWidth, 447.0/1334.0*screenHeigth, 41.0/750.0*screenWidth));

@@ -36,11 +36,11 @@
 #define kTheLastInviteOkOrNot @"https://wx.redrock.team/mobilerun/invite/history/result"
 //回传是否接受邀请
 
-#define kWhetherAcceptTheInvite @"http://111.230.169.17:8080/mobilerun/invite/result"
+#define kWhetherAcceptTheInvite @"https://wx.redrock.team/mobilerun/invite/result"
 //查询历史邀约数据
-#define ktheDataAboutHistoryInvited @"http://111.230.169.17:8080/mobilerun/invite/history"
+#define ktheDataAboutHistoryInvited @"https://wx.redrock.team/mobilerun/invite/history"
 //邀约上传跑步数据
-#define kLaunchTheInviteRunData @"http://111.230.169.17:8080/mobilerun/invite/update_data"
+#define kLaunchTheInviteRunData @"hhttps://wx.redrock.team/mobilerun/invite/update_data"
 
 //登陆URL 跟学号和身份证后六位(post)
 #define kLoginURL @"https://wx.redrock.team/mobilerun/mobilerun/user/login"
