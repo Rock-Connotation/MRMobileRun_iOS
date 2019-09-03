@@ -1548,7 +1548,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JGMUD2VWJ4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -1557,7 +1557,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRun;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redrock.MRMobileRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1569,7 +1569,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JGMUD2VWJ4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -1578,7 +1578,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mr.MRMobileRun;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redrock.MRMobileRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
