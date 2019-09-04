@@ -41,6 +41,8 @@
 #define ktheDataAboutHistoryInvited @"https://wx.redrock.team/mobilerun/invite/history"
 //邀约上传跑步数据
 #define kLaunchTheInviteRunData @"hhttps://wx.redrock.team/mobilerun/invite/update_data"
+//历史足迹
+#define kHistoryTrack @"https://wx.redrock.team/mobilerun/user/lat_lng"
 
 //登陆URL 跟学号和身份证后六位(post)
 #define kLoginURL @"https://wx.redrock.team/mobilerun/user/login"

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */; };
 		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
+		2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */; };
+		289B23E6231EAD8C00029899 /* MRRunningHistoryTrackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 289B23E5231EAD8C00029899 /* MRRunningHistoryTrackModel.m */; };
 		28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */; };
 		28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A5EDFD22DE927A00CA6B6A /* LJJInviteOk.m */; };
 		28EBE4EC22F07A70001B4293 /* LJJSearchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EBE4EB22F07A70001B4293 /* LJJSearchedView.m */; };
@@ -155,6 +157,10 @@
 		280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchVC.m; sourceTree = "<group>"; };
 		280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchView.h; sourceTree = "<group>"; };
 		280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchView.m; sourceTree = "<group>"; };
+		2889400D231E2D7B0002EDA8 /* MRRunningHistoryTrackController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRunningHistoryTrackController.h; sourceTree = "<group>"; };
+		2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRRunningHistoryTrackController.m; sourceTree = "<group>"; };
+		289B23E4231EAD8C00029899 /* MRRunningHistoryTrackModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRRunningHistoryTrackModel.h; sourceTree = "<group>"; };
+		289B23E5231EAD8C00029899 /* MRRunningHistoryTrackModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRRunningHistoryTrackModel.m; sourceTree = "<group>"; };
 		28A5EDF922DE925600CA6B6A /* LJJInviteCancel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteCancel.h; sourceTree = "<group>"; };
 		28A5EDFA22DE925600CA6B6A /* LJJInviteCancel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteCancel.m; sourceTree = "<group>"; };
 		28A5EDFC22DE927A00CA6B6A /* LJJInviteOk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteOk.h; sourceTree = "<group>"; };
@@ -431,6 +437,17 @@
 				152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		2832369F231D4531003F92BD /* MRRunningHistoryTrackView */ = {
+			isa = PBXGroup;
+			children = (
+				2889400D231E2D7B0002EDA8 /* MRRunningHistoryTrackController.h */,
+				2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */,
+				289B23E4231EAD8C00029899 /* MRRunningHistoryTrackModel.h */,
+				289B23E5231EAD8C00029899 /* MRRunningHistoryTrackModel.m */,
+			);
+			path = MRRunningHistoryTrackView;
 			sourceTree = "<group>";
 		};
 		2B186BF3715610DC086E3283 /* Frameworks */ = {
@@ -973,6 +990,7 @@
 			children = (
 				2F5A1BA022468A910014B249 /* Base */,
 				2F5A1B522245DFB00014B249 /* MRTabBar */,
+				2832369F231D4531003F92BD /* MRRunningHistoryTrackView */,
 				2F5A1B68224644470014B249 /* MRMainView */,
 				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				2F0E8162225F451D00D5E511 /* MRPersonalView */,
@@ -1321,6 +1339,7 @@
 				CE0CC1D1222E505C001283EA /* MRDemoViewController.m in Sources */,
 				2F5A1B6B2246451F0014B249 /* ZYLMainViewController.m in Sources */,
 				CE0CC1B5222E4938001283EA /* MRMainTabBarController.m in Sources */,
+				289B23E6231EAD8C00029899 /* MRRunningHistoryTrackModel.m in Sources */,
 				2F5A1B81224671140014B249 /* ZYLRunningRecordBtn.m in Sources */,
 				2F495E4B2282BFEB003DD714 /* LJJInviteViewModel.m in Sources */,
 				2F495E372282BEAD003DD714 /* MRLoginBtu.m in Sources */,
@@ -1377,6 +1396,7 @@
 				280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
+				2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
 				2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */,
 				2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */,
