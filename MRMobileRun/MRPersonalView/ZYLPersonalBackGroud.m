@@ -150,7 +150,7 @@
     
     [self addSubview:self.classID];
     [self.classID mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(526.0/1334.0*screenHeigth, 574.0/750.0*screenWidth, 766.0/1334.0*screenHeigth, 43.0/750.0*screenWidth));
+        make.edges.equalTo (self).with.insets(UIEdgeInsetsMake(526.0/1334.0*screenHeigth, 530.0/750.0*screenWidth, 766.0/1334.0*screenHeigth, 43.0/750.0*screenWidth));
     }];
     
     self.stuNum = [[MRChineseLabel alloc] init];
