@@ -8,6 +8,7 @@
 #import "ZYLMainViewController.h"
 #import "ZYLMainView.h"
 #import "ZYLStartRunningButton.h"
+#import "MRRunningHistoryTrackController.h"
 #import <MGJRouter.h>
 #import <Masonry.h>
 @interface ZYLMainViewController ()
@@ -106,7 +107,11 @@
 
 - (void)pushToHistoryView
 {
+    //足迹开始
     NSLog(@"pushToHistoryView");
+    
+    MRRunningHistoryTrackController *hisrotyVC = [[MRRunningHistoryTrackController alloc] init];
+    [self presentViewController:hisrotyVC animated:YES completion:nil];
 }
 
 - (void)didClickRunningButton{
