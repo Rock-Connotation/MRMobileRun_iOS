@@ -11,7 +11,7 @@
  学艺不精啊，终于把这部分写完了，把封装性提高了（我觉得）
  后面要改tabBar的item数目和内容直接修改addAllChildViewController方法里的添加方法就行了
  这部分自定义TabBar就是直接把自己写的TabBarView（继承自UIView）把原有TabBar覆盖了
- 不要把自定义View加到原有的TabBar上，它始终在底层不会响应button点击方法
+ 不要把自定义View加到原有的TabBar上，它始终在底层不会响应button点击方法（迷惑）
  */
 
 #import "MRTabBarController.h"
@@ -70,19 +70,19 @@
 //设置子页面
 - (void)addAllChildViewController{
     self.mainVC = [[ZYLMainViewController alloc] init];
-    [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"首页icon（未许选中）" tag:0];
+    [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"mainView_highlighted" tag:0];
 
     XIGRankViewViewController *vc2 = [[XIGRankViewViewController alloc] init];
-    [self addChildViewController:vc2 title:@"排行" imageNamed:@"排行榜icon （未选中）" selectedImageNamed:@"排行榜icon（选中）" tag:1];
+    [self addChildViewController:vc2 title:@"排行" imageNamed:@"rank_nomal" selectedImageNamed:@"rank_highlighted" tag:1];
 
     ZYLRunningViewController *vc3 = [[ZYLRunningViewController alloc] init];
     [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:@"开始跑步icon（按） 2" tag:2];
 
     LJJInviteRunVC *vc4 = [[LJJInviteRunVC alloc] init];
-    [self addChildViewController:vc4 title:@"邀约" imageNamed:@"邀约icon（未选中）" selectedImageNamed:@"邀约icon（选中）" tag:4];
+    [self addChildViewController:vc4 title:@"设置" imageNamed:@"setting_normal" selectedImageNamed:@"setting_highlighted" tag:4];
 
     ZYLPersonalViewController *vc5 = [[ZYLPersonalViewController alloc] init];
-    [self addChildViewController:vc5 title:@"我的" imageNamed:@"我的icon(未选中）" selectedImageNamed:@"我的icon（选中）" tag:5];
+    [self addChildViewController:vc5 title:@"我的" imageNamed:@"MyView_normal" selectedImageNamed:@"MyView_highlighted" tag:5];
 }
 
 

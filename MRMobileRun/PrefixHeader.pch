@@ -17,9 +17,13 @@
 /*TabBar高度*/
 #define kTabBarHeight (CGFloat)(kIs_iPhoneX?(49.0 + 34.0):(49.0))
 
-// Include any system framework and library headers here that should be included in all compilation units.
-// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+//黑暗模式背景颜色
+#define k_DarkBkgColor [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1.0]
 
+//十六进制色值转化UIColor
+#define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
+
+//各页面组件化地址
 #define kMainVCPageURL @"ZYL://pushMainVC"
 #define kPersonnalVCPageURL @"ZYL://pushPersonnalVC"
 #define kRankVCPageURL @"ZYL://pushRankVC"
@@ -28,6 +32,7 @@
 #define kLoginVCPageURL @"ZYL://pushLoginVC"
 
 
+//各接口URL
 //上传邀约信息
 #define kCommitRunTogetherInfo @"https://wx.redrock.team/mobilerun/invite/update"
 //轮询是否收到邀约

@@ -6,11 +6,12 @@
 //
 
 #import "AppDelegate.h"
+#import "MRTabBarController.h"
 #import "ZYLMainViewController.h"
 #import "MRLoginViewController.h"
 #import "MRLoginModel.h"
 @interface AppDelegate ()
-
+@property (nonatomic, strong) MRTabBarController *tabBarVC;
 @end
 
 @implementation AppDelegate
