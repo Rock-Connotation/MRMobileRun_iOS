@@ -1,0 +1,103 @@
+//
+//  PrefixHeader.pch
+//  MRMobileRun
+//
+//  Created by 丁磊 on 2019/3/23.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#define kStatusBarHeigh [[UIApplication sharedApplication] statusBarFrame].size.height  //导航栏高度
+#define screenHeigth  [UIScreen mainScreen].bounds.size.height
+#define screenWidth   [UIScreen mainScreen].bounds.size.width
+#define kRateX [UIScreen mainScreen].bounds.size.width/375   //以iPhoneX为基准
+#define kRateY [UIScreen mainScreen].bounds.size.height/812  //以iPhoneX为基准
+#define kIs_iphone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define kIs_iPhoneX screenWidth >=375.0f && screenHeigth >=812.0f&& kIs_iphone
+#define kHeadHeight kIs_iPhoneX? 44:20
+/*TabBar高度*/
+#define kTabBarHeight (CGFloat)(kIs_iPhoneX?(49.0 + 34.0):(49.0))
+
+//黑暗模式背景颜色
+#define k_DarkBkgColor [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1.0]
+
+//十六进制色值转化UIColor
+#define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
+
+//高德地图的key
+#define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
+
+
+//各页面组件化地址
+#define kMainVCPageURL @"ZYL://pushMainVC"
+#define kPersonnalVCPageURL @"ZYL://pushPersonnalVC"
+#define kRankVCPageURL @"ZYL://pushRankVC"
+#define kRunningVCPageURL @"ZYL://pushRunningVC"
+#define kInviteVCPageURL @"ZYL://pushInviteVC"
+#define kLoginVCPageURL @"ZYL://pushLoginVC"
+
+
+//各接口URL
+//上传邀约信息
+#define kCommitRunTogetherInfo @"https://wx.redrock.team/mobilerun/invite/update"
+//轮询是否收到邀约
+#define kCycleYesOrNoInviteSuccess @"https://wx.redrock.team/mobilerun/invite/invited"
+//查询最近一次邀约是否成功
+#define kTheLastInviteOkOrNot @"https://wx.redrock.team/mobilerun/invite/history/result"
+//回传是否接受邀请
+
+#define kWhetherAcceptTheInvite @"https://wx.redrock.team/mobilerun/invite/result"
+//查询历史邀约数据
+#define ktheDataAboutHistoryInvited @"https://wx.redrock.team/mobilerun/invite/history"
+//邀约上传跑步数据
+#define kLaunchTheInviteRunData @"hhttps://wx.redrock.team/mobilerun/invite/update_data"
+//历史足迹
+#define kHistoryTrack @"https://wx.redrock.team/mobilerun/user/lat_lng"
+
+//登陆URL 跟学号和身份证后六位(post)
+#define kLoginURL @"https://cyxbsmobile.redrock.team/wxapi/mobilerun/login"
+//注销登陆(get)
+#define kLoginoutURL @"https://wx.redrock.team/mobilerun/user/loginout"
+//获取头像，后接学号+.jpg
+#define kAvatorURL @"https://wx.redrock.team/mobilerun/head_img/"
+//排名名单
+//token作为header
+/*
+ 后跟time(时间段：days,  weekends, months, all)
+ rank（哪一个榜单（student_distance_rank, student_invitation_rank, class_distance_rank））
+ page 分页
+ */
+#define kRankListURL @"https://wx.redrock.team/mobilerun/rank_list"
+//排名
+/*
+ 后跟time(时间段：days,  weekends, months, all)
+ rank（哪一个榜单（student_distance_rank, student_invitation_rank, class_distance_rank））
+ 学号，id
+ */
+#define kRankURL @"https://wx.redrock.team/mobilerun/mobilerun/rank"
+//头像url 后面加学号.jpg
+#define kUserAvatarUrl @"https://wx.redrock.team/mobilerun/"
+//上传头像(post)
+#define kUploadAvatarUrl @"https://wx.redrock.team/mobilerun/user/upload"
+//修改昵称（post）
+#define kNicknameUrl @"https://wx.redrock.team/mobilerun/user/info/update"
+//查询跑步记录(get)
+//后跟student_id和page
+#define kRunningHistoryUrl @"https://wx.redrock.team/mobilerun/user/lat_lng"
+//查询被邀请人的消息(post)
+#define kSearchInfoUrl @"https://wx.redrock.team/mobilerun/invite/searchinfo"
+//邀约历史记录
+#define kInvitationHistoryRecordUrl @"https://wx.redrock.team/mobilerun/invite/history"
+//查询被邀请人的消息
+
+#define kSearchInfoUrl @"http://111.230.169.17:8080/mobilerun/invite/searchinfo"
+#define cancelTheInvite @"http://111.230.169.17:8080/mobilerun/invite/cancel"
+#define SALT @"runningtogether"
+#define kDECRYPTKEY @"redrockmobilerun"
+#define HEADERHEIGHT (STATUSBARHEIGHT+NVGBARHEIGHT)
+
+#define NVGBARHEIGHT (44)
+
+#define STATUSBARHEIGHT [[UIApplication sharedApplication] statusBarFrame].size.height
+
+#endif /* PrefixHeader_pch */

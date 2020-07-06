@@ -6,10 +6,15 @@
 //
 
 #import "AppDelegate.h"
-#import "MRMainTabBarController.h"
+#import "MRTabBarController.h"
+#import "ZYLMainViewController.h"
+#import "ZYLLoginViewController.h"
+#import "MRLoginModel.h"
+#define BUGLY_APPID @"354f05b571"
+#define BUGLY_APPKEY @"c423889d-fa34-4de8-aa6c-8e29305d03b6"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) MRTabBarController *tabBarVC;
 @end
 
 @implementation AppDelegate
@@ -17,9 +22,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    MRMainTabBarController *tabBarVC = [[MRMainTabBarController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tabBarVC];
+    self.window.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    ZYLLoginViewController *loginVC = [[ZYLLoginViewController alloc] init];
+//    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
+    MRTabBarController *tabVC = [[MRTabBarController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: tabVC];
     self.window.rootViewController = nav;
+    if ([user valueForKey:@"password"]) {
+        self.window.rootViewController = nav;
+        MRLoginModel *model = [[MRLoginModel alloc] init];
+        [model postRequestWithStudentID:[user valueForKey:@"studentID"] andPassword:[user valueForKey:@"password"]];
+        [self.window makeKeyAndVisible];
+    }
+    else{
+        self.window.rootViewController = loginVC;
+        [self.window makeKeyAndVisible];
+    }
     [self.window makeKeyAndVisible];
     self.window.backgroundColor = [UIColor whiteColor];
     return YES;
@@ -45,6 +64,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"程序进入前台状态,处于活跃状态");
 }
 
 
