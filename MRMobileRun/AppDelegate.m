@@ -8,8 +8,11 @@
 #import "AppDelegate.h"
 #import "MRTabBarController.h"
 #import "ZYLMainViewController.h"
-#import "MRLoginViewController.h"
+#import "ZYLLoginViewController.h"
 #import "MRLoginModel.h"
+#define BUGLY_APPID @"354f05b571"
+#define BUGLY_APPKEY @"c423889d-fa34-4de8-aa6c-8e29305d03b6"
+
 @interface AppDelegate ()
 @property (nonatomic, strong) MRTabBarController *tabBarVC;
 @end
@@ -19,11 +22,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    MRLoginViewController *loginVC = [[MRLoginViewController alloc] init];
-    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
-    self.window.rootViewController = loginVC;
+    ZYLLoginViewController *loginVC = [[ZYLLoginViewController alloc] init];
+//    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
+    MRTabBarController *tabVC = [[MRTabBarController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: tabVC];
+    self.window.rootViewController = nav;
     if ([user valueForKey:@"password"]) {
         self.window.rootViewController = nav;
         MRLoginModel *model = [[MRLoginModel alloc] init];
@@ -34,6 +39,7 @@
         self.window.rootViewController = loginVC;
         [self.window makeKeyAndVisible];
     }
+    [self.window makeKeyAndVisible];
     self.window.backgroundColor = [UIColor whiteColor];
     return YES;
 }

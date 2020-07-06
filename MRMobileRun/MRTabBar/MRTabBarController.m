@@ -19,7 +19,7 @@
 #import "ZYLMainViewController.h"
 #import "ZYLPersonalViewController.h"
 #import "ZYLRunningViewController.h"
-#import "XIGRankViewViewController.h"
+#import "ZYLRankViewController.h"
 #import "LJJInviteRunVC.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);
     self.textArr = [NSMutableArray array];
     self.btnArr = [NSMutableArray array];
 
@@ -55,7 +55,6 @@
     
     [self addAllChildViewController];
     [self.tabView setArray: self.btnArr];
-    [self.tabView setTextArray: self.textArr];
     self.tabView.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideTabView) name:@"hideTabBar" object:nil];
@@ -72,16 +71,16 @@
     self.mainVC = [[ZYLMainViewController alloc] init];
     [self addChildViewController:self.mainVC title:@"首页" imageNamed:@"首页icon（未选中）" selectedImageNamed:@"mainView_highlighted" tag:0];
 
-    XIGRankViewViewController *vc2 = [[XIGRankViewViewController alloc] init];
+    ZYLRankViewController *vc2 = [[ZYLRankViewController alloc] init];
     [self addChildViewController:vc2 title:@"排行" imageNamed:@"rank_nomal" selectedImageNamed:@"rank_highlighted" tag:1];
 
     ZYLRunningViewController *vc3 = [[ZYLRunningViewController alloc] init];
     [self addChildViewController:vc3 title:@"跑步" imageNamed:@"开始跑步icon（未按）" selectedImageNamed:@"开始跑步icon（按） 2" tag:2];
 
-    LJJInviteRunVC *vc4 = [[LJJInviteRunVC alloc] init];
+    ZYLPersonalViewController *vc4 = [[ZYLPersonalViewController alloc] init];
     [self addChildViewController:vc4 title:@"设置" imageNamed:@"setting_normal" selectedImageNamed:@"setting_highlighted" tag:4];
 
-    ZYLPersonalViewController *vc5 = [[ZYLPersonalViewController alloc] init];
+    UIViewController *vc5 = [[UIViewController alloc] init];
     [self addChildViewController:vc5 title:@"我的" imageNamed:@"MyView_normal" selectedImageNamed:@"MyView_highlighted" tag:5];
 }
 

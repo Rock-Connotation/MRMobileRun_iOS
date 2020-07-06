@@ -6,10 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ZYLSettingIconCell;
-@class ZYLSettingNameCell;
-@class ZYLSettingNomalCell;
-@class ZYLSettingDarkModeCell;
+#import "ZYLSettingNomalCell.h"
+#import "ZYLSettingIconCell.h"
+#import "ZYLSettingNameCell.h"
+#import "ZYLSettingDarkModeCell.h"
+#import "ZYLNicknameTextField.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLSettingBackgound : UIView
@@ -21,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ZYLSettingNomalCell *permissionCell;
 @property (nonatomic, strong) ZYLSettingNomalCell *suggestionCell;
 @property (nonatomic, strong) UIButton *logoutBtn;
+//@property (nonatomic, strong) ZYLNicknameTextField *nicknameTextFiled;
 @end
 
 NS_ASSUME_NONNULL_END

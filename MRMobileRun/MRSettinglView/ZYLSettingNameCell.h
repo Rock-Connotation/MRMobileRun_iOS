@@ -13,11 +13,11 @@
 
 
 #import "ZYLSettingNomalCell.h"
-
+#import "ZYLNicknameTextField.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLSettingNameCell : ZYLSettingNomalCell
-@property (nonatomic, strong) UILabel *nickNameLab;
+@property (nonatomic, strong) ZYLNicknameTextField *nicknameTextFiled;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -25,29 +25,41 @@
 }
 
 - (void)initIconImage{
-    self.iconImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 28, 28)];
+    self.iconImage = [[UIImageView alloc] init];
     self.iconImage.backgroundColor = [UIColor clearColor];
     [self addSubview: self.iconImage];
+    [self.iconImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mas_centerY);
+        make.left.equalTo(self.mas_left).mas_offset(15*kRateX);
+        make.height.mas_equalTo(28*kRateX);
+        make.width.mas_equalTo(28*kRateX);
+    }];
 }
 
 - (void)initTextLabel{
     self.textLab = [[UILabel alloc] initWithFrame:CGRectMake(55, 18, 140, 25)];
-//    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"运动权限设置" attributes: @{NSFontAttributeName: [UIFont fontWithName:@"PingFangSC" size: 18],NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.0 green:55/255.0 blue:57/255.0 alpha:1.0]}];
-//    self.textLab.attributedText = string;
+    self.textLab.font = [UIFont fontWithName:@"PingFangSC" size:18];
+    self.textLab.textColor = COLOR_WITH_HEX(0x333739);
     self.textLab.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.textLab];
+    [self.textLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.iconImage.mas_centerY);
+        make.left.equalTo(self.iconImage.mas_right).mas_offset(6*kRateX);
+        make.height.mas_equalTo(25*kRateY);
+        make.width.mas_equalTo(140*kRateX);
+    }];
 }
 
 - (void)initArrowImage{
     self.arrowImage = [[UIImageView alloc] init];
-//    self.arrowImage.image = [UIImage imageNamed:<#(nonnull NSString *)#>];
+    self.arrowImage.image = [UIImage imageNamed:@"arraw"];
     self.arrowImage.backgroundColor = [UIColor clearColor];
     [self addSubview: self.arrowImage];
     [self.arrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.mas_centerX);
-        make.right.equalTo(self.mas_right).mas_offset(-15);
-        make.height.mas_equalTo(15);
-        make.width.mas_equalTo(15);
+        make.centerY.equalTo(self.mas_centerY);
+        make.right.equalTo(self.mas_right).mas_offset(-15*kRateX);
+        make.height.mas_equalTo(15*kRateX);
+        make.width.mas_equalTo(15*kRateX);
     }];
 }
 @end

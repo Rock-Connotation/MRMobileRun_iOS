@@ -18,10 +18,7 @@
 #import "MRLoginView.h"
 #import "LJJInviteCancel.h"
 #import "ZYLRunningViewController.h"
-#import "MRLoginModel.h"
 @interface MRLoginViewController ()
-//@property (nonatomic,strong) ZYLMainView *homePageVC;
-
 //登录界面的view
 @property (nonatomic,strong) MRLoginModel *loginModel;
 

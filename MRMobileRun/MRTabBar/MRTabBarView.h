@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSInteger selectIndex;
 @property (strong, nonatomic) NSMutableArray *array;
-@property (strong, nonatomic) NSMutableArray<NSString *> *textArray;
-@property (strong, nonatomic) NSMutableArray *labArray;
 @property (assign, nonatomic) id<MRTabBarViewDelegate> delegate;
 
 @end

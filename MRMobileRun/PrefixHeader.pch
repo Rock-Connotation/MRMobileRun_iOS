@@ -7,13 +7,14 @@
 
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
-#define kHeadHeight 44
-#define kStatusBarHeigh [[UIApplication sharedApplication] statusBarFrame].size.height
+#define kStatusBarHeigh [[UIApplication sharedApplication] statusBarFrame].size.height  //导航栏高度
 #define screenHeigth  [UIScreen mainScreen].bounds.size.height
 #define screenWidth   [UIScreen mainScreen].bounds.size.width
+#define kRateX [UIScreen mainScreen].bounds.size.width/375   //以iPhoneX为基准
+#define kRateY [UIScreen mainScreen].bounds.size.height/812  //以iPhoneX为基准
 #define kIs_iphone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define kIs_iPhoneX screenWidth >=375.0f && screenHeigth >=812.0f&& kIs_iphone
-
+#define kHeadHeight kIs_iPhoneX? 44:20
 /*TabBar高度*/
 #define kTabBarHeight (CGFloat)(kIs_iPhoneX?(49.0 + 34.0):(49.0))
 
@@ -22,6 +23,10 @@
 
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
+
+//高德地图的key
+#define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
+
 
 //各页面组件化地址
 #define kMainVCPageURL @"ZYL://pushMainVC"
@@ -50,7 +55,7 @@
 #define kHistoryTrack @"https://wx.redrock.team/mobilerun/user/lat_lng"
 
 //登陆URL 跟学号和身份证后六位(post)
-#define kLoginURL @"https://wx.redrock.team/mobilerun/user/login"
+#define kLoginURL @"https://cyxbsmobile.redrock.team/wxapi/mobilerun/login"
 //注销登陆(get)
 #define kLoginoutURL @"https://wx.redrock.team/mobilerun/user/loginout"
 //获取头像，后接学号+.jpg

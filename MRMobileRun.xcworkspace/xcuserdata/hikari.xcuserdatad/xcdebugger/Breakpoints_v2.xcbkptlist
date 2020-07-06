@@ -7,18 +7,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D49E7BD8-17F5-484B-949F-18DA12F66C8B"
+            uuid = "FCD8769C-04A9-475A-ABE3-D5FDAA8C8C2A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MRMobileRun/ViewController/MRHomeViewController.m"
-            timestampString = "579020591.624168"
+            filePath = "MRMobileRun/MRMainView/ZYLRunningDataRequest.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "+ZYLGetPersonnalRunningRecord"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "776E980F-FE3A-4094-97FA-C50B58E7BF38"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MRMobileRun/MRRunningHistoryTrackView/MRRunningHistoryTrackModel.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "-loadData"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "776E980F-FE3A-4094-97FA-C50B58E7BF38 - b2a9a2cd52c1cdf2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MRRunningHistoryTrackModel loadData]"
+                  moduleName = "MRMobileRun"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hikari/Documents/GitHub/MRMobileRun_iOS/MRMobileRun/MRRunningHistoryTrackView/MRRunningHistoryTrackModel.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "95">
+               </Location>
+               <Location
+                  uuid = "776E980F-FE3A-4094-97FA-C50B58E7BF38 - 6d347b2605e3603"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__38-[MRRunningHistoryTrackModel loadData]_block_invoke"
+                  moduleName = "MRMobileRun"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hikari/Documents/GitHub/MRMobileRun_iOS/MRMobileRun/MRRunningHistoryTrackView/MRRunningHistoryTrackModel.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "4">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

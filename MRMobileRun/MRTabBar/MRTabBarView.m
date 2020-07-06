@@ -15,9 +15,9 @@
 @implementation MRTabBarView
 
 
-- (void)setTextArray:(NSMutableArray *)textArray{
-    _textArray = textArray;
-    self.labArray = [NSMutableArray array];
+- (void)setArray:(NSMutableArray *)array{
+    _array = array;
+    self.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);
     for (int i = 0; i < _array.count; i++) {
 //        判断是否属于中心的button
 //        如果tabBarItems不是偶数，记得加个判断（不过我觉得不可能滴）
@@ -29,64 +29,47 @@
             [self addSubview: btn];
             if (kIs_iPhoneX) {
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.mas_top).mas_offset(9);
-                    make.left.mas_equalTo(i*screenWidth/self.textArray.count + screenWidth/self.textArray.count/2-10);
-                    make.width.mas_equalTo(20);
-                    make.height.mas_equalTo(20);
+                    make.top.equalTo(self.mas_top).mas_offset(9*kRateY);
+                    make.left.mas_equalTo(i*screenWidth/self.array.count + screenWidth/self.array.count/2-20*kRateX);
+                    make.width.mas_equalTo(40*kRateX);
+                    make.height.mas_equalTo(60*kRateY);
                 }];
             }else{
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.mas_top).mas_offset(5);
-                    make.left.mas_equalTo(i*screenWidth/self.textArray.count + screenWidth/self.textArray.count/2-10);
-                    make.width.mas_equalTo(25);
-                    make.height.mas_equalTo(25);
+                    make.top.equalTo(self.mas_top).mas_offset(5*kRateY);
+                    make.left.mas_equalTo(i*screenWidth/self.array.count + screenWidth/self.array.count/2-20);
+                    make.width.mas_equalTo(35);
+                    make.height.mas_equalTo(40);
                 }];
             }
             [_array replaceObjectAtIndex:i withObject: btn];
             
-            UILabel *lab = [[UILabel alloc] init];
-            lab.textColor = [UIColor colorWithRed:69.0/255.0 green:41.0/255.0 blue:115.0/255.0 alpha:1];
-            lab.textAlignment = NSTextAlignmentCenter;
-            [lab setFont:[UIFont systemFontOfSize:11.5]];
-            NSString *str = self.textArray[i];
-            lab.text = str;
-            [self.labArray addObject:lab];
-            [self addSubview:lab];
-            [lab mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(btn.mas_bottom).mas_offset(3);
-                make.centerX.equalTo(btn.mas_centerX);
-                make.width.mas_equalTo(100);
-                make.height.mas_equalTo(15);
-            }];
         }
         else{
             
             //设置中心大button
-            [self.labArray addObject: [[UILabel alloc] init]];
             UIButton *btn = _array[i];
             btn.tag = i;
              [btn addTarget:self action:@selector(selectedItem:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:btn];
             if (kIs_iPhoneX) {
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.mas_top).mas_offset(-30);
+                    make.top.equalTo(self.mas_top);
                     make.centerX.mas_equalTo(self.mas_centerX);
-                    make.width.mas_equalTo(80);
-                    make.height.mas_equalTo(80);
+                    make.width.mas_equalTo(60*kRateX);
+                    make.height.mas_equalTo(60*kRateX);
                 }];
             }else{
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.mas_top).mas_offset(-15);
+                    make.top.equalTo(self.mas_top);
                     make.centerX.mas_equalTo(self.mas_centerX);
-                    make.width.mas_equalTo(60);
-                    make.height.mas_equalTo(60);
+                    make.width.mas_equalTo(40*kRateX);
+                    make.height.mas_equalTo(40*kRateX);
                 }];
             }
         }
 
     }
-        UILabel *lab = self.labArray[0];
-        lab.textColor = SELECTED_COLOR;
     self.selectIndex = 0;
 }
 
@@ -94,7 +77,7 @@
 {
     // button的tag对应tabBarController的selectedIndex
     // 设置选中button的样式
-//    self.selectIndex = sender.tag;
+    self.selectIndex = sender.tag;
     // 让代理来处理切换viewController的操作
     if ([self.delegate respondsToSelector:@selector(tabBarView:didSelectedItemAtIndex:)]) {
         [self.delegate tabBarView:self didSelectedItemAtIndex:sender.tag];
@@ -105,13 +88,9 @@
 {
     // 先把上次选择的item设置为可用
     UIButton *lastItem = _array[_selectIndex];
-    UILabel *lastLab = self.labArray[_selectIndex];
-    lastLab.textColor = DEFAULT_COLOR;
     lastItem.enabled = YES;
     // 再把这次选择的item设置为不可用
     UIButton *item = _array[selectIndex];
-    UILabel *lab = self.labArray[selectIndex];
-    lab.textColor = SELECTED_COLOR;
     item.enabled = NO;
     _selectIndex = selectIndex;
 }

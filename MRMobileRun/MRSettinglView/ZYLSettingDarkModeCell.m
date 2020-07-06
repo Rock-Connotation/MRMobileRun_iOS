@@ -16,7 +16,7 @@
         self.textLab.text = @"黑夜模式";
         self.iconImage.image = [UIImage imageNamed:@"setting_darkMode"];
         self.arrowImage.hidden = YES;
-        self.mySwitch = [[UISwitch alloc] initWithFrame: CGRectMake(screenWidth-70, 17, 52, 30)];
+        self.mySwitch = [[UISwitch alloc] initWithFrame: CGRectMake(screenWidth-70*kRateX, 17*kRateY, 52*kRateX, 30*kRateY)];
         [self addSubview: self.mySwitch];
 //        [self.mySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.centerX.equalTo(self.mas_centerX);

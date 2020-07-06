@@ -7,6 +7,7 @@
 
 #import "MRLoginModel.h"
 #import "HttpClient.h"
+#import <AFNetworking.h>
 #import "MRLoginViewController.h"
 @implementation MRLoginModel
 
@@ -24,7 +25,7 @@
     HttpClient *client = [HttpClient defaultClient];
     NSLog(@"studentID = %@",studentID);
     NSLog(@"password = %@",password);
-    [dic setObject:studentID forKey:@"student_id"];
+    [dic setObject:studentID forKey:@"studentId"];
     [dic setObject:password forKey:@"password"];
     NSLog(@"%@",dic);
     NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
@@ -51,6 +52,10 @@
             
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"nickname"] forKey:@"nickname"];
             //存储昵称
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"avatar_url"] forKey:@"avatar_url"];
+//            存储头像
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"signature"] forKey:@"signature"];
+//            存储个性签名
             [user setObject:password forKey:@"password"];
             [user synchronize];
             //请求成功时发送广播

@@ -12,7 +12,7 @@
 #import "ZYLRunningViewController.h"
 #import "XIGRankViewViewController.h"
 #import "LJJInviteRunVC.h"
-#import "MRLoginViewController.h"
+#import "ZYLLoginViewController.h"
 
 @implementation MRRouterManager
 + (void)load {
@@ -26,8 +26,8 @@
     
     [MGJRouter registerURLPattern:kLoginVCPageURL toHandler:^(NSDictionary *routerParameters) {
         UINavigationController *navigationVC = routerParameters[MGJRouterParameterUserInfo][@"navigationVC"];
-        MRLoginViewController *vc = [[MRLoginViewController alloc] init];
-        [navigationVC pushViewController:vc animated:YES];
+        ZYLLoginViewController *vc = [[ZYLLoginViewController alloc] init];
+        [navigationVC pushViewController:vc animated:NO];
     }];
     
     [MGJRouter registerURLPattern:kRankVCPageURL toHandler:^(NSDictionary *routerParameters) {

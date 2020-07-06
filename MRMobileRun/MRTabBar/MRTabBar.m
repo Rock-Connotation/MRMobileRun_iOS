@@ -38,7 +38,6 @@
     }];
     [self addAllChildViewController];
     [self.tabView setArray: self.btnArr];
-    [self.tabView setTextArray: self.textArr];
 }
 
 
@@ -52,7 +51,6 @@
 
 - (void)addChildViewControllertitle:(NSString *)title imageNamed:(NSString *)imageNamed selectedImageNamed:(NSString *)selectedImageName tag:(NSInteger)i
 {
-    [self.textArr addObject:title];
     UIButton *btn = [[UIButton alloc] init];
     [btn setImage:[UIImage imageNamed: imageNamed] forState: UIControlStateNormal];
     [btn setImage:[UIImage imageNamed: selectedImageName] forState: UIControlStateDisabled];

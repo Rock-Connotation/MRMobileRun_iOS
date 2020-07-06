@@ -19,7 +19,7 @@
 
 - (void)initAvatarBtu{
     
-    self.frame = CGRectMake(0, 0, 60, 60);
+    self.frame = CGRectMake(0, 0, 60*kRateX, 60*kRateX);
     
     
     NSUserDefaults *user = [[NSUserDefaults alloc]init];
@@ -38,7 +38,7 @@
     }
     self.clipsToBounds=YES;
     
-    self.layer.cornerRadius=123.0/4.0 *screenWidth /375.0;
+    self.layer.cornerRadius=123.0/4.0*kRateX;
     
 }
 /*
