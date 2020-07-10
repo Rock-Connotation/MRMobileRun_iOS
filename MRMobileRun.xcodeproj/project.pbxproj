@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18A4CF0C24B715AD00330683 /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF0B24B715AD00330683 /* MGDTopView.m */; };
+		18A4CF1D24B761BB00330683 /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF1C24B761BB00330683 /* MGDBaseInfoView.m */; };
+		18A4CF2024B7789700330683 /* MGDMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF1F24B7789700330683 /* MGDMineViewController.m */; };
 		280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */; };
 		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
 		2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */; };
@@ -185,6 +188,12 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		18A4CF0A24B715AD00330683 /* MGDTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
+		18A4CF0B24B715AD00330683 /* MGDTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
+		18A4CF1B24B761BB00330683 /* MGDBaseInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDBaseInfoView.h; sourceTree = "<group>"; };
+		18A4CF1C24B761BB00330683 /* MGDBaseInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
+		18A4CF1E24B7789700330683 /* MGDMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDMineViewController.h; sourceTree = "<group>"; };
+		18A4CF1F24B7789700330683 /* MGDMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDMineViewController.m; sourceTree = "<group>"; };
 		280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchVC.h; sourceTree = "<group>"; };
 		280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchVC.m; sourceTree = "<group>"; };
 		280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchView.h; sourceTree = "<group>"; };
@@ -527,6 +536,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18A4CF0324B7149100330683 /* MRMineView */ = {
+			isa = PBXGroup;
+			children = (
+				18A4CF0624B714E200330683 /* ViewController */,
+				18A4CF0524B714DB00330683 /* Model */,
+				18A4CF0424B714D400330683 /* View */,
+			);
+			path = MRMineView;
+			sourceTree = "<group>";
+		};
+		18A4CF0424B714D400330683 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				18A4CF0A24B715AD00330683 /* MGDTopView.h */,
+				18A4CF0B24B715AD00330683 /* MGDTopView.m */,
+				18A4CF1B24B761BB00330683 /* MGDBaseInfoView.h */,
+				18A4CF1C24B761BB00330683 /* MGDBaseInfoView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18A4CF0524B714DB00330683 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18A4CF0624B714E200330683 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18A4CF1E24B7789700330683 /* MGDMineViewController.h */,
+				18A4CF1F24B7789700330683 /* MGDMineViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		1B011DB0C0CCA19896847627 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1190,6 +1236,7 @@
 				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				2F0E8162225F451D00D5E511 /* MRSettinglView */,
 				2F14BF86226AE5A800CCA2B8 /* MRRunning */,
+				18A4CF0324B7149100330683 /* MRMineView */,
 				2F495E1F2282BD34003DD714 /* MRLogin */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
 				2F495E3B2282BF0F003DD714 /* MRInviteView */,
@@ -1499,6 +1546,7 @@
 				2F5A1BA922468BC80014B249 /* MRNumLabel.m in Sources */,
 				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
 				28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */,
+				18A4CF0C24B715AD00330683 /* MGDTopView.m in Sources */,
 				2F7ADC80237C2A8D00FE9461 /* ZYLWelcomeLabel.m in Sources */,
 				2F6DF0C2227B301B00BA6099 /* ZYLRunningRecordView.m in Sources */,
 				2FB21108227D77D0000D5A2E /* ZYLMD5Encrypt.m in Sources */,
@@ -1506,6 +1554,7 @@
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
 				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
+				18A4CF1D24B761BB00330683 /* MGDBaseInfoView.m in Sources */,
 				2F7ADC7D237C29EE00FE9461 /* ZYLLoginViewController.m in Sources */,
 				2FBE893B230C448D0042AB0D /* ZYLButtonNoticeView.m in Sources */,
 				2F7ADC7A23799ECD00FE9461 /* ZYLSettingDarkModeCell.m in Sources */,
@@ -1613,6 +1662,7 @@
 				2F7ADC7723799CEE00FE9461 /* ZYLSettingNameCell.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
+				18A4CF2024B7789700330683 /* MGDMineViewController.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
 				2F64924F243A031700472B57 /* ZYLGetTimeScale.m in Sources */,
 				2F7ADC83237C2BEB00FE9461 /* ZYLLoginField.m in Sources */,
