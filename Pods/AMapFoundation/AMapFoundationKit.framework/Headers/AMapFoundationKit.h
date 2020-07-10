@@ -11,8 +11,6 @@
 #import <AMapFoundationKit/AMapURLSearchConfig.h>
 #import <AMapFoundationKit/AMapURLSearchType.h>
 #import <AMapFoundationKit/AMapURLSearch.h>
+#import <AMapFoundationKit/AMapFoundationConst.h>
 
 #import <AMapFoundationKit/AMapUtility.h>
-#import <AMapFoundationKit/NSMutableArray+AMapSafe.h>
-#import <AMapFoundationKit/NSMutableDictionary+AMapSafe.h>
-#import <AMapFoundationKit/NSObject+AMapJsonSerialization.h>
