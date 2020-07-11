@@ -9,7 +9,7 @@
 #import "ZYLArrowBtn.h"
 #import "ZYLAvatarRequest.h"
 #import "ZYLStudentRankViewModel.h"
-#import "ZYLRecordTimeString.h"
+//#import "ZYLRecordTimeString.h"
 #import "ZYLRunningRecordModel.h"
 
 @implementation ZYLMainView
@@ -186,7 +186,7 @@
     
     self.timeLabel = [[UILabel alloc]init];
     self.timeLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:35*screenWidth/414.0];
-    self.timeLabel.text = [ZYLRecordTimeString getTimeStringWithSecond:0];
+//    self.timeLabel.text = [ZYLRecordTimeString getTimeStringWithSecond:0];
     
     [self addSubview:self.timeLabel];
     
@@ -233,9 +233,9 @@
 
 - (void)addRecordData:(NSNotification *)noti{
     ZYLRunningRecordModel *model = noti.object;
-    if (model.student_id) {
-        self.timeLabel.text = [ZYLRecordTimeString getTimeStringWithSecond:[model.end_time intValue] - [model.begin_time intValue]];
-    }
+//    if (model.student_id) {
+//        self.timeLabel.text = [ZYLRecordTimeString getTimeStringWithSecond:[model.end_time intValue] - [model.begin_time intValue]];
+//    }
 }
 
 - (void)initbeginRuningBtu{

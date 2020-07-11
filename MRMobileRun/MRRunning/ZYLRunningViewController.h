@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLRunningViewController : MRBaseViewController
-//获取时间戳
+////获取时间戳
 +(NSString *)currentDateInterval;
 +(NSString *)MD5:(NSString *)input;
 @end

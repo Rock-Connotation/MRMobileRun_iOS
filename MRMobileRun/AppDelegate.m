@@ -10,9 +10,12 @@
 #import "ZYLMainViewController.h"
 #import "ZYLLoginViewController.h"
 #import "MRLoginModel.h"
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #define BUGLY_APPID @"354f05b571"
 #define BUGLY_APPKEY @"c423889d-fa34-4de8-aa6c-8e29305d03b6"
 
+//高德地图的key
+#define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
 @interface AppDelegate ()
 @property (nonatomic, strong) MRTabBarController *tabBarVC;
 @end
@@ -21,6 +24,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [AMapServices sharedServices].apiKey = MAMAP_KEY; //将高德地图的key配置在代码中
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
