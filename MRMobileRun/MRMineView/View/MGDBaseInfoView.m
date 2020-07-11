@@ -133,82 +133,82 @@
     [_KmImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@40);
         make.width.equalTo(@40);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-280);
-        make.left.equalTo(self.backView.mas_left).mas_offset(55);
-        make.top.equalTo(self.backView.mas_top).mas_offset(16);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-61);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-280);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(55);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-61);
     }];
     
     [_Kmlab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@28);
         make.width.equalTo(@90);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-256);
-        make.left.equalTo(self.backView.mas_left).mas_offset(29);
-        make.top.equalTo(self.backView.mas_top).mas_offset(49);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-40);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-256);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(29);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(49);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-40);
     }];
 
     [_kilometre mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.height.equalTo(@18);
-         make.width.equalTo(@36);
-         make.right.equalTo(self.backView.mas_right).mas_offset(-282);
-         make.left.equalTo(self.backView.mas_left).mas_offset(57);
-         make.top.equalTo(self.backView.mas_top).mas_offset(76);
-         make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-23);
+        make.height.equalTo(@18);
+        make.width.equalTo(@36);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-282);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(57);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-23);
     }];
 
     [_MinImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@40);
         make.width.equalTo(@40);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-168);
-        make.left.equalTo(self.backView.mas_left).mas_offset(167);
-        make.top.equalTo(self.backView.mas_top).mas_offset(16);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-61);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-168);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(167);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-61);
     }];
     
     [_MinLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@28);
         make.width.equalTo(@90);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-142);
-        make.left.equalTo(self.backView.mas_left).mas_offset(143);
-        make.top.equalTo(self.backView.mas_top).mas_offset(49);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-40);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-142);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(143);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(49);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-40);
     }];
     
     [_minus mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@18);
         make.width.equalTo(@36);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-169);
-        make.left.equalTo(self.backView.mas_left).mas_offset(170);
-        make.top.equalTo(self.backView.mas_top).mas_offset(76);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-23);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-169);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(170);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-23);
     }];
     
     [_calImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@40);
         make.width.equalTo(@40);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-56);
-        make.left.equalTo(self.backView.mas_left).mas_offset(279);
-        make.top.equalTo(self.backView.mas_top).mas_offset(16);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-61);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-56);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(279);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-61);
     }];
     
     [_CalLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@28);
         make.width.equalTo(@90);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-31);
-        make.left.equalTo(self.backView.mas_left).mas_offset(254);
-        make.top.equalTo(self.backView.mas_top).mas_offset(49);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-40);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-31);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(254);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(49);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-40);
     }];
     
     [_calories mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@18);
         make.width.equalTo(@36);
-        make.right.equalTo(self.backView.mas_right).mas_offset(-58);
-        make.left.equalTo(self.backView.mas_left).mas_offset(281);
-        make.top.equalTo(self.backView.mas_top).mas_offset(76);
-        make.bottom.equalTo(self.backView.mas_bottom).mas_offset(-23);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-58);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(281);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-23);
     }];
 }
 

@@ -22,6 +22,7 @@
         self.userIcon = userIcon;
         self.userIcon.layer.masksToBounds = YES;
         self.userIcon.layer.cornerRadius = 36.0;
+        self.userIcon.contentMode = UIViewContentModeScaleToFill;
         [self.topView addSubview:userIcon];
         
         UILabel *username = [[UILabel alloc] init];
@@ -45,8 +46,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).mas_offset(0);
-        make.bottom.equalTo(self).mas_offset(-676);
+        make.left.mas_equalTo(self);
+        make.right.mas_equalTo(self);
+        make.top.mas_equalTo(self.mas_top);
+        make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-676);
         make.height.equalTo(@136);
         make.width.mas_equalTo(screenWidth);
     }];
@@ -54,28 +57,28 @@
     [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@72);
         make.width.equalTo(@72);
-        make.right.equalTo(self.topView.mas_left).mas_offset(-287);
-        make.left.equalTo(self.topView.mas_left).mas_offset(16);
-        make.top.equalTo(self.topView.mas_top).mas_offset(48);
-        make.bottom.equalTo(self.topView.mas_bottom).mas_offset(-16);
+        make.right.mas_equalTo(self.userName.mas_left).mas_offset(-28);
+        make.left.mas_equalTo(self.topView.mas_left).mas_offset(16);
+        make.top.mas_equalTo(self.topView.mas_top).mas_offset(48);
+        make.bottom.mas_equalTo(self.topView.mas_bottom).mas_offset(-16);
     }];
     
     [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@25);
         make.width.equalTo(@127);
-        make.right.equalTo(self.topView.mas_left).mas_offset(-132);
-        make.left.equalTo(self.topView.mas_left).mas_offset(116);
-        make.top.equalTo(self.topView.mas_top).mas_offset(59);
-        make.bottom.equalTo(self.topView.mas_bottom).mas_offset(-52);
+        make.right.mas_equalTo(self.topView.mas_right).mas_offset(-132);
+        make.left.mas_equalTo(self.topView.mas_left).mas_offset(116);
+        make.top.mas_equalTo(self.topView.mas_top).mas_offset(59);
+        make.bottom.mas_equalTo(self.topView.mas_bottom).mas_offset(-52);
     }];
     
     [_personalSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@18);
         make.width.equalTo(@212);
-        make.right.equalTo(self.topView.mas_left).mas_offset(-47);
-        make.left.equalTo(self.topView.mas_left).mas_offset(116);
-        make.top.equalTo(self.topView.mas_top).mas_offset(84);
-        make.bottom.equalTo(self.topView.mas_bottom).mas_offset(-34);
+        make.right.mas_equalTo(self.topView.mas_right).mas_offset(-47);
+        make.left.mas_equalTo(self.topView.mas_left).mas_offset(116);
+        make.top.mas_equalTo(self.topView.mas_top).mas_offset(84);
+        make.bottom.mas_equalTo(self.topView.mas_bottom).mas_offset(-34);
     }];
     
     
@@ -88,6 +91,7 @@
     //测试签名
     _personalSign.text = @"花花世界迷人眼,没有实力你别赛脸!";
 }
+
 
 - (void)setUser:(User *)user {
     _user = user;

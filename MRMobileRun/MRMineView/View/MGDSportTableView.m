@@ -1,0 +1,40 @@
+//
+//  MGDSportTableView.m
+//  MRMobileRun
+//
+//  Created by 阿栋 on 2020/7/10.
+//
+
+#import "MGDSportTableView.h"
+#import <Masonry.h>
+
+@implementation MGDSportTableView
+
+
+
+-(instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        UITableView *sportTableView = [[UITableView alloc] init];
+        self.sportTableView = sportTableView;
+        self.sportTableView.backgroundColor = [UIColor clearColor];
+        [self addSubview:sportTableView];
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [_sportTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+       make.height.mas_equalTo(screenHeigth - 379);
+       make.width.mas_equalTo(screenWidth);
+       make.top.mas_equalTo(self.mas_top).mas_offset(290);
+       make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-379);
+       make.left.mas_equalTo(self.mas_left);
+       make.right.mas_equalTo(self.mas_right);
+    }];
+}
+
+
+
+@end
+   

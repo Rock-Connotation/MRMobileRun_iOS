@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18A4CF0C24B715AD00330683 /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF0B24B715AD00330683 /* MGDTopView.m */; };
-		18A4CF1D24B761BB00330683 /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF1C24B761BB00330683 /* MGDBaseInfoView.m */; };
-		18A4CF2024B7789700330683 /* MGDMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF1F24B7789700330683 /* MGDMineViewController.m */; };
+		18A4CF4724B9E72100330683 /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF3A24B9E72100330683 /* MGDBaseInfoView.m */; };
+		18A4CF4824B9E72100330683 /* MGDSportTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF3B24B9E72100330683 /* MGDSportTableView.m */; };
+		18A4CF4924B9E72100330683 /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF3F24B9E72100330683 /* MGDTopView.m */; };
+		18A4CF4A24B9E72100330683 /* MGDMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF4024B9E72100330683 /* MGDMiddleView.m */; };
+		18A4CF4B24B9E72100330683 /* MGDSportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF4124B9E72100330683 /* MGDSportTableViewCell.m */; };
+		18A4CF4C24B9E72100330683 /* MGDMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF4524B9E72100330683 /* MGDMineViewController.m */; };
 		280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */; };
 		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
 		2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */; };
@@ -176,12 +179,18 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
-		18A4CF0A24B715AD00330683 /* MGDTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
-		18A4CF0B24B715AD00330683 /* MGDTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
-		18A4CF1B24B761BB00330683 /* MGDBaseInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDBaseInfoView.h; sourceTree = "<group>"; };
-		18A4CF1C24B761BB00330683 /* MGDBaseInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
-		18A4CF1E24B7789700330683 /* MGDMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDMineViewController.h; sourceTree = "<group>"; };
-		18A4CF1F24B7789700330683 /* MGDMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDMineViewController.m; sourceTree = "<group>"; };
+		18A4CF3A24B9E72100330683 /* MGDBaseInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
+		18A4CF3B24B9E72100330683 /* MGDSportTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableView.m; sourceTree = "<group>"; };
+		18A4CF3C24B9E72100330683 /* MGDSportTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableViewCell.h; sourceTree = "<group>"; };
+		18A4CF3D24B9E72100330683 /* MGDMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMiddleView.h; sourceTree = "<group>"; };
+		18A4CF3E24B9E72100330683 /* MGDTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
+		18A4CF3F24B9E72100330683 /* MGDTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
+		18A4CF4024B9E72100330683 /* MGDMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMiddleView.m; sourceTree = "<group>"; };
+		18A4CF4124B9E72100330683 /* MGDSportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableViewCell.m; sourceTree = "<group>"; };
+		18A4CF4224B9E72100330683 /* MGDSportTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableView.h; sourceTree = "<group>"; };
+		18A4CF4324B9E72100330683 /* MGDBaseInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDBaseInfoView.h; sourceTree = "<group>"; };
+		18A4CF4524B9E72100330683 /* MGDMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMineViewController.m; sourceTree = "<group>"; };
+		18A4CF4624B9E72100330683 /* MGDMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMineViewController.h; sourceTree = "<group>"; };
 		280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchVC.h; sourceTree = "<group>"; };
 		280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchVC.m; sourceTree = "<group>"; };
 		280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchView.h; sourceTree = "<group>"; };
@@ -500,39 +509,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		18A4CF0324B7149100330683 /* MRMineView */ = {
+		18A4CF3724B9E72100330683 /* MRMineView */ = {
 			isa = PBXGroup;
 			children = (
-				18A4CF0624B714E200330683 /* ViewController */,
-				18A4CF0524B714DB00330683 /* Model */,
-				18A4CF0424B714D400330683 /* View */,
+				18A4CF3824B9E72100330683 /* Model */,
+				18A4CF3924B9E72100330683 /* View */,
+				18A4CF4424B9E72100330683 /* ViewController */,
 			);
 			path = MRMineView;
 			sourceTree = "<group>";
 		};
-		18A4CF0424B714D400330683 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				18A4CF0A24B715AD00330683 /* MGDTopView.h */,
-				18A4CF0B24B715AD00330683 /* MGDTopView.m */,
-				18A4CF1B24B761BB00330683 /* MGDBaseInfoView.h */,
-				18A4CF1C24B761BB00330683 /* MGDBaseInfoView.m */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		18A4CF0524B714DB00330683 /* Model */ = {
+		18A4CF3824B9E72100330683 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		18A4CF0624B714E200330683 /* ViewController */ = {
+		18A4CF3924B9E72100330683 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				18A4CF1E24B7789700330683 /* MGDMineViewController.h */,
-				18A4CF1F24B7789700330683 /* MGDMineViewController.m */,
+				18A4CF3A24B9E72100330683 /* MGDBaseInfoView.m */,
+				18A4CF3B24B9E72100330683 /* MGDSportTableView.m */,
+				18A4CF3C24B9E72100330683 /* MGDSportTableViewCell.h */,
+				18A4CF3D24B9E72100330683 /* MGDMiddleView.h */,
+				18A4CF3E24B9E72100330683 /* MGDTopView.h */,
+				18A4CF3F24B9E72100330683 /* MGDTopView.m */,
+				18A4CF4024B9E72100330683 /* MGDMiddleView.m */,
+				18A4CF4124B9E72100330683 /* MGDSportTableViewCell.m */,
+				18A4CF4224B9E72100330683 /* MGDSportTableView.h */,
+				18A4CF4324B9E72100330683 /* MGDBaseInfoView.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18A4CF4424B9E72100330683 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18A4CF4524B9E72100330683 /* MGDMineViewController.m */,
+				18A4CF4624B9E72100330683 /* MGDMineViewController.h */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1176,9 +1191,9 @@
 				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				2F0E8162225F451D00D5E511 /* MRSettinglView */,
 				2F14BF86226AE5A800CCA2B8 /* MRRunning */,
-				18A4CF0324B7149100330683 /* MRMineView */,
 				2F495E1F2282BD34003DD714 /* MRLogin */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
+				18A4CF3724B9E72100330683 /* MRMineView */,
 				2F495E3B2282BF0F003DD714 /* MRInviteView */,
 				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
@@ -1481,21 +1496,22 @@
 				2F5A1BA922468BC80014B249 /* MRNumLabel.m in Sources */,
 				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
 				28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */,
-				18A4CF0C24B715AD00330683 /* MGDTopView.m in Sources */,
 				2F7ADC80237C2A8D00FE9461 /* ZYLWelcomeLabel.m in Sources */,
 				2FF3BB2C238D6B9900DB9051 /* ZYLHostView.m in Sources */,
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
+				18A4CF4A24B9E72100330683 /* MGDMiddleView.m in Sources */,
 				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
-				18A4CF1D24B761BB00330683 /* MGDBaseInfoView.m in Sources */,
 				2F7ADC7D237C29EE00FE9461 /* ZYLLoginViewController.m in Sources */,
 				2FBE893B230C448D0042AB0D /* ZYLButtonNoticeView.m in Sources */,
 				2F7ADC7A23799ECD00FE9461 /* ZYLSettingDarkModeCell.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
+				18A4CF4C24B9E72100330683 /* MGDMineViewController.m in Sources */,
 				2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */,
 				2F14F8942390C0DC00356CDF /* ZYLSchoolRankViewController.m in Sources */,
 				2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
+				18A4CF4924B9E72100330683 /* MGDTopView.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
 				2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */,
@@ -1508,6 +1524,7 @@
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
 				2FF3BB0B238D499600DB9051 /* ZYLPlateChinieseLabel.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
+				18A4CF4B24B9E72100330683 /* MGDSportTableViewCell.m in Sources */,
 				28ED985F22F14431003AA58D /* LJJSearchedVC.m in Sources */,
 				2FF3BB26238D4DB200DB9051 /* ZYLUnitLabel.m in Sources */,
 				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
@@ -1545,6 +1562,7 @@
 				2F9CB6DF239BD8F60003C09D /* ZYLRewriteTextField.m in Sources */,
 				2F14F8912390C0CC00356CDF /* ZYLAcademyRankViewController.m in Sources */,
 				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
+				18A4CF4724B9E72100330683 /* MGDBaseInfoView.m in Sources */,
 				2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */,
 				2F495E322282BE9F003DD714 /* MRLoginTextField.m in Sources */,
 				2F27F579243B5BDB00315D61 /* ZYLHealthManager.m in Sources */,
@@ -1578,6 +1596,7 @@
 				2FF3BB0E238D4AFB00DB9051 /* ZYLMediumChineseLabel.m in Sources */,
 				2F495E482282BFDD003DD714 /* LJJInviteSearchResultViewController.m in Sources */,
 				2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */,
+				18A4CF4824B9E72100330683 /* MGDSportTableView.m in Sources */,
 				2F5A1B9C22468A890014B249 /* WeKit.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
 				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
@@ -1586,7 +1605,6 @@
 				2F7ADC7723799CEE00FE9461 /* ZYLSettingNameCell.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
-				18A4CF2024B7789700330683 /* MGDMineViewController.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
 				2F64924F243A031700472B57 /* ZYLGetTimeScale.m in Sources */,
 				2F7ADC83237C2BEB00FE9461 /* ZYLLoginField.m in Sources */,

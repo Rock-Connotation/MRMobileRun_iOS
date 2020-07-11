@@ -1,0 +1,93 @@
+//
+//  MGDMiddleView.m
+//  MRMobileRun
+//
+//  Created by 阿栋 on 2020/7/10.
+//
+
+#import "MGDMiddleView.h"
+#import <Masonry.h>
+
+#define DOTCOLOR [UIColor colorWithRed:123/255.0 green:183/255.0 blue:196/255.0 alpha:1.0]
+#define RECORDCOLOR [UIColor colorWithRed:65/255.0 green:68/255.0 blue:72/255.0 alpha:1.0]
+#define BTNCOLOR [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1.0]
+
+@implementation MGDMiddleView
+
+-(instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        
+        UIView *backView = [[UIView alloc] init];
+        self.backView = backView;
+        _backView.backgroundColor = [UIColor clearColor];
+        [self addSubview:backView];
+        
+        UIView *dotView = [[UIView alloc] init];
+        self.dotView = dotView;
+        _dotView.backgroundColor = DOTCOLOR;
+        self.dotView.layer.masksToBounds = YES;
+        self.dotView.layer.cornerRadius = 4.0;
+        [self.backView addSubview:dotView];
+        
+        UILabel *recordLab = [[UILabel alloc] init];
+        self.recordLab = recordLab;
+        [self.backView addSubview:recordLab];
+        
+        //测试用
+        _recordLab.text = @"运动记录";
+        
+        _recordLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
+        _recordLab.textColor = RECORDCOLOR;
+        _recordLab.textAlignment = NSTextAlignmentLeft;
+        
+        UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.moreBtn = moreBtn;
+        [self.backView addSubview:moreBtn];
+        [self.moreBtn setTitle:@"查看更多" forState:UIControlStateNormal];
+        [self.moreBtn setTintColor:BTNCOLOR];
+        self.moreBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 12];
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@37);
+        make.width.mas_equalTo(screenWidth);
+        make.top.mas_equalTo(self.mas_top).mas_offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).mas_equalTo(-522);
+        make.left.mas_equalTo(self.mas_left);
+        make.right.mas_equalTo(self.mas_right);
+    }];
+    
+    [_dotView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(@8);
+        make.height.equalTo(@8);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(8);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(15);
+        make.right.mas_equalTo(self.recordLab.mas_left).mas_offset(-8);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-21);
+    }];
+    
+    [_recordLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(0);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(31);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-272);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-15);
+        make.width.equalTo(@72);
+        make.height.equalTo(@22);
+    }];
+    
+    [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(309);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(4);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-16);
+        make.width.equalTo(@51);
+        make.height.equalTo(@17);
+    }];
+    
+}
+@end
