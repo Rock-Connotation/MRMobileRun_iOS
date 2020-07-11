@@ -21,6 +21,7 @@
 #import "ZYLRunningViewController.h"
 #import "ZYLRankViewController.h"
 #import "LJJInviteRunVC.h"
+#import "MGDMineViewController.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 @interface MRTabBarController ()<MRTabBarViewDelegate>
@@ -80,7 +81,7 @@
     ZYLPersonalViewController *vc4 = [[ZYLPersonalViewController alloc] init];
     [self addChildViewController:vc4 title:@"设置" imageNamed:@"setting_normal" selectedImageNamed:@"setting_highlighted" tag:4];
 
-    UIViewController *vc5 = [[UIViewController alloc] init];
+    MGDMineViewController *vc5 = [[MGDMineViewController  alloc] init];
     [self addChildViewController:vc5 title:@"我的" imageNamed:@"MyView_normal" selectedImageNamed:@"MyView_highlighted" tag:5];
 }
 
