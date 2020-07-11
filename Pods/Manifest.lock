@@ -52,7 +52,7 @@ DEPENDENCIES:
   - YYKit
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
     - AFNetworking
     - AMapLocation
     - Bugly

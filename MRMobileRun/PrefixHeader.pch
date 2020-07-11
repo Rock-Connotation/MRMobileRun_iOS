@@ -55,7 +55,7 @@
 #define kHistoryTrack @"https://wx.redrock.team/mobilerun/user/lat_lng"
 
 //登陆URL 跟学号和身份证后六位(post)
-#define kLoginURL @"https://cyxbsmobile.redrock.team/wxapi/mobilerun/login"
+#define kLoginURL @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/login"
 //注销登陆(get)
 #define kLoginoutURL @"https://wx.redrock.team/mobilerun/user/loginout"
 //获取头像，后接学号+.jpg
