@@ -21,6 +21,10 @@
     [self addMapView];
     [self addViewOnMap];
     [self addViewOnBottomView];
+    [self addViewOnTopView];
+    [self addViewsOnBtn];
+    
+   
     
 }
 
@@ -38,52 +42,26 @@
             make.left.right.equalTo(self);
             make.bottom.equalTo(self).offset(-10);
         }];
+    //设置地图相关属性
     self.mapView.zoomLevel = 16;
+    self.mapView.showsUserLocation = YES;
+    self.mapView.pausesLocationUpdatesAutomatically = NO;
+    self.mapView.showsCompass = NO;
+    self.mapView.showsScale = NO;
+    self.mapView.userInteractionEnabled = YES;
+    [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
+    self.mapView.distanceFilter = 10;
 }
 
 //在地图上添加控件
 - (void)addViewOnMap{
-    //左上角的GPS图标
-    self.GPSImgView = [[UIImageView alloc] init];
-    [self.mapView addSubview:self.GPSImgView];
-    [self.GPSImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.04);
-        make.top.equalTo(self.mas_top).offset(kScreenHight * 0.0739);
-        make.size.mas_equalTo(CGSizeMake(28, 28));
-    }];
-    //中心显示跑了多少公里数字的label
-    self.numberLabel = [[UILabel alloc] init];
-    [self.mapView addSubview:self.numberLabel];
-    [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.mas_centerX);
-        make.top.equalTo(self.GPSImgView.mas_bottom).offset(kScreenHight * 0.1589);
-        make.height.mas_equalTo(100);
-        make.width.mas_equalTo(self.frame.size.width);
-    }];
-//    self.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-    [self.numberLabel setFont:[UIFont systemFontOfSize:82]];
-    self.numberLabel.textColor = [UIColor colorWithRed:65/255.0 green:68/255.0 blue:72/255.0 alpha:1.0];
-    self.numberLabel.textAlignment = NSTextAlignmentCenter;
-    self.numberLabel.text = @"4.26";
-    
-    //显示“公里”的label
-    self.milesLabel = [[UILabel alloc] init];
-    [self.mapView addSubview:self.milesLabel];
-    [self.milesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.numberLabel.mas_bottom);
-        make.centerX.equalTo(self.numberLabel.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(44, 30));
-    }];
-    self.milesLabel.font = [UIFont fontWithName:@"PingFangSC" size: 22];
-    self.milesLabel.textColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
-    self.milesLabel.text = @"公里";
     
 
     //下面的白色View
     self.bottomView = [[UIView alloc] init];
     [self.mapView addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.milesLabel.mas_bottom).offset(kScreenWidth * 0.1334);
+        make.top.equalTo(self.mas_top).offset(kScreenHight * 0.5369);
         make.bottom.equalTo(self.mas_bottom);
         make.width.mas_equalTo(kScreenWidth);
     }];
@@ -92,24 +70,37 @@
     self.bottomView.layer.shadowColor = [UIColor colorWithRed:73/255.0 green:80/255.0 blue:90/255.0 alpha:0.1].CGColor;
     self.bottomView.layer.shadowOpacity = 1;
     self.bottomView.layer.shadowRadius = 6;
+    
+    //设置一个未显示地图时白色的蒙板
+    self.topView = [[UIView alloc] init];
+    [self.mapView addSubview:self.topView];
+    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.equalTo(self.mapView);
+        make.bottom.equalTo(self.bottomView.mas_top);
+    }];
+    self.topView.backgroundColor = WhiteColor;
+    self.topView.alpha = 0.7;
+    
 }
 
 //在底部视图上添加控件
 - (void)addViewOnBottomView{
-    //配速相关：
+#pragma mark- 配速相关
       //图片框
     self.speedImgView = [[UIImageView alloc] init];
     [self.bottomView addSubview:self.speedImgView];
     [self.speedImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.1707);
         make.top.equalTo(self.bottomView.mas_top).offset(kScreenHight * 0.0435);
-        make.size.mas_equalTo(CGSizeMake(20, 12));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
+    self.speedImgView.image = [UIImage imageNamed:@"配速灰"];
+    
      //显示数字的lable
     self.speedNumberLbl = [[UILabel alloc] init];
     [self.bottomView addSubview:self.speedNumberLbl];
     [self.speedNumberLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.0693);
+        make.centerX.equalTo(self.speedImgView);
         make.top.equalTo(self.speedImgView.mas_bottom).offset(kScreenHight * 0.0225);
         make.size.mas_equalTo(CGSizeMake(90, 34));
     }];
@@ -131,16 +122,17 @@
     self.speedLbl.textAlignment = NSTextAlignmentCenter;
     self.speedLbl.text = @"配速";
     
-    
-    // 时间相关
+
+#pragma mark- 时间相关
         //时间的图片
     self.timeImgView = [[UIImageView alloc] init];
     [self.bottomView addSubview:self.timeImgView];
     [self.timeImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.speedImgView.mas_centerY);
         make.left.equalTo(self.speedImgView.mas_right).offset(kScreenWidth * 0.256);
-        make.size.mas_equalTo(CGSizeMake(15, 18));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
+    self.timeImgView.image = [UIImage imageNamed:@"时间灰"];
     
         //显示时间的数字的lable
     self.timeNumberLbl = [[UILabel alloc] init];
@@ -168,15 +160,17 @@
     self.timeLbl.text = @"时间";
     
     
-    //燃烧卡路里
+#pragma mark- 燃烧卡路里
                 //燃烧卡路里的图标
     self.energyImgView = [[UIImageView alloc] init];
     [self.bottomView addSubview:self.energyImgView];
     [self.energyImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.speedImgView);
-        make.left.equalTo(self.timeImgView.mas_right).offset(kScreenWidth * 0.272);
-        make.size.mas_equalTo(CGSizeMake(13, 19));
+//        make.left.equalTo(self.timeImgView.mas_right).offset(kScreenWidth * 0.272);
+        make.right.equalTo(self.mas_right).offset(-kScreenWidth * 0.1703);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
+    self.energyImgView.image = [UIImage imageNamed:@"千卡灰色"];
     
                 //燃烧多少卡路里的数字
     self.energyNumberLbl = [[UILabel alloc] init];
@@ -205,7 +199,7 @@
     self.energyLbl.textAlignment = NSTextAlignmentCenter;
     
     
-    //可拖拽使得View高度变化的label
+    #pragma mark- 可拖拽使得View高度变化的label
     self.dragLabel = [[UILabel alloc] init];
 //    _dragLabel.backgroundColor = [UIColor redColor];
     [self.bottomView addSubview:self.dragLabel];
@@ -215,8 +209,9 @@
         make.top.equalTo(self.bottomView.mas_top);
         make.bottom.equalTo(self.timeImgView.mas_top);
     }];
-    //关于按钮
-        //锁屏按钮
+    
+    #pragma mark- 关于按钮
+#pragma mark- 锁屏按钮
     self.lockBtn = [[UIButton alloc] init];
     [self.bottomView addSubview:self.lockBtn];
     [self.lockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -225,9 +220,9 @@
         make.size.mas_equalTo(CGSizeMake(24, 26));
     }];
 //    self.lockBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
-    self.lockBtn.hidden = YES;
+    self.lockBtn.hidden = NO;
     
-        //暂停按钮
+    #pragma mark- 暂停按钮
     self.pauseBtn = [[UIButton alloc] init];
     [self.bottomView addSubview:self.pauseBtn];
     [self.pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -239,10 +234,10 @@
 //    self.pauseBtn.clipsToBounds = YES;
     self.pauseBtn.layer.masksToBounds = 45 ? YES : NO;
     self.pauseBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
-    self.pauseBtn.hidden = YES;
+    self.pauseBtn.hidden = NO;
     
     
-        //结束按钮
+       #pragma mark- 结束按钮
     self.endtBtn = [[UIButton alloc] init];
     [self.bottomView addSubview:self.endtBtn];
     [self.endtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -253,10 +248,11 @@
     self.endtBtn.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
     self.endtBtn.layer.cornerRadius = 45;
     self.endtBtn.layer.masksToBounds = 45 ? YES : NO;
+    self.endtBtn.hidden = YES;
     
     
     
-        //继续按钮
+     #pragma mark- 继续按钮
     self.continueBtn = [[UIButton alloc] init];
     [self.bottomView addSubview:self.continueBtn];
     [self.continueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -267,8 +263,9 @@
     self.continueBtn.backgroundColor = [UIColor colorWithRed:85/255.0 green:213/255.0 blue:226/255.0 alpha:1.0];
     self.continueBtn.layer.cornerRadius = self.endtBtn.layer.cornerRadius;
     self.continueBtn.layer.masksToBounds = self.endtBtn.layer.masksToBounds;
+    self.continueBtn.hidden = YES;
     
-    //解锁按钮
+   #pragma mark- 解锁按钮
     self.unlockBtn = [[UIButton alloc] init];
     [self.bottomView addSubview:self.unlockBtn];
     [self.unlockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -276,14 +273,56 @@
         make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
     self.unlockBtn.layer.cornerRadius = 51;
-    self.unlockBtn.layer.masksToBounds = 51;
+    self.unlockBtn.layer.masksToBounds = 51 ? YES : NO;
     self.unlockBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
     self.unlockBtn.hidden = YES;
 }
 
+//在顶部视图上添加控件
+- (void)addViewOnTopView{
+    
+        //左上角的GPS图标
+        self.GPSImgView = [[UIImageView alloc] init];
+        [self.topView addSubview:self.GPSImgView];
+        [self.GPSImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.04);
+            make.top.equalTo(self.mas_top).offset(kScreenHight * 0.0739);
+            make.size.mas_equalTo(CGSizeMake(28, 28));
+        }];
+        
+    
+        //中心显示跑了多少公里数字的label
+        self.numberLabel = [[UILabel alloc] init];
+        [self.topView addSubview:self.numberLabel];
+        [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.mas_centerX);
+            make.top.equalTo(self.GPSImgView.mas_bottom).offset(kScreenHight * 0.1589);
+            make.height.mas_equalTo(100);
+            make.width.mas_equalTo(self.frame.size.width);
+        }];
+    //    self.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+        [self.numberLabel setFont:[UIFont systemFontOfSize:82]];
+        self.numberLabel.textColor = [UIColor colorWithRed:65/255.0 green:68/255.0 blue:72/255.0 alpha:1.0];
+        self.numberLabel.textAlignment = NSTextAlignmentCenter;
+        self.numberLabel.text = @"4.26";
+        
+        //显示“公里”的label
+        self.milesLabel = [[UILabel alloc] init];
+        [self.topView addSubview:self.milesLabel];
+        [self.milesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.numberLabel.mas_bottom);
+            make.centerX.equalTo(self.numberLabel.mas_centerX);
+            make.size.mas_equalTo(CGSizeMake(44, 30));
+        }];
+        self.milesLabel.font = [UIFont fontWithName:@"PingFangSC" size: 22];
+        self.milesLabel.textColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+        self.milesLabel.text = @"公里";
+
+}
+
 //在button上添加控件
 - (void)addViewsOnBtn{
-    //暂停按钮
+#pragma mark- 暂停按钮
         //图片
     self.pauseImgView = [[UIImageView alloc] init];
     [self.pauseBtn addSubview:self.pauseImgView];
@@ -304,7 +343,7 @@
     self.pauseLabel.textAlignment = NSTextAlignmentCenter;
     self.pauseLabel.text = @"暂停";
     
-    //解锁按钮
+#pragma mark- 解锁按钮
             //图标
     self.unlockImgView = [[UIImageView alloc] init];
     [self.unlockBtn addSubview:self.unlockImgView];
@@ -324,8 +363,47 @@
     self.unlockLabel.textColor = self.pauseLabel.textColor;
     self.unlockLabel.text = @"长按解锁";
     
-    //
-    self.endImgView =[[UIImageView alloc] init];
+#pragma mark- 结束按钮
+            //图标
+    self.endImgView = [[UIImageView alloc] init];
+    [self.endtBtn addSubview:self.endImgView];
+    [self.endImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.endtBtn);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+    }];
+            //文字
+    self.endLabel = [[UILabel alloc] init];
+    [self.endtBtn addSubview:self.endLabel];
+    [self.endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.endImgView);
+        make.top.equalTo(self.endImgView.mas_bottom);
+        make.size.mas_equalTo(CGSizeMake(48, 17));
+    }];
+    self.endLabel.backgroundColor = [UIColor whiteColor];
+//    self.endLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+    self.endLabel.font = [UIFont systemFontOfSize:10];
+    self.endLabel.textColor =  self.pauseLabel.textColor;
+    self.endLabel.text = @"长按结束";
     
+#pragma mark- 继续按钮
+            //图标
+    self.continueImgView = [[UIImageView alloc] init];
+    [self.continueBtn  addSubview:self.continueImgView];
+    [self.continueImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.continueBtn);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+    }];
+    
+            //文字
+    self.continueLabel = [[UILabel alloc] init];
+    [self.continueBtn addSubview:self.continueLabel];
+    [self.continueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.continueImgView);
+        make.top.equalTo(self.continueImgView.mas_bottom);
+        make.size.mas_equalTo(CGSizeMake(24, 17));
+    }];
+    self.continueLabel.font =  self.endLabel.font;
+    self.continueLabel.textColor = self.endLabel.textColor;
+    self.continueLabel.text = @"继续";
 }
 @end
