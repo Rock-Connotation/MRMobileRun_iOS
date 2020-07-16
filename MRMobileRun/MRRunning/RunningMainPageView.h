@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *milesLabel;
 @property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UIView *topView;
 
 @property (nonatomic, strong) UILabel *dragLabel;
 @property (nonatomic, strong) UIImageView *speedImgView;

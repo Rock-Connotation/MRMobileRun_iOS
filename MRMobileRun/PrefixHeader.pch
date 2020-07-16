@@ -20,6 +20,16 @@
 
 //黑暗模式背景颜色
 #define k_DarkBkgColor [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1.0]
+//关于黑暗模式的颜色
+    //白色模式是白色
+ #define WhiteColor  [UIColor colorNamed:@"whiteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+
+
+
+
+
+
 
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
