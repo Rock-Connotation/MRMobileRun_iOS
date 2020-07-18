@@ -25,7 +25,7 @@
     HttpClient *client = [HttpClient defaultClient];
     NSLog(@"studentID = %@",studentID);
     NSLog(@"password = %@",password);
-    [dic setObject:studentID forKey:@"studentId"];
+    [dic setObject:studentID forKey:@"studentID"];
     [dic setObject:password forKey:@"password"];
     NSLog(@"%@",dic);
     NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};

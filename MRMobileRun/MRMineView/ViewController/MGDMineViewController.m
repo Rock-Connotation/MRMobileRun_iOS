@@ -11,41 +11,65 @@
 #import "MGDMiddleView.h"
 #import "MGDSportTableView.h"
 #import "MGDSportTableViewCell.h"
+#import "MGDMineViewController.h"
+#import "MGDMoreViewController.h"
+#import "MGDUserData.h"
+#import "MGDUserInfo.h"
+#import <AFNetworking.h>
+#import "UIImageView+WebCache.h"
 
-#define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0];
+#define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
-@interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
+    NSMutableArray *baseDataArray;
+    NSMutableArray *userArray;
+}
+
+@property (nonatomic, strong) MGDUserData *currentModel;
+@property (nonatomic, strong) MGDUserInfo *userModel;
 
 @end
 
 @implementation MGDMineViewController
 
-NSString *ID = @"Setting_cell";
+NSString *ID = @"Recored_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0];
-    MGDTopView *topview = [[MGDTopView alloc] init];
-    topview.frame = CGRectMake(0,0,screenWidth,136);
-    [self.view addSubview:topview];
+    self.view.backgroundColor = BACKGROUNDCOLOR;
+    //baseDataArray = [NSMutableArray new];
+    //userArray = [NSMutableArray new];
+    self.tabBarController.tabBar.hidden = NO;
+    [self buildUI];
+    //[self getBaseInfo];
+    //[self getUserInfo];
+}
+
+- (void)buildUI {
+    _topview = [[MGDTopView alloc] init];
+    _topview.frame = CGRectMake(0,0,screenWidth,136);
+    [self.view addSubview:_topview];
     
-    MGDBaseInfoView *baseView = [[MGDBaseInfoView alloc] init];
-    baseView.frame = CGRectMake(0,136,screenWidth,117);
-    [self.view addSubview:baseView];
+    _baseView = [[MGDBaseInfoView alloc] init];
+    _baseView.frame = CGRectMake(0,136,screenWidth,117);
+    [self.view addSubview:_baseView];
     
-    MGDMiddleView *middleView = [[MGDMiddleView alloc] init];
-    middleView.frame = CGRectMake(0, 253, screenWidth,37);
-    [self.view addSubview:middleView];
+    _middleView = [[MGDMiddleView alloc] init];
+    _middleView.frame = CGRectMake(0, 253,screenWidth,37);
+    [_middleView.moreBtn addTarget:self action:@selector(MoreVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_middleView];
     
-    MGDSportTableView *sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 290, screenWidth, screenHeigth - 290 - 83) style:UITableViewStylePlain];
-    sportTableView.separatorStyle = NO;
-    sportTableView.delegate = self;
-    sportTableView.dataSource = self;
-    sportTableView.backgroundColor = BACKGROUNDCOLOR;
-    [self.view addSubview:sportTableView];
-    [sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
-    
-    
+    _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 290, screenWidth, screenHeigth - 290 - 83) style:UITableViewStylePlain];
+    _sportTableView.separatorStyle = NO;
+    _sportTableView.delegate = self;
+    _sportTableView.dataSource = self;
+    _sportTableView.backgroundColor = BACKGROUNDCOLOR;
+    [self.view addSubview:_sportTableView];
+    [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 #pragma mark- 代理方法
@@ -71,6 +95,12 @@ NSString *ID = @"Setting_cell";
     return cell;
 }
 
+- (void)MoreVC{
+    MGDMoreViewController *moreVC = [[MGDMoreViewController alloc] init];
+    self.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:moreVC animated:YES];
+}
+
 - (void)cell:(MGDSportTableViewCell* )cell andtest:(NSInteger) row {
     switch (row) {
            case 0:
@@ -89,13 +119,13 @@ NSString *ID = @"Setting_cell";
                    cell.timeLab.text = @"8:02";
                    cell.kmLab.text = @"2.04";
                    cell.minLab.text = @"12:40";
-                   cell.calLab.text = @"193";
+                   cell.calLab.text = @"1933213";
                }
                break;
            case 2:
                {
                    cell.dayLab.text = @"昨天";
-                   cell.timeLab.text = @"19:03";
+                   cell.timeLab.text = @"2:03";
                    cell.kmLab.text = @"1.03";
                    cell.minLab.text = @"5:42";
                    cell.calLab.text = @"95";
@@ -133,5 +163,54 @@ NSString *ID = @"Setting_cell";
        }
 }
 
+- (void)getBaseInfo {
+    NSString *urlStr = @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getTotalData";
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:urlStr parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+         for (NSDictionary *dict in responseObject[@"data"]) {
+             self->_currentModel = [MGDUserData new];
+             self->_currentModel.total_distance = [dict objectForKey:@"total_distance"];
+             self->_currentModel.total_duration = [dict objectForKey:@"total_duration"];
+             self->_currentModel.total_consume = [dict objectForKey:@"total_consume"];
+             [self->baseDataArray addObject:self->_currentModel];
+            }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self reloadBaseData:self->_currentModel];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+- (void)reloadBaseData:(MGDUserData *)model {
+    self.baseView.Kmlab.text = model.total_distance;
+    self.baseView.MinLab.text = model.total_duration;
+    self.baseView.CalLab.text = model.total_consume;
+}
+
+- (void)getUserInfo {
+    NSString *url = @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/login";
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+         for (NSDictionary *dict in responseObject[@"user_data"]) {
+             self->_userModel = [MGDUserInfo new];
+             self->_userModel.userName = [dict objectForKey:@"nickname"];
+             self->_userModel.userSign = [dict objectForKey:@"signature"];
+             self->_userModel.userIcon = [dict objectForKey:@"avatar_url"];
+             [self->userArray addObject:self->_userModel];
+            }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self reloadUserInfo:self->_userModel];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+- (void)reloadUserInfo:(MGDUserInfo *)model {
+    self.topview.userName.text = model.userName;
+    self.topview.personalSign.text = model.userSign;
+    [self.topview.userIcon sd_setImageWithURL:[NSURL URLWithString:model.userIcon]];
+}
 @end
 
