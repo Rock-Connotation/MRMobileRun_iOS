@@ -110,7 +110,7 @@
     [super layoutSubviews];
     
     [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self).multipliedBy(0.1441);
+        make.height.mas_equalTo(screenHeigth * 0.1754);
         make.width.mas_equalTo(screenWidth);
         make.top.mas_equalTo(self.mas_top).mas_offset(0);
         make.left.mas_equalTo(self.mas_left);

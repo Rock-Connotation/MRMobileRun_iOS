@@ -18,6 +18,8 @@
 #define bottomMargin screenHeigth * 0.0375
 #define XLen screenWidth * 0.8693
 #define YLen screenHeigth * 0.2444
+#define chartViewH screenHeigth * 0.3418
+
 
 
 @interface MGDColumnChartView () {
@@ -95,23 +97,23 @@
     _isLayoutChart = false;
     
     _yearLabel = [UIButton buttonWithType:UIButtonTypeCustom];
+    _yearLabel.frame = CGRectMake(screenWidth * 0.780, screenHeigth * 0.0075, screenWidth * 0.172, screenHeigth * 0.0315);
     [_yearLabel setTitleColor:XLABELCOLOR forState:UIControlStateNormal];
     _yearLabel.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 15];
-    [_yearLabel setImage:[UIImage imageNamed:@"1"] forState:UIControlStateNormal];
+    [_yearLabel setImage:[UIImage imageNamed:@"矩形"] forState:UIControlStateNormal];
     _yearLabel.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [_yearLabel setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 48)];
-    [_yearLabel setImageEdgeInsets:UIEdgeInsetsMake(8, 52, 6, 0)];
+    [_yearLabel setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, screenWidth * 0.0373)];
+    [_yearLabel setImageEdgeInsets:UIEdgeInsetsMake(screenHeigth * 0.012, screenWidth * 0.136, screenHeigth * 0.009, 0)];
     _yearLabel.backgroundColor = [UIColor clearColor];
     
     [_yearLabel addTarget:self action:@selector(yearClick:) forControlEvents:UIControlEventTouchUpInside];
     
     _headerView = [[UIScrollView alloc] init];
+    _headerView.frame = CGRectMake(0, 0, screenWidth * 0.4196, screenHeigth * 0.045);
     _headerView.backgroundColor = [UIColor clearColor];
     _headerView.showsHorizontalScrollIndicator = NO;
     _headerView.showsVerticalScrollIndicator = NO;
     _headerView.pagingEnabled = NO;
-    
-    CGFloat chartViewH = screenHeigth * 0.3418;
     
     _chartView = [[UIView alloc] init];
     _chartView.frame = CGRectMake(0, _headerH, screenWidth, chartViewH);
@@ -129,23 +131,6 @@
     [self addSubview:_yearLabel];
     [self addSubview:_chartView];
     [self.chartView addSubview:_ChartScrollView];
-    [self setViewFrame];
-}
-
-- (void)setViewFrame {
-    [_yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.headerView.mas_top).mas_offset(5);
-        make.left.mas_equalTo(self.mas_left).mas_offset(286);
-        make.right.mas_equalTo(self.mas_right);
-        make.height.equalTo(@21);
-    }];
-        
-    [_headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.mas_top).mas_offset(-15);
-        make.left.mas_equalTo(self.mas_left);
-        make.right.mas_equalTo(self.mas_right).mas_offset(-218);
-        make.height.equalTo(@30);
-    }];
 }
 
 - (void)yearClick:(UIButton *)sender

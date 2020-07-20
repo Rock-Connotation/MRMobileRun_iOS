@@ -20,6 +20,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self BuildUI];
         [self setFrame];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }
