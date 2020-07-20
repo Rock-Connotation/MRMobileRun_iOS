@@ -12,8 +12,8 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <Masonry.h>
 #import <UIKit/UIKit.h>
-
 #import "RunningMainPageView.h"
+
 @interface RunMainPageCV ()<MAMapViewDelegate>
 @property (nonatomic, strong) RunningMainPageView *Mainview;
 @property (nonatomic, assign) CGFloat yyy;

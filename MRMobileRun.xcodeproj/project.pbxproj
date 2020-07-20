@@ -7,12 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18A4CF4724B9E72100330683 /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF3A24B9E72100330683 /* MGDBaseInfoView.m */; };
-		18A4CF4824B9E72100330683 /* MGDSportTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF3B24B9E72100330683 /* MGDSportTableView.m */; };
-		18A4CF4924B9E72100330683 /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF3F24B9E72100330683 /* MGDTopView.m */; };
-		18A4CF4A24B9E72100330683 /* MGDMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF4024B9E72100330683 /* MGDMiddleView.m */; };
-		18A4CF4B24B9E72100330683 /* MGDSportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF4124B9E72100330683 /* MGDSportTableViewCell.m */; };
-		18A4CF4C24B9E72100330683 /* MGDMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4CF4524B9E72100330683 /* MGDMineViewController.m */; };
+		183F504B24C293490040B22C /* MGDUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F504824C293490040B22C /* MGDUserData.m */; };
+		183F504C24C293490040B22C /* MGDUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F504924C293490040B22C /* MGDUserInfo.m */; };
+		183F505C24C2934F0040B22C /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F504F24C2934F0040B22C /* MGDBaseInfoView.m */; };
+		183F505D24C2934F0040B22C /* MGDSportTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F505024C2934F0040B22C /* MGDSportTableView.m */; };
+		183F505F24C2934F0040B22C /* MGDRecordTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F505524C2934F0040B22C /* MGDRecordTableView.m */; };
+		183F506024C2934F0040B22C /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F505624C2934F0040B22C /* MGDTopView.m */; };
+		183F506124C2934F0040B22C /* MGDMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F505724C2934F0040B22C /* MGDMiddleView.m */; };
+		183F506224C2934F0040B22C /* MGDSportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F505824C2934F0040B22C /* MGDSportTableViewCell.m */; };
+		183F506824C293550040B22C /* MGDMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F506424C293550040B22C /* MGDMineViewController.m */; };
+		183F506924C293550040B22C /* MGDMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F506724C293550040B22C /* MGDMoreViewController.m */; };
+		183F506C24C2CF410040B22C /* MGDColumnChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F506B24C2CF410040B22C /* MGDColumnChartView.m */; };
+		183F507424C2D1430040B22C /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F506F24C2D1430040B22C /* YBRectConst.m */; };
+		183F507524C2D1430040B22C /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F507024C2D1430040B22C /* YBPopupMenuPath.m */; };
+		183F507624C2D1430040B22C /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F507224C2D1430040B22C /* YBPopupMenu.m */; };
 		280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */; };
 		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
 		2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */; };
@@ -179,18 +187,34 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
-		18A4CF3A24B9E72100330683 /* MGDBaseInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
-		18A4CF3B24B9E72100330683 /* MGDSportTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableView.m; sourceTree = "<group>"; };
-		18A4CF3C24B9E72100330683 /* MGDSportTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableViewCell.h; sourceTree = "<group>"; };
-		18A4CF3D24B9E72100330683 /* MGDMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMiddleView.h; sourceTree = "<group>"; };
-		18A4CF3E24B9E72100330683 /* MGDTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
-		18A4CF3F24B9E72100330683 /* MGDTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
-		18A4CF4024B9E72100330683 /* MGDMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMiddleView.m; sourceTree = "<group>"; };
-		18A4CF4124B9E72100330683 /* MGDSportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableViewCell.m; sourceTree = "<group>"; };
-		18A4CF4224B9E72100330683 /* MGDSportTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableView.h; sourceTree = "<group>"; };
-		18A4CF4324B9E72100330683 /* MGDBaseInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDBaseInfoView.h; sourceTree = "<group>"; };
-		18A4CF4524B9E72100330683 /* MGDMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMineViewController.m; sourceTree = "<group>"; };
-		18A4CF4624B9E72100330683 /* MGDMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMineViewController.h; sourceTree = "<group>"; };
+		183F504724C293490040B22C /* MGDUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDUserInfo.h; sourceTree = "<group>"; };
+		183F504824C293490040B22C /* MGDUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDUserData.m; sourceTree = "<group>"; };
+		183F504924C293490040B22C /* MGDUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDUserInfo.m; sourceTree = "<group>"; };
+		183F504A24C293490040B22C /* MGDUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDUserData.h; sourceTree = "<group>"; };
+		183F504E24C2934F0040B22C /* MGDRecordTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDRecordTableView.h; sourceTree = "<group>"; };
+		183F504F24C2934F0040B22C /* MGDBaseInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
+		183F505024C2934F0040B22C /* MGDSportTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableView.m; sourceTree = "<group>"; };
+		183F505124C2934F0040B22C /* MGDSportTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableViewCell.h; sourceTree = "<group>"; };
+		183F505224C2934F0040B22C /* MGDMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMiddleView.h; sourceTree = "<group>"; };
+		183F505324C2934F0040B22C /* MGDTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
+		183F505524C2934F0040B22C /* MGDRecordTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDRecordTableView.m; sourceTree = "<group>"; };
+		183F505624C2934F0040B22C /* MGDTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
+		183F505724C2934F0040B22C /* MGDMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMiddleView.m; sourceTree = "<group>"; };
+		183F505824C2934F0040B22C /* MGDSportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableViewCell.m; sourceTree = "<group>"; };
+		183F505924C2934F0040B22C /* MGDSportTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableView.h; sourceTree = "<group>"; };
+		183F505A24C2934F0040B22C /* MGDBaseInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDBaseInfoView.h; sourceTree = "<group>"; };
+		183F506424C293550040B22C /* MGDMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMineViewController.m; sourceTree = "<group>"; };
+		183F506524C293550040B22C /* MGDMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMoreViewController.h; sourceTree = "<group>"; };
+		183F506624C293550040B22C /* MGDMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMineViewController.h; sourceTree = "<group>"; };
+		183F506724C293550040B22C /* MGDMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMoreViewController.m; sourceTree = "<group>"; };
+		183F506A24C2CF410040B22C /* MGDColumnChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDColumnChartView.h; sourceTree = "<group>"; };
+		183F506B24C2CF410040B22C /* MGDColumnChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDColumnChartView.m; sourceTree = "<group>"; };
+		183F506E24C2D1430040B22C /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
+		183F506F24C2D1430040B22C /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
+		183F507024C2D1430040B22C /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
+		183F507124C2D1430040B22C /* YBRectConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBRectConst.h; sourceTree = "<group>"; };
+		183F507224C2D1430040B22C /* YBPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenu.m; sourceTree = "<group>"; };
+		183F507324C2D1430040B22C /* YBPopupMenuPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenuPath.h; sourceTree = "<group>"; };
 		280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchVC.h; sourceTree = "<group>"; };
 		280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchVC.m; sourceTree = "<group>"; };
 		280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchView.h; sourceTree = "<group>"; };
@@ -509,47 +533,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		18A4CF3724B9E72100330683 /* MRMineView */ = {
+		183F504524C293320040B22C /* MRMineView */ = {
 			isa = PBXGroup;
 			children = (
-				18A4CF3824B9E72100330683 /* Model */,
-				18A4CF3924B9E72100330683 /* View */,
-				18A4CF4424B9E72100330683 /* ViewController */,
+				183F506D24C2D1430040B22C /* YBPopupMenu */,
+				183F506324C293550040B22C /* ViewController */,
+				183F504D24C2934F0040B22C /* View */,
+				183F504624C293490040B22C /* Model */,
 			);
 			path = MRMineView;
 			sourceTree = "<group>";
 		};
-		18A4CF3824B9E72100330683 /* Model */ = {
+		183F504624C293490040B22C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				183F504A24C293490040B22C /* MGDUserData.h */,
+				183F504824C293490040B22C /* MGDUserData.m */,
+				183F504724C293490040B22C /* MGDUserInfo.h */,
+				183F504924C293490040B22C /* MGDUserInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		18A4CF3924B9E72100330683 /* View */ = {
+		183F504D24C2934F0040B22C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				18A4CF3A24B9E72100330683 /* MGDBaseInfoView.m */,
-				18A4CF3B24B9E72100330683 /* MGDSportTableView.m */,
-				18A4CF3C24B9E72100330683 /* MGDSportTableViewCell.h */,
-				18A4CF3D24B9E72100330683 /* MGDMiddleView.h */,
-				18A4CF3E24B9E72100330683 /* MGDTopView.h */,
-				18A4CF3F24B9E72100330683 /* MGDTopView.m */,
-				18A4CF4024B9E72100330683 /* MGDMiddleView.m */,
-				18A4CF4124B9E72100330683 /* MGDSportTableViewCell.m */,
-				18A4CF4224B9E72100330683 /* MGDSportTableView.h */,
-				18A4CF4324B9E72100330683 /* MGDBaseInfoView.h */,
+				183F505324C2934F0040B22C /* MGDTopView.h */,
+				183F505624C2934F0040B22C /* MGDTopView.m */,
+				183F505A24C2934F0040B22C /* MGDBaseInfoView.h */,
+				183F504F24C2934F0040B22C /* MGDBaseInfoView.m */,
+				183F505224C2934F0040B22C /* MGDMiddleView.h */,
+				183F505724C2934F0040B22C /* MGDMiddleView.m */,
+				183F505924C2934F0040B22C /* MGDSportTableView.h */,
+				183F505024C2934F0040B22C /* MGDSportTableView.m */,
+				183F505124C2934F0040B22C /* MGDSportTableViewCell.h */,
+				183F505824C2934F0040B22C /* MGDSportTableViewCell.m */,
+				183F504E24C2934F0040B22C /* MGDRecordTableView.h */,
+				183F505524C2934F0040B22C /* MGDRecordTableView.m */,
+				183F506A24C2CF410040B22C /* MGDColumnChartView.h */,
+				183F506B24C2CF410040B22C /* MGDColumnChartView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		18A4CF4424B9E72100330683 /* ViewController */ = {
+		183F506324C293550040B22C /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				18A4CF4524B9E72100330683 /* MGDMineViewController.m */,
-				18A4CF4624B9E72100330683 /* MGDMineViewController.h */,
+				183F506624C293550040B22C /* MGDMineViewController.h */,
+				183F506424C293550040B22C /* MGDMineViewController.m */,
+				183F506524C293550040B22C /* MGDMoreViewController.h */,
+				183F506724C293550040B22C /* MGDMoreViewController.m */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		183F506D24C2D1430040B22C /* YBPopupMenu */ = {
+			isa = PBXGroup;
+			children = (
+				183F506E24C2D1430040B22C /* YBPopupMenu.h */,
+				183F506F24C2D1430040B22C /* YBRectConst.m */,
+				183F507024C2D1430040B22C /* YBPopupMenuPath.m */,
+				183F507124C2D1430040B22C /* YBRectConst.h */,
+				183F507224C2D1430040B22C /* YBPopupMenu.m */,
+				183F507324C2D1430040B22C /* YBPopupMenuPath.h */,
+			);
+			path = YBPopupMenu;
 			sourceTree = "<group>";
 		};
 		1B011DB0C0CCA19896847627 /* Pods */ = {
@@ -1191,9 +1239,9 @@
 				2FD8E783224F4FF3003EC09E /* MRRankView */,
 				2F0E8162225F451D00D5E511 /* MRSettinglView */,
 				2F14BF86226AE5A800CCA2B8 /* MRRunning */,
+				183F504524C293320040B22C /* MRMineView */,
 				2F495E1F2282BD34003DD714 /* MRLogin */,
 				CE0CC1C0222E4F7E001283EA /* MVVMDemoModule */,
-				18A4CF3724B9E72100330683 /* MRMineView */,
 				2F495E3B2282BF0F003DD714 /* MRInviteView */,
 				CE0CC1D8222E5C61001283EA /* MRRouterManager */,
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
@@ -1497,21 +1545,23 @@
 				CE0CC1BB222E4D37001283EA /* MRHomeViewController.m in Sources */,
 				28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */,
 				2F7ADC80237C2A8D00FE9461 /* ZYLWelcomeLabel.m in Sources */,
+				183F506024C2934F0040B22C /* MGDTopView.m in Sources */,
 				2FF3BB2C238D6B9900DB9051 /* ZYLHostView.m in Sources */,
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
-				18A4CF4A24B9E72100330683 /* MGDMiddleView.m in Sources */,
+				183F504B24C293490040B22C /* MGDUserData.m in Sources */,
 				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
+				183F507524C2D1430040B22C /* YBPopupMenuPath.m in Sources */,
 				2F7ADC7D237C29EE00FE9461 /* ZYLLoginViewController.m in Sources */,
 				2FBE893B230C448D0042AB0D /* ZYLButtonNoticeView.m in Sources */,
 				2F7ADC7A23799ECD00FE9461 /* ZYLSettingDarkModeCell.m in Sources */,
 				CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */,
-				18A4CF4C24B9E72100330683 /* MGDMineViewController.m in Sources */,
 				2F5A1B7E224670A90014B249 /* ZYLLeaderboardBtn.m in Sources */,
+				183F506124C2934F0040B22C /* MGDMiddleView.m in Sources */,
 				2F14F8942390C0DC00356CDF /* ZYLSchoolRankViewController.m in Sources */,
 				2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
-				18A4CF4924B9E72100330683 /* MGDTopView.m in Sources */,
+				183F504C24C293490040B22C /* MGDUserInfo.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
 				2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */,
@@ -1524,10 +1574,10 @@
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
 				2FF3BB0B238D499600DB9051 /* ZYLPlateChinieseLabel.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
-				18A4CF4B24B9E72100330683 /* MGDSportTableViewCell.m in Sources */,
 				28ED985F22F14431003AA58D /* LJJSearchedVC.m in Sources */,
 				2FF3BB26238D4DB200DB9051 /* ZYLUnitLabel.m in Sources */,
 				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
+				183F506924C293550040B22C /* MGDMoreViewController.m in Sources */,
 				2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */,
 				2F495E572282D39B003DD714 /* ZYLRunningDataRequest.m in Sources */,
 				2F0E815A225F33C400D5E511 /* UIFont+AdjustAuto.m in Sources */,
@@ -1543,6 +1593,7 @@
 				289B23E6231EAD8C00029899 /* MRRunningHistoryTrackModel.m in Sources */,
 				2F5A1B81224671140014B249 /* ZYLRunningRecordBtn.m in Sources */,
 				2F495E4B2282BFEB003DD714 /* LJJInviteViewModel.m in Sources */,
+				183F505D24C2934F0040B22C /* MGDSportTableView.m in Sources */,
 				2F495E372282BEAD003DD714 /* MRLoginBtu.m in Sources */,
 				2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */,
 				28EBE4EC22F07A70001B4293 /* LJJSearchedView.m in Sources */,
@@ -1558,12 +1609,13 @@
 				2F495E4E2282BFF3003DD714 /* LJJInviteSearchResultView.m in Sources */,
 				2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */,
 				2F495E452282BFD0003DD714 /* LJJInviteRunVCViewController.m in Sources */,
+				183F505F24C2934F0040B22C /* MGDRecordTableView.m in Sources */,
 				2FF3BB1D238D4C0B00DB9051 /* ZYLRedBar.m in Sources */,
 				2F9CB6DF239BD8F60003C09D /* ZYLRewriteTextField.m in Sources */,
 				2F14F8912390C0CC00356CDF /* ZYLAcademyRankViewController.m in Sources */,
 				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
-				18A4CF4724B9E72100330683 /* MGDBaseInfoView.m in Sources */,
 				2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */,
+				183F506C24C2CF410040B22C /* MGDColumnChartView.m in Sources */,
 				2F495E322282BE9F003DD714 /* MRLoginTextField.m in Sources */,
 				2F27F579243B5BDB00315D61 /* ZYLHealthManager.m in Sources */,
 				280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */,
@@ -1572,6 +1624,7 @@
 				2F0E819022608C9300D5E511 /* ZYLLogoutBtn.m in Sources */,
 				2F0E8175225F771700D5E511 /* ZYLClassRankViewModel.m in Sources */,
 				2F5A1B4D2245DAB90014B249 /* MRBaseViewController.m in Sources */,
+				183F506224C2934F0040B22C /* MGDSportTableViewCell.m in Sources */,
 				2F5A1B7522465A250014B249 /* ZYLAvatarBtn.m in Sources */,
 				2F14BF90226AEC9100CCA2B8 /* ZYLAvatarRequest.m in Sources */,
 				2F495E432282BFC4003DD714 /* LJJInviteRunVC.m in Sources */,
@@ -1581,6 +1634,7 @@
 				2F5A1B9E22468A890014B249 /* UIView+We.m in Sources */,
 				2F0E8152225F30A400D5E511 /* XIGStudentViewController.m in Sources */,
 				2F0E8169225F4B3400D5E511 /* ZYLPersonalViewController.m in Sources */,
+				183F505C24C2934F0040B22C /* MGDBaseInfoView.m in Sources */,
 				2F0E815B225F33C400D5E511 /* UIImage+Extension.m in Sources */,
 				28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */,
 				2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */,
@@ -1593,15 +1647,16 @@
 				2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */,
 				2F7ADC86237C2EB000FE9461 /* ZYLLoginButton.m in Sources */,
 				2FF3BB3C238EB64D00DB9051 /* ZYLRankTableViewCell.m in Sources */,
+				183F507624C2D1430040B22C /* YBPopupMenu.m in Sources */,
 				2FF3BB0E238D4AFB00DB9051 /* ZYLMediumChineseLabel.m in Sources */,
 				2F495E482282BFDD003DD714 /* LJJInviteSearchResultViewController.m in Sources */,
 				2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */,
-				18A4CF4824B9E72100330683 /* MGDSportTableView.m in Sources */,
 				2F5A1B9C22468A890014B249 /* WeKit.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
 				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
 				280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */,
 				2FF3BB23238D4C5400DB9051 /* ZYLBackGroudView.m in Sources */,
+				183F507424C2D1430040B22C /* YBRectConst.m in Sources */,
 				2F7ADC7723799CEE00FE9461 /* ZYLSettingNameCell.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
@@ -1619,6 +1674,7 @@
 				2F9CB6E2239BDA260003C09D /* ZYLConfirmButton.m in Sources */,
 				2F495E232282BE19003DD714 /* HttpClient.m in Sources */,
 				2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */,
+				183F506824C293550040B22C /* MGDMineViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

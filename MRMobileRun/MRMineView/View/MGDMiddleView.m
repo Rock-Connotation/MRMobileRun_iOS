@@ -56,10 +56,8 @@
     [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@37);
         make.width.mas_equalTo(screenWidth);
-        make.top.mas_equalTo(self.mas_top).mas_offset(0);
-        make.bottom.mas_equalTo(self.mas_bottom).mas_equalTo(-522);
+        make.top.mas_equalTo(self.mas_top);
         make.left.mas_equalTo(self.mas_left);
-        make.right.mas_equalTo(self.mas_right);
     }];
     
     [_dotView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -67,24 +65,18 @@
         make.height.equalTo(@8);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(8);
         make.left.mas_equalTo(self.backView.mas_left).mas_offset(15);
-        make.right.mas_equalTo(self.recordLab.mas_left).mas_offset(-8);
-        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-21);
     }];
     
     [_recordLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(0);
+        make.top.mas_equalTo(self.backView.mas_top);
         make.left.mas_equalTo(self.backView.mas_left).mas_offset(31);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-272);
-        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-15);
         make.width.equalTo(@72);
         make.height.equalTo(@22);
     }];
     
     [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(309);
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(4);
-        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-16);
         make.width.equalTo(@51);
         make.height.equalTo(@17);
     }];

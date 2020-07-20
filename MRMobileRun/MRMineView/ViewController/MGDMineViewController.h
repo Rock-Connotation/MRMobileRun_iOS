@@ -6,10 +6,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MGDTopView.h"
+#import "MGDBaseInfoView.h"
+#import "MGDMiddleView.h"
+#import "MGDSportTableView.h"
+#import "MGDSportTableViewCell.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MGDMineViewController : UIViewController
+
+@property (nonatomic, strong) MGDTopView *topview;
+
+@property (nonatomic, strong) MGDBaseInfoView *baseView;
+
+@property (nonatomic, strong) MGDMiddleView *middleView;
+
+@property (nonatomic, strong) MGDSportTableView *sportTableView;
+
 
 @end
 
