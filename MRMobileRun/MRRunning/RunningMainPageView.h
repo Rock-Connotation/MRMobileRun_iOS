@@ -8,6 +8,7 @@
 #import <MapKit/MapKit.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
+#import "LongPressView.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RunningMainPageView : UIView
@@ -30,10 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *energyLbl;
 
 @property (nonatomic, strong) UIButton *lockBtn;
+@property (nonatomic, strong) LongPressView *endLongPressView;
 @property (nonatomic, strong) UIButton *endtBtn;
 @property (nonatomic, strong) UIButton *pauseBtn;
 @property (nonatomic, strong) UIButton *continueBtn;
 @property (nonatomic, strong) UIButton *unlockBtn;
+@property (nonatomic, strong) LongPressView *unlockLongPressView;
 
 @property (nonatomic, strong) UIImageView *pauseImgView;
 @property (nonatomic, strong) UIImageView *continueImgView;

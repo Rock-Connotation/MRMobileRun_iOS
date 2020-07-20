@@ -78,7 +78,11 @@
         make.left.top.right.equalTo(self.mapView);
         make.bottom.equalTo(self.bottomView.mas_top);
     }];
-    self.topView.backgroundColor = WhiteColor;
+    if (@available(iOS 11.0, *)) {
+        self.topView.backgroundColor = WhiteColor;
+    } else {
+        // Fallback on earlier versions
+    }
     self.topView.alpha = 0.7;
     
 }
@@ -266,15 +270,28 @@
     self.continueBtn.hidden = YES;
     
    #pragma mark- 解锁按钮
-    self.unlockBtn = [[UIButton alloc] init];
-    [self.bottomView addSubview:self.unlockBtn];
-    [self.unlockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//    self.unlockBtn = [[UIButton alloc] init];
+//    [self.bottomView addSubview:self.unlockBtn];
+//    [self.unlockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.equalTo(self.pauseBtn);
+//        make.size.mas_equalTo(CGSizeMake(102, 102));
+//    }];
+//    self.unlockBtn.layer.cornerRadius = 51;
+//    self.unlockBtn.layer.masksToBounds = 51 ? YES : NO;
+//    self.unlockBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+//    self.unlockBtn.hidden = YES;
+    
+    self.unlockLongPressView = [[LongPressView alloc] init];
+    [self.unlockLongPressView initLongPressView];
+    [self.bottomView addSubview:self.unlockLongPressView];
+    [self.unlockLongPressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.pauseBtn);
         make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
-    self.unlockBtn.layer.cornerRadius = 51;
-    self.unlockBtn.layer.masksToBounds = 51 ? YES : NO;
-    self.unlockBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+    self.unlockLongPressView.bgView.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+    self.unlockLongPressView.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+    self.unlockLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
+    self.unlockLongPressView.titleLbl.text = @"长按解锁";
     self.unlockBtn.hidden = YES;
 }
 
@@ -344,24 +361,24 @@
     self.pauseLabel.text = @"暂停";
     
 #pragma mark- 解锁按钮
-            //图标
-    self.unlockImgView = [[UIImageView alloc] init];
-    [self.unlockBtn addSubview:self.unlockImgView];
-    [self.unlockImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.unlockBtn);
-        make.size.mas_equalTo(CGSizeMake(20, 22));
-    }];
-            //文字
-    self.unlockLabel = [[UILabel alloc] init];
-    [self.unlockBtn addSubview:self.unlockLabel];
-    [self.unlockLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.unlockImgView);
-        make.top.equalTo(self.unlockImgView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(48, 17));
-    }];
-    self.unlockLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
-    self.unlockLabel.textColor = self.pauseLabel.textColor;
-    self.unlockLabel.text = @"长按解锁";
+//            //图标
+//    self.unlockImgView = [[UIImageView alloc] init];
+//    [self.unlockBtn addSubview:self.unlockImgView];
+//    [self.unlockImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.equalTo(self.unlockBtn);
+//        make.size.mas_equalTo(CGSizeMake(20, 22));
+//    }];
+//            //文字
+//    self.unlockLabel = [[UILabel alloc] init];
+//    [self.unlockBtn addSubview:self.unlockLabel];
+//    [self.unlockLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.unlockImgView);
+//        make.top.equalTo(self.unlockImgView.mas_bottom);
+//        make.size.mas_equalTo(CGSizeMake(48, 17));
+//    }];
+//    self.unlockLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+//    self.unlockLabel.textColor = self.pauseLabel.textColor;
+//    self.unlockLabel.text = @"长按解锁";
     
 #pragma mark- 结束按钮
             //图标
