@@ -32,6 +32,13 @@
 
 @implementation MRTabBarController
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //移除系统自带的tabBar
+    for (UIView *child in self.tabBar.subviews) {
+        if ([child isKindOfClass:[UIControl class]]) {
+            [child removeFromSuperview];
+        }
+    }
     [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -106,6 +113,10 @@
 
 - (void)showTabView{
     self.tabView.hidden = NO;
+}
+
+-(void)setHidesBottomBarWhenPushed:(BOOL)hidesBottomBarWhenPushed{
+    self.tabView.hidden = hidesBottomBarWhenPushed;
 }
 
 #pragma mark -  TabBarViewDelegate

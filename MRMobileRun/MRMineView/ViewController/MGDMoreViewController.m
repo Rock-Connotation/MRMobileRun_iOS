@@ -12,6 +12,8 @@
 #import <Masonry.h>
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
+#define TopGap screenHeigth * 0.1199
+#define ColumnViewH screenHeigth * 0.3868
 
 @interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate>
 {
@@ -46,26 +48,16 @@ NSString *ID1 = @"Sport_cell";
     
 }
 
-- (CGSize)sizeThatFits:(CGSize)size {
-    CGSize newSize = CGSizeMake(self.view.frame.size.width, 80);
-    return newSize;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    CGRect rect = self.navigationController.navigationBar.frame;
-    self.navigationController.navigationBar.frame = CGRectMake(rect.origin.x,rect.origin.y,rect. size.width,80);
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    CGRect rect = self.navigationController.navigationBar.frame;
-    self.navigationController.navigationBar.frame = CGRectMake(rect.origin.x,rect.origin.y,rect. size.width,44);
-}
-
 
 - (void)setUI {
-    _recordTableView = [[MGDRecordTableView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, screenHeigth - 394) style:UITableViewStylePlain];
+    
+    _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, TopGap, screenWidth, ColumnViewH)];
+    _columnChartView.backgroundColor = [UIColor whiteColor];
+    _columnChartView.yearName = @"2020";
+    _columnChartView.delegate = self;
+    [self.view addSubview:_columnChartView];
+    
+    _recordTableView = [[MGDRecordTableView alloc] initWithFrame:CGRectMake(0, TopGap+ColumnViewH, screenWidth, screenHeigth - (TopGap+ColumnViewH)) style:UITableViewStylePlain];
     _recordTableView.separatorStyle = NO;
     _recordTableView.delegate = self;
     _recordTableView.dataSource = self;
@@ -73,11 +65,6 @@ NSString *ID1 = @"Sport_cell";
     [self.view addSubview:_recordTableView];
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     
-    _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 100, screenWidth, 228)];
-    _columnChartView.backgroundColor = [UIColor whiteColor];
-    _columnChartView.yearName = @"2020";
-    _columnChartView.delegate = self;
-    [self.view addSubview:_columnChartView];
     
     _isShowSec = false;
     
@@ -146,6 +133,10 @@ NSString *ID1 = @"Sport_cell";
     return 15;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //跳转到具体的跑步详情页面
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     //创建单元格（用复用池）
@@ -159,9 +150,11 @@ NSString *ID1 = @"Sport_cell";
     return cell;
 }
 
-
-- (void) Back {
-    
+-(void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.hidesBottomBarWhenPushed = YES;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.tabBarController.hidesBottomBarWhenPushed = NO;
 }
 
 

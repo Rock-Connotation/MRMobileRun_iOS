@@ -19,6 +19,9 @@
 #import "UIImageView+WebCache.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
+#define TopViewH screenHeigth * 0.1664
+#define BaseViewH screenHeigth * 0.1754
+#define MiddleViewH screenHeigth * 0.033
 
 @interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
     NSMutableArray *baseDataArray;
@@ -47,19 +50,19 @@ NSString *ID = @"Recored_cell";
 
 - (void)buildUI {
     _topview = [[MGDTopView alloc] init];
-    _topview.frame = CGRectMake(0,0,screenWidth,136);
+    _topview.frame = CGRectMake(0,0,screenWidth,TopViewH);
     [self.view addSubview:_topview];
     
     _baseView = [[MGDBaseInfoView alloc] init];
-    _baseView.frame = CGRectMake(0,136,screenWidth,117);
+    _baseView.frame = CGRectMake(0,TopViewH,screenWidth,BaseViewH);
     [self.view addSubview:_baseView];
     
     _middleView = [[MGDMiddleView alloc] init];
-    _middleView.frame = CGRectMake(0, 253,screenWidth,37);
+    _middleView.frame = CGRectMake(0,TopViewH+BaseViewH,screenWidth,MiddleViewH);
     [_middleView.moreBtn addTarget:self action:@selector(MoreVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_middleView];
     
-    _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 290, screenWidth, screenHeigth - 290 - 83) style:UITableViewStylePlain];
+    _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,TopViewH+BaseViewH+MiddleViewH+screenHeigth * 0.0225, screenWidth, screenHeigth - (TopViewH+BaseViewH+MiddleViewH)) style:UITableViewStylePlain];
     _sportTableView.separatorStyle = NO;
     _sportTableView.delegate = self;
     _sportTableView.dataSource = self;
@@ -68,9 +71,7 @@ NSString *ID = @"Recored_cell";
     [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    self.tabBarController.tabBar.hidden = NO;
-}
+
 
 #pragma mark- 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -80,6 +81,10 @@ NSString *ID = @"Recored_cell";
 #pragma mark- 数据源方法
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 15;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //跳转到具体的跑步详情页面
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -97,7 +102,6 @@ NSString *ID = @"Recored_cell";
 
 - (void)MoreVC{
     MGDMoreViewController *moreVC = [[MGDMoreViewController alloc] init];
-    self.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:moreVC animated:YES];
 }
 
