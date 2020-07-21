@@ -13,9 +13,10 @@
 #import <Masonry.h>
 #import <UIKit/UIKit.h>
 #import "RunningMainPageView.h"
-
-@interface RunMainPageCV ()<MAMapViewDelegate>
+#import "RunningModel.h"
+@interface RunMainPageCV ()<MAMapViewDelegate,RunmodelDelegate>
 @property (nonatomic, strong) RunningMainPageView *Mainview;
+@property (nonatomic, strong) RunningModel *model;
 @property (nonatomic, assign) CGFloat yyy;
 @end
 
@@ -35,22 +36,18 @@
     self.Mainview.dragLabel.userInteractionEnabled = YES;
 }
 
-//拖拽方法：
-- (void)dragAction:(UIGestureRecognizer *)pan{
-    //
-    if (pan.state == UIGestureRecognizerStateBegan) {
-           
-           // 用来保存初始高度
-        _yyy = CGRectGetMaxY(self.Mainview.topView.frame);
-    }else if (pan.state == UIGestureRecognizerStateChanged){
-        CGPoint point = [pan locationInView:self.view];
-                CGFloat y = point.y + _yyy;
-        
-    }else if (pan.state == UIGestureRecognizerStateEnded){
+-(void)setModel:(RunningModel *)model{
+    self.model = model;
+    self.model.delegate = self;
+    self.Mainview.numberLabel.text = model.distanceStr;
+    self.Mainview.speedNumberLbl.text = model.speedStr;
+    self.Mainview.energyNumberLbl.text = model.energyStr;
+}
 
-        
-        
-    }
+#pragma mark-运动时间
+-(void)time:(NSString *)timeStr timeNum:(int)time
+{
+    self.Mainview.timeNumberLbl.text = timeStr;
 }
 
 #pragma mark- 按钮的方法

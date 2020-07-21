@@ -6,15 +6,17 @@
 //
 
 #import "RunningMainPageView.h"
+#import "RunningModel.h"
+
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <Masonry.h>
-@implementation RunningMainPageView
-
 //屏幕的宽和高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHight [UIScreen mainScreen].bounds.size.height
+
+@implementation RunningMainPageView
 
 //初始化View
 - (void)mainRunView{
@@ -57,27 +59,15 @@
 - (void)addViewOnMap{
     
 
-    //下面的白色View
-    self.bottomView = [[UIView alloc] init];
-    [self.mapView addSubview:self.bottomView];
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top).offset(kScreenHight * 0.5369);
-        make.bottom.equalTo(self.mas_bottom);
-        make.width.mas_equalTo(kScreenWidth);
-    }];
-    self.bottomView.backgroundColor = [UIColor whiteColor];
-    self.bottomView.layer.cornerRadius = 22;
-    self.bottomView.layer.shadowColor = [UIColor colorWithRed:73/255.0 green:80/255.0 blue:90/255.0 alpha:0.1].CGColor;
-    self.bottomView.layer.shadowOpacity = 1;
-    self.bottomView.layer.shadowRadius = 6;
-    
+   
     //设置一个未显示地图时白色的蒙板
     self.topView = [[UIView alloc] init];
     [self.mapView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self.mapView);
-        make.bottom.equalTo(self.bottomView.mas_top);
+        make.left.top.right.bottom.equalTo(self.mapView);
+//        make.bottom.equalTo(self.bottomView.mas_top);
     }];
+        //适配深色模式
     if (@available(iOS 11.0, *)) {
         self.topView.backgroundColor = WhiteColor;
     } else {
@@ -85,6 +75,25 @@
     }
     self.topView.alpha = 0.7;
     
+    //下面的白色View
+       self.bottomView = [[UIView alloc] init];
+       [self.mapView addSubview:self.bottomView];
+       [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+           make.top.equalTo(self.mas_top).offset(kScreenHight * 0.5369);
+           make.bottom.equalTo(self.mas_bottom);
+           make.width.mas_equalTo(kScreenWidth);
+       }];
+        //适配深色模式
+       if (@available(iOS 11.0, *)) {
+           self.bottomView.backgroundColor = WhiteColor;
+       } else {
+           // Fallback on earlier versions
+       }
+       self.bottomView.layer.cornerRadius = 22;
+       self.bottomView.layer.shadowColor = [UIColor colorWithRed:73/255.0 green:80/255.0 blue:90/255.0 alpha:0.1].CGColor;
+       self.bottomView.layer.shadowOpacity = 1;
+       self.bottomView.layer.shadowRadius = 6;
+       
 }
 
 //在底部视图上添加控件
@@ -237,22 +246,46 @@
     self.pauseBtn.layer.cornerRadius = 45;
 //    self.pauseBtn.clipsToBounds = YES;
     self.pauseBtn.layer.masksToBounds = 45 ? YES : NO;
-    self.pauseBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+    if (@available(iOS 11.0, *)) {
+        self.pauseBtn.backgroundColor = GrayColor;
+    } else {
+        // Fallback on earlier versions
+    }
     self.pauseBtn.hidden = NO;
     
     
-       #pragma mark- 结束按钮
-    self.endtBtn = [[UIButton alloc] init];
-    [self.bottomView addSubview:self.endtBtn];
-    [self.endtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+       #pragma mark- 结束的View （相当于button）
+    self.endLongPressView = [[LongPressView alloc] init];
+    [self.endLongPressView initLongPressView];
+    [self.bottomView addSubview:self.endLongPressView];
+    [self.endLongPressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.2213);
         make.top.equalTo(self.bottomView.mas_top).offset(kScreenHight * 0.2153);
-        make.size.mas_equalTo(CGSizeMake(90, 90));
+        make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
-    self.endtBtn.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
-    self.endtBtn.layer.cornerRadius = 45;
-    self.endtBtn.layer.masksToBounds = 45 ? YES : NO;
-    self.endtBtn.hidden = YES;
+    self.endLongPressView.bgView.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
+        //设置titlelabel
+//    self.endLongPressView.titleLbl.font =  [UIFont fontWithName:@"PingFangSC" size: 12];
+     self.endLongPressView.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+    self.endLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
+    self.endLongPressView.titleLbl.text = @"长按结束";
+        //图片框的图片，等待后置
+    
+    self.endLongPressView.layer.cornerRadius = 51;
+    self.endLongPressView.layer.masksToBounds = 51;
+    self.endLongPressView.hidden = YES;
+    
+//    self.endtBtn = [[UIButton alloc] init];
+//    [self.bottomView addSubview:self.endtBtn];
+//    [self.endtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.2213);
+//        make.top.equalTo(self.bottomView.mas_top).offset(kScreenHight * 0.2153);
+//        make.size.mas_equalTo(CGSizeMake(90, 90));
+//    }];
+//    self.endtBtn.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
+//    self.endtBtn.layer.cornerRadius = 45;
+//    self.endtBtn.layer.masksToBounds = 45 ? YES : NO;
+//    self.endtBtn.hidden = YES;
     
     
     
@@ -269,18 +302,7 @@
     self.continueBtn.layer.masksToBounds = self.endtBtn.layer.masksToBounds;
     self.continueBtn.hidden = YES;
     
-   #pragma mark- 解锁按钮
-//    self.unlockBtn = [[UIButton alloc] init];
-//    [self.bottomView addSubview:self.unlockBtn];
-//    [self.unlockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.equalTo(self.pauseBtn);
-//        make.size.mas_equalTo(CGSizeMake(102, 102));
-//    }];
-//    self.unlockBtn.layer.cornerRadius = 51;
-//    self.unlockBtn.layer.masksToBounds = 51 ? YES : NO;
-//    self.unlockBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
-//    self.unlockBtn.hidden = YES;
-    
+   #pragma mark- 解锁的View（相当于按钮）
     self.unlockLongPressView = [[LongPressView alloc] init];
     [self.unlockLongPressView initLongPressView];
     [self.bottomView addSubview:self.unlockLongPressView];
@@ -288,7 +310,7 @@
         make.center.equalTo(self.pauseBtn);
         make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
-    self.unlockLongPressView.bgView.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+    self.unlockLongPressView.bgView.backgroundColor = self.pauseBtn.backgroundColor;
     self.unlockLongPressView.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
     self.unlockLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
     self.unlockLongPressView.titleLbl.text = @"长按解锁";
@@ -300,7 +322,7 @@
     
         //左上角的GPS图标
         self.GPSImgView = [[UIImageView alloc] init];
-        [self.topView addSubview:self.GPSImgView];
+        [self addSubview:self.GPSImgView];
         [self.GPSImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.04);
             make.top.equalTo(self.mas_top).offset(kScreenHight * 0.0739);
@@ -310,7 +332,7 @@
     
         //中心显示跑了多少公里数字的label
         self.numberLabel = [[UILabel alloc] init];
-        [self.topView addSubview:self.numberLabel];
+        [self addSubview:self.numberLabel];
         [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.mas_centerX);
             make.top.equalTo(self.GPSImgView.mas_bottom).offset(kScreenHight * 0.1589);
@@ -325,7 +347,7 @@
         
         //显示“公里”的label
         self.milesLabel = [[UILabel alloc] init];
-        [self.topView addSubview:self.milesLabel];
+        [self addSubview:self.milesLabel];
         [self.milesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.numberLabel.mas_bottom);
             make.centerX.equalTo(self.numberLabel.mas_centerX);
@@ -359,49 +381,28 @@
     self.pauseLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
     self.pauseLabel.textAlignment = NSTextAlignmentCenter;
     self.pauseLabel.text = @"暂停";
-    
-#pragma mark- 解锁按钮
+#pragma mark- 结束按钮
 //            //图标
-//    self.unlockImgView = [[UIImageView alloc] init];
-//    [self.unlockBtn addSubview:self.unlockImgView];
-//    [self.unlockImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.equalTo(self.unlockBtn);
-//        make.size.mas_equalTo(CGSizeMake(20, 22));
+//    self.endImgView = [[UIImageView alloc] init];
+//    [self.endtBtn addSubview:self.endImgView];
+//    [self.endImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.equalTo(self.endtBtn);
+//        make.size.mas_equalTo(CGSizeMake(30, 30));
 //    }];
 //            //文字
-//    self.unlockLabel = [[UILabel alloc] init];
-//    [self.unlockBtn addSubview:self.unlockLabel];
-//    [self.unlockLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(self.unlockImgView);
-//        make.top.equalTo(self.unlockImgView.mas_bottom);
+//    self.endLabel = [[UILabel alloc] init];
+//    [self.endtBtn addSubview:self.endLabel];
+//    [self.endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.endImgView);
+//        make.top.equalTo(self.endImgView.mas_bottom);
 //        make.size.mas_equalTo(CGSizeMake(48, 17));
 //    }];
-//    self.unlockLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
-//    self.unlockLabel.textColor = self.pauseLabel.textColor;
-//    self.unlockLabel.text = @"长按解锁";
-    
-#pragma mark- 结束按钮
-            //图标
-    self.endImgView = [[UIImageView alloc] init];
-    [self.endtBtn addSubview:self.endImgView];
-    [self.endImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.endtBtn);
-        make.size.mas_equalTo(CGSizeMake(30, 30));
-    }];
-            //文字
-    self.endLabel = [[UILabel alloc] init];
-    [self.endtBtn addSubview:self.endLabel];
-    [self.endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.endImgView);
-        make.top.equalTo(self.endImgView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(48, 17));
-    }];
-    self.endLabel.backgroundColor = [UIColor whiteColor];
-//    self.endLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
-    self.endLabel.font = [UIFont systemFontOfSize:10];
-    self.endLabel.textColor =  self.pauseLabel.textColor;
-    self.endLabel.text = @"长按结束";
-    
+//    self.endLabel.backgroundColor = [UIColor whiteColor];
+////    self.endLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+//    self.endLabel.font = [UIFont systemFontOfSize:10];
+//    self.endLabel.textColor =  self.pauseLabel.textColor;
+//    self.endLabel.text = @"长按结束";
+//
 #pragma mark- 继续按钮
             //图标
     self.continueImgView = [[UIImageView alloc] init];
@@ -423,4 +424,5 @@
     self.continueLabel.textColor = self.endLabel.textColor;
     self.continueLabel.text = @"继续";
 }
+
 @end
