@@ -23,6 +23,8 @@
 //关于黑暗模式的颜色
     //白色模式是白色
  #define WhiteColor  [UIColor colorNamed:@"whiteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //白天是灰色
+#define GrayColor  [UIColor colorNamed:@"grayColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 
 
 

@@ -155,6 +155,7 @@
 		B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B30224C5ACFF004023C3 /* LongPressView.m */; };
 		B8B0207324B85789009A8985 /* RunMainPageCV.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207224B85789009A8985 /* RunMainPageCV.m */; };
 		B8B0207624B857BE009A8985 /* RunningMainPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207524B857BE009A8985 /* RunningMainPageView.m */; };
+		B8BDEE8C24C6E1480013293B /* MapPolylineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDEE8B24C6E1480013293B /* MapPolylineModel.m */; };
 		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
 		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
 		CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC187222E205B001283EA /* LaunchScreen.storyboard */; };
@@ -478,6 +479,8 @@
 		B8B0207224B85789009A8985 /* RunMainPageCV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunMainPageCV.m; sourceTree = "<group>"; };
 		B8B0207424B857BE009A8985 /* RunningMainPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunningMainPageView.h; sourceTree = "<group>"; };
 		B8B0207524B857BE009A8985 /* RunningMainPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunningMainPageView.m; sourceTree = "<group>"; };
+		B8BDEE8A24C6E1480013293B /* MapPolylineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapPolylineModel.h; sourceTree = "<group>"; };
+		B8BDEE8B24C6E1480013293B /* MapPolylineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapPolylineModel.m; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE0CC17C222E2059001283EA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CE0CC17D222E2059001283EA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -759,6 +762,8 @@
 			children = (
 				B817B2FE24C5ACBC004023C3 /* RunningModel.h */,
 				B817B2FF24C5ACBC004023C3 /* RunningModel.m */,
+				B8BDEE8A24C6E1480013293B /* MapPolylineModel.h */,
+				B8BDEE8B24C6E1480013293B /* MapPolylineModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1626,6 +1631,7 @@
 				2F9CB6DF239BD8F60003C09D /* ZYLRewriteTextField.m in Sources */,
 				2F14F8912390C0CC00356CDF /* ZYLAcademyRankViewController.m in Sources */,
 				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
+				B8BDEE8C24C6E1480013293B /* MapPolylineModel.m in Sources */,
 				2F734CC422675CC6006D8B63 /* ZYLPersonalModel.m in Sources */,
 				2F495E322282BE9F003DD714 /* MRLoginTextField.m in Sources */,
 				2F27F579243B5BDB00315D61 /* ZYLHealthManager.m in Sources */,
