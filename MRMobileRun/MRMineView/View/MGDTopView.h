@@ -8,7 +8,6 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class User;
 
 @interface MGDTopView : UIView
 
@@ -19,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong) UILabel *userName;
 
 @property(nonatomic,strong) UILabel *personalSign;
-
-@property (nonatomic, strong) User *user;
 
 @end
 

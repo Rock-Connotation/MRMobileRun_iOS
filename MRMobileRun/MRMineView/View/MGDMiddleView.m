@@ -52,14 +52,29 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@22);
-        make.width.mas_equalTo(screenWidth);
-        make.top.mas_equalTo(self.mas_top);
-        make.left.mas_equalTo(self.mas_left);
-    }];
-    
+    if (kIs_iPhoneX) {
+        [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.0271);
+            make.width.mas_equalTo(screenWidth);
+            make.top.mas_equalTo(self.mas_top);
+            make.left.mas_equalTo(self.mas_left);
+        }];
+        
+        [self setMiddleFrame];
+    }else {
+        [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.033);
+            make.width.mas_equalTo(screenWidth);
+            make.top.mas_equalTo(self.mas_top);
+            make.left.mas_equalTo(self.mas_left);
+        }];
+        
+        [self setMiddleFrame];
+        
+    }
+}
+
+- (void)setMiddleFrame {
     [_dotView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@8);
         make.height.equalTo(@8);
@@ -80,6 +95,5 @@
         make.width.equalTo(@51);
         make.height.equalTo(@17);
     }];
-    
 }
 @end

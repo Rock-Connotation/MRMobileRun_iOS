@@ -60,45 +60,63 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self);
-        make.right.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top);
-        make.height.mas_equalTo(screenHeigth * 0.1664);
-    }];
-    
-    [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@72);
-        make.width.equalTo(@72);
-        make.left.mas_equalTo(self.topView.mas_left).mas_offset(16);
-        make.top.mas_equalTo(self.topView.mas_top).mas_offset(23);
-    }];
-    
-    [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@25);
-        make.leading.lessThanOrEqualTo(self.topView.mas_leading).mas_offset(116);
-        make.top.lessThanOrEqualTo(self.topView.mas_top).mas_offset(34);
-        make.width.mas_lessThanOrEqualTo(screenWidth - 116);
-    }];
-    
-    [_personalSign mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@18);
-        make.leading.lessThanOrEqualTo(self.topView.mas_leading).mas_offset(116);
-        make.width.mas_lessThanOrEqualTo(screenWidth - 116);
-        make.top.lessThanOrEqualTo(self.topView.mas_top).mas_offset(59);
-    }];
-    
-    
-
+    if (kIs_iPhoneX) {
+        [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self);
+            make.right.mas_equalTo(self);
+            make.top.mas_equalTo(self.mas_top);
+            make.height.mas_equalTo(screenHeigth * 0.1675);
+        }];
+        
+        [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@72);
+            make.width.equalTo(@72);
+            make.left.mas_equalTo(self.topView.mas_left).mas_offset(16);
+            make.top.mas_equalTo(self.topView.mas_top).mas_offset(23);
+        }];
+        
+        [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@25);
+            make.leading.lessThanOrEqualTo(self.topView.mas_leading).mas_offset(116);
+            make.top.lessThanOrEqualTo(self.topView.mas_top).mas_offset(59);
+            make.width.mas_lessThanOrEqualTo(screenWidth - 116);
+        }];
+        
+        [_personalSign mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@18);
+            make.leading.lessThanOrEqualTo(self.topView.mas_leading).mas_offset(116);
+            make.width.mas_lessThanOrEqualTo(screenWidth - 116);
+            make.top.lessThanOrEqualTo(self.topView.mas_top).mas_offset(84);
+        }];
+    }else {
+        [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self);
+            make.right.mas_equalTo(self);
+            make.top.mas_equalTo(self.mas_top);
+            make.height.mas_equalTo(screenHeigth * 0.1664);
+        }];
+        
+        [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@72);
+            make.width.equalTo(@72);
+            make.left.mas_equalTo(self.topView.mas_left).mas_offset(16);
+            make.top.mas_equalTo(self.topView.mas_top).mas_offset(23);
+        }];
+        
+        [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@25);
+            make.leading.lessThanOrEqualTo(self.topView.mas_leading).mas_offset(116);
+            make.top.lessThanOrEqualTo(self.topView.mas_top).mas_offset(34);
+            make.width.mas_lessThanOrEqualTo(screenWidth - 116);
+        }];
+        
+        [_personalSign mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@18);
+            make.leading.lessThanOrEqualTo(self.topView.mas_leading).mas_offset(116);
+            make.width.mas_lessThanOrEqualTo(screenWidth - 116);
+            make.top.lessThanOrEqualTo(self.topView.mas_top).mas_offset(59);
+        }];
+    }
 }
-
-
-- (void)setUser:(User *)user {
-    _user = user;
-    
-}
-
-
-
 
 @end

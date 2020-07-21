@@ -65,6 +65,7 @@
                       success:(void (^)(NSURLSessionDataTask *task))success
                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
     AFHTTPSessionManager *manger = [AFHTTPSessionManager manager];
+    manger.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manger HEAD:url parameters:parameters success:success failure:failure];
 }
 
