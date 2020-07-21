@@ -567,11 +567,11 @@
 			isa = PBXGroup;
 			children = (
 				18CD286424C5B1DA0093D396 /* YBPopupMenu.h */,
-				18CD286524C5B1DA0093D396 /* YBRectConst.m */,
-				18CD286624C5B1DA0093D396 /* YBPopupMenuPath.m */,
-				18CD286724C5B1DA0093D396 /* YBRectConst.h */,
 				18CD286824C5B1DA0093D396 /* YBPopupMenu.m */,
+				18CD286724C5B1DA0093D396 /* YBRectConst.h */,
+				18CD286524C5B1DA0093D396 /* YBRectConst.m */,
 				18CD286924C5B1DA0093D396 /* YBPopupMenuPath.h */,
+				18CD286624C5B1DA0093D396 /* YBPopupMenuPath.m */,
 			);
 			path = YBPopupMenu;
 			sourceTree = "<group>";
@@ -580,9 +580,9 @@
 			isa = PBXGroup;
 			children = (
 				18CD286B24C5B1DA0093D396 /* MGDUserInfo.h */,
-				18CD286C24C5B1DA0093D396 /* MGDUserData.m */,
 				18CD286D24C5B1DA0093D396 /* MGDUserInfo.m */,
 				18CD286E24C5B1DA0093D396 /* MGDUserData.h */,
+				18CD286C24C5B1DA0093D396 /* MGDUserData.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";

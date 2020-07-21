@@ -172,10 +172,7 @@ NSString *ID = @"Recored_cell";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:urlStr parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
          for (NSDictionary *dict in responseObject[@"data"]) {
-             self->_currentModel = [MGDUserData new];
-             self->_currentModel.total_distance = [dict objectForKey:@"total_distance"];
-             self->_currentModel.total_duration = [dict objectForKey:@"total_duration"];
-             self->_currentModel.total_consume = [dict objectForKey:@"total_consume"];
+             self->_currentModel = [MGDUserData DataWithDict:dict];
              [self->baseDataArray addObject:self->_currentModel];
             }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -193,14 +190,11 @@ NSString *ID = @"Recored_cell";
 }
 
 - (void)getUserInfo {
-    NSString *url = @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/login";
+    NSString *url = kLoginURL;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
          for (NSDictionary *dict in responseObject[@"user_data"]) {
-             self->_userModel = [MGDUserInfo new];
-             self->_userModel.userName = [dict objectForKey:@"nickname"];
-             self->_userModel.userSign = [dict objectForKey:@"signature"];
-             self->_userModel.userIcon = [dict objectForKey:@"avatar_url"];
+             self->_userModel = [MGDUserInfo InfoWithDict:dict];
              [self->userArray addObject:self->_userModel];
             }
         dispatch_async(dispatch_get_main_queue(), ^{

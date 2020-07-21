@@ -108,14 +108,29 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    if (kIs_iPhoneX) {
+        [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.1441);
+            make.width.mas_equalTo(screenWidth);
+            make.top.mas_equalTo(self.mas_top);
+            make.left.mas_equalTo(self.mas_left);
+        }];
+        
+       [self setInfoFrame];
+    } else {
+       [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.1754);
+            make.width.mas_equalTo(screenWidth);
+            make.top.mas_equalTo(self.mas_top);
+            make.left.mas_equalTo(self.mas_left);
+        }];
+        
+        [self setInfoFrame];
+    }
     
-    [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(screenHeigth * 0.1754);
-        make.width.mas_equalTo(screenWidth);
-        make.top.mas_equalTo(self.mas_top).mas_offset(0);
-        make.left.mas_equalTo(self.mas_left);
-    }];
-    
+}
+
+- (void)setInfoFrame {
     [_KmImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@40);
         make.width.equalTo(@40);
