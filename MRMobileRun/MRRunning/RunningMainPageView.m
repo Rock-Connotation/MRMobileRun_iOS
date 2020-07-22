@@ -45,7 +45,7 @@
             make.bottom.equalTo(self).offset(-10);
         }];
     //设置地图相关属性
-    self.mapView.zoomLevel = 16;
+    self.mapView.zoomLevel = 18;
     self.mapView.showsUserLocation = YES;
     self.mapView.pausesLocationUpdatesAutomatically = NO;
     self.mapView.showsCompass = NO;
@@ -272,21 +272,8 @@
         //图片框的图片，等待后置
     
     self.endLongPressView.layer.cornerRadius = 51;
-    self.endLongPressView.layer.masksToBounds = 51;
+    self.endLongPressView.layer.masksToBounds = YES;
     self.endLongPressView.hidden = YES;
-    
-//    self.endtBtn = [[UIButton alloc] init];
-//    [self.bottomView addSubview:self.endtBtn];
-//    [self.endtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.2213);
-//        make.top.equalTo(self.bottomView.mas_top).offset(kScreenHight * 0.2153);
-//        make.size.mas_equalTo(CGSizeMake(90, 90));
-//    }];
-//    self.endtBtn.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
-//    self.endtBtn.layer.cornerRadius = 45;
-//    self.endtBtn.layer.masksToBounds = 45 ? YES : NO;
-//    self.endtBtn.hidden = YES;
-    
     
     
      #pragma mark- 继续按钮
@@ -381,28 +368,7 @@
     self.pauseLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
     self.pauseLabel.textAlignment = NSTextAlignmentCenter;
     self.pauseLabel.text = @"暂停";
-#pragma mark- 结束按钮
-//            //图标
-//    self.endImgView = [[UIImageView alloc] init];
-//    [self.endtBtn addSubview:self.endImgView];
-//    [self.endImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.equalTo(self.endtBtn);
-//        make.size.mas_equalTo(CGSizeMake(30, 30));
-//    }];
-//            //文字
-//    self.endLabel = [[UILabel alloc] init];
-//    [self.endtBtn addSubview:self.endLabel];
-//    [self.endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(self.endImgView);
-//        make.top.equalTo(self.endImgView.mas_bottom);
-//        make.size.mas_equalTo(CGSizeMake(48, 17));
-//    }];
-//    self.endLabel.backgroundColor = [UIColor whiteColor];
-////    self.endLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
-//    self.endLabel.font = [UIFont systemFontOfSize:10];
-//    self.endLabel.textColor =  self.pauseLabel.textColor;
-//    self.endLabel.text = @"长按结束";
-//
+
 #pragma mark- 继续按钮
             //图标
     self.continueImgView = [[UIImageView alloc] init];
