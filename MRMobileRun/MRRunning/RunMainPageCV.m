@@ -9,6 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <MAMapKit/MAMapKit.h>
+#import <MAMapKit/MAPointAnnotation.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
@@ -112,6 +113,7 @@
             return;
             
         case SportsStateStop:
+             [self.locationManager stopUpdatingLocation];
             break;
     }
 }
@@ -119,6 +121,24 @@
 -(void)time:(NSString *)timeStr timeNum:(int)time
 {
     self.Mainview.timeNumberLbl.text = timeStr;
+}
+
+
+#pragma mark- 定位数据
+- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
+    
+    
+}
+#pragma mark- 绘制定位大头针
+//绘制开始位置大头针
+- (void)drawStartRunPointAction:(RunLocationModel *)runModel{
+    if (self.isFirstLocation && self.Mainview.mapView.userLocation.location != nil) {
+        MAPointAnnotation *startPointAnnotation = [[MAPointAnnotation alloc] init];
+        startPointAnnotation.coordinate = *(runModel.location);
+        [self.perfectArray addObject:runModel]; //为消除误差了的数组添加第一个元素
+        self.isFirstLocation = NO;
+         self.lastDrawIndex = 0;
+    }
 }
 
 #pragma mark- 按钮的方法
@@ -131,7 +151,8 @@
     [self.Mainview.lockBtn addTarget:self action:@selector(lockMethod) forControlEvents:UIControlEventTouchUpInside];
     
     //解锁按钮
-    [self.Mainview.unlockBtn addTarget:self action:@selector(unlockMethod) forControlEvents:UIControlEventTouchUpInside];
+    [self.Mainview.unlockLongPressView addTarget:self select:@selector(unlockMethod)];
+    
     
     //继续按钮
     [self.Mainview.continueBtn addTarget:self action:@selector(continueMethod) forControlEvents:UIControlEventTouchUpInside];
@@ -157,6 +178,9 @@
 //长按解锁按钮方法
 - (void)unlockMethod{
     //
+    self.Mainview.unlockLongPressView.hidden = YES;
+    self.Mainview.lockBtn.hidden = NO;
+    self.Mainview.pauseBtn.hidden = NO;
 }
 //点击继续按钮方法
 - (void)continueMethod{

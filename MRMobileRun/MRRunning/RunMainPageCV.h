@@ -25,7 +25,7 @@ typedef enum : NSUInteger {
  // 当前跑步距离
 @property(nonatomic,assign)NSInteger distance;
 
-/**
+
 
 @end
 

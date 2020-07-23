@@ -224,6 +224,7 @@
     }];
     
     #pragma mark- 关于按钮
+    
 #pragma mark- 锁屏按钮
     self.lockBtn = [[UIButton alloc] init];
     [self.bottomView addSubview:self.lockBtn];
@@ -232,7 +233,10 @@
         make.top.equalTo(self.speedLbl.mas_bottom).offset(kScreenHight * 0.0843);
         make.size.mas_equalTo(CGSizeMake(24, 26));
     }];
-//    self.lockBtn.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+    //图片
+//    self.lockBtn.imageView.image = [UIImage imageNamed:@"smallLockImage"];
+    [self.lockBtn setImage:[UIImage imageNamed:@"smallLockImage"] forState:UIControlStateNormal];
+    
     self.lockBtn.hidden = NO;
     
     #pragma mark- 暂停按钮
@@ -251,6 +255,9 @@
     } else {
         // Fallback on earlier versions
     }
+    //图片
+    
+//    self.pauseBtn.imageView.image = [UIImage imageNamed:@"pauseBtnImage"];
     self.pauseBtn.hidden = NO;
     
     
@@ -270,7 +277,7 @@
     self.endLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
     self.endLongPressView.titleLbl.text = @"长按结束";
         //图片框的图片，等待后置
-    
+    self.endLongPressView.imgView.image = [UIImage imageNamed:@"endBtnImage"];
     self.endLongPressView.layer.cornerRadius = 51;
     self.endLongPressView.layer.masksToBounds = YES;
     self.endLongPressView.hidden = YES;
@@ -284,6 +291,9 @@
         make.left.equalTo(self.endtBtn.mas_right).offset(kScreenWidth * 0.08);
         make.size.equalTo(self.endtBtn);
     }];
+        //图片
+    self.continueBtn.imageView.image = [UIImage imageNamed:@"continueBtnImage"];
+    
     self.continueBtn.backgroundColor = [UIColor colorWithRed:85/255.0 green:213/255.0 blue:226/255.0 alpha:1.0];
     self.continueBtn.layer.cornerRadius = self.endtBtn.layer.cornerRadius;
     self.continueBtn.layer.masksToBounds = self.endtBtn.layer.masksToBounds;
@@ -300,6 +310,8 @@
     self.unlockLongPressView.bgView.backgroundColor = self.pauseBtn.backgroundColor;
     self.unlockLongPressView.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
     self.unlockLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
+    //图片
+    self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
     self.unlockLongPressView.titleLbl.text = @"长按解锁";
     self.unlockBtn.hidden = YES;
 }
