@@ -364,10 +364,9 @@
 - (CGFloat)getChartH:(CGFloat)chartH
 {
     CGFloat itemH = _oneItemH * chartH;
-    if (chartH > 5.6) {
-        itemH = _oneItemH * 5.6;
+    if (chartH > 5.3) {
+        itemH = _oneItemH * 5.3;
     }
-    
     return itemH;
 }
 

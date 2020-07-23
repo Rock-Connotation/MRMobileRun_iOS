@@ -115,8 +115,8 @@
     self.tabView.hidden = NO;
 }
 
--(void)setHidesBottomBarWhenPushed:(BOOL)hidesBottomBarWhenPushed{
-    self.tabView.hidden = hidesBottomBarWhenPushed;
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -  TabBarViewDelegate

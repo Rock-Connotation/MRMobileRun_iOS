@@ -15,8 +15,7 @@
 #define TopGap screenHeigth * 0.1199
 #define ColumnViewH screenHeigth * 0.3868
 
-@interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate>
-{
+@interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate> {
     BOOL _isShowSec;
     NSArray *_selectArr;
 }
@@ -41,11 +40,18 @@ NSString *ID1 = @"Sport_cell";
     //设置返回按钮的颜色
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.title = @"运动记录";
-    self.navigationItem.leftBarButtonItem.title = @"";
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:51/255.0 green:55/255.0 blue:57/255.0 alpha:1.0]];
-    
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [backBtn setImage:[UIImage imageNamed:@"返回箭头2"] forState:UIControlStateNormal];
+    [backBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 5)];
+    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = backItem;
     [self setUI];
     
+}
+
+- (void) back {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -78,58 +84,66 @@ NSString *ID1 = @"Sport_cell";
     [self showYearSelect:sender];
 }
 
-- (NSArray *)columnChartTitleArrayYear:(NSString *)year
-{
-    if ([year isEqualToString:@"2020"]) {
-        return @[@"1月", @"2月", @"3月", @"4月", @"5月", @"6月", @"本月", @"8月", @"9月", @"10月", @"11月", @"12月"];
-        
+//判断月份
+- (NSArray *)columnChartTitleArrayYear:(NSString *)year {
+    NSDate *date =[NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy"];
+    NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
+    [formatter setDateFormat:@"MM"];
+    NSInteger currentMonth=[[formatter stringFromDate:date]integerValue];
+    NSMutableArray *monthArray = [NSMutableArray arrayWithArray:@[@"1月", @"2月", @"3月", @"4月", @"5月", @"6月", @"7月", @"8月", @"9月", @"10月", @"11月", @"12月"]];
+    NSString *month = @"月";
+    NSString *replaceMonth = [[NSString stringWithFormat:@"%ld", (long)currentMonth] stringByAppendingString:month];
+    if ([year isEqualToString:[NSString stringWithFormat: @"%ld", (long)currentYear]]) {
+        for (int i = 0;i < monthArray.count; i++) {
+            if ([monthArray[i] isEqualToString:replaceMonth]) {
+                [monthArray replaceObjectAtIndex:i withObject:@"本月"];
+                break;
+            }
+        }
+        return [monthArray copy];
     }else {
-        return @[@"1月", @"2月", @"3月", @"4月", @"5月", @"6月", @"7月", @"8月", @"9月", @"10月", @"11月", @"12月"];
+        return [monthArray copy];
     }
 }
 
-- (NSArray *)columnChartNumberArrayFor:(NSString *)itemName index:(NSInteger)index year:(NSString *)year
-{
-    
+- (NSArray *)columnChartNumberArrayFor:(NSString *)itemName index:(NSInteger)index year:(NSString *)year {
     NSMutableArray *arr = [NSMutableArray array];
     for (NSInteger i = 0; i < 31; i++) {
-        NSString *data = [NSString stringWithFormat:@"%f", [self randomBetween:0 AndBigNum:5.2 AndPrecision:100]];
+        NSString *data = [NSString stringWithFormat:@"%f", [self randomBetween:0 AndBigNum:5.6 AndPrecision:100]];
         [arr addObject:data];
     }
     return arr;
 }
 
-- (float)randomBetween:(float)smallNum AndBigNum:(float)bigNum AndPrecision:(NSInteger)precision{
-    float subtraction = bigNum - smallNum;
-    subtraction = ABS(subtraction);
+//测试函数
+- (float)randomBetween:(float)smallNum AndBigNum:(float)bigNum AndPrecision:(NSInteger)precision {
+    float subtraction = ABS(bigNum - smallNum);
     subtraction *= precision;
-    float randomNumber = arc4random() % ((int) subtraction + 1);
-    randomNumber /= precision;
+    float randomNumber = (arc4random() % ((int) subtraction + 1)) / precision;
     float result = MIN(smallNum, bigNum) + randomNumber;
     return result;
 }
 
-- (void)showYearSelect:(UIButton *)sender
-{
+- (void)showYearSelect:(UIButton *)sender {
     [YBPopupMenu showRelyOnView:sender titles:_selectArr icons:@[@"", @"", @"", @"", @""] menuWidth:180 delegate:self];
 }
 
-- (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index
-{
+- (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index {
     NSString *year = _selectArr[index];
-    
     self.columnChartView.yearName = year;
     [self.columnChartView reloadData];
 }
 
 
 #pragma mark- 代理方法
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return  78;
 }
 
 #pragma mark- 数据源方法
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 15;
 }
 
@@ -137,7 +151,7 @@ NSString *ID1 = @"Sport_cell";
     //跳转到具体的跑步详情页面
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //创建单元格（用复用池）
     MGDSportTableViewCell* cell = nil;
@@ -150,10 +164,10 @@ NSString *ID1 = @"Sport_cell";
     return cell;
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
     self.tabBarController.hidesBottomBarWhenPushed = YES;
 }
--(void)viewWillDisappear:(BOOL)animated{
+-(void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.hidesBottomBarWhenPushed = NO;
 }
 
