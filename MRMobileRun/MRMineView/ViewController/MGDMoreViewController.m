@@ -9,6 +9,7 @@
 #import "MGDSportTableViewCell.h"
 #import "MGDColumnChartView.h"
 #import "YBPopupMenu.h"
+#import "MRTabBarController.h"
 #import <Masonry.h>
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
@@ -29,7 +30,11 @@ NSString *ID1 = @"Sport_cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = BACKGROUNDCOLOR;
+    if (@available(iOS 11.0, *)) {
+           self.view.backgroundColor = MGDColor1;
+       } else {
+           // Fallback on earlier versions
+    }
     self.navigationController.navigationBar.translucent = YES;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
@@ -51,6 +56,7 @@ NSString *ID1 = @"Sport_cell";
 }
 
 - (void) back {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -58,8 +64,12 @@ NSString *ID1 = @"Sport_cell";
 - (void)setUI {
     
     _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, TopGap, screenWidth, ColumnViewH)];
-    _columnChartView.backgroundColor = [UIColor whiteColor];
-    _columnChartView.yearName = @"2020";
+    NSDate *date =[NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy"];
+    NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
+    NSString *currentyear = [NSString stringWithFormat: @"%ld", (long)currentYear];
+    _columnChartView.yearName = currentyear;
     _columnChartView.delegate = self;
     [self.view addSubview:_columnChartView];
     
@@ -67,14 +77,13 @@ NSString *ID1 = @"Sport_cell";
     _recordTableView.separatorStyle = NO;
     _recordTableView.delegate = self;
     _recordTableView.dataSource = self;
-    _recordTableView.backgroundColor = BACKGROUNDCOLOR;
     [self.view addSubview:_recordTableView];
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     
     
     _isShowSec = false;
     
-    _selectArr = @[@"2018", @"2019", @"2020"];
+    _selectArr = [self columnYearLabelYear];
     
 }
 
@@ -88,30 +97,47 @@ NSString *ID1 = @"Sport_cell";
 - (NSArray *)columnChartTitleArrayYear:(NSString *)year {
     NSDate *date =[NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+
     [formatter setDateFormat:@"yyyy"];
     NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
     [formatter setDateFormat:@"MM"];
     NSInteger currentMonth=[[formatter stringFromDate:date]integerValue];
     NSMutableArray *monthArray = [NSMutableArray arrayWithArray:@[@"1月", @"2月", @"3月", @"4月", @"5月", @"6月", @"7月", @"8月", @"9月", @"10月", @"11月", @"12月"]];
     NSString *month = @"月";
-    NSString *replaceMonth = [[NSString stringWithFormat:@"%ld", (long)currentMonth] stringByAppendingString:month];
+    NSMutableArray *nowArray = [NSMutableArray new];
     if ([year isEqualToString:[NSString stringWithFormat: @"%ld", (long)currentYear]]) {
         for (int i = 0;i < monthArray.count; i++) {
-            if ([monthArray[i] isEqualToString:replaceMonth]) {
-                [monthArray replaceObjectAtIndex:i withObject:@"本月"];
+            NSString *nowMonth = [NSString stringWithFormat:@"%d", i+1];
+            if ([nowMonth isEqualToString:[NSString stringWithFormat:@"%ld", (long)currentMonth]]) {
+                [nowArray addObject:@"本月"];
                 break;
             }
+            [nowArray addObject:[[NSString stringWithFormat:@"%d", i+1] stringByAppendingString:month]];
         }
-        return [monthArray copy];
+        return [nowArray copy];
     }else {
         return [monthArray copy];
     }
 }
 
+//获取年份
+- (NSArray *)columnYearLabelYear {
+    NSMutableArray *yearArray = [NSMutableArray new];
+    NSDate *date =[NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy"];
+    NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
+    for (int i = 2;i >= 0; i--) {
+        [yearArray addObject:[NSString stringWithFormat:@"%ld", currentYear  - i]];
+    }
+    return [yearArray copy];
+}
+
+
 - (NSArray *)columnChartNumberArrayFor:(NSString *)itemName index:(NSInteger)index year:(NSString *)year {
     NSMutableArray *arr = [NSMutableArray array];
     for (NSInteger i = 0; i < 31; i++) {
-        NSString *data = [NSString stringWithFormat:@"%f", [self randomBetween:0 AndBigNum:5.6 AndPrecision:100]];
+        NSString *data = [NSString stringWithFormat:@"%f", [self randomBetween:0 AndBigNum:5.8 AndPrecision:100]];
         [arr addObject:data];
     }
     return arr;

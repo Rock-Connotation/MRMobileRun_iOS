@@ -17,6 +17,7 @@
 #import "MGDUserInfo.h"
 #import <AFNetworking.h>
 #import "UIImageView+WebCache.h"
+#import "MRTabBarController.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 #define TopViewH screenHeigth * 0.1664
@@ -39,7 +40,11 @@ NSString *ID = @"Recored_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BACKGROUNDCOLOR;
+    if (@available(iOS 11.0, *)) {
+           self.view.backgroundColor = MGDColor3;
+       } else {
+           // Fallback on earlier versions
+    }
     //baseDataArray = [NSMutableArray new];
     //userArray = [NSMutableArray new];
     self.tabBarController.tabBar.hidden = NO;
@@ -66,7 +71,7 @@ NSString *ID = @"Recored_cell";
     _sportTableView.separatorStyle = NO;
     _sportTableView.delegate = self;
     _sportTableView.dataSource = self;
-    _sportTableView.backgroundColor = BACKGROUNDCOLOR;
+
     [self.view addSubview:_sportTableView];
     [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
 }
@@ -91,7 +96,7 @@ NSString *ID = @"Recored_cell";
     
     //创建单元格（用复用池）
     MGDSportTableViewCell* cell = nil;
-    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor redColor];
     cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
     //测试用数据
@@ -102,6 +107,7 @@ NSString *ID = @"Recored_cell";
 
 - (void)MoreVC{
     MGDMoreViewController *moreVC = [[MGDMoreViewController alloc] init];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
     [self.navigationController pushViewController:moreVC animated:YES];
 }
 
