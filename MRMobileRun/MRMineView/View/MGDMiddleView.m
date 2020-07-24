@@ -37,8 +37,12 @@
         _recordLab.text = @"运动记录";
         
         _recordLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
-        _recordLab.textColor = RECORDCOLOR;
         _recordLab.textAlignment = NSTextAlignmentLeft;
+        if (@available(iOS 11.0, *)) {
+               self.recordLab.textColor = MGDTextColor2;
+           } else {
+               // Fallback on earlier versions
+        }
         
         UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         self.moreBtn = moreBtn;

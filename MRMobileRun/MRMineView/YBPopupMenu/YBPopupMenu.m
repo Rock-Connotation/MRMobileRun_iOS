@@ -310,7 +310,11 @@ UITableViewDataSource
     _borderColor = [UIColor lightGrayColor];
     _arrowWidth = 15.0;
     _arrowHeight = 10.0;
-    _backColor = [UIColor whiteColor];
+    if (@available(iOS 11.0, *)) {
+        self.backColor =  MGDColor1;
+    } else {
+        // Fallback on earlier versions
+    }
     _type = YBPopupMenuTypeDefault;
     _arrowDirection = YBPopupMenuArrowDirectionTop;
     _priorityDirection = YBPopupMenuPriorityDirectionTop;
