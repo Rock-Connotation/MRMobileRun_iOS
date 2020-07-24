@@ -158,35 +158,45 @@
     [self.Mainview.continueBtn addTarget:self action:@selector(continueMethod) forControlEvents:UIControlEventTouchUpInside];
     
     //结束按钮
-    [self.Mainview.endtBtn addTarget:self action:@selector(endMethod) forControlEvents:UIControlEventTouchUpInside];
+//    [self.Mainview.endtBtn addTarget:self action:@selector(endMethod) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //点击暂停按钮的方法
 - (void)pauseMethod{
     self.Mainview.pauseBtn.hidden = YES;
     self.Mainview.lockBtn.hidden = YES;
-    self.Mainview.endtBtn.hidden = NO;
-     self.Mainview.continueBtn.hidden = NO;
+    self.Mainview.unlockLongPressView.hidden = YES;
+    
+    self.Mainview.endLongPressView.hidden = NO;
+    self.Mainview.continueBtn.hidden = NO;
 }
 
 //点击锁屏按钮方法
 - (void)lockMethod{
     self.Mainview.pauseBtn.hidden = YES;
     self.Mainview.lockBtn.hidden = YES;
-    self.Mainview.unlockBtn.hidden = NO;
+    self.Mainview.endLongPressView.hidden = YES;
+    self.Mainview.continueBtn.hidden = YES;
+    
+    self.Mainview.unlockLongPressView.hidden = NO;
+    
 }
 //长按解锁按钮方法
 - (void)unlockMethod{
     //
     self.Mainview.unlockLongPressView.hidden = YES;
+    self.Mainview.endLongPressView.hidden = YES;
+    self.Mainview.continueBtn.hidden = YES;
+    
     self.Mainview.lockBtn.hidden = NO;
     self.Mainview.pauseBtn.hidden = NO;
 }
 //点击继续按钮方法
 - (void)continueMethod{
-    self.Mainview.unlockBtn.hidden = YES;
-    self.Mainview.endtBtn.hidden = YES;
+    self.Mainview.unlockLongPressView.hidden = YES;
+    self.Mainview.endLongPressView.hidden = YES;
     self.Mainview.continueBtn.hidden = YES;
+    
     self.Mainview.pauseBtn.hidden = NO;
     self.Mainview.lockBtn.hidden = NO;
     

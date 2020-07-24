@@ -24,7 +24,7 @@
     [self addViewOnMap];
     [self addViewOnBottomView];
     [self addViewOnTopView];
-    [self addViewsOnBtn];
+    
     
    
     
@@ -119,7 +119,11 @@
     }];
 //    self.speedNumberLbl.font = [UIFont fontWithName:@"Impact" size: 28];
     self.speedNumberLbl.font = [UIFont systemFontOfSize:28];
-    self.speedNumberLbl.textColor = [UIColor colorWithRed:65/255.0 green:68/255.0 blue:72/255.0 alpha:1.0];
+    if (@available(iOS 11.0, *)) {
+        self.speedNumberLbl.textColor = SpeedTextColor;
+    } else {
+        // Fallback on earlier versions
+    }
     self.speedNumberLbl.textAlignment = NSTextAlignmentCenter;
     self.speedNumberLbl.text = @"3'55''";
     //显示“配速”的label
@@ -142,7 +146,8 @@
     [self.bottomView addSubview:self.timeImgView];
     [self.timeImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.speedImgView.mas_centerY);
-        make.left.equalTo(self.speedImgView.mas_right).offset(kScreenWidth * 0.256);
+//        make.left.equalTo(self.speedImgView.mas_right).offset(kScreenWidth * 0.256);
+        make.centerX.equalTo(self.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     self.timeImgView.image = [UIImage imageNamed:@"时间灰"];
@@ -179,8 +184,7 @@
     [self.bottomView addSubview:self.energyImgView];
     [self.energyImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.speedImgView);
-//        make.left.equalTo(self.timeImgView.mas_right).offset(kScreenWidth * 0.272);
-        make.right.equalTo(self.mas_right).offset(-kScreenWidth * 0.1703);
+        make.right.equalTo(self.mas_right).offset(-kScreenWidth * 0.1707);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     self.energyImgView.image = [UIImage imageNamed:@"千卡灰色"];
@@ -237,10 +241,11 @@
 //    self.lockBtn.imageView.image = [UIImage imageNamed:@"smallLockImage"];
     [self.lockBtn setImage:[UIImage imageNamed:@"smallLockImage"] forState:UIControlStateNormal];
     
-    self.lockBtn.hidden = NO;
+//    self.lockBtn.hidden = NO;
     
     #pragma mark- 暂停按钮
-    self.pauseBtn = [[UIButton alloc] init];
+    self.pauseBtn = [[RunMainBtn alloc] init];
+    [self.pauseBtn initRunBtn];
     [self.bottomView addSubview:self.pauseBtn];
     [self.pauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.timeImgView);
@@ -256,8 +261,8 @@
         // Fallback on earlier versions
     }
     //图片
-    
-//    self.pauseBtn.imageView.image = [UIImage imageNamed:@"pauseBtnImage"];
+    self.pauseBtn.logoImg.image = [UIImage imageNamed:@"pauseBtnImage"];
+    self.pauseBtn.descLbl.text = @"暂停";
     self.pauseBtn.hidden = NO;
     
     
@@ -271,32 +276,35 @@
         make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
     self.endLongPressView.bgView.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
+    
         //设置titlelabel
-//    self.endLongPressView.titleLbl.font =  [UIFont fontWithName:@"PingFangSC" size: 12];
-     self.endLongPressView.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
     self.endLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
     self.endLongPressView.titleLbl.text = @"长按结束";
-        //图片框的图片，等待后置
+        //图片框的图片
     self.endLongPressView.imgView.image = [UIImage imageNamed:@"endBtnImage"];
+    
     self.endLongPressView.layer.cornerRadius = 51;
     self.endLongPressView.layer.masksToBounds = YES;
+    
     self.endLongPressView.hidden = YES;
     
     
      #pragma mark- 继续按钮
-    self.continueBtn = [[UIButton alloc] init];
+    self.continueBtn = [[RunMainBtn alloc] init];
+    [self.continueBtn initRunBtn];
     [self.bottomView addSubview:self.continueBtn];
     [self.continueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.endtBtn);
-        make.left.equalTo(self.endtBtn.mas_right).offset(kScreenWidth * 0.08);
-        make.size.equalTo(self.endtBtn);
+        make.centerY.equalTo(self.endLongPressView);
+        make.left.equalTo(self.endLongPressView.mas_right).offset(kScreenWidth * 0.08);
+        make.size.mas_equalTo(CGSizeMake(90, 90));
     }];
         //图片
-    self.continueBtn.imageView.image = [UIImage imageNamed:@"continueBtnImage"];
+    self.continueBtn.logoImg.image = [UIImage imageNamed:@"continueBtnImage"];
+    self.continueBtn.descLbl.text = @"继续";
     
     self.continueBtn.backgroundColor = [UIColor colorWithRed:85/255.0 green:213/255.0 blue:226/255.0 alpha:1.0];
-    self.continueBtn.layer.cornerRadius = self.endtBtn.layer.cornerRadius;
-    self.continueBtn.layer.masksToBounds = self.endtBtn.layer.masksToBounds;
+    self.continueBtn.layer.cornerRadius = 45;
+    self.continueBtn.layer.masksToBounds = 45;
     self.continueBtn.hidden = YES;
     
    #pragma mark- 解锁的View（相当于按钮）
@@ -307,13 +315,18 @@
         make.center.equalTo(self.pauseBtn);
         make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
+    
+      self.unlockLongPressView.titleLbl.text = @"长按解锁";
+    
     self.unlockLongPressView.bgView.backgroundColor = self.pauseBtn.backgroundColor;
-    self.unlockLongPressView.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
     self.unlockLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
+    
     //图片
     self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
-    self.unlockLongPressView.titleLbl.text = @"长按解锁";
-    self.unlockBtn.hidden = YES;
+    
+  
+    
+    self.unlockLongPressView.hidden = YES;
 }
 
 //在顶部视图上添加控件
@@ -340,7 +353,11 @@
         }];
     //    self.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
         [self.numberLabel setFont:[UIFont systemFontOfSize:82]];
-        self.numberLabel.textColor = [UIColor colorWithRed:65/255.0 green:68/255.0 blue:72/255.0 alpha:1.0];
+    if (@available(iOS 11.0, *)) {
+        self.numberLabel.textColor = MilesColor;
+    } else {
+        // Fallback on earlier versions
+    }
         self.numberLabel.textAlignment = NSTextAlignmentCenter;
         self.numberLabel.text = @"4.26";
         
@@ -353,54 +370,15 @@
             make.size.mas_equalTo(CGSizeMake(44, 30));
         }];
         self.milesLabel.font = [UIFont fontWithName:@"PingFangSC" size: 22];
-        self.milesLabel.textColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
+    if (@available(iOS 11.0, *)) {
+        self.milesLabel.textColor = MilesTxetColor;
+    } else {
+        // Fallback on earlier versions
+    }
+        self.milesLabel.textAlignment = NSTextAlignmentCenter;
         self.milesLabel.text = @"公里";
 
 }
 
-//在button上添加控件
-- (void)addViewsOnBtn{
-#pragma mark- 暂停按钮
-        //图片
-    self.pauseImgView = [[UIImageView alloc] init];
-    [self.pauseBtn addSubview:self.pauseImgView];
-    [self.pauseImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.pauseBtn);
-        make.size.mas_equalTo(CGSizeMake(30, 30));
-    }];
-        //label
-    self.pauseLabel = [[UILabel alloc] init];
-    [self.pauseBtn addSubview:self.pauseLabel];
-    [self.pauseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.pauseImgView);
-        make.top.equalTo(self.pauseImgView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(24, 24));
-    }];
-    self.pauseLabel.font = [UIFont fontWithName:@"PingFangSC" size: 12];
-    self.pauseLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
-    self.pauseLabel.textAlignment = NSTextAlignmentCenter;
-    self.pauseLabel.text = @"暂停";
-
-#pragma mark- 继续按钮
-            //图标
-    self.continueImgView = [[UIImageView alloc] init];
-    [self.continueBtn  addSubview:self.continueImgView];
-    [self.continueImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.continueBtn);
-        make.size.mas_equalTo(CGSizeMake(30, 30));
-    }];
-    
-            //文字
-    self.continueLabel = [[UILabel alloc] init];
-    [self.continueBtn addSubview:self.continueLabel];
-    [self.continueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.continueImgView);
-        make.top.equalTo(self.continueImgView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(24, 17));
-    }];
-    self.continueLabel.font =  self.endLabel.font;
-    self.continueLabel.textColor = self.endLabel.textColor;
-    self.continueLabel.text = @"继续";
-}
 
 @end
