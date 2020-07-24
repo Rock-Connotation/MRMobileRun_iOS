@@ -54,6 +54,9 @@
         make.top.equalTo(self.imgView.mas_bottom);
         make.size.mas_equalTo(CGSizeMake(48, 17));
     }];
+    self.titleLbl.textAlignment = NSTextAlignmentCenter;
+//    self.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+    self.titleLbl.font = [UIFont systemFontOfSize:8];
 }
 
 //让这个View可以添加目标，实现方法

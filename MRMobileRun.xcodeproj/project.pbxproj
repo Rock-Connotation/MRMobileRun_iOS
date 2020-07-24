@@ -151,6 +151,7 @@
 		2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25122845E3300779B7B /* AVFoundation.framework */; };
 		2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25322845E3B00779B7B /* Photos.framework */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
+		B81500BD24CA6CA700CB55FE /* RunMainBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = B81500BC24CA6CA700CB55FE /* RunMainBtn.m */; };
 		B817B30024C5ACBC004023C3 /* RunningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B2FF24C5ACBC004023C3 /* RunningModel.m */; };
 		B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B30224C5ACFF004023C3 /* LongPressView.m */; };
 		B8B0207324B85789009A8985 /* RunMainPageCV.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207224B85789009A8985 /* RunMainPageCV.m */; };
@@ -472,6 +473,8 @@
 		2FF4B25322845E3B00779B7B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
+		B81500BB24CA6CA700CB55FE /* RunMainBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunMainBtn.h; sourceTree = "<group>"; };
+		B81500BC24CA6CA700CB55FE /* RunMainBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunMainBtn.m; sourceTree = "<group>"; };
 		B817B2FE24C5ACBC004023C3 /* RunningModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunningModel.h; sourceTree = "<group>"; };
 		B817B2FF24C5ACBC004023C3 /* RunningModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunningModel.m; sourceTree = "<group>"; };
 		B817B30124C5ACFF004023C3 /* LongPressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongPressView.h; sourceTree = "<group>"; };
@@ -780,6 +783,8 @@
 				B8B0207524B857BE009A8985 /* RunningMainPageView.m */,
 				B817B30124C5ACFF004023C3 /* LongPressView.h */,
 				B817B30224C5ACFF004023C3 /* LongPressView.m */,
+				B81500BB24CA6CA700CB55FE /* RunMainBtn.h */,
+				B81500BC24CA6CA700CB55FE /* RunMainBtn.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1657,6 +1662,7 @@
 				2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */,
 				2F5A1B9E22468A890014B249 /* UIView+We.m in Sources */,
 				2F0E8152225F30A400D5E511 /* XIGStudentViewController.m in Sources */,
+				B81500BD24CA6CA700CB55FE /* RunMainBtn.m in Sources */,
 				2F0E8169225F4B3400D5E511 /* ZYLPersonalViewController.m in Sources */,
 				2F0E815B225F33C400D5E511 /* UIImage+Extension.m in Sources */,
 				28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */,

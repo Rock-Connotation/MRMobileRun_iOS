@@ -9,6 +9,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import "LongPressView.h"
+#import "RunMainBtn.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RunningMainPageView : UIView
@@ -30,12 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *speedLbl;
 @property (nonatomic, strong) UILabel *energyLbl;
 
+//关于button
 @property (nonatomic, strong) UIButton *lockBtn;
+@property (nonatomic, strong) RunMainBtn *pauseBtn;
+@property (nonatomic, strong) RunMainBtn *continueBtn;
 @property (nonatomic, strong) LongPressView *endLongPressView;
-@property (nonatomic, strong) UIButton *endtBtn;
-@property (nonatomic, strong) UIButton *pauseBtn;
-@property (nonatomic, strong) UIButton *continueBtn;
-@property (nonatomic, strong) UIButton *unlockBtn;
 @property (nonatomic, strong) LongPressView *unlockLongPressView;
 
 @property (nonatomic, strong) UIImageView *pauseImgView;
@@ -51,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addMapView;
 - (void)addViewOnMap;
 - (void)addViewOnBottomView;
-- (void)addViewsOnBtn; //在button上添加控件；
 @end
 
 NS_ASSUME_NONNULL_END
