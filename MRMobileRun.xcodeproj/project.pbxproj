@@ -154,6 +154,7 @@
 		B81500BD24CA6CA700CB55FE /* RunMainBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = B81500BC24CA6CA700CB55FE /* RunMainBtn.m */; };
 		B817B30024C5ACBC004023C3 /* RunningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B2FF24C5ACBC004023C3 /* RunningModel.m */; };
 		B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B30224C5ACFF004023C3 /* LongPressView.m */; };
+		B89E087424CBBD60006033D5 /* MAMutablePolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */; };
 		B8B0207324B85789009A8985 /* RunMainPageCV.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207224B85789009A8985 /* RunMainPageCV.m */; };
 		B8B0207624B857BE009A8985 /* RunningMainPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207524B857BE009A8985 /* RunningMainPageView.m */; };
 		B8BDEE8C24C6E1480013293B /* MapPolylineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDEE8B24C6E1480013293B /* MapPolylineModel.m */; };
@@ -479,6 +480,8 @@
 		B817B2FF24C5ACBC004023C3 /* RunningModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunningModel.m; sourceTree = "<group>"; };
 		B817B30124C5ACFF004023C3 /* LongPressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongPressView.h; sourceTree = "<group>"; };
 		B817B30224C5ACFF004023C3 /* LongPressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LongPressView.m; sourceTree = "<group>"; };
+		B89E087224CBBD60006033D5 /* MAMutablePolylineRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAMutablePolylineRenderer.h; sourceTree = "<group>"; };
+		B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAMutablePolylineRenderer.m; sourceTree = "<group>"; };
 		B8B0207124B85789009A8985 /* RunMainPageCV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunMainPageCV.h; sourceTree = "<group>"; };
 		B8B0207224B85789009A8985 /* RunMainPageCV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunMainPageCV.m; sourceTree = "<group>"; };
 		B8B0207424B857BE009A8985 /* RunningMainPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunningMainPageView.h; sourceTree = "<group>"; };
@@ -785,6 +788,8 @@
 				B817B30224C5ACFF004023C3 /* LongPressView.m */,
 				B81500BB24CA6CA700CB55FE /* RunMainBtn.h */,
 				B81500BC24CA6CA700CB55FE /* RunMainBtn.m */,
+				B89E087224CBBD60006033D5 /* MAMutablePolylineRenderer.h */,
+				B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1593,6 +1598,7 @@
 				18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
 				2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */,
+				B89E087424CBBD60006033D5 /* MAMutablePolylineRenderer.m in Sources */,
 				2F7ADC89237C2FDB00FE9461 /* ZYLLoginView.m in Sources */,
 				2F5A1B9922468A890014B249 /* NSString+We.m in Sources */,
 				2FF3BB14238D4B9900DB9051 /* ZYLNoticeWhiteLabel.m in Sources */,
