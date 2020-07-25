@@ -29,12 +29,13 @@
 @property(nonatomic,strong)MAAnnotationView *myAnnotationView;//我的当前位置的大头针
 @property(nonatomic,strong)MAPolyline *polyline;//当前绘制的轨迹曲线
 
-@property(nonatomic,strong)NSMutableArray <RunningModel *>*perfectArray;//优化完成的定位数据数组
-@property(nonatomic,strong)NSMutableArray <RunningModel *>*drawLineArray;//待绘制定位线数据
+@property(nonatomic,strong)NSMutableArray <RunLocationModel *>*perfectArray;//优化完成的定位数据数组
+@property(nonatomic,strong)NSMutableArray <RunLocationModel *>*drawLineArray;//待绘制定位线数据
 
 @property(nonatomic,assign)int lastDrawIndex;//绘制最后数据的下标次数(perfectArray)
 @property(nonatomic,assign)NSInteger locationNumber;//定位次数
 @property(nonatomic,assign)BOOL isFirstLocation;//是否是第一次定位
+@property(nonatomic,assign)BOOL isEndLocation; //是否是最后一次定位
 
 @end
 
@@ -47,11 +48,6 @@
     [self.Mainview mainRunView];
     [self btnFunction];
     self.Mainview.mapView.delegate = self;
-    
-    //拖拽底部视图的高度
-//    UIGestureRecognizer *pan = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
-//    [self.Mainview.dragLabel addGestureRecognizer:pan];
-//    self.Mainview.dragLabel.userInteractionEnabled = YES;
 }
 
 -(void)setModel:(RunningModel *)model{
@@ -126,21 +122,91 @@
 
 #pragma mark- 定位数据
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
+    RunLocationModel *locationModel = [[RunLocationModel alloc] init];
+    locationModel.location = location.coordinate;
+    locationModel.speed = location.speed;
+    locationModel.time = [NSDate date];
     
+    self.locationNumber++;
+    if (self.locationNumber > 1) {
+        RunLocationModel *lastModel = locationModel;
+        [self drawStartRunPointAction:location];
+        RunLocationModel *lastButOneModel = self.perfectArray.lastObject;
+        [self distanceWithLocation:lastModel andLastButOneModel:lastButOneModel];
+    }
+}
+    //计算距离
+-(void)distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
+    
+        MAMapPoint point1 = MAMapPointForCoordinate(lastModel.location);
+        MAMapPoint point2 = MAMapPointForCoordinate(lastButOneModel.location);
+        //计算距离
+        CLLocationDistance newdistance = MAMetersBetweenMapPoints(point1,point2);
+        //计算两点的间隔时间
+     NSTimeInterval secondsBetweenDates= [lastModel.time timeIntervalSinceDate:lastButOneModel.time];
+        //计算误差， 世界飞人9.97秒百米,当超过这个速度,即为误差值
+    if ((float)newdistance/secondsBetweenDates <= 9.97) {
+        [self.perfectArray addObject:lastModel];
+        [self drawRunLineAction]; //绘制轨迹
+        self.distance = self.distance + newdistance;
+    }
     
 }
+
 #pragma mark- 绘制定位大头针
 //绘制开始位置大头针
 - (void)drawStartRunPointAction:(RunLocationModel *)runModel{
     if (self.isFirstLocation && self.Mainview.mapView.userLocation.location != nil) {
         MAPointAnnotation *startPointAnnotation = [[MAPointAnnotation alloc] init];
-        startPointAnnotation.coordinate = *(runModel.location);
+        startPointAnnotation.coordinate = runModel.location;
         [self.perfectArray addObject:runModel]; //为消除误差了的数组添加第一个元素
         self.isFirstLocation = NO;
          self.lastDrawIndex = 0;
     }
 }
+    //自定义大头针
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
+    if (self.isFirstLocation && !self.isEndLocation) {
+        if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+            static NSString *startPointAnnotation = @"startPointAnnotation";
+            MAAnnotationView *startAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:startPointAnnotation];
+            if (startAnnotation == nil) {
+                startAnnotation = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:startPointAnnotation];
+            }
+             startAnnotation.image = [UIImage imageNamed:@"startPointImage"];
+//            startAnnotation.calloutOffset = CGPointMake(0, -20);
+            self.isFirstLocation = NO;
+            return startAnnotation;
+        }
+    }
+    if (!self.isFirstLocation && self.isEndLocation) {
+        if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+            static NSString *endPointAnnotation = @"endPointAnnotation";
+            MAAnnotationView *endAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:endPointAnnotation];
+            if (endAnnotation == nil) {
+                endAnnotation = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:endPointAnnotation];
+            }
+            endAnnotation.image = [UIImage imageNamed:@"endPointImage"];
+            return endAnnotation;
+        }
+    }
+    //自定义userlocation的大头针
+    if ([annotation isKindOfClass:[MAUserLocation class]]) {
+        static NSString *userLocationReuseIndetifier = @"userLocation";
+        self.myAnnotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:userLocationReuseIndetifier];
+        if (self.myAnnotationView == nil) {
+            self.myAnnotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:userLocationReuseIndetifier];
+        }
+        self.myAnnotationView.image = [UIImage imageNamed:@"userAnnotation"];
+        return self.myAnnotationView;
+    }
+      return nil;
+}
 
+#pragma mark- 绘制轨迹
+- (void)drawRunLineAction{
+    //
+}
 #pragma mark- 按钮的方法
 //按钮方法
 - (void)btnFunction{
