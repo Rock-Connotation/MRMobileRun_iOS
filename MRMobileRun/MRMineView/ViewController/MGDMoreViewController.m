@@ -13,8 +13,7 @@
 #import <Masonry.h>
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
-#define TopGap screenHeigth * 0.1199
-#define ColumnViewH screenHeigth * 0.3868
+#define DIVIDERCOLOR [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
 
 @interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate> {
     BOOL _isShowSec;
@@ -31,7 +30,7 @@ NSString *ID1 = @"Sport_cell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     if (@available(iOS 11.0, *)) {
-           self.view.backgroundColor = MGDColor1;
+           self.view.backgroundColor = MGDColor3;
        } else {
            // Fallback on earlier versions
     }
@@ -46,7 +45,7 @@ NSString *ID1 = @"Sport_cell";
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.title = @"运动记录";
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [backBtn setImage:[UIImage imageNamed:@"返回箭头2"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"返回箭头4"] forState:UIControlStateNormal];
     [backBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 5)];
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
@@ -63,7 +62,16 @@ NSString *ID1 = @"Sport_cell";
 
 - (void)setUI {
     
-    _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, TopGap, screenWidth, ColumnViewH)];
+    if (kIs_iPhoneX) {
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 120, screenWidth, 258)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, 1)];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 369, screenWidth, screenHeigth - 369) style:UITableViewStylePlain];
+    }else {
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 80, screenWidth, 258)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 347, screenWidth, screenHeigth - 347) style:UITableViewStylePlain];
+    }
+
     NSDate *date =[NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy"];
@@ -73,13 +81,19 @@ NSString *ID1 = @"Sport_cell";
     _columnChartView.delegate = self;
     [self.view addSubview:_columnChartView];
     
-    _recordTableView = [[MGDRecordTableView alloc] initWithFrame:CGRectMake(0, TopGap+ColumnViewH, screenWidth, screenHeigth - (TopGap+ColumnViewH)) style:UITableViewStylePlain];
+    [self scrollViewDidScroll:_recordTableView];
     _recordTableView.separatorStyle = NO;
     _recordTableView.delegate = self;
     _recordTableView.dataSource = self;
     [self.view addSubview:_recordTableView];
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     
+    if (@available(iOS 11.0, *)) {
+        self.divider.backgroundColor = MGDdividerColor;
+    } else {
+        // Fallback on earlier versions
+    }
+    [self.view addSubview:_divider];
     
     _isShowSec = false;
     
@@ -128,7 +142,7 @@ NSString *ID1 = @"Sport_cell";
     [formatter setDateFormat:@"yyyy"];
     NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
     for (int i = 2;i >= 0; i--) {
-        [yearArray addObject:[NSString stringWithFormat:@"%ld", currentYear  - i]];
+        [yearArray addObject:[NSString stringWithFormat:@"%ld",currentYear  - i]];
     }
     return [yearArray copy];
 }
@@ -160,6 +174,15 @@ NSString *ID1 = @"Sport_cell";
     NSString *year = _selectArr[index];
     self.columnChartView.yearName = year;
     [self.columnChartView reloadData];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == _recordTableView) {
+        CGFloat offY = scrollView.contentOffset.y;
+        if (offY < 0) {
+            scrollView.contentOffset = CGPointZero;
+        }
+    }
 }
 
 

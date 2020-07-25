@@ -120,43 +120,27 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    if (kIs_iPhoneX) {
-        [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(screenHeigth * 0.1441);
-            make.width.mas_equalTo(screenWidth);
-            make.top.mas_equalTo(self.mas_top);
-            make.left.mas_equalTo(self.mas_left);
-        }];
+    [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(screenHeigth * 0.1441);
+        make.width.mas_equalTo(screenWidth);
+        make.top.mas_equalTo(self.mas_top);
+        make.left.mas_equalTo(self.mas_left);
+    }];
         
-       [self setInfoFrame];
-    } else {
-       [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(screenHeigth * 0.1754);
-            make.width.mas_equalTo(screenWidth);
-            make.top.mas_equalTo(self.mas_top);
-            make.left.mas_equalTo(self.mas_left);
-        }];
-        
-        [self setInfoFrame];
-    }
-    
-}
-
-- (void)setInfoFrame {
     [_KmImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@40);
         make.width.equalTo(@40);
         make.left.mas_equalTo(self.backView.mas_left).mas_offset(55);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
     }];
-    
+        
     [_Kmlab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@28);
         make.width.equalTo(@90);
         make.top.lessThanOrEqualTo(self.backView.mas_top).mas_offset(49);
         make.left.mas_equalTo(self.backView.mas_left).mas_offset(29);
     }];
-
+    
     [_kilometre mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@18);
         make.width.equalTo(@36);
@@ -170,7 +154,7 @@
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-168);
     }];
-    
+        
     [_MinLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@28);
         make.left.mas_equalTo(self.backView.mas_left).mas_offset(143);
@@ -191,20 +175,21 @@
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-56);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
     }];
-    
+        
     [_CalLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@28);
         make.width.equalTo(@90);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(49);
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-31);
     }];
-    
+
     [_calories mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(@18);
         make.width.equalTo(@36);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-58);
     }];
+        
 }
 
 @end

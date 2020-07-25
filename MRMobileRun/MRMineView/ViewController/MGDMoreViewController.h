@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MGDRecordTableView.h"
+#import "MGDSportTableView.h"
 #include "MGDColumnChartView.h"
 
 
@@ -20,7 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UILabel *navBarTitle;
 
-@property (nonatomic, strong) MGDRecordTableView *recordTableView;
+@property (nonatomic, strong) UIView *divider;
+
+@property (nonatomic, strong) MGDSportTableView *recordTableView;
 
 @property (nonatomic, strong) MGDColumnChartView *columnChartView;
 

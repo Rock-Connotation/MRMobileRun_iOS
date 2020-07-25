@@ -44,6 +44,7 @@
 #define MGDlineColor  [UIColor colorNamed:@"MGDLineColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 #define MGDLineColor1  [UIColor colorNamed:@"MGDLineColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 #define MGDtextXColor  [UIColor colorNamed:@"MGDTextXColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDdividerColor  [UIColor colorNamed:@"MGDDividerColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 
 //高德地图的key
 #define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
