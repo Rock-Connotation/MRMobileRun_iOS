@@ -55,25 +55,35 @@ NSString *ID = @"Recored_cell";
 
 - (void)buildUI {
     _topview = [[MGDTopView alloc] init];
-    _topview.frame = CGRectMake(0,0,screenWidth,TopViewH);
-    [self.view addSubview:_topview];
-    
     _baseView = [[MGDBaseInfoView alloc] init];
-    _baseView.frame = CGRectMake(0,TopViewH,screenWidth,BaseViewH);
-    [self.view addSubview:_baseView];
-    
     _middleView = [[MGDMiddleView alloc] init];
-    _middleView.frame = CGRectMake(0,TopViewH+BaseViewH,screenWidth,MiddleViewH);
-    [_middleView.moreBtn addTarget:self action:@selector(MoreVC) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_middleView];
     
-    _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,TopViewH+BaseViewH+MiddleViewH+screenHeigth * 0.0225, screenWidth, screenHeigth - (TopViewH+BaseViewH+MiddleViewH)) style:UITableViewStylePlain];
+    [_middleView.moreBtn addTarget:self action:@selector(MoreVC) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (kIs_iPhoneX) {
+        _topview.frame = CGRectMake(0,0,screenWidth,136);
+        _baseView.frame = CGRectMake(0,136,screenWidth,117);
+        _middleView.frame = CGRectMake(0,253,screenWidth,22);
+        _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth - (290)) style:UITableViewStylePlain];
+    }else {
+        _topview.frame = CGRectMake(0,0,screenWidth,111);
+        _baseView.frame = CGRectMake(0,111,screenWidth,117);
+        _middleView.frame = CGRectMake(0,228,screenWidth,22);
+        _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,265, screenWidth, screenHeigth - (265)) style:UITableViewStylePlain];
+    }
+    
+    [self.view addSubview:_topview];
+    [self.view addSubview:_baseView];
+    [self.view addSubview:_middleView];
+    [self.view addSubview:_sportTableView];
+    
+    [self scrollViewDidScroll:_sportTableView];
     _sportTableView.separatorStyle = NO;
     _sportTableView.delegate = self;
     _sportTableView.dataSource = self;
-
-    [self.view addSubview:_sportTableView];
+    
     [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
+       
 }
 
 
@@ -96,13 +106,21 @@ NSString *ID = @"Recored_cell";
     
     //创建单元格（用复用池）
     MGDSportTableViewCell* cell = nil;
-    cell.contentView.backgroundColor = [UIColor redColor];
     cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
     //测试用数据
     [self cell:cell andtest:indexPath.row];
     
     return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == _sportTableView) {
+        CGFloat offY = scrollView.contentOffset.y;
+        if (offY < 0) {
+            scrollView.contentOffset = CGPointZero;
+        }
+    }
 }
 
 - (void)MoreVC{

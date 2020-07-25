@@ -75,14 +75,14 @@
             make.left.mas_equalTo(self);
             make.right.mas_equalTo(self);
             make.top.mas_equalTo(self.mas_top);
-            make.height.mas_equalTo(screenHeigth * 0.1675);
+            make.height.equalTo(@136);
         }];
         
         [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(@72);
             make.width.equalTo(@72);
             make.left.mas_equalTo(self.topView.mas_left).mas_offset(16);
-            make.top.mas_equalTo(self.topView.mas_top).mas_offset(23);
+            make.top.mas_equalTo(self.topView.mas_top).mas_offset(48);
         }];
         
         [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -103,7 +103,7 @@
             make.left.mas_equalTo(self);
             make.right.mas_equalTo(self);
             make.top.mas_equalTo(self.mas_top);
-            make.height.mas_equalTo(screenHeigth * 0.1664);
+            make.height.mas_equalTo(111);
         }];
         
         [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
