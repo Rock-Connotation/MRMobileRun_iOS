@@ -17,7 +17,12 @@
     if (self = [super initWithFrame:frame]) {
         UIView *topView = [[UIView alloc] init];
         self.topView = topView;
-        self.topView.backgroundColor = BACGROUNDCOLOR;
+        if (@available(iOS 11.0, *)) {
+            self.topView.backgroundColor = MGDColor1;
+        } else {
+            // Fallback on earlier versions
+        }
+        //self.topView.backgroundColor = BACGROUNDCOLOR;
         self.topView.layer.cornerRadius = 50;
         self.topView.layer.shadowColor = SHAWDOWCOLOR.CGColor;
         self.topView.layer.shadowOffset = CGSizeMake(0,3);
@@ -37,7 +42,12 @@
         [self.topView addSubview:username];
         _userName.numberOfLines = 0;
         _userName.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 18];
-        _userName.textColor = [UIColor colorWithRed:51/255.0 green:55/255.0 blue:57/255.0 alpha:1.0];
+       // _userName.textColor = [UIColor colorWithRed:51/255.0 green:55/255.0 blue:57/255.0 alpha:1.0];
+        if (@available(iOS 11.0, *)) {
+            self.userName.textColor = MGDTextColor1;
+        } else {
+            // Fallback on earlier versions
+        }
         
         UILabel *personalSign = [[UILabel alloc] init];
         self.personalSign = personalSign;
@@ -65,14 +75,14 @@
             make.left.mas_equalTo(self);
             make.right.mas_equalTo(self);
             make.top.mas_equalTo(self.mas_top);
-            make.height.mas_equalTo(screenHeigth * 0.1675);
+            make.height.equalTo(@136);
         }];
         
         [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(@72);
             make.width.equalTo(@72);
             make.left.mas_equalTo(self.topView.mas_left).mas_offset(16);
-            make.top.mas_equalTo(self.topView.mas_top).mas_offset(23);
+            make.top.mas_equalTo(self.topView.mas_top).mas_offset(48);
         }];
         
         [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -93,7 +103,7 @@
             make.left.mas_equalTo(self);
             make.right.mas_equalTo(self);
             make.top.mas_equalTo(self.mas_top);
-            make.height.mas_equalTo(screenHeigth * 0.1664);
+            make.height.mas_equalTo(111);
         }];
         
         [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {

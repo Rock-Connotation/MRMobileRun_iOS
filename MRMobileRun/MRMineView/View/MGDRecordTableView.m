@@ -20,13 +20,13 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [_recordTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.height.mas_equalTo(screenHeigth - 394);
-       make.width.mas_equalTo(screenWidth);
-       make.top.mas_equalTo(self.mas_top).mas_offset(290);
-    }];
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    [_recordTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//       make.height.mas_equalTo(screenHeigth - 394);
+//       make.width.mas_equalTo(screenWidth);
+//       make.top.mas_equalTo(self.mas_top);
+//    }];
+//}
 
 @end

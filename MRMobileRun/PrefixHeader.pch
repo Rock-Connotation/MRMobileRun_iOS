@@ -36,6 +36,18 @@
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
 
+
+//"我的"页面的黑暗模式适配
+#define MGDColor1  [UIColor colorNamed:@"MGDColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDColor2  [UIColor colorNamed:@"MGDColor-2" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDTextColor1  [UIColor colorNamed:@"MGDTextColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDTextColor2  [UIColor colorNamed:@"MGDTextColor-2" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDColor3  [UIColor colorNamed:@"MGDColor-3" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDlineColor  [UIColor colorNamed:@"MGDLineColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDLineColor1  [UIColor colorNamed:@"MGDLineColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDtextXColor  [UIColor colorNamed:@"MGDTextXColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDdividerColor  [UIColor colorNamed:@"MGDDividerColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
 //高德地图的key
 #define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
 

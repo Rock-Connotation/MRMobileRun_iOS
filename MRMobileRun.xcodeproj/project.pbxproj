@@ -18,7 +18,6 @@
 		18CD288824C5B1DA0093D396 /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287224C5B1DA0093D396 /* MGDBaseInfoView.m */; };
 		18CD288924C5B1DA0093D396 /* MGDSportTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287324C5B1DA0093D396 /* MGDSportTableView.m */; };
 		18CD288A24C5B1DA0093D396 /* MGDColumnChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287724C5B1DA0093D396 /* MGDColumnChartView.m */; };
-		18CD288B24C5B1DA0093D396 /* MGDRecordTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287824C5B1DA0093D396 /* MGDRecordTableView.m */; };
 		18CD288C24C5B1DA0093D396 /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287924C5B1DA0093D396 /* MGDTopView.m */; };
 		18CD288D24C5B1DA0093D396 /* MGDMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287A24C5B1DA0093D396 /* MGDMiddleView.m */; };
 		18CD288E24C5B1DA0093D396 /* MGDSportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD287B24C5B1DA0093D396 /* MGDSportTableViewCell.m */; };
@@ -209,7 +208,6 @@
 		18CD286C24C5B1DA0093D396 /* MGDUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDUserData.m; sourceTree = "<group>"; };
 		18CD286D24C5B1DA0093D396 /* MGDUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDUserInfo.m; sourceTree = "<group>"; };
 		18CD286E24C5B1DA0093D396 /* MGDUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDUserData.h; sourceTree = "<group>"; };
-		18CD287024C5B1DA0093D396 /* MGDRecordTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDRecordTableView.h; sourceTree = "<group>"; };
 		18CD287124C5B1DA0093D396 /* MGDColumnChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDColumnChartView.h; sourceTree = "<group>"; };
 		18CD287224C5B1DA0093D396 /* MGDBaseInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
 		18CD287324C5B1DA0093D396 /* MGDSportTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableView.m; sourceTree = "<group>"; };
@@ -217,7 +215,6 @@
 		18CD287524C5B1DA0093D396 /* MGDMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMiddleView.h; sourceTree = "<group>"; };
 		18CD287624C5B1DA0093D396 /* MGDTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
 		18CD287724C5B1DA0093D396 /* MGDColumnChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDColumnChartView.m; sourceTree = "<group>"; };
-		18CD287824C5B1DA0093D396 /* MGDRecordTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDRecordTableView.m; sourceTree = "<group>"; };
 		18CD287924C5B1DA0093D396 /* MGDTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
 		18CD287A24C5B1DA0093D396 /* MGDMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMiddleView.m; sourceTree = "<group>"; };
 		18CD287B24C5B1DA0093D396 /* MGDSportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableViewCell.m; sourceTree = "<group>"; };
@@ -612,8 +609,6 @@
 				18CD287B24C5B1DA0093D396 /* MGDSportTableViewCell.m */,
 				18CD287C24C5B1DA0093D396 /* MGDSportTableView.h */,
 				18CD287324C5B1DA0093D396 /* MGDSportTableView.m */,
-				18CD287024C5B1DA0093D396 /* MGDRecordTableView.h */,
-				18CD287824C5B1DA0093D396 /* MGDRecordTableView.m */,
 				18CD287124C5B1DA0093D396 /* MGDColumnChartView.h */,
 				18CD287724C5B1DA0093D396 /* MGDColumnChartView.m */,
 			);
@@ -1617,7 +1612,6 @@
 				2F7ADC6B237973CF00FE9461 /* ZYLSettingBackgound.m in Sources */,
 				2FBE8938230C446F0042AB0D /* ZYLNoticeBanner.m in Sources */,
 				B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */,
-				18CD288B24C5B1DA0093D396 /* MGDRecordTableView.m in Sources */,
 				2F495E542282C064003DD714 /* LJJInviteRunView.m in Sources */,
 				2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */,
 				2F3ACABD230C41E2008D51E5 /* ZYLStartRunningButton.m in Sources */,

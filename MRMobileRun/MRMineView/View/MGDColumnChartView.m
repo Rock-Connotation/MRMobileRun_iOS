@@ -13,11 +13,11 @@
 #define COLUMNCHARTCOLOR [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0]
 #define XLABELCOLOR [UIColor colorWithRed:51/255.0 green:55/255.0 blue:57/255.0 alpha:1.0]
 #define YLABELCOLOR [UIColor colorWithRed:136/255.0 green:136/255.0 blue:136/255.0 alpha:1.0]
-#define topMargin screenHeigth * 0.06
-#define leftMargin screenWidth * 0.0667
-#define bottomMargin screenHeigth * 0.0375
-#define XLen screenWidth * 0.8693
-#define YLen screenHeigth * 0.2444
+#define topMargin 40
+#define leftMargin 25
+#define bottomMargin 25
+#define XLen 326
+#define YLen 163
 
 
 
@@ -57,7 +57,7 @@
 {
     if (_linePointView == nil) {
         _linePointView = [[UIView alloc] init];
-        _linePointView.frame = CGRectMake(0, _headerH - 5, _linePointW, 4);
+        _linePointView.frame = CGRectMake(0, 25, _linePointW, 4);
         _linePointView.backgroundColor = LINECOLOR;
         _linePointView.layer.cornerRadius = 2.0;
         [self.headerView addSubview:_linePointView];
@@ -90,19 +90,22 @@
 }
 
 - (void)initChild {
-    CGFloat lineW = screenWidth * 0.112;
-    _linePointW = lineW;
+    _linePointW = 42;
     _isLayoutChart = false;
     
     _yearLabel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_yearLabel setTitleColor:XLABELCOLOR forState:UIControlStateNormal];
+    if (@available(iOS 11.0, *)) {
+        [_yearLabel setTitleColor:MGDtextXColor forState:UIControlStateNormal];
+    } else {
+        // Fallback on earlier versions
+    }
     _yearLabel.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 15];
     [_yearLabel setImage:[UIImage imageNamed:@"矩形"] forState:UIControlStateNormal];
     _yearLabel.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [_yearLabel setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, screenWidth * 0.0373)];
-    [_yearLabel setImageEdgeInsets:UIEdgeInsetsMake(screenHeigth * 0.0099, screenWidth * 0.136, screenHeigth * 0.0074, 0)];
     _yearLabel.backgroundColor = [UIColor clearColor];
-    
+    [_yearLabel setTitleEdgeInsets:UIEdgeInsetsMake(0, -15, 0, 14)];
+    [_yearLabel setImageEdgeInsets:UIEdgeInsetsMake(8, 36, 6, 0)];
+    _yearLabel.backgroundColor = [UIColor clearColor];
     [_yearLabel addTarget:self action:@selector(yearClick:) forControlEvents:UIControlEventTouchUpInside];
     
     _headerView = [[UIScrollView alloc] init];
@@ -121,32 +124,21 @@
     _ChartScrollView.bounces = NO;
     _ChartScrollView.showsHorizontalScrollIndicator = NO;
     
-    [self setFrame];
     [self addSubview:_headerView];
     [self addSubview:_yearLabel];
     [self addSubview:_chartView];
     [self.chartView addSubview:_ChartScrollView];
+    [self setFrame];
 }
 
 - (void)setFrame {
-    if (kIs_iPhoneX) {
-        _yearLabel.frame = CGRectMake(screenWidth * 0.780, screenHeigth * 0.0075, screenWidth * 0.172, screenHeigth * 0.0315);
-        _headerView.frame = CGRectMake(0, 0, screenWidth * 0.4187, screenHeigth * 0.0369);
-        _chartView.frame = CGRectMake(0, screenHeigth * 0.0369, screenWidth, screenHeigth * 0.2808);
-        _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, screenHeigth * 0.2808);
-        _ChartScrollView.contentSize = CGSizeMake(455, screenHeigth * 0.2808);
-        CGFloat headerH = screenHeigth * 0.0369;
-        _headerH = headerH;
-    }else {
-        _yearLabel.frame = CGRectMake(screenWidth * 0.780, screenHeigth * 0.0062, screenWidth * 0.172, screenHeigth * 0.0259);
-        _headerView.frame = CGRectMake(0, 0, screenWidth * 0.4187, screenHeigth * 0.045);
-        _chartView.frame = CGRectMake(0, screenHeigth * 0.045, screenWidth, screenHeigth * 0.3418);
-        _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, screenHeigth * 0.3418);
-        _ChartScrollView.contentSize = CGSizeMake(455, screenHeigth * 0.3418);
-        CGFloat headerH = screenHeigth * 0.045;
-        _headerH = headerH;
-    }
+    _yearLabel.frame = CGRectMake(306, 5, 48, 21);
+    _headerView.frame = CGRectMake(0, 0, 157, 30);
+    _chartView.frame = CGRectMake(0, 30, screenWidth, 228);
+    _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, 228);
+    _ChartScrollView.contentSize = CGSizeMake(455, _ChartScrollView.frame.size.height);
 }
+
 
 - (void)yearClick:(UIButton *)sender
 {
@@ -181,7 +173,7 @@
                 UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [btn setTitle:items[i] forState:UIControlStateNormal];
                 CGFloat btnx = lastBtn == nil ? 3 : CGRectGetMaxX(lastBtn.frame);
-                btn.frame = CGRectMake(btnx, 0, btn.frame.size.width + 69, 30);
+                btn.frame = CGRectMake(btnx, 0, btn.frame.size.width + screenWidth * 0.1306 , 30);
                 [self.headerView addSubview:btn];
                 
                 lastBtn = btn;
@@ -202,7 +194,6 @@
     }
 }
 
-//------- header 控制
 - (void)headerItemClick:(UIButton *)sender
 {
     [self setSelectItem:sender isAnima:true];
@@ -228,9 +219,13 @@
     lineFrame.origin.x = itemX;
     
     if (isAnima) {
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:0.2 animations:^{
             self.linePointView.frame = lineFrame;
-            [sender setTitleColor:XLABELCOLOR forState:UIControlStateNormal];
+            if (@available(iOS 11.0, *)) {
+                [sender setTitleColor:MGDTextColor1 forState:UIControlStateNormal];
+            } else {
+                // Fallback on earlier versions
+            }
             sender.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 18];
         }];
     }else {
@@ -259,43 +254,57 @@
 - (void)layoutChartView
 {
     CGFloat chartSizeH = self.chartView.frame.size.height;
-    CGFloat dataX = screenWidth * 0.9173;
-    CGFloat itemXMargin = screenWidth * 0.016;
+    CGFloat itemXMargin = 6;
     CGFloat itemCountX = 31;
     CGFloat itemCountY = 5;
-    CGFloat itemYH = (YLen - screenHeigth * 0.009) / itemCountY;
-    CGFloat itemXW = screenWidth * 0.0213;
-    CGFloat YlabMargin = screenWidth * 0.04;
+    CGFloat itemYH = (YLen - 6) / itemCountY;
+    CGFloat itemXW = 8;
+    CGFloat YlabMargin = 15;
     
     //X轴
-    CALayer *axisX = [self getLayer:UIColor.blackColor frame:CGRectMake(leftMargin, topMargin + YLen, XLen , 1)];
+    CALayer *axisX = [self getSubLine:CGRectMake(leftMargin, topMargin + YLen, XLen , 1)];
+    if (@available(iOS 11.0, *)) {
+        axisX.backgroundColor = MGDlineColor.CGColor;
+        } else {
+        // Fallback on earlier versions
+    }
     [self.chartView.layer addSublayer:axisX];
     
     //Y轴
-    CALayer *axisY = [self getLayer:UIColor.blackColor frame:CGRectMake(leftMargin, topMargin, 1, YLen)];
+    CALayer *axisY = [self getSubLine:CGRectMake(leftMargin, topMargin, 1, YLen)];
+    if (@available(iOS 11.0, *)) {
+        axisY.backgroundColor = MGDlineColor.CGColor;
+        } else {
+        // Fallback on earlier versions
+    }
     [self.chartView.layer addSublayer:axisY];
     
     for (NSInteger i = 0; i < itemCountY; i++) {
         //Y轴的灰色准线
-        CALayer *itemY = [self getLayer:[UIColor colorWithWhite:0 alpha:0.2] frame:CGRectMake(leftMargin, CGRectGetMinY(axisX.frame) - itemYH * (i + 1), CGRectGetWidth(axisX.frame), 0.5)];
-        [self.chartView.layer addSublayer:itemY];
+        CALayer *itemY = [self getSubLine:CGRectMake(0, CGRectGetMinY(axisX.frame) - itemYH * (i + 1), _ChartScrollView.contentSize.width, 1)];
+        [self.ChartScrollView.layer addSublayer:itemY];
         
         //Y轴文字
-        CATextLayer *labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",i+1] font:8 frame:CGRectMake(YlabMargin, itemY.frame.origin.y - 11, 5, 11)];
+        CATextLayer *labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",(long)i+1] font:8 frame:CGRectMake(YlabMargin, itemY.frame.origin.y - 11, 5, 11)];
         [self.chartView.layer addSublayer:labelY];
     }
     
     NSArray *showXArr = @[@"1", @"5", @"10",@"20",@"15",@"25",@"30"];
     for (NSInteger i = 0; i < itemCountX; i++) {
         //X轴的柱形
-        CALayer *itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i,0, itemXW, CGRectGetMinY(axisX.frame))];
+        CALayer *itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i, 300, itemXW, CGRectGetMinY(axisX.frame))];
         itemX.cornerRadius = 2.0;
         [self.ChartScrollView.layer addSublayer:itemX];
     
         //X轴的文字
-        NSString *currentIndex = [NSString stringWithFormat:@"%ld", i+1];
+        NSString *currentIndex = [NSString stringWithFormat:@"%ld",(long)i+1];
         if ([showXArr containsObject: currentIndex]) {
             CATextLayer *labelX = [self getXLabel:currentIndex font:8 frame:CGRectMake(itemX.frame.origin.x - 2, axisX.frame.origin.y + 1, 10, 11)];
+            if (@available(iOS 11.0, *)) {
+                    labelX.foregroundColor = MGDtextXColor.CGColor;
+                } else {
+                // Fallback on earlier versions
+            }
             [self.ChartScrollView.layer addSublayer:labelX];
         }
         
@@ -305,27 +314,15 @@
     _itemBottomY = chartSizeH - leftMargin;
     _oneItemH = itemYH;
     
-    if (kIs_iPhoneX) {
-        CATextLayer *pointZero = [self getYLabel:@"0" font:8 frame:CGRectMake(screenWidth * 0.04,screenHeigth * 0.2414, 5, 11)];
+    
+        CATextLayer *pointZero = [self getYLabel:@"0" font:8 frame:CGRectMake(15,196,5,11)];
         
-        CATextLayer *messageX = [self getXLabel:@"日期" font:8 frame:CGRectMake(dataX, CGRectGetMaxY(axisX.frame) + 2, 16, 11)];
-        messageX.backgroundColor = [UIColor whiteColor].CGColor;
+        CATextLayer *messageX = [self getData:@"日期" font:8 frame:CGRectMake(344,CGRectGetMaxY(axisX.frame) + 1,16,11)];
         
-        CATextLayer *messageY = [self getYLabel:@"千米" font:11 frame:CGRectMake( screenWidth * 0.04,screenHeigth * 0.0172 , 22, 16)];
+        CATextLayer *messageY = [self getYLabel:@"千米" font:11 frame:CGRectMake(15,14,22,16)];
         [self.chartView.layer addSublayer:pointZero];
         [self.chartView.layer addSublayer:messageX];
         [self.chartView.layer addSublayer:messageY];
-    }else {
-        CATextLayer *pointZero = [self getYLabel:@"0" font:8 frame:CGRectMake(screenWidth * 0.04,screenHeigth * 0.2939, 5, 11)];
-        
-        CATextLayer *messageX = [self getXLabel:@"日期" font:8 frame:CGRectMake(dataX, CGRectGetMaxY(axisX.frame) + 2, 16, 11)];
-        messageX.backgroundColor = [UIColor whiteColor].CGColor;
-        
-        CATextLayer *messageY = [self getYLabel:@"千米" font:11 frame:CGRectMake( screenWidth * 0.04,screenHeigth * 0.021 , 22, 16)];
-        [self.chartView.layer addSublayer:pointZero];
-        [self.chartView.layer addSublayer:messageX];
-        [self.chartView.layer addSublayer:messageY];
-    }
 }
 
 
@@ -349,9 +346,31 @@
     label.frame = frame;
     label.alignmentMode = @"center";
     label.contentsScale = 3;
-    label.foregroundColor = XLABELCOLOR.CGColor;
+    if (@available(iOS 11.0, *)) {
+            label.foregroundColor = MGDtextXColor.CGColor;
+        } else {
+               // Fallback on earlier versions
+    }
     return label;
 }
+
+- (CATextLayer *)getData:(NSString *)str font:(NSInteger)font frame:(CGRect)frame {
+    CATextLayer *label = [[CATextLayer alloc] init];
+    label.string = str;
+    label.font = (__bridge CFTypeRef _Nullable)@"PingFangSC-Medium";
+    label.fontSize = font;
+    label.frame = frame;
+    label.alignmentMode = @"center";
+    label.contentsScale = 3;
+    if (@available(iOS 11.0, *)) {
+        label.backgroundColor  = MGDColor3.CGColor;
+        label.foregroundColor  = MGDtextXColor.CGColor;
+       } else {
+           // Fallback on earlier versions
+    }
+    return label;
+}
+
 - (CALayer *)getLayer:(UIColor *)color frame:(CGRect)frame {
     CALayer *layer = [[CALayer alloc] init];
     layer.backgroundColor = color.CGColor;
@@ -359,13 +378,23 @@
     return layer;
 }
 
+- (CALayer *)getSubLine:(CGRect)frame {
+    CALayer *layer = [[CALayer alloc] init];
+    if (@available(iOS 11.0, *)) {
+        layer.backgroundColor = MGDLineColor1.CGColor;
+    } else {
+        // Fallback on earlier versions
+    }
+    layer.frame = frame;
+    return layer;
+}
 
 
 - (CGFloat)getChartH:(CGFloat)chartH
 {
     CGFloat itemH = _oneItemH * chartH;
-    if (chartH > 5.3) {
-        itemH = _oneItemH * 5.3;
+    if (chartH > 5.6) {
+        itemH = _oneItemH * 5.6;
     }
     return itemH;
 }
