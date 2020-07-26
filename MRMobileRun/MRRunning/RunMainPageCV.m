@@ -22,32 +22,41 @@
 @interface RunMainPageCV ()<MAMapViewDelegate,RunmodelDelegate,AMapLocationManagerDelegate>
 @property (nonatomic, strong) RunningMainPageView *Mainview;
 @property (nonatomic, strong) RunningModel *model;
+@property (nonatomic, strong) RunLocationModel *locationModel;
 @property (nonatomic, assign) CGFloat yyy;
 
 @property (nonatomic, strong) AMapLocationManager *locationManager;
 
-@property(nonatomic,strong)MAAnnotationView *myAnnotationView;//我的当前位置的大头针
-@property(nonatomic,strong)MAPolyline *polyline;//当前绘制的轨迹曲线
+@property (nonatomic, strong)MAAnnotationView *myAnnotationView;//我的当前位置的大头针
+@property (nonatomic, strong)MAPolyline *polyline;//当前绘制的轨迹曲线
 
-@property(nonatomic,strong)NSMutableArray <RunLocationModel *>*perfectArray;//优化完成的定位数据数组
-@property(nonatomic,strong)NSMutableArray <RunLocationModel *>*drawLineArray;//待绘制定位线数据
+@property (nonatomic, strong)NSMutableArray <RunLocationModel *>*perfectArray;//优化完成的定位数据数组
+@property (nonatomic, strong)NSMutableArray <RunLocationModel *>*drawLineArray;//待绘制定位线数据
+@property (nonatomic, strong)NSMutableArray *locationArray;
 
-@property(nonatomic,assign)int lastDrawIndex;//绘制最后数据的下标次数(perfectArray)
-@property(nonatomic,assign)NSInteger locationNumber;//定位次数
-@property(nonatomic,assign)BOOL isFirstLocation;//是否是第一次定位
-@property(nonatomic,assign)BOOL isEndLocation; //是否是最后一次定位
+@property (nonatomic, assign)int lastDrawIndex;//绘制最后数据的下标次数(perfectArray)
+@property (nonatomic, assign)NSInteger locationNumber;//定位次数
+@property (nonatomic, assign)BOOL isFirstLocation;//是否是第一次定位
+@property (nonatomic, assign)BOOL isEndLocation; //是否是最后一次定位
 
+@property (nonatomic, assign) CGFloat signal;
 @end
 
 @implementation RunMainPageCV
 
+
+- (void)viewDidAppear:(BOOL)animated{
+    self.sportsState = SportsStateStart;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.Mainview = [[RunningMainPageView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.Mainview];
     [self.Mainview mainRunView];
+    
     [self btnFunction];
     self.Mainview.mapView.delegate = self;
+    
 }
 
 -(void)setModel:(RunningModel *)model{
@@ -73,7 +82,7 @@
 
 #pragma mark- 状态监听
 - (void)setSportsState:(SportsState)sportsState{
-    self.sportsState = sportsState;
+    sportsState = self.sportsState;
     switch (sportsState) {
         case SportsStateIdle:{
             if (self.polyline != nil ) {
@@ -92,11 +101,14 @@
                 [self.Mainview.mapView removeOverlay:self.polyline];
             }
             self.distance = 0;
-                       self.locationNumber = 0;
-                       self.isFirstLocation = YES;
-                       self.perfectArray = [NSMutableArray arrayWithCapacity:16];
-                       self.drawLineArray = [NSMutableArray arrayWithCapacity:16];
-                       [self.locationManager startUpdatingLocation];//开始持续定位
+            self.locationNumber = 0;
+            self.isFirstLocation = YES;
+            self.locationModel = [[RunLocationModel alloc] init];
+            self.locationArray = [NSMutableArray array];
+            
+            self.perfectArray = [NSMutableArray arrayWithCapacity:16];
+            self.drawLineArray = [NSMutableArray arrayWithCapacity:16];
+            [self.locationManager startUpdatingLocation];//开始持续定位
             
             /*
              是否使用陀螺仪（用经纬度计算距离，单纯用陀螺仪的计步来计算步频）
@@ -109,10 +121,15 @@
             return;
             
         case SportsStateStop:
-             [self.locationManager stopUpdatingLocation];
+            [self.locationManager stopUpdatingLocation];
+            self.isEndLocation = YES;
+            RunLocationModel *endLocationModel = self.locationArray.lastObject;
+            [self drawEndRunPointAction:endLocationModel];
+             
             break;
     }
 }
+
 #pragma mark-运动时间
 -(void)time:(NSString *)timeStr timeNum:(int)time
 {
@@ -121,66 +138,137 @@
 
 
 #pragma mark- 定位数据
-- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
-    RunLocationModel *locationModel = [[RunLocationModel alloc] init];
-    locationModel.location = location.coordinate;
-    locationModel.speed = location.speed;
-    locationModel.time = [NSDate date];
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
+#pragma mark- 根据信号强度改变左上角的GPS信号图片
+    CGFloat signal = userLocation.location.horizontalAccuracy;
+    self.signal = signal;
     
-    self.locationNumber++;
-    if (self.locationNumber > 1) {
-        RunLocationModel *lastModel = locationModel;
-        [self drawStartRunPointAction:location];
-        RunLocationModel *lastButOneModel = self.perfectArray.lastObject;
-        [self distanceWithLocation:lastModel andLastButOneModel:lastButOneModel];
+    //设置信号强度，小于80，大于0的时候进来
+    if (self.signal < 80 && self.signal >0) {
+//        if (self.locationArray.count == 0) {
+//                RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
+//                StartPointModel.location = userLocation.location.coordinate;
+//                StartPointModel.speed = userLocation.location.speed;
+//                StartPointModel.time = userLocation.location.timestamp;
+//                [self.locationArray addObject:StartPointModel]; //向位置数组里面添加第一个定位点
+//                [self drawStartRunPointAction:StartPointModel];
+//                self.isFirstLocation = NO;
+//                self.isEndLocation = NO;
+//        }if (self.locationArray.count != 0) {
+//                RunLocationModel *LastlocationModel = self.locationArray.lastObject;
+//
+//            //当前定位的位置信息model
+//                RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+//                currentModel.location = userLocation.location.coordinate;
+//                currentModel.time = userLocation.location.timestamp;
+//                currentModel.speed = userLocation.location.speed;
+//                double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
+//                self.locationModel = currentModel;
+//                [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+//                double KMeters = meters/1000;
+//                self.distance = self.distance + KMeters;
+//        }
+    }
+    
+   
+}
+
+- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
+    if (self.signal < 80 && self.signal >0){
+        if (self.locationArray.count == 0) {
+                RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
+                StartPointModel.location = location.coordinate;
+                StartPointModel.speed = location.speed;
+                StartPointModel.time = location.timestamp;
+                [self.locationArray addObject:StartPointModel]; //向位置数组里面添加第一个定位点
+                [self drawStartRunPointAction:StartPointModel];
+                self.isFirstLocation = NO;
+                self.isEndLocation = NO;
+        }if (self.locationArray.count != 0) {
+                RunLocationModel *LastlocationModel = self.locationArray.lastObject;
+            
+            //当前定位的位置信息model
+                RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+                currentModel.location = location.coordinate;
+                currentModel.time = location.timestamp;
+                currentModel.speed = location.speed;
+                double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
+                self.locationModel = currentModel;
+                [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+                double KMeters = meters/1000;
+                self.distance = self.distance + KMeters;
+        }
     }
 }
+
+
+
+
     //计算距离
--(void)distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
+-(CLLocationDistance )distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
     
-        MAMapPoint point1 = MAMapPointForCoordinate(lastModel.location);
-        MAMapPoint point2 = MAMapPointForCoordinate(lastButOneModel.location);
-        //计算距离
-        CLLocationDistance newdistance = MAMetersBetweenMapPoints(point1,point2);
-        //计算两点的间隔时间
-     NSTimeInterval secondsBetweenDates= [lastModel.time timeIntervalSinceDate:lastButOneModel.time];
-        //计算误差， 世界飞人9.97秒百米,当超过这个速度,即为误差值
+//       double startLongitude = start.longitude;
+//       double startLatitude = start.latitude;
+//       double endLongitude = end.longitude;
+//       double endLatitude = end.latitude;
+//
+//       double radLatitude1 = startLatitude * M_PI / 180.0;
+//       double radLatitude2 = endLatitude * M_PI / 180.0;
+//       double a = fabs(radLatitude1 - radLatitude2);
+//       double b = fabs(startLongitude * M_PI / 180.0 - endLongitude * M_PI / 180.0);
+//
+//       double s = 2 * asin(sqrt(pow(sin(a/2),2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b/2),2)));
+//       s = s * 6378137;
+//
+//       meter = round(s * 10000) / 10000;
+    CLLocationDistance Meters = 0;
+    MAMapPoint point1 = MAMapPointForCoordinate(lastModel.location);
+       MAMapPoint point2 = MAMapPointForCoordinate(lastButOneModel.location);
+       //2.计算距离
+       CLLocationDistance newdistance = MAMetersBetweenMapPoints(point1,point2);
+       
+       //估算两者之间的时间差,单位 秒
+       NSTimeInterval secondsBetweenDates= [lastModel.time timeIntervalSinceDate:lastButOneModel.time];
+         //世界飞人9.97秒百米,当超过这个速度,即为误差值
     if ((float)newdistance/secondsBetweenDates <= 9.97) {
-        [self.perfectArray addObject:lastModel];
-        [self drawRunLineAction]; //绘制轨迹
-        self.distance = self.distance + newdistance;
+        Meters = newdistance;
     }
-    
+        return Meters;
 }
 
 #pragma mark- 绘制定位大头针
 //绘制开始位置大头针
-- (void)drawStartRunPointAction:(RunLocationModel *)runModel{
+- (void)drawStartRunPointAction:(RunLocationModel *)startLocationModel{
     if (self.isFirstLocation && self.Mainview.mapView.userLocation.location != nil) {
         MAPointAnnotation *startPointAnnotation = [[MAPointAnnotation alloc] init];
-        startPointAnnotation.coordinate = runModel.location;
-        [self.perfectArray addObject:runModel]; //为消除误差了的数组添加第一个元素
-        self.isFirstLocation = NO;
-         self.lastDrawIndex = 0;
+        startPointAnnotation.coordinate = startLocationModel.location;
+        
+//        [self.perfectArray addObject:startLocationModel]; //为消除误差了的数组添加第一个元素
+//         self.lastDrawIndex = 0;
+    }
+}
+
+//绘制结束位置大头针
+- (void)drawEndRunPointAction:(RunLocationModel *)endLocationModel{
+    if (!self.isFirstLocation && self.isEndLocation &&self.Mainview.mapView.userLocation.location != nil) {
+        MAPointAnnotation *endPointAnnotation = [[MAPointAnnotation alloc] init];
+        endPointAnnotation.coordinate = endLocationModel.location;
     }
 }
     //自定义大头针
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
-    if (self.isFirstLocation && !self.isEndLocation) {
-        if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+
+    if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+        if (self.isFirstLocation && !self.isEndLocation) {
             static NSString *startPointAnnotation = @"startPointAnnotation";
-            MAAnnotationView *startAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:startPointAnnotation];
-            if (startAnnotation == nil) {
-                startAnnotation = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:startPointAnnotation];
-            }
-             startAnnotation.image = [UIImage imageNamed:@"startPointImage"];
-//            startAnnotation.calloutOffset = CGPointMake(0, -20);
-            self.isFirstLocation = NO;
-            return startAnnotation;
-        }
-    }
-    if (!self.isFirstLocation && self.isEndLocation) {
-        if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
+                        MAAnnotationView *startAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:startPointAnnotation];
+                        if (startAnnotation == nil) {
+                            startAnnotation = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:startPointAnnotation];
+                        }
+                         startAnnotation.image = [UIImage imageNamed:@"startPointImage"];
+            //            startAnnotation.calloutOffset = CGPointMake(0, -20);
+                        return startAnnotation;
+        }else if (!self.isFirstLocation && self.isEndLocation){
             static NSString *endPointAnnotation = @"endPointAnnotation";
             MAAnnotationView *endAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:endPointAnnotation];
             if (endAnnotation == nil) {
@@ -224,7 +312,7 @@
     [self.Mainview.continueBtn addTarget:self action:@selector(continueMethod) forControlEvents:UIControlEventTouchUpInside];
     
     //结束按钮
-//    [self.Mainview.endtBtn addTarget:self action:@selector(endMethod) forControlEvents:UIControlEventTouchUpInside];
+    [self.Mainview.endLongPressView addTarget:self select:@selector(endMethod)];
 }
 
 //点击暂停按钮的方法
@@ -270,7 +358,8 @@
 
 //长按结束按钮方法
 - (void)endMethod{
-    //
+    self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
+    
 }
 
 
