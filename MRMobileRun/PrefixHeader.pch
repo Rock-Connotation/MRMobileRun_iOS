@@ -25,14 +25,24 @@
  #define WhiteColor  [UIColor colorNamed:@"whiteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
     //白天是灰色
 #define GrayColor  [UIColor colorNamed:@"grayColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
-    //配速、时间、燃烧卡路里 显示数字的字体颜色
+    
+//结束页面的底部view背景色
+#define bottomColor  [UIColor colorNamed:@"BottomColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的字体颜色
+#define bottomTitleColor  [UIColor colorNamed:@"bottomTitleColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的公里的字的颜色
+#define kmColor  [UIColor colorNamed:@"BottomUnitColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的结束按钮字体颜色
+#define OverColor  [UIColor colorNamed:@"OverBtnColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的结束按钮背景色
+#define OverBackColor  [UIColor colorNamed:@"OverBtnBackColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+//配速、时间、燃烧卡路里 显示数字的字体颜色
 #define SpeedTextColor  [UIColor colorNamed:@"SpeedNumberLblTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
     //显示公里数字的字体颜色
 #define MilesColor  [UIColor colorNamed:@"milesColor" inBundle:[NSBundle mainBundle]compatibleWithTraitCollection:nil]
     //显示@“公里”的字体颜色
 #define MilesTxetColor  [UIColor colorNamed:@"milesTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
-
-
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
 

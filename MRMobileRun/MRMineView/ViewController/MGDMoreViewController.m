@@ -61,16 +61,16 @@ NSString *ID1 = @"Sport_cell";
 
 
 - (void)setUI {
-    
     if (kIs_iPhoneX) {
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 120, screenWidth, 258)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 102, screenWidth, 228)];
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, 1)];
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 369, screenWidth, screenHeigth - 369) style:UITableViewStylePlain];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 370, screenWidth, screenHeigth - 370) style:UITableViewStylePlain];
     }else {
         _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 80, screenWidth, 258)];
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 347, screenWidth, screenHeigth - 347) style:UITableViewStylePlain];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 348, screenWidth, screenHeigth - 348) style:UITableViewStylePlain];
     }
+
 
     NSDate *date =[NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
