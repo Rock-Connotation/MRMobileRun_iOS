@@ -31,6 +31,8 @@
 #define MilesColor  [UIColor colorNamed:@"milesColor" inBundle:[NSBundle mainBundle]compatibleWithTraitCollection:nil]
     //显示@“公里”的字体颜色
 #define MilesTxetColor  [UIColor colorNamed:@"milesTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
 

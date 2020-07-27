@@ -6,7 +6,7 @@
 //
 
 #import "MapPolylineModel.h"
-@interface MapPolylineModel()
+@interface MapPolylineModel()<MAOverlay>
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 
