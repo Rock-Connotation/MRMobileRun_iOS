@@ -53,7 +53,7 @@
     self.mapView.userInteractionEnabled = YES;
     [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
     self.mapView.distanceFilter = 10;
-    
+//    UIAlertController
     //
 }
 
