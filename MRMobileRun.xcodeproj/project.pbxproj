@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187C812824D037210040A78E /* MGDShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812724D037210040A78E /* MGDShareView.m */; };
+		187C812D24D037B30040A78E /* MGDShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812C24D037B30040A78E /* MGDShareModel.m */; };
+		187C813024D037CE0040A78E /* MGDSharePlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812E24D037CE0040A78E /* MGDSharePlatform.m */; };
 		18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285B24C5B1B70093D396 /* MRTabBarView.m */; };
 		18CD286024C5B1B70093D396 /* MRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285C24C5B1B70093D396 /* MRTabBar.m */; };
 		18CD286124C5B1B70093D396 /* MRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285D24C5B1B70093D396 /* MRTabBarController.m */; };
@@ -196,6 +199,12 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		187C812624D037210040A78E /* MGDShareView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDShareView.h; sourceTree = "<group>"; };
+		187C812724D037210040A78E /* MGDShareView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDShareView.m; sourceTree = "<group>"; };
+		187C812A24D037860040A78E /* MGDShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDShareModel.h; sourceTree = "<group>"; };
+		187C812C24D037B30040A78E /* MGDShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDShareModel.m; sourceTree = "<group>"; };
+		187C812E24D037CE0040A78E /* MGDSharePlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSharePlatform.m; sourceTree = "<group>"; };
+		187C812F24D037CE0040A78E /* MGDSharePlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSharePlatform.h; sourceTree = "<group>"; };
 		18CD285924C5B1B70093D396 /* MRTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTabBar.h; sourceTree = "<group>"; };
 		18CD285A24C5B1B70093D396 /* MRTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTabBarController.h; sourceTree = "<group>"; };
 		18CD285B24C5B1B70093D396 /* MRTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTabBarView.m; sourceTree = "<group>"; };
@@ -776,6 +785,10 @@
 		2F14BF88226AE5CD00CCA2B8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				187C812F24D037CE0040A78E /* MGDSharePlatform.h */,
+				187C812E24D037CE0040A78E /* MGDSharePlatform.m */,
+				187C812A24D037860040A78E /* MGDShareModel.h */,
+				187C812C24D037B30040A78E /* MGDShareModel.m */,
 				B817B2FE24C5ACBC004023C3 /* RunningModel.h */,
 				B817B2FF24C5ACBC004023C3 /* RunningModel.m */,
 				B8BDEE8A24C6E1480013293B /* MapPolylineModel.h */,
@@ -803,6 +816,8 @@
 				B8CC789C24CECDDE002D2314 /* MGDOverView.m */,
 				B8CC78A224CECE3F002D2314 /* MGDButtonsView.h */,
 				B8CC78A324CECE3F002D2314 /* MGDButtonsView.m */,
+				187C812624D037210040A78E /* MGDShareView.h */,
+				187C812724D037210040A78E /* MGDShareView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1623,6 +1638,7 @@
 				2FF3BB0B238D499600DB9051 /* ZYLPlateChinieseLabel.m in Sources */,
 				CE0CC1BF222E4F73001283EA /* MRRouterManager.m in Sources */,
 				28ED985F22F14431003AA58D /* LJJSearchedVC.m in Sources */,
+				187C813024D037CE0040A78E /* MGDSharePlatform.m in Sources */,
 				2FF3BB26238D4DB200DB9051 /* ZYLUnitLabel.m in Sources */,
 				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
 				2F0E8145225F309B00D5E511 /* XIGSegementView.m in Sources */,
@@ -1633,6 +1649,7 @@
 				2FBE8938230C446F0042AB0D /* ZYLNoticeBanner.m in Sources */,
 				B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */,
 				2F495E542282C064003DD714 /* LJJInviteRunView.m in Sources */,
+				187C812D24D037B30040A78E /* MGDShareModel.m in Sources */,
 				2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */,
 				2F3ACABD230C41E2008D51E5 /* ZYLStartRunningButton.m in Sources */,
 				2F5A1B87224688280014B249 /* ZYLMainView.m in Sources */,
@@ -1650,6 +1667,7 @@
 				2F14F89A2391025000356CDF /* ZYLSliderView.m in Sources */,
 				B8CC789E24CECDDE002D2314 /* MGDOverView.m in Sources */,
 				2F0E8146225F309B00D5E511 /* XIGInviteTableViewCell.m in Sources */,
+				187C812824D037210040A78E /* MGDShareView.m in Sources */,
 				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
 				2F0E8147225F309B00D5E511 /* XIGClassRankViewController.m in Sources */,
 				2F0E814A225F309B00D5E511 /* XIGClass.m in Sources */,
