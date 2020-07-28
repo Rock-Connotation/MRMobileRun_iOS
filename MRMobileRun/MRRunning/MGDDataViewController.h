@@ -9,6 +9,7 @@
 #import "MGDOverView.h"
 #import "MGDDataView.h"
 #import "MGDButtonsView.h"
+#import "MGDShareView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic ,strong) MGDDataView *dataView;
 
 @property (nonatomic ,strong) MGDButtonsView *twoBtnView;
+
+@property (nonatomic ,strong) MGDShareView *shareView;
 
 @end
 
