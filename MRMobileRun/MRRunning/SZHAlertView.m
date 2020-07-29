@@ -19,22 +19,24 @@
                        self.endBtn = [[UIButton alloc] init];
                        [self addSubview:_endBtn];
                        [self.endBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                           make.left.equalTo(self.mas_left).offset(Width * 0.0588);
-                           make.top.equalTo(self.mas_top).offset(Height * 0.68);
+                           make.left.equalTo(self.mas_left).offset(18);
+                           make.top.equalTo(self.mas_top).offset(136);
                            make.size.mas_equalTo(CGSizeMake(130, 44));
                        }];
                        
-                       self.endBtn.titleLabel.hidden = NO;
-                       [self.endBtn.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                           make.center.mas_equalTo(self.endBtn.center);
-                           make.height.mas_equalTo(22);
-                           make.width.mas_equalTo(self.endBtn.mas_width);
-                       }];
-                       self.endBtn.titleLabel.textColor = [UIColor whiteColor];
-                       self.endBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC" size: 16];
-                       self.endBtn.titleLabel.text = @"结束";
-                       self.endBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-                       
+                    //给endBtn添加label
+        UILabel *endBtnTitleLel = [[UILabel alloc] init];
+        endBtnTitleLel.textColor = [UIColor whiteColor];
+        endBtnTitleLel.font = [UIFont fontWithName:@"PingFangSC" size: 16];
+        endBtnTitleLel.text = @"结束";
+        endBtnTitleLel.textAlignment = NSTextAlignmentCenter;
+        [self.endBtn addSubview:endBtnTitleLel];
+        [endBtnTitleLel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(self.endBtn.center);
+            make.height.mas_equalTo(22);
+            make.width.mas_equalTo(self.endBtn.mas_width);
+        }];
+        
                        self.endBtn.backgroundColor = [UIColor colorWithRed:79/255.0 green:84/255.0 blue:93/255.0 alpha:1.0];
                        self.endBtn.layer.cornerRadius = 12;
                        
@@ -44,20 +46,22 @@
                        self.ContinueRunBtn = [[UIButton alloc] init];
                        [self addSubview:self.ContinueRunBtn];
                        [self.ContinueRunBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                           make.left.equalTo(self.endBtn.mas_right).offset(Width *0.0293);
-                           make.right.equalTo(self.mas_right).offset(Width *0.0566);
-                           make.centerY.height.equalTo(self.endBtn);
+                           make.left.equalTo(self.endBtn.mas_right).offset(11);
+                           make.size.centerY.equalTo(self.endBtn);
                        }];
-                       self.ContinueRunBtn.titleLabel.hidden = NO;
-                       [self.ContinueRunBtn.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                           make.center.mas_equalTo(self.ContinueRunBtn.center);
-                           make.height.mas_equalTo(22);
-                           make.width.equalTo(self.ContinueRunBtn.mas_width);
-                       }];
-                       self.ContinueRunBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-                       self.ContinueRunBtn.titleLabel.textColor = [UIColor whiteColor];
-                       self.ContinueRunBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC" size: 16];
-                       self.ContinueRunBtn.titleLabel.text = @"继续跑步";
+        self.ContinueRunBtn.titleLabel.backgroundColor = [UIColor redColor];
+        //给继续跑步按钮添加lable
+        UILabel *continueBtnTitleLbl = [[UILabel alloc] init];
+        continueBtnTitleLbl.textColor = [UIColor whiteColor];
+        continueBtnTitleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 16];
+        continueBtnTitleLbl.textAlignment = NSTextAlignmentCenter;
+        continueBtnTitleLbl.text = @"继续跑步";
+        [self.ContinueRunBtn addSubview:continueBtnTitleLbl];
+        [continueBtnTitleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(self.ContinueRunBtn.center);
+            make.height.mas_equalTo(22);
+            make.width.equalTo(self.ContinueRunBtn.mas_width);
+        }];
                        
                        self.ContinueRunBtn.backgroundColor = [UIColor colorWithRed:0/255.0 green:197/255.0 blue:217/255.0 alpha:1.0];
                        self.ContinueRunBtn.layer.cornerRadius = 12;
@@ -69,10 +73,11 @@
                        [self addSubview:self.messageLbl];
                        [self.messageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
                            make.centerX.equalTo(self);
-                           make.width.mas_equalTo(Width *0.576);
-                           make.top.equalTo(self.mas_top).offset(Height *0.235);
+                           make.width.mas_equalTo(216);
+                           make.top.equalTo(self.mas_top).offset(47);
                            make.bottom.equalTo(self.endBtn.mas_top);
                        }];
+                       self.messageLbl.numberOfLines = 0;
                        self.messageLbl.textAlignment = NSTextAlignmentCenter;
                        self.messageLbl.textColor = [UIColor colorWithRed:51/255.0 green:55/255.0 blue:57/255.0 alpha:1.0];
                        self.messageLbl.font = [UIFont fontWithName:@"PingFangSC" size: 16];
@@ -80,6 +85,7 @@
         
         self.backgroundColor = [UIColor whiteColor];
         self.messageLbl.text = title;
+        self.layer.cornerRadius = 16;
     }
     return  self;
 }

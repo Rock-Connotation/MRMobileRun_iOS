@@ -37,7 +37,9 @@
 @property (nonatomic, strong) RunningModel *model;
 @property (nonatomic, strong) RunLocationModel *locationModel;
 
-//关于定位以及绘制轨迹
+/*
+ 关于定位以及绘制轨迹
+ */
 @property (nonatomic, strong) AMapLocationManager *locationManager;
     
 @property (nonatomic, strong)MAAnnotationView *myAnnotationView;//我的当前位置的大头针
@@ -53,6 +55,9 @@
 @property (nonatomic, assign)BOOL isEndLocation; //是否是最后一次定位
 
 @property (nonatomic, assign) CGFloat signal; //信号强度
+//跑步结束时的AlertView
+@property (nonatomic, strong) SZHAlertView *shortAlert;
+@property (nonatomic, strong) SZHAlertView *normalAlert;
 @end
 
 @implementation RunMainPageCV
@@ -452,37 +457,62 @@
     //计时器停止
     [self.runTimer setFireDate:[NSDate distantFuture]];
     //弹出提示框
-//    if (self.second < 60 || self.distance < 100) {
-//        SZHAlertView *shortAlert = [[SZHAlertView alloc] initWithTitle:@"本次跑步距离过短，无法保存记录，确定结束吗？"];
-//        [self.view addSubview:shortAlert];
-//        [shortAlert mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.view.mas_top).offset(screenHeigth *0.335);
+    if (self.second < 60 || self.distance < 100) {
+        SZHAlertView *shortAlert = [[SZHAlertView alloc] initWithTitle:@"本次跑步距离过短，无法保存记录，确定结束吗？"];
+        [self.view addSubview:shortAlert];
+        [shortAlert mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).offset(screenHeigth *0.335);
 //            make.left.equalTo(self.view.mas_left).offset(screenWidth *0.0907);
-//            make.size.mas_equalTo(CGSizeMake(306, 200));
-//        }];
-//        [shortAlert.endBtn addTarget:self action:@selector(shortEndRun) forControlEvents:UIControlEventTouchUpInside];
-//        [shortAlert.ContinueRunBtn addTarget:self action:@selector(continueRun1) forControlEvents:UIControlEventTouchUpInside];
-//    }else{
-//        SZHAlertView *endAlert = [[SZHAlertView alloc] initWithTitle:@"您确定要结束跑步吗？"];
-//        [self.view addSubview:endAlert];
-//        [endAlert mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.view.mas_top).offset(screenHeigth *0.335);
-//            make.left.equalTo(self.view.mas_left).offset(screenWidth *0.0907);
-//            make.size.mas_equalTo(CGSizeMake(306, 200));
-//        }];
-//        [endAlert.endBtn addTarget:self action:@selector(EndRun) forControlEvents:UIControlEventTouchUpInside];
-//        [endAlert.ContinueRunBtn addTarget:self action:@selector(continueRun2) forControlEvents:UIControlEventTouchUpInside];
-//
-//    }
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(306, 200));
+        }];
+        [shortAlert.endBtn addTarget:self action:@selector(shortEndRun) forControlEvents:UIControlEventTouchUpInside];
+        [shortAlert.ContinueRunBtn addTarget:self action:@selector(continueRun1) forControlEvents:UIControlEventTouchUpInside];
+        self.shortAlert = shortAlert;
+    }else{
+        SZHAlertView *endAlert = [[SZHAlertView alloc] initWithTitle:@"您确定要结束跑步吗？"];
+        [self.view addSubview:endAlert];
+        [endAlert mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.mas_top).offset(screenHeigth *0.335);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(306, 200));
+        }];
+        [endAlert.endBtn addTarget:self action:@selector(endRun) forControlEvents:UIControlEventTouchUpInside];
+        [endAlert.ContinueRunBtn addTarget:self action:@selector(continueRun2) forControlEvents:UIControlEventTouchUpInside];
+        self.normalAlert = endAlert;
+
+    }
     
+    
+    
+   
+}
+
+//距离过短时的按钮
+    //结束
+- (void)shortEndRun{
     //跳转到下一个页面
     self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
     MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
-    
-    //按钮变换
-    self.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:overVC animated:YES];
+       self.hidesBottomBarWhenPushed = YES;
+       [self.navigationController pushViewController:overVC animated:YES];
 }
 
+- (void)continueRun1{
+    [self.shortAlert removeFromSuperview];
+}
 
+//正常结束
+    //结束
+- (void)endRun{
+    //跳转到下一个页面
+    self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
+    MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
+       self.hidesBottomBarWhenPushed = YES;
+       [self.navigationController pushViewController:overVC animated:YES];
+}
+    //继续跑步
+- (void)continueRun2{
+    [self.normalAlert removeFromSuperview];
+}
 @end
