@@ -149,8 +149,9 @@
             make.top.mas_equalTo(self.mas_top).mas_offset(526);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@286);
+            make.height.mas_equalTo(screenHeigth - 100 -526);
         }];
+        _backView.backgroundColor = [UIColor greenColor];
         
         [_date mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);

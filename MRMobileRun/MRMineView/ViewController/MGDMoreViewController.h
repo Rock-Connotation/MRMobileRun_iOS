@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MGDMoreViewController : UIViewController
 
+@property (nonatomic, strong) UIView *backView;
+
 @property (nonatomic, strong) NSArray *month;
 
 @property (nonatomic, strong) UIView *titleView;

@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MGDMineViewController : UIViewController
 
+@property (nonatomic, strong) UIView *backView;
+
 @property (nonatomic, strong) MGDTopView *topview;
 
 @property (nonatomic, strong) MGDBaseInfoView *baseView;
