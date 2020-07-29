@@ -156,6 +156,8 @@
 		B81500BD24CA6CA700CB55FE /* RunMainBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = B81500BC24CA6CA700CB55FE /* RunMainBtn.m */; };
 		B817B30024C5ACBC004023C3 /* RunningModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B2FF24C5ACBC004023C3 /* RunningModel.m */; };
 		B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B30224C5ACFF004023C3 /* LongPressView.m */; };
+		B84F257C24D1537800EB8FB7 /* SZHAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257B24D1537800EB8FB7 /* SZHAlertView.m */; };
+		B84F258024D16D0B00EB8FB7 /* RecordtimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */; };
 		B89E087424CBBD60006033D5 /* MAMutablePolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */; };
 		B8B0207324B85789009A8985 /* RunMainPageCV.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207224B85789009A8985 /* RunMainPageCV.m */; };
 		B8B0207624B857BE009A8985 /* RunningMainPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207524B857BE009A8985 /* RunningMainPageView.m */; };
@@ -489,6 +491,10 @@
 		B817B2FF24C5ACBC004023C3 /* RunningModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunningModel.m; sourceTree = "<group>"; };
 		B817B30124C5ACFF004023C3 /* LongPressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongPressView.h; sourceTree = "<group>"; };
 		B817B30224C5ACFF004023C3 /* LongPressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LongPressView.m; sourceTree = "<group>"; };
+		B84F257A24D1537800EB8FB7 /* SZHAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZHAlertView.h; sourceTree = "<group>"; };
+		B84F257B24D1537800EB8FB7 /* SZHAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SZHAlertView.m; sourceTree = "<group>"; };
+		B84F257E24D16D0B00EB8FB7 /* RecordtimeString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordtimeString.h; sourceTree = "<group>"; };
+		B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordtimeString.m; sourceTree = "<group>"; };
 		B89E087224CBBD60006033D5 /* MAMutablePolylineRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAMutablePolylineRenderer.h; sourceTree = "<group>"; };
 		B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAMutablePolylineRenderer.m; sourceTree = "<group>"; };
 		B8B0207124B85789009A8985 /* RunMainPageCV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunMainPageCV.h; sourceTree = "<group>"; };
@@ -767,6 +773,7 @@
 		2F14BF86226AE5A800CCA2B8 /* MRRunning */ = {
 			isa = PBXGroup;
 			children = (
+				B84F257D24D16CD600EB8FB7 /* Time */,
 				2F14BF8A226AE5E400CCA2B8 /* ViewController */,
 				2F14BF89226AE5DA00CCA2B8 /* View */,
 				2F14BF88226AE5CD00CCA2B8 /* Model */,
@@ -818,6 +825,8 @@
 				B8CC78A324CECE3F002D2314 /* MGDButtonsView.m */,
 				187C812624D037210040A78E /* MGDShareView.h */,
 				187C812724D037210040A78E /* MGDShareView.m */,
+				B84F257A24D1537800EB8FB7 /* SZHAlertView.h */,
+				B84F257B24D1537800EB8FB7 /* SZHAlertView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1264,6 +1273,15 @@
 				2F0E813F225F309B00D5E511 /* XIGInviteTableViewCell.xib */,
 			);
 			name = old;
+			sourceTree = "<group>";
+		};
+		B84F257D24D16CD600EB8FB7 /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				B84F257E24D16D0B00EB8FB7 /* RecordtimeString.h */,
+				B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */,
+			);
+			name = Time;
 			sourceTree = "<group>";
 		};
 		CE0CC170222E2059001283EA = {
@@ -1721,6 +1739,7 @@
 				2F495E482282BFDD003DD714 /* LJJInviteSearchResultViewController.m in Sources */,
 				2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */,
 				2F5A1B9C22468A890014B249 /* WeKit.m in Sources */,
+				B84F257C24D1537800EB8FB7 /* SZHAlertView.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
 				B8CC78A124CECDF4002D2314 /* MGDDataViewController.m in Sources */,
 				18CD288624C5B1DA0093D396 /* MGDUserData.m in Sources */,
@@ -1744,6 +1763,7 @@
 				18CD288824C5B1DA0093D396 /* MGDBaseInfoView.m in Sources */,
 				2F0E816C225F745F00D5E511 /* ZYLClassRankModel.m in Sources */,
 				18CD288E24C5B1DA0093D396 /* MGDSportTableViewCell.m in Sources */,
+				B84F258024D16D0B00EB8FB7 /* RecordtimeString.m in Sources */,
 				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,
 				2F9CB6E2239BDA260003C09D /* ZYLConfirmButton.m in Sources */,
 				2F495E232282BE19003DD714 /* HttpClient.m in Sources */,
