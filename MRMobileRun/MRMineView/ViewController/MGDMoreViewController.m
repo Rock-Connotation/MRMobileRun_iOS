@@ -11,6 +11,7 @@
 #import "YBPopupMenu.h"
 #import "MRTabBarController.h"
 #import <Masonry.h>
+#import <MJRefresh.h>
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 #define DIVIDERCOLOR [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
@@ -31,14 +32,14 @@ NSString *ID1 = @"Sport_cell";
     // Do any additional setup after loading the view.
     if (@available(iOS 11.0, *)) {
            self.view.backgroundColor = MGDColor3;
+        self.navigationController.navigationBar.backgroundColor = MGDColor3;
        } else {
            // Fallback on earlier versions
     }
     self.navigationController.navigationBar.translucent = YES;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     // 设置navigationBar透明
-    self.navigationController.navigationBar.subviews[0].alpha = 0;
+    //self.navigationController.navigationBar.subviews[0].alpha = 0;
     // 去除navigationBar底部浅灰色的分割线
     self.navigationController.navigationBar.subviews[0].subviews[0].alpha = 0;
     //设置返回按钮的颜色
@@ -50,25 +51,41 @@ NSString *ID1 = @"Sport_cell";
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backItem;
+    
+    _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth) style:UITableViewStylePlain];
+    [self scrollViewDidScroll:_recordTableView];
+    _recordTableView.separatorStyle = NO;
+    _recordTableView.delegate = self;
+    _recordTableView.dataSource = self;
+    [self.view addSubview:_recordTableView];
+    
+    [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
+    
+    
     [self setUI];
+    self.recordTableView.tableHeaderView = self.backView;
+    
+    
+    self.recordTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     
 }
 
 - (void) back {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+    self.navigationController.navigationBar.hidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 
 - (void)setUI {
     if (kIs_iPhoneX) {
+        _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 370)];
         _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 102, screenWidth, 228)];
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, 1)];
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 370, screenWidth, screenHeigth - 370) style:UITableViewStylePlain];
     }else {
+        _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 348)];
         _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 80, screenWidth, 258)];
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 348, screenWidth, screenHeigth - 348) style:UITableViewStylePlain];
     }
 
 
@@ -79,21 +96,15 @@ NSString *ID1 = @"Sport_cell";
     NSString *currentyear = [NSString stringWithFormat: @"%ld", (long)currentYear];
     _columnChartView.yearName = currentyear;
     _columnChartView.delegate = self;
-    [self.view addSubview:_columnChartView];
+    [self.backView addSubview:_columnChartView];
     
-    [self scrollViewDidScroll:_recordTableView];
-    _recordTableView.separatorStyle = NO;
-    _recordTableView.delegate = self;
-    _recordTableView.dataSource = self;
-    [self.view addSubview:_recordTableView];
-    [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     
     if (@available(iOS 11.0, *)) {
         self.divider.backgroundColor = MGDdividerColor;
     } else {
         // Fallback on earlier versions
     }
-    [self.view addSubview:_divider];
+    [self.backView addSubview:_divider];
     
     _isShowSec = false;
     
@@ -101,6 +112,9 @@ NSString *ID1 = @"Sport_cell";
     
 }
 
+- (void)loadMoreData {
+    NSLog(@"111");
+}
 
 - (void)changeYearClick:(MGDColumnChartView *)chartView sender:(UIButton *)sender
 {
@@ -193,7 +207,7 @@ NSString *ID1 = @"Sport_cell";
 
 #pragma mark- 数据源方法
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 15;
+    return 55;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

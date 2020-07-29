@@ -18,11 +18,10 @@
 #import <AFNetworking.h>
 #import "UIImageView+WebCache.h"
 #import "MRTabBarController.h"
+#import <MJRefresh.h>
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
-#define TopViewH screenHeigth * 0.1664
-#define BaseViewH screenHeigth * 0.1754
-#define MiddleViewH screenHeigth * 0.033
+
 
 @interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
     NSMutableArray *baseDataArray;
@@ -47,13 +46,27 @@ NSString *ID = @"Recored_cell";
     }
     //baseDataArray = [NSMutableArray new];
     //userArray = [NSMutableArray new];
-    self.tabBarController.tabBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
+    _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,0, screenWidth, screenHeigth) style:UITableViewStylePlain];
+    [self scrollViewDidScroll:_sportTableView];
+    _sportTableView.separatorStyle = NO;
+    _sportTableView.delegate = self;
+    _sportTableView.dataSource = self;
+    [self.view addSubview:_sportTableView];
+    
+    [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
+    
     [self buildUI];
+    self.sportTableView.tableHeaderView = self.backView;
+    
+    self.sportTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+
     //[self getBaseInfo];
     //[self getUserInfo];
 }
 
 - (void)buildUI {
+    _backView = [[UIView alloc] init];
     _topview = [[MGDTopView alloc] init];
     _baseView = [[MGDBaseInfoView alloc] init];
     _middleView = [[MGDMiddleView alloc] init];
@@ -61,29 +74,21 @@ NSString *ID = @"Recored_cell";
     [_middleView.moreBtn addTarget:self action:@selector(MoreVC) forControlEvents:UIControlEventTouchUpInside];
     
     if (kIs_iPhoneX) {
+        _backView.frame = CGRectMake(0, 0, screenWidth, 290);
         _topview.frame = CGRectMake(0,0,screenWidth,136);
         _baseView.frame = CGRectMake(0,136,screenWidth,117);
         _middleView.frame = CGRectMake(0,253,screenWidth,22);
-        _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth - (290)) style:UITableViewStylePlain];
     }else {
+        _backView.frame = CGRectMake(0, 0, screenWidth, 265);
         _topview.frame = CGRectMake(0,0,screenWidth,111);
         _baseView.frame = CGRectMake(0,111,screenWidth,117);
         _middleView.frame = CGRectMake(0,228,screenWidth,22);
-        _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,265, screenWidth, screenHeigth - (265)) style:UITableViewStylePlain];
     }
     
-    [self.view addSubview:_topview];
-    [self.view addSubview:_baseView];
-    [self.view addSubview:_middleView];
-    [self.view addSubview:_sportTableView];
-    
-    [self scrollViewDidScroll:_sportTableView];
-    _sportTableView.separatorStyle = NO;
-    _sportTableView.delegate = self;
-    _sportTableView.dataSource = self;
-    
-    [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
-       
+    [self.backView addSubview:_topview];
+    [self.backView addSubview:_baseView];
+    [self.backView addSubview:_middleView];
+           
 }
 
 
@@ -127,6 +132,10 @@ NSString *ID = @"Recored_cell";
     MGDMoreViewController *moreVC = [[MGDMoreViewController alloc] init];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
     [self.navigationController pushViewController:moreVC animated:YES];
+}
+
+- (void)loadMoreData {
+    NSLog(@"111");
 }
 
 - (void)cell:(MGDSportTableViewCell* )cell andtest:(NSInteger) row {

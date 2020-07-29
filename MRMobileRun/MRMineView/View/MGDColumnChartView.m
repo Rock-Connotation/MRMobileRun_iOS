@@ -132,8 +132,8 @@
 }
 
 - (void)setFrame {
-    _yearLabel.frame = CGRectMake(306, 5, 48, 21);
-    _headerView.frame = CGRectMake(0, 0, 157, 30);
+    _yearLabel.frame = CGRectMake(screenWidth - 69, 5, 48, 21);
+    _headerView.frame = CGRectMake(0, 0, screenWidth - 218, 30);
     _chartView.frame = CGRectMake(0, 30, screenWidth, 228);
     _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, 228);
     _ChartScrollView.contentSize = CGSizeMake(455, _ChartScrollView.frame.size.height);
@@ -173,7 +173,7 @@
                 UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
                 [btn setTitle:items[i] forState:UIControlStateNormal];
                 CGFloat btnx = lastBtn == nil ? 3 : CGRectGetMaxX(lastBtn.frame);
-                btn.frame = CGRectMake(btnx, 0, btn.frame.size.width + screenWidth * 0.1306 , 30);
+                btn.frame = CGRectMake(btnx, 0, btn.frame.size.width + screenWidth * 0.143 , 30);
                 [self.headerView addSubview:btn];
                 
                 lastBtn = btn;
