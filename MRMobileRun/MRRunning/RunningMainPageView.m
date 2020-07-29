@@ -119,8 +119,8 @@
         make.top.equalTo(self.speedImgView.mas_bottom).offset(kScreenHight * 0.0225);
         make.size.mas_equalTo(CGSizeMake(90, 34));
     }];
-//    self.speedNumberLbl.font = [UIFont fontWithName:@"Impact" size: 28];
-    self.speedNumberLbl.font = [UIFont systemFontOfSize:28];
+//    self.timeNumberLbl.font = [UIFont fontWithName:@"Impact" size: 28]; //真正的font，现在未引入该字体
+    self.speedNumberLbl.font = [UIFont systemFontOfSize:20];
     if (@available(iOS 11.0, *)) {
         self.speedNumberLbl.textColor = SpeedTextColor;
     } else {
@@ -165,7 +165,7 @@
     self.timeNumberLbl.font = self.speedNumberLbl.font;
     self.timeNumberLbl.textColor = self.speedNumberLbl.textColor;
     self.timeNumberLbl.textAlignment = self.speedNumberLbl.textAlignment;
-    self.timeNumberLbl.text = @"03:26";
+    self.timeNumberLbl.text = @"00:00:00";
         //显示“时间”的label
     self.timeLbl = [[UILabel alloc] init];
     [self.bottomView addSubview:self.timeLbl];

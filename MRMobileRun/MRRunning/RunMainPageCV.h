@@ -23,7 +23,7 @@ typedef enum : NSUInteger {
 @property(nonatomic,assign)SportsState sportsState;
 
  // 当前跑步距离
-@property(nonatomic,assign)NSInteger distance;
+@property(nonatomic,assign)double distance;
 
 
 

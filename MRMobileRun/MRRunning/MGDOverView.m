@@ -149,7 +149,7 @@
             make.top.mas_equalTo(self.mas_top).mas_offset(526);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@186);
+            make.height.equalTo(@286);
         }];
         
         [_date mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -185,7 +185,7 @@
             make.top.mas_equalTo(self.mas_top).mas_offset(415);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@186);
+            make.height.equalTo(@252);
         }];
     }
     
