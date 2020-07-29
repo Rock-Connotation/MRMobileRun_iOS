@@ -7,7 +7,7 @@
 
 #import "MGDDataViewController.h"
 
-@interface MGDDataViewController () <UIGestureRecognizerDelegate>
+@interface MGDDataViewController () <UIGestureRecognizerDelegate,MGDShareViewDelegate>
 
 @end
 
@@ -42,12 +42,11 @@
     
     _overView = [[MGDOverView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth)];
     [self.backScrollView addSubview:_overView];
-    
     [self.backScrollView addSubview:_dataView];
     
     UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
     backGesture.delegate = self;
-    [self.view addGestureRecognizer:backGesture];
+    [self.shareView.backView addGestureRecognizer:backGesture];
 }
 
 - (void)showData {
@@ -57,9 +56,20 @@
 - (void)share {
     _shareView = [[MGDShareView alloc] initWithShotImage:@"" logoImage:@"" QRcodeImage:@""];
     [self.view addSubview:_shareView];
+    [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+
+- (void)backevent:(UIGestureRecognizer *)sender {
+    NSLog(@"1111");
 }
 
 
+- (void)back {
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.shareView removeFromSuperview];
+    }];
+}
 
 //获取截屏图片
 - (UIImage *)getCurrentScreenShot{
@@ -72,18 +82,13 @@
     return image;
 }
 
-
-
-//通过代理来实现点击父视图移除这个view，长按子视图识别二维码（未实现）
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-
-    if ([touch.view isDescendantOfView:_shareView]) {
-        return NO;
-    }
-    return YES;
+- (NSArray * _Nullable)platformImageArray:(NSString * _Nullable)imageArray {
+    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
 }
 
-
+- (NSArray * _Nullable)platformTitleArray:(NSString * _Nullable)titleArray {
+    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
+}
 
 
 @end

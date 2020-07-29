@@ -16,7 +16,7 @@
 #define topMargin 40
 #define leftMargin 25
 #define bottomMargin 25
-#define XLen 326
+#define XLen screenWidth - 23 - 26
 #define YLen 163
 
 
@@ -317,7 +317,7 @@
     
         CATextLayer *pointZero = [self getYLabel:@"0" font:8 frame:CGRectMake(15,196,5,11)];
         
-        CATextLayer *messageX = [self getData:@"日期" font:8 frame:CGRectMake(344,CGRectGetMaxY(axisX.frame) + 1,16,11)];
+        CATextLayer *messageX = [self getData:@"日期" font:8 frame:CGRectMake(screenWidth - 31, CGRectGetMaxY(axisX.frame) + 1,16,11)];
         
         CATextLayer *messageY = [self getYLabel:@"千米" font:11 frame:CGRectMake(15,14,22,16)];
         [self.chartView.layer addSublayer:pointZero];
