@@ -25,7 +25,7 @@
     HttpClient *client = [HttpClient defaultClient];
     NSLog(@"studentID = %@",studentID);
     NSLog(@"password = %@",password);
-    [dic setObject:studentID forKey:@"studentID"];
+    [dic setObject:studentID forKey:@"studentId"];
     [dic setObject:password forKey:@"password"];
     NSLog(@"%@",dic);
     NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
@@ -42,12 +42,12 @@
         {
             
             NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-            
+            NSLog(@"%@", responseObject);
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"student_id"] forKey:@"studentID"];
             
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"token"] forKey:@"token"];
             //存储学号
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"class_id"] forKey:@"class_id"];
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"class_id"] forKey:@"class_id"];
             //储存班级号
             
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"nickname"] forKey:@"nickname"];
