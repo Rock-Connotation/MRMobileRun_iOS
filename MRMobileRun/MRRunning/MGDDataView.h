@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MGDDataView : UIView
+//这个文件是两个图表，速度和步频，大的UIView套上两个小的UIView
 
 //文字
 @property (nonatomic, strong) UILabel *pace;
@@ -21,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 //圆点
 @property (nonatomic, strong) UIView *speedDotView;
 @property (nonatomic, strong) UIView *paceDotView;
+
 //整体背景
 @property (nonatomic, strong) UIView *backView;
 //速度背景View

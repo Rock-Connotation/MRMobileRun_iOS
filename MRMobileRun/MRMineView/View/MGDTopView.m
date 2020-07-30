@@ -56,7 +56,7 @@
         _personalSign.textColor = [UIColor colorWithRed:160/255.0 green:160/255.0 blue:160/255.0 alpha:1.0];
         _personalSign.numberOfLines = 0;
         
-        [self test];
+        //[self test];
     }
     return self;
 }

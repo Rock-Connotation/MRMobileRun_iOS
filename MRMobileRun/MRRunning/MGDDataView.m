@@ -15,14 +15,17 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
+        //整体View
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = [UIColor clearColor];
         [self addSubview:_backView];
         
+        //速度View
         _speedBackView = [[UIView alloc] init];
         _speedBackView.backgroundColor = [UIColor clearColor];
         [self.backView addSubview:_speedBackView];
         
+        //速度View上的控件
         _speedDotView = [[UIView alloc] init];
         _speedDotView.backgroundColor = DOTCOLOR;
         _speedDotView.layer.masksToBounds = YES;
@@ -47,10 +50,12 @@
         _descSpeed.text = @"最快速度";
         [self.speedBackView addSubview:_descSpeed];
         
+        //步频View
         _paceBackView = [[UIView alloc] init];
         _paceBackView.backgroundColor = [UIColor clearColor];
         [self.backView addSubview:_paceBackView];
         
+        //步频View上的控件
         _paceDotView = [[UIView alloc] init];
         _paceDotView.backgroundColor = DOTCOLOR;
         _paceDotView.layer.masksToBounds = YES;
@@ -75,6 +80,7 @@
         _descPace.tintColor = DESCCOLOR;
         [self.paceBackView addSubview:_descPace];
         
+        //颜色适配
         if (@available(iOS 11.0, *)) {
             self.speedLab.tintColor = bottomTitleColor;
             self.paceLab.tintColor = bottomTitleColor;
@@ -90,6 +96,7 @@
     return self;
 }
 
+//位置约束
 - (void)layoutSubviews {
     [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.mas_top);
