@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+//这个页面是点击结束跑步按钮后展示出的页面，上面的mapView用来放地图，下面的label，UIImageview等控件用来显示这次跑步的信息（缺少一个天气的UIImageView）
+
 @interface MGDOverView : UIView
 //温度
 @property (nonatomic, strong) UILabel *degree;
@@ -45,9 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 //时间
 @property (nonatomic, strong) UILabel *currentTime;
 
-
-//不知道有啥用的一个view
-@property (nonatomic, strong) UIView *bottomView;
 
 @end
 

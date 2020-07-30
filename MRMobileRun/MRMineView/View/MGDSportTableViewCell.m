@@ -18,11 +18,6 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        if (@available(iOS 11.0, *)) {
-               self.contentView.backgroundColor = MGDColor3;
-           } else {
-               // Fallback on earlier versions
-        }
         [self BuildUI];
         [self setFrame];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -35,11 +30,6 @@
     self.dayLab = dayLab;
     [self.contentView addSubview:dayLab];
     _dayLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 17];
-    if (@available(iOS 11.0, *)) {
-           self.dayLab.textColor = MGDTextColor1;
-       } else {
-           // Fallback on earlier versions
-    }
     _dayLab.textAlignment = NSTextAlignmentRight;
     
     UILabel *timeLab = [[UILabel alloc] init];
@@ -51,11 +41,6 @@
     
     UIView *cellView = [[UIView alloc] init];
     self.cellView = cellView;
-    if (@available(iOS 11.0, *)) {
-           self.cellView.backgroundColor = MGDColor1;
-       } else {
-           // Fallback on earlier versions
-    }
     self.cellView.layer.cornerRadius = 12.0;
     [self.contentView addSubview:cellView];
     
@@ -63,11 +48,6 @@
     self.kmLab = kmLab;
     [self.cellView addSubview:kmLab];
     _kmLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
-    if (@available(iOS 11.0, *)) {
-           self.kmLab.textColor = MGDTextColor1;
-       } else {
-           // Fallback on earlier versions
-    }
     _kmLab.textAlignment = NSTextAlignmentCenter;
     
     UILabel *kmUnit = [[UILabel alloc] init];
@@ -83,11 +63,6 @@
     [self.cellView addSubview:minLab];
     //测试用数据
     _minLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
-    if (@available(iOS 11.0, *)) {
-           self.minLab.textColor = MGDTextColor1;
-       } else {
-           // Fallback on earlier versions
-    }
     _minLab.textAlignment = NSTextAlignmentCenter;
     
     UILabel *minUnit = [[UILabel alloc] init];
@@ -102,11 +77,6 @@
     self.calLab = calLab;
     [self.cellView addSubview:calLab];
     _calLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
-    if (@available(iOS 11.0, *)) {
-           self.calLab.textColor = MGDTextColor1;
-       } else {
-           // Fallback on earlier versions
-    }
     _calLab.textAlignment = NSTextAlignmentCenter;
     
     UILabel *calUnit = [[UILabel alloc] init];
@@ -121,6 +91,17 @@
     self.arrowView = arrowView;
     [self.cellView addSubview:arrowView];
     self.arrowView.image = [UIImage imageNamed:@"arraw"];
+    
+    if (@available(iOS 11.0, *)) {
+        self.contentView.backgroundColor = MGDColor3;
+        self.dayLab.textColor = MGDTextColor1;
+        self.cellView.backgroundColor = MGDColor1;
+        self.kmLab.textColor = MGDTextColor1;
+        self.minLab.textColor = MGDTextColor1;
+        self.calLab.textColor = MGDTextColor1;
+       } else {
+           // Fallback on earlier versions
+    }
 }
 
 - (void)setFrame {

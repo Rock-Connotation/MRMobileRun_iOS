@@ -18,6 +18,7 @@
 }
 
 + (instancetype)InfoWithDict:(NSDictionary *)dict {
+    NSLog(@"正在转模型");
     return [[self alloc] initWithDic:dict];
 }
 

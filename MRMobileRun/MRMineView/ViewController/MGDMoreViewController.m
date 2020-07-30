@@ -27,16 +27,16 @@
 
 NSString *ID1 = @"Sport_cell";
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     if (@available(iOS 11.0, *)) {
-           self.view.backgroundColor = MGDColor3;
-        self.navigationController.navigationBar.backgroundColor = MGDColor3;
+           self.view.backgroundColor = MGDColor1;
+           self.navigationController.navigationBar.backgroundColor = MGDColor1;
        } else {
            // Fallback on earlier versions
     }
-    self.navigationController.navigationBar.translucent = YES;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     // 设置navigationBar透明
     //self.navigationController.navigationBar.subviews[0].alpha = 0;
@@ -72,7 +72,6 @@ NSString *ID1 = @"Sport_cell";
 
 - (void) back {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
-    self.navigationController.navigationBar.hidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -229,6 +228,7 @@ NSString *ID1 = @"Sport_cell";
 
 -(void)viewWillAppear:(BOOL)animated {
     self.tabBarController.hidesBottomBarWhenPushed = YES;
+    self.navigationController.navigationBar.hidden = NO;
 }
 -(void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.hidesBottomBarWhenPushed = NO;

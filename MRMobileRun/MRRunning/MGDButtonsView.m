@@ -8,6 +8,8 @@
 #import "MGDButtonsView.h"
 #import <Masonry.h>
 
+//页面底部的buttonView，完成和分享按钮，两个按钮的点击事件在ViewController中来写
+
 @implementation MGDButtonsView
 
 - (instancetype)initWithFrame:(CGRect)frame {

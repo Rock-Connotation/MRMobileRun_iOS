@@ -14,29 +14,35 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
+        //地图的View
         _mapView = [[UIImageView alloc] init];
         [self addSubview:_mapView];
         
+        //温度的label
         _degree = [[UILabel alloc] init];
         _degree.font = [UIFont fontWithName:@"PingFangSC" size: 18];
         _degree.textAlignment = NSTextAlignmentCenter;
         [self.mapView addSubview:_degree];
         
+        //下方显示跑步信息的View
         _backView = [[UIView alloc] init];
         [self addSubview:_backView];
         
+        //用户头像
         _userIcon = [[UIImageView alloc] init];
         _userIcon.layer.masksToBounds = YES;
         _userIcon.layer.cornerRadius = 36.0;
         _userIcon.contentMode = UIViewContentModeScaleToFill;
         [self.backView addSubview:_userIcon];
         
+        //用户姓名
         _userName = [[UILabel alloc] init];
         _userName.textAlignment = NSTextAlignmentLeft;
         _userName.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
         _userName.numberOfLines = 0;
         [self.backView addSubview:_userName];
         
+        //展示跑步信息的一些Label
         _kmLab = [[UILabel alloc] init];
         _kmLab.textAlignment = NSTextAlignmentCenter;
         _kmLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 44];
@@ -135,7 +141,7 @@
             make.top.mas_equalTo(self.mas_top);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@526);
+            make.height.mas_equalTo(screenHeigth * 0.6478);
         }];
         
         [_degree mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -146,12 +152,11 @@
         }];
         
         [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.mas_top).mas_offset(526);
+            make.top.mas_equalTo(self.mapView.mas_bottom);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.mas_equalTo(screenHeigth - 100 -526);
+            make.height.mas_equalTo(screenHeigth - 100 - screenHeigth * 0.6478);
         }];
-        _backView.backgroundColor = [UIColor greenColor];
         
         [_date mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
@@ -186,7 +191,7 @@
             make.top.mas_equalTo(self.mas_top).mas_offset(415);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@252);
+            make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-66);
         }];
     }
     
@@ -234,42 +239,42 @@
     
     [_paceLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.left.mas_equalTo(self.speedLab.mas_right).mas_offset(11);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(104);
         make.width.equalTo(@78);
         make.height.equalTo(@29);
     }];
     
     [_pace mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.paceLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.speed.mas_right).mas_offset(39);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(125);
         make.width.equalTo(@36);
         make.height.equalTo(@24);
     }];
     
     [_timeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.left.mas_equalTo(self.paceLab.mas_right).mas_offset(11);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-104);
         make.width.equalTo(@78);
         make.height.equalTo(@29);
     }];
     
     [_time mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.timeLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.pace.mas_right).mas_offset(53);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-125);
         make.width.equalTo(@36);
         make.height.equalTo(@24);
     }];
     
     [_calLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.left.mas_equalTo(self.timeLab.mas_right).mas_offset(11);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
         make.width.equalTo(@78);
         make.height.equalTo(@29);
     }];
     
     [_cal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.timeLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.time.mas_right).mas_offset(53);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-36);
         make.width.equalTo(@36);
         make.height.equalTo(@24);
     }];

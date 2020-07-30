@@ -19,7 +19,6 @@
         
         UIView *backView = [[UIView alloc] init];
         self.backView = backView;
-        _backView.backgroundColor = [UIColor clearColor];
         [self addSubview:backView];
         
         UIView *dotView = [[UIView alloc] init];

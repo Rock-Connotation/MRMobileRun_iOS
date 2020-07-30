@@ -16,8 +16,8 @@
     if (self = [super initWithFrame:frame]) {
         UITableView *sportTableView = [[UITableView alloc] init];
         self.sportTableView = sportTableView;
-        self.sportTableView.backgroundColor = [UIColor clearColor];
         [self addSubview:sportTableView];
+        self.sportTableView.backgroundColor = [UIColor clearColor];
     }
     return self;
 }

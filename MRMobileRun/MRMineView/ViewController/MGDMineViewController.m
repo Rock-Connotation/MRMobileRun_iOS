@@ -37,16 +37,21 @@
 
 NSString *ID = @"Recored_cell";
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (@available(iOS 11.0, *)) {
-           self.view.backgroundColor = MGDColor3;
-       } else {
-           // Fallback on earlier versions
+        self.view.backgroundColor = MGDColor1;
+    } else {
+        // Fallback on earlier versions
     }
-    //baseDataArray = [NSMutableArray new];
-    //userArray = [NSMutableArray new];
-    self.tabBarController.tabBar.hidden = YES;
+    baseDataArray = [NSMutableArray new];
+    userArray = [[NSMutableArray alloc] init];
+    
+    
     _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,0, screenWidth, screenHeigth) style:UITableViewStylePlain];
     [self scrollViewDidScroll:_sportTableView];
     _sportTableView.separatorStyle = NO;
@@ -60,9 +65,9 @@ NSString *ID = @"Recored_cell";
     self.sportTableView.tableHeaderView = self.backView;
     
     self.sportTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     //[self getBaseInfo];
-    //[self getUserInfo];
+    [self getUserInfo];
 }
 
 - (void)buildUI {
@@ -224,24 +229,32 @@ NSString *ID = @"Recored_cell";
 
 - (void)getUserInfo {
     NSString *url = kLoginURL;
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-         for (NSDictionary *dict in responseObject[@"user_data"]) {
-             self->_userModel = [MGDUserInfo InfoWithDict:dict];
-             [self->userArray addObject:self->_userModel];
-            }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reloadUserInfo:self->_userModel];
-        });
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"%@",error);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *student_id = [user objectForKey:@"studentID"];
+    NSString *pwd = [user objectForKey:@"password"];
+    NSDictionary *param = @{@"studentId":student_id,@"password":pwd};
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSLog(@"请求成功");
+             NSLog(@"%@---%@",[responseObject class],responseObject);
+             self->_userModel = [MGDUserInfo InfoWithDict:responseObject[@"data"]];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [self reloadUserInfo:self->_userModel];
+             });
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"请求失败");
+             NSLog(@"%@", error);
     }];
 }
 
+
+
 - (void)reloadUserInfo:(MGDUserInfo *)model {
+    NSLog(@"%@",model.userName);
     self.topview.userName.text = model.userName;
     self.topview.personalSign.text = model.userSign;
     [self.topview.userIcon sd_setImageWithURL:[NSURL URLWithString:model.userIcon]];
 }
+
 @end
 

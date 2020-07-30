@@ -47,11 +47,6 @@
         _Kmlab.numberOfLines = 0;
         //字体不同，需要修改
         _Kmlab.font =  [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
-        if (@available(iOS 11.0, *)) {
-            self.Kmlab.textColor = MGDTextColor1;
-        } else {
-            // Fallback on earlier versions
-        }
         
         UILabel *MinLab = [[UILabel alloc] init];
         self.MinLab = MinLab;
@@ -60,11 +55,6 @@
         _MinLab.numberOfLines = 0;
         //字体不同，需要修改
         _MinLab.font =  [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
-        if (@available(iOS 11.0, *)) {
-            self.MinLab.textColor = MGDTextColor1;
-        } else {
-            // Fallback on earlier versions
-        }
         
         UILabel *CalLab = [[UILabel alloc] init];
         self.CalLab = CalLab;
@@ -73,11 +63,6 @@
         _CalLab.numberOfLines = 0;
         //字体不同，需要修改
         _CalLab.font =  [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
-        if (@available(iOS 11.0, *)) {
-                   self.CalLab.textColor = MGDTextColor1;
-               } else {
-                   // Fallback on earlier versions
-            }
         
         UILabel *kilometre = [[UILabel alloc] init];
         self.kilometre = kilometre;
@@ -106,8 +91,16 @@
         _calories.numberOfLines = 0;
         _calories.textColor = UNITTEXTCOLOR;
         
+        
+        if (@available(iOS 11.0, *)) {
+            self.Kmlab.textColor = MGDTextColor1;
+            self.MinLab.textColor = MGDTextColor1;
+            self.CalLab.textColor = MGDTextColor1;
+           } else {
+               // Fallback on earlier versions
+        }
         //测试用数据
-        [self test];
+        //[self test];
     }
     return self;
 }
