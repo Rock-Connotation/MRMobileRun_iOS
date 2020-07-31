@@ -159,6 +159,7 @@
 		B84F257C24D1537800EB8FB7 /* SZHAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257B24D1537800EB8FB7 /* SZHAlertView.m */; };
 		B84F258024D16D0B00EB8FB7 /* RecordtimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */; };
 		B89E087424CBBD60006033D5 /* MAMutablePolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */; };
+		B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */; };
 		B8B0207324B85789009A8985 /* RunMainPageCV.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207224B85789009A8985 /* RunMainPageCV.m */; };
 		B8B0207624B857BE009A8985 /* RunningMainPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207524B857BE009A8985 /* RunningMainPageView.m */; };
 		B8BDEE8C24C6E1480013293B /* MapPolylineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDEE8B24C6E1480013293B /* MapPolylineModel.m */; };
@@ -497,6 +498,8 @@
 		B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordtimeString.m; sourceTree = "<group>"; };
 		B89E087224CBBD60006033D5 /* MAMutablePolylineRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAMutablePolylineRenderer.h; sourceTree = "<group>"; };
 		B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAMutablePolylineRenderer.m; sourceTree = "<group>"; };
+		B8ACCD9924D4331B00D9F0D4 /* MASmoothPathTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASmoothPathTool.h; sourceTree = "<group>"; };
+		B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASmoothPathTool.m; sourceTree = "<group>"; };
 		B8B0207124B85789009A8985 /* RunMainPageCV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunMainPageCV.h; sourceTree = "<group>"; };
 		B8B0207224B85789009A8985 /* RunMainPageCV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunMainPageCV.m; sourceTree = "<group>"; };
 		B8B0207424B857BE009A8985 /* RunningMainPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunningMainPageView.h; sourceTree = "<group>"; };
@@ -773,20 +776,13 @@
 		2F14BF86226AE5A800CCA2B8 /* MRRunning */ = {
 			isa = PBXGroup;
 			children = (
+				B8ACCD9824D4330600D9F0D4 /* Tool */,
 				B84F257D24D16CD600EB8FB7 /* Time */,
 				2F14BF8A226AE5E400CCA2B8 /* ViewController */,
 				2F14BF89226AE5DA00CCA2B8 /* View */,
 				2F14BF88226AE5CD00CCA2B8 /* Model */,
-				2F14BF87226AE5BE00CCA2B8 /* ViewModel */,
 			);
 			path = MRRunning;
-			sourceTree = "<group>";
-		};
-		2F14BF87226AE5BE00CCA2B8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ViewModel;
 			sourceTree = "<group>";
 		};
 		2F14BF88226AE5CD00CCA2B8 /* Model */ = {
@@ -1284,6 +1280,15 @@
 			name = Time;
 			sourceTree = "<group>";
 		};
+		B8ACCD9824D4330600D9F0D4 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				B8ACCD9924D4331B00D9F0D4 /* MASmoothPathTool.h */,
+				B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */,
+			);
+			name = Tool;
+			sourceTree = "<group>";
+		};
 		CE0CC170222E2059001283EA = {
 			isa = PBXGroup;
 			children = (
@@ -1640,6 +1645,7 @@
 				2F14F8942390C0DC00356CDF /* ZYLSchoolRankViewController.m in Sources */,
 				18CD286124C5B1B70093D396 /* MRTabBarController.m in Sources */,
 				18CD288724C5B1DA0093D396 /* MGDUserInfo.m in Sources */,
+				B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */,
 				2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,

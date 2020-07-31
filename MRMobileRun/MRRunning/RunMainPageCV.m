@@ -26,8 +26,9 @@
 
 //关于时间
 @property (nonatomic, strong) NSTimer *runTimer;
-@property (nonatomic, strong) NSString *beginTime;
-@property (nonatomic, strong) NSString *endTime;
+@property (nonatomic, strong) NSString *beginTime;  //开始的时间（系统时间）
+@property (nonatomic, strong) NSString *endTime;    //结束时间（系统时间）
+@property (nonatomic, strong) NSString *timeString; //跑步的时间（经历过格式转换后的）
 @property (nonatomic) int hour;
 @property (nonatomic) int minute;
 @property (nonatomic) int second;
@@ -45,9 +46,8 @@
 @property (nonatomic, strong)MAAnnotationView *myAnnotationView;//我的当前位置的大头针
 @property (nonatomic, strong)MAPolyline *polyline;//当前绘制的轨迹曲线
     
-@property (nonatomic, strong)NSMutableArray <RunLocationModel *>*drawLineArray;//待绘制定位轨迹线数据
+@property (nonatomic, strong)NSMutableArray *drawLineArray;//待绘制定位轨迹线数据
 @property (nonatomic, strong)NSMutableArray *locationArray;
-
 
 @property (nonatomic, assign)NSInteger locationNumber;//定位次数
 @property (nonatomic, assign)BOOL isFirstLocation;//是否是第一次定位
@@ -143,8 +143,8 @@
     if (!_locationManager) {
         _locationManager = [[AMapLocationManager alloc] init];
             _locationManager.delegate = self;
-            _locationManager.distanceFilter = 10;//设置移动精度(单位:米)
-            _locationManager.locationTimeout = 5;//定位时间
+            _locationManager.distanceFilter = 5;//设置移动精度(单位:米)
+            _locationManager.locationTimeout = 3;//定位时间
             _locationManager.allowsBackgroundLocationUpdates = YES;//开启后台定位
             [_locationManager startUpdatingLocation];
             [_locationManager setLocatingWithReGeocode:YES];
@@ -237,8 +237,8 @@
             StartPointModel.location = location.coordinate;
             StartPointModel.speed = location.speed;
             StartPointModel.time = location.timestamp;
-            [self.locationArray addObject:StartPointModel];         //向位置数组里面添加第一个定位点
-            [self.drawLineArray addObject:StartPointModel];         //向绘制轨迹点的数组里添加第一个定位点
+            [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
+            [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
 
             [self drawStartRunPointAction:StartPointModel];
             self.isFirstLocation = NO;
@@ -262,7 +262,7 @@
 #pragma mark- 绘制轨迹
             //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
             if (meters >= 5) {
-                RunLocationModel *lineLastPointLocation = [[RunLocationModel alloc] init];
+                RunLocationModel *lineLastPointLocation = [self.drawLineArray lastObject];
                 //开始绘制轨迹
                 CLLocationCoordinate2D linePoints[2];
                 linePoints[0] = lineLastPointLocation.location;
@@ -270,11 +270,10 @@
                 //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
                 MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
                 [self.Mainview.mapView addOverlay:lineSection];
-                [self.drawLineArray addObject:self.locationModel];
+                
+                [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
             }
-
         }
-
     }
 }
 
@@ -386,6 +385,7 @@
     NSString *timeString = [RecordtimeString getTimeStringWithSeconds:self.second];
     //获取跑步时间
     self.Mainview.timeNumberLbl.text = timeString;
+    self.timeString = timeString;
 }
 
 #pragma mark- 按钮的方法
@@ -472,7 +472,7 @@
 //长按结束按钮方法
 - (void)endMethod{
     //计时器停止
-    [self.runTimer setFireDate:[NSDate distantFuture]];
+//    [self.runTimer setFireDate:[NSDate distantFuture]];
     //弹出提示框
     if (self.second < 60 || self.distance < 100) {
         SZHAlertView *shortAlert = [[SZHAlertView alloc] initWithTitle:@"本次跑步距离过短，无法保存记录，确定结束吗？"];
@@ -511,6 +511,9 @@
     //跳转到下一个页面
     self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
     MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
+    overVC.timeStr = self.timeString;
+    overVC.drawLineAry = self.drawLineArray;
+    overVC.locationAry = self.locationArray;
        self.hidesBottomBarWhenPushed = YES;
        [self.navigationController pushViewController:overVC animated:YES];
 }
