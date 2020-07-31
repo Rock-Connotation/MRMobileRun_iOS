@@ -24,7 +24,7 @@
             make.top.equalTo(self.logoImg.mas_bottom);
             make.size.mas_equalTo(CGSizeMake(48, 17));
         }];
-        self.descLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+        self.descLbl.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
         self.descLbl.textAlignment = NSTextAlignmentCenter;
 
 }

@@ -6,16 +6,20 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <MapKit/MapKit.h>
+#import <MAMapKit/MAMapKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
 //这个页面是点击结束跑步按钮后展示出的页面，上面的mapView用来放地图，下面的label，UIImageview等控件用来显示这次跑步的信息（缺少一个天气的UIImageView）
 
 @interface MGDOverView : UIView
+//@property (nonatomic, strong) MAMapView *mapView2;
 //温度
 @property (nonatomic, strong) UILabel *degree;
 //地图
-@property (nonatomic, strong) UIView *mapView;
+@property (nonatomic, strong) MAMapView *mapView;
 //下方背景
 @property (nonatomic, strong) UIView *backView;
 //头像
