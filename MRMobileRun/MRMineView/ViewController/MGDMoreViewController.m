@@ -31,15 +31,7 @@ NSString *ID1 = @"Sport_cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (@available(iOS 11.0, *)) {
-           self.view.backgroundColor = MGDColor1;
-           self.navigationController.navigationBar.backgroundColor = MGDColor1;
-       } else {
-           // Fallback on earlier versions
-    }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    // 设置navigationBar透明
-    //self.navigationController.navigationBar.subviews[0].alpha = 0;
     // 去除navigationBar底部浅灰色的分割线
     self.navigationController.navigationBar.subviews[0].subviews[0].alpha = 0;
     //设置返回按钮的颜色
@@ -52,7 +44,7 @@ NSString *ID1 = @"Sport_cell";
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backItem;
     
-    _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth) style:UITableViewStylePlain];
+    _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, -15, screenWidth, screenHeigth + 15) style:UITableViewStylePlain];
     [self scrollViewDidScroll:_recordTableView];
     _recordTableView.separatorStyle = NO;
     _recordTableView.delegate = self;
@@ -63,8 +55,13 @@ NSString *ID1 = @"Sport_cell";
     
     
     [self setUI];
+    if (@available(iOS 11.0, *)) {
+        self.backView.backgroundColor = MGDColor3;
+        self.navigationController.navigationBar.backgroundColor = MGDColor3;
+       } else {
+           // Fallback on earlier versions
+    }
     self.recordTableView.tableHeaderView = self.backView;
-    
     
     self.recordTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     
@@ -155,7 +152,7 @@ NSString *ID1 = @"Sport_cell";
     [formatter setDateFormat:@"yyyy"];
     NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
     for (int i = 2;i >= 0; i--) {
-        [yearArray addObject:[NSString stringWithFormat:@"%ld",currentYear  - i]];
+        [yearArray addObject:[NSString stringWithFormat:@"%ld",(long)(currentYear  - i)]];
     }
     return [yearArray copy];
 }
