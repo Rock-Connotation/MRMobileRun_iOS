@@ -19,17 +19,20 @@
 #import "UIImageView+WebCache.h"
 #import "MRTabBarController.h"
 #import <MJRefresh.h>
+#import "HttpClient.h"
+#import "MGDSportData.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
 
 @interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
-    NSMutableArray *baseDataArray;
-    NSMutableArray *userArray;
+    NSMutableArray *userSportArray;
 }
 
 @property (nonatomic, strong) MGDUserData *currentModel;
 @property (nonatomic, strong) MGDUserInfo *userModel;
+@property (nonatomic, strong) MGDSportData *sportModel;
+@property (nonatomic, strong) NSUserDefaults *user;
 
 @end
 
@@ -43,14 +46,7 @@ NSString *ID = @"Recored_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (@available(iOS 11.0, *)) {
-        self.view.backgroundColor = MGDColor1;
-    } else {
-        // Fallback on earlier versions
-    }
-    baseDataArray = [NSMutableArray new];
-    userArray = [[NSMutableArray alloc] init];
-    
+    userSportArray = [[NSMutableArray alloc] init];
     
     _sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,0, screenWidth, screenHeigth) style:UITableViewStylePlain];
     [self scrollViewDidScroll:_sportTableView];
@@ -62,12 +58,18 @@ NSString *ID = @"Recored_cell";
     [_sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
     
     [self buildUI];
+    if (@available(iOS 11.0, *)) {
+        self.backView.backgroundColor = MGDColor3;
+    } else {
+        // Fallback on earlier versions
+    }
     self.sportTableView.tableHeaderView = self.backView;
     
     self.sportTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    //[self getBaseInfo];
-    [self getUserInfo];
+
+    //[self getUserInfo];
+    [self getBaseInfo];
+    [self getUserSportData];
 }
 
 - (void)buildUI {
@@ -117,6 +119,13 @@ NSString *ID = @"Recored_cell";
     //创建单元格（用复用池）
     MGDSportTableViewCell* cell = nil;
     cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    
+//    MGDSportData *model = userSportArray[indexPath.row];
+//    cell.dayLab.text = model.date;
+//    cell.kmLab.text = model.distance;
+//    cell.minLab.text = model.totalTime;
+//    cell.calLab.text = model.cal;
+//    cell.timeLab.text = model.date;
     
     //测试用数据
     [self cell:cell andtest:indexPath.row];
@@ -206,19 +215,29 @@ NSString *ID = @"Recored_cell";
 }
 
 - (void)getBaseInfo {
-    NSString *urlStr = @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getTotalData";
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:urlStr parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-         for (NSDictionary *dict in responseObject[@"data"]) {
-             self->_currentModel = [MGDUserData DataWithDict:dict];
-             [self->baseDataArray addObject:self->_currentModel];
-            }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reloadBaseData:self->_currentModel];
-        });
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"%@",error);
-    }];
+    HttpClient *client = [HttpClient defaultClient];
+    _user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [_user objectForKey:@"token"];
+    NSDictionary *param = @{@"token":token};
+    [client requestWithHead:@"https://cyxbsmobile.redrock.team/wxapi/mobilerun/getTotalData" method:HttpRequestGet parameters:param head:nil prepareExecute:^
+     {
+         //
+     } progress:^(NSProgress *progress)
+     {
+         //
+     } success:^(NSURLSessionDataTask *task, id responseObject)
+     {
+        
+         //self->_currentModel = [MGDUserData DataWithDict:responseObject[@"data"]];
+        NSLog(@"通过GET请求获取用户的跑步三个大信息");
+        NSLog(@"%@",responseObject[@"info"]);
+        NSLog(@"%@",responseObject);
+         //[self reloadBaseData:self->_currentModel];
+     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+         //
+         NSLog(@"这是GET请求用户三个跑步大信息时报的错");
+         NSLog(@"%@",error);
+     }];
 }
 
 - (void)reloadBaseData:(MGDUserData *)model {
@@ -228,33 +247,99 @@ NSString *ID = @"Recored_cell";
 }
 
 - (void)getUserInfo {
-    NSString *url = kLoginURL;
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *student_id = [user objectForKey:@"studentID"];
-    NSString *pwd = [user objectForKey:@"password"];
-    NSDictionary *param = @{@"studentId":student_id,@"password":pwd};
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             NSLog(@"请求成功");
-             NSLog(@"%@---%@",[responseObject class],responseObject);
+        HttpClient *client = [HttpClient defaultClient];
+        _user = [NSUserDefaults standardUserDefaults];
+        NSString *student_id = [_user objectForKey:@"studentID"];
+        NSString *pwd = [_user objectForKey:@"password"];
+        NSDictionary *param = @{@"studentId":student_id,@"password":pwd};
+        NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
+        [client requestWithHead:kLoginURL method:HttpRequestPost parameters:param head:head prepareExecute:^
+         {
+             //
+         } progress:^(NSProgress *progress)
+         {
+             //
+         } success:^(NSURLSessionDataTask *task, id responseObject)
+         {
              self->_userModel = [MGDUserInfo InfoWithDict:responseObject[@"data"]];
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self reloadUserInfo:self->_userModel];
-             });
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"请求失败");
-             NSLog(@"%@", error);
-    }];
+             [self reloadUserInfo:self->_userModel];
+         } failure:^(NSURLSessionDataTask *task, NSError *error) {
+             //
+             NSLog(@"%@",error);
+         }];
 }
 
 
-
 - (void)reloadUserInfo:(MGDUserInfo *)model {
-    NSLog(@"%@",model.userName);
     self.topview.userName.text = model.userName;
     self.topview.personalSign.text = model.userSign;
     [self.topview.userIcon sd_setImageWithURL:[NSURL URLWithString:model.userIcon]];
 }
+
+//- (void)getUserSportData {
+//    HttpClient *client = [HttpClient defaultClient];
+//    _user = [NSUserDefaults standardUserDefaults];
+//    NSDate *currentDate = [NSDate date];
+//    NSString *currentDateStr = [self dateToString:currentDate];
+//    NSString *lastDateStr = [self lastDateTostring:currentDate];
+//    NSString *token = [_user objectForKey:@"token"];
+//    NSDictionary *param = @{@"token":token,@"from_time":lastDateStr,@"to_time":currentDateStr};
+//    NSLog(@"%@",param);
+//    [client requestWithHead:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" method:HttpRequestPost parameters:param head:nil prepareExecute:^
+//     {
+//         //
+//     } progress:^(NSProgress *progress)
+//     {
+//         //
+//     } success:^(NSURLSessionDataTask *task, id responseObject)
+//     {
+//        NSLog(@"获取用户的cell中的数据");
+//        NSLog(@"%@",responseObject);
+//     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//         //
+//         NSLog(@"这是获取cell数据失败的报错");
+//         NSLog(@"%@",error);
+//     }];
+//}
+
+- (void)getUserSportData {
+    _user = [NSUserDefaults standardUserDefaults];
+    NSDate *currentDate = [NSDate date];
+    NSString *currentDateStr = [self dateToString:currentDate];
+    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSString *token = [_user objectForKey:@"token"];
+    NSDictionary *param = @{@"token":token,@"from_time":lastDateStr,@"to_time":currentDateStr};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer new];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/plain", @"text/html", @"text/plain",nil];
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+         NSLog(@"获取用户的cell中的数据");
+         NSLog(@"%@",responseObject[@"info"]);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+- (NSString *) dateToString: (NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateStr = [dateFormatter stringFromDate:date];
+    return dateStr;
+}
+
+- (NSString *) lastDateTostring:(NSDate *)date {
+     NSDate *mydate=[NSDate date];
+     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+     NSDateComponents *comps = nil;
+     comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
+     NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+     [adcomps setYear:0];
+     [adcomps setMonth:-1];
+     [adcomps setDay:0];
+     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
+     return [self dateToString:newdate];
+}
+
 
 @end
 

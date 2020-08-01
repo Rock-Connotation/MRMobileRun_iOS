@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1877D9C224D3F83300B7F616 /* MGDSportData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877D9C124D3F83300B7F616 /* MGDSportData.m */; };
 		187C812824D037210040A78E /* MGDShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812724D037210040A78E /* MGDShareView.m */; };
 		187C812D24D037B30040A78E /* MGDShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812C24D037B30040A78E /* MGDShareModel.m */; };
 		187C813024D037CE0040A78E /* MGDSharePlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812E24D037CE0040A78E /* MGDSharePlatform.m */; };
@@ -202,6 +203,8 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		1877D9C024D3F83300B7F616 /* MGDSportData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDSportData.h; sourceTree = "<group>"; };
+		1877D9C124D3F83300B7F616 /* MGDSportData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDSportData.m; sourceTree = "<group>"; };
 		187C812624D037210040A78E /* MGDShareView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDShareView.h; sourceTree = "<group>"; };
 		187C812724D037210040A78E /* MGDShareView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDShareView.m; sourceTree = "<group>"; };
 		187C812A24D037860040A78E /* MGDShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDShareModel.h; sourceTree = "<group>"; };
@@ -622,6 +625,8 @@
 				18CD286D24C5B1DA0093D396 /* MGDUserInfo.m */,
 				18CD286E24C5B1DA0093D396 /* MGDUserData.h */,
 				18CD286C24C5B1DA0093D396 /* MGDUserData.m */,
+				1877D9C024D3F83300B7F616 /* MGDSportData.h */,
+				1877D9C124D3F83300B7F616 /* MGDSportData.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1620,6 +1625,7 @@
 				2F5A1B84224671920014B249 /* ZYLBackgroundView.m in Sources */,
 				2F5CBE98225F00A000813943 /* AES128Util.m in Sources */,
 				2F495E2B2282BE6F003DD714 /* MRLoginViewController.m in Sources */,
+				1877D9C224D3F83300B7F616 /* MGDSportData.m in Sources */,
 				B8BDEE8F24C7F8C20013293B /* RunLocationModel.m in Sources */,
 				2F14F88E2390BD6000356CDF /* ZYLRankViewController.m in Sources */,
 				2FF3BB20238D4C1700DB9051 /* ZYLGraybar.m in Sources */,

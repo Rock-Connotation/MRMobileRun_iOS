@@ -124,6 +124,13 @@
     _ChartScrollView.bounces = NO;
     _ChartScrollView.showsHorizontalScrollIndicator = NO;
     
+    if (@available(iOS 11.0, *)) {
+        self.backgroundColor = MGDColor1;
+        self.chartView.backgroundColor = MGDColor1;
+    } else {
+        // Fallback on earlier versions
+    }
+    
     [self addSubview:_headerView];
     [self addSubview:_yearLabel];
     [self addSubview:_chartView];
@@ -320,6 +327,7 @@
         CATextLayer *messageX = [self getData:@"日期" font:8 frame:CGRectMake(screenWidth - 31, CGRectGetMaxY(axisX.frame) + 1,16,11)];
         
         CATextLayer *messageY = [self getYLabel:@"千米" font:11 frame:CGRectMake(15,14,22,16)];
+    
         [self.chartView.layer addSublayer:pointZero];
         [self.chartView.layer addSublayer:messageX];
         [self.chartView.layer addSublayer:messageY];
@@ -363,7 +371,7 @@
     label.alignmentMode = @"center";
     label.contentsScale = 3;
     if (@available(iOS 11.0, *)) {
-        label.backgroundColor  = MGDColor3.CGColor;
+        label.backgroundColor  = MGDColor1.CGColor;
         label.foregroundColor  = MGDtextXColor.CGColor;
        } else {
            // Fallback on earlier versions
