@@ -11,4 +11,5 @@ pod 'JZLocationConverter'
 pod 'AMap3DMap'
 pod 'AMapLocation'
 pod 'Bugly'
+pod 'SVGKit'
 end
