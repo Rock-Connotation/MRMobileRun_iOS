@@ -6,6 +6,9 @@
 //
 
 #import "MGDOverView.h"
+#import <MapKit/MapKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
+
 #import <Masonry.h>
 #define UNITCOLOR [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1.0]
 
@@ -14,8 +17,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
+        
         //地图的View
-        _mapView = [[UIImageView alloc] init];
+        _mapView = [[MAMapView alloc] init];
         [self addSubview:_mapView];
         
         //温度的label
@@ -283,8 +287,17 @@
 }
 
 - (void)test {
-    //测试颜色
-    _mapView.backgroundColor = [UIColor redColor];
+   
+    //设置地图相关属性
+       self.mapView.zoomLevel = 18;
+       self.mapView.showsUserLocation = NO;
+       self.mapView.pausesLocationUpdatesAutomatically = NO;
+       self.mapView.showsCompass = NO;
+       self.mapView.showsScale = NO;
+       self.mapView.userInteractionEnabled = YES;
+       [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
+       self.mapView.distanceFilter = 10;
+    
     //测试温度
     _degree.text = @"23°C";
     //测试头像
@@ -306,4 +319,21 @@
     //测试时间
     _currentTime.text = @"20:36";
 }
+
+//- (MAMapView *)mapView2{
+//    if (!self.mapView2) {
+//        self.mapView2 = [[MAMapView alloc] initWithFrame:self.mapView.frame];
+//        [self.mapView addSubview:self.mapView2];
+//        //设置地图相关属性
+//           self.mapView2.zoomLevel = 18;
+//           self.mapView2.showsUserLocation = NO;
+//           self.mapView2.pausesLocationUpdatesAutomatically = NO;
+//           self.mapView2.showsCompass = NO;
+//           self.mapView2.showsScale = NO;
+//           self.mapView.userInteractionEnabled = YES;
+//           [self.mapView2 setAllowsBackgroundLocationUpdates:YES];//打开后台定位
+//           self.mapView2.distanceFilter = 10;
+//    }
+//    return self.mapView2;
+//}
 @end

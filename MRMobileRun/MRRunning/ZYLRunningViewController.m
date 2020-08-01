@@ -91,12 +91,20 @@ if (!timer) {
     if (totalSeconds == -1) {
         [timer invalidate];
         self.NumberLabel.text = @"Go";
-        [self.BeginBtn removeFromSuperview];
-        [self.btnView removeFromSuperview];
+//        [self.BeginBtn removeFromSuperview];
+//        [self.btnView removeFromSuperview];
         RunMainPageCV *cv = [[RunMainPageCV alloc] init];
         [self.navigationController pushViewController:cv animated:YES];
     }
-
+    CAKeyframeAnimation *anima = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    NSValue *value1 = [NSNumber numberWithFloat:3.0f];
+               NSValue *value2 = [NSNumber numberWithFloat:2.0f];
+               NSValue *value3 = [NSNumber numberWithFloat:0.7f];
+               NSValue *value4 = [NSNumber numberWithFloat:1.0f];
+    anima.values = @[value1,value2,value3,value4];
+    anima.duration = 0.5;
+    [self.NumberLabel.layer addAnimation:anima forKey:@"scalsTime"];
+    
 }
 
 //直接开始功能

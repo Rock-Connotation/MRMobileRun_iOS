@@ -15,7 +15,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
     _backScrollView = [[UIScrollView alloc] init];
     if (@available(iOS 11.0, *)) {
         self.view.backgroundColor = bottomColor;

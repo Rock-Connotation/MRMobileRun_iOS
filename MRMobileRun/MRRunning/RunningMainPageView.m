@@ -53,6 +53,13 @@
     self.mapView.userInteractionEnabled = YES;
     [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
     self.mapView.distanceFilter = 10;
+    self.mapView.customizeUserLocationAccuracyCircleRepresentation = YES;
+   
+    //自定义用户位置小蓝点
+    MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
+    r.showsAccuracyRing = NO;//不显示精度圈
+//    r.image = [UIImage imageNamed:@"userAnnotation"];
+    [self.mapView updateUserLocationRepresentation:r];
 //    UIAlertController
     //
 }

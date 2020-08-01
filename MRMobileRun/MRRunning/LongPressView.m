@@ -55,7 +55,7 @@
         make.size.mas_equalTo(CGSizeMake(70, 17));
     }];
     self.titleLbl.textAlignment = NSTextAlignmentCenter;
-    self.titleLbl.font = [UIFont fontWithName:@"PingFangSC" size: 12];
+    self.titleLbl.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
 
 }
 
