@@ -290,13 +290,21 @@
    
     //设置地图相关属性
        self.mapView.zoomLevel = 18;
-       self.mapView.showsUserLocation = NO;
+    self.mapView.showsUserLocation = NO;
+    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
        self.mapView.pausesLocationUpdatesAutomatically = NO;
        self.mapView.showsCompass = NO;
        self.mapView.showsScale = NO;
        self.mapView.userInteractionEnabled = YES;
        [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
        self.mapView.distanceFilter = 10;
+    //自定义用户小蓝点，不让其显示精度圈
+        MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
+            r.showsAccuracyRing = NO;//不显示精度圈
+            r.image = [UIImage imageNamed:@"userAnnotation"];
+            [self.mapView updateUserLocationRepresentation:r];
+            self.mapView.userInteractionEnabled = NO;
+    
     
     //测试温度
     _degree.text = @"23°C";
@@ -320,20 +328,5 @@
     _currentTime.text = @"20:36";
 }
 
-//- (MAMapView *)mapView2{
-//    if (!self.mapView2) {
-//        self.mapView2 = [[MAMapView alloc] initWithFrame:self.mapView.frame];
-//        [self.mapView addSubview:self.mapView2];
-//        //设置地图相关属性
-//           self.mapView2.zoomLevel = 18;
-//           self.mapView2.showsUserLocation = NO;
-//           self.mapView2.pausesLocationUpdatesAutomatically = NO;
-//           self.mapView2.showsCompass = NO;
-//           self.mapView2.showsScale = NO;
-//           self.mapView.userInteractionEnabled = YES;
-//           [self.mapView2 setAllowsBackgroundLocationUpdates:YES];//打开后台定位
-//           self.mapView2.distanceFilter = 10;
-//    }
-//    return self.mapView2;
-//}
+
 @end

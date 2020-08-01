@@ -26,6 +26,9 @@ PODS:
   - AMapLocation (2.6.2):
     - AMapFoundation (~> 1.4)
   - Bugly (2.5.0)
+  - CocoaLumberjack (3.6.2):
+    - CocoaLumberjack/Core (= 3.6.2)
+  - CocoaLumberjack/Core (3.6.2)
   - JZLocationConverter (1.0.0)
   - Masonry (1.1.0)
   - MBProgressHUD (1.1.0)
@@ -34,6 +37,8 @@ PODS:
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
+  - SVGKit (2.1.1):
+    - CocoaLumberjack (~> 3.0)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -49,10 +54,11 @@ DEPENDENCIES:
   - MGJRouter (= 0.10.0)
   - MJRefresh (~> 3.1.0)
   - SDWebImage (~> 3.8)
+  - SVGKit
   - YYKit
 
 SPEC REPOS:
-  https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - AMapLocation
     - Bugly
@@ -66,6 +72,8 @@ SPEC REPOS:
   trunk:
     - AMap3DMap
     - AMapFoundation
+    - CocoaLumberjack
+    - SVGKit
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
@@ -73,14 +81,16 @@ SPEC CHECKSUMS:
   AMapFoundation: 9ed923193b357ebb30a073e9fe255d3c24054d5a
   AMapLocation: 89a7e4eb6040d32ba73c77a4966ecc66e46aa7c3
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
+  CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
   JZLocationConverter: 3d816bee6484aed9c155a6045a02ce444833e2f0
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   MGJRouter: 15d94541eb2cc81eff7d577337288feb7ae9575f
   MJRefresh: 7798e16e53a5ef7f332dd05b27664db4e29530fd
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SVGKit: 652cdf7bef8bec8564d04a8511d3ab50c7595fac
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 10830c286b2a6d60b6628dce66bc38ff993011ee
+PODFILE CHECKSUM: c6d714a6b66f80f62ce20fdf71f71242cd24d67a
 
 COCOAPODS: 1.9.1
