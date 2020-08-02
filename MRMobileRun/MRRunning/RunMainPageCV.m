@@ -75,8 +75,8 @@
     [self.view addSubview:self.Mainview];
     [self.Mainview mainRunView];
     
-    [self initlocation];
-    
+//    [self initlocation];
+    [self initAMapLocation];
     [self btnFunction];
     self.Mainview.mapView.delegate = self;
     
@@ -151,13 +151,26 @@
 //        }
 //        return _locationManager;
 //}
+- (void)initAMapLocation{
+    _locationManager = [[AMapLocationManager alloc] init];
+                _locationManager.delegate = self;
+                _locationManager.distanceFilter = 5;//设置移动精度(单位:米)
+                _locationManager.locationTimeout = 3;//定位时间
+                _locationManager.allowsBackgroundLocationUpdates = YES;//开启后台定位
+                [_locationManager startUpdatingLocation];
+                [_locationManager setLocatingWithReGeocode:YES];
+}
+//CLLocationManager
 - (void)initlocation{
+    //判断是否打开了位置服务
     if ([CLLocationManager locationServicesEnabled]) {
          self.CLlocationManager = [[CLLocationManager alloc] init];
         self.CLlocationManager.delegate = self;
-        [self.CLlocationManager startUpdatingLocation];
+        self.CLlocationManager.distanceFilter = 5; //每隔五米定位一次
+        self.CLlocationManager.desiredAccuracy = kCLDistanceFilterNone; //设置定位精度
         [self.CLlocationManager requestAlwaysAuthorization];
         [self.CLlocationManager requestWhenInUseAuthorization];
+        [self.CLlocationManager startUpdatingLocation];
         
         }
 }
@@ -177,97 +190,48 @@
         return ;
     }
 
-    //设置信号强度，小于80，大于0的时候进来
-    if (self.signal < 80 && self.signal >0) {
-#pragma mark- 一下关于位置点距离测算以及画轨迹与locationManager里面设置的方法重复，记得删除一个
-
-        if (self.locationArray.count == 0) {
-            self.isFirstLocation = YES;
-            self.distance = 0;
-            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
-            [self.Mainview.mapView setCenterCoordinate:CLLocationCoordinate2DMake(userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude)];
-
-                RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
-                StartPointModel.location = userLocation.location.coordinate;
-                StartPointModel.speed = userLocation.location.speed;
-                StartPointModel.time = userLocation.location.timestamp;
-                [self.locationArray addObject:StartPointModel]; //向位置数组里面添加第一个定位点
-                [self.drawLineArray addObject:StartPointModel];     //向画轨迹的位置数组里添加第一个定位定
-                [self drawStartRunPointAction:StartPointModel];
-                self.isFirstLocation = NO;
-                self.isEndLocation = NO;
-        }
-        if (self.locationArray.count != 0) {
-                RunLocationModel *LastlocationModel = self.locationArray.lastObject;
-
-            //当前定位的位置信息model
-                RunLocationModel *currentModel = [[RunLocationModel alloc] init];
-                currentModel.location = userLocation.location.coordinate;
-                currentModel.time = userLocation.location.timestamp;
-                currentModel.speed = userLocation.location.speed;
-                //计算距离
-                double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
-                self.locationModel = currentModel;
-                [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
-                //将距离添加到屏幕上
-                double KMeters = meters/1000;
-                self.distance = self.distance + KMeters;
-                self.Mainview.numberLabel.text = @"0";
-                self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
-            
-            //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
-            if (meters >= 5) {
-//                [self.drawLineArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
-                RunLocationModel *lineLastPointLocation = [[RunLocationModel alloc] init];
-                //开始绘制轨迹
-                CLLocationCoordinate2D linePoints[2];
-                linePoints[0] = lineLastPointLocation.location;
-                linePoints[1] = self.locationModel.location;
-                //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
-                MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
-                [self.Mainview.mapView addOverlay:lineSection];
-                [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
-            }
-                
-        }
-    }
-}
+//    //设置信号强度，小于80，大于0的时候进来
+//    if (self.signal < 80 && self.signal >0) {
+//#pragma mark- 一下关于位置点距离测算以及画轨迹与locationManager里面设置的方法重复，记得删除一个
 //
-//- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
-//    self.signal = location.horizontalAccuracy;
-//    if (self.signal < 80 && self.signal >0){
 //        if (self.locationArray.count == 0) {
-//            RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
-//            StartPointModel.location = location.coordinate;
-//            StartPointModel.speed = location.speed;
-//            StartPointModel.time = location.timestamp;
-//            [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
-//            [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
+//            self.isFirstLocation = YES;
+//            self.distance = 0;
+//            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
+//            [self.Mainview.mapView setCenterCoordinate:CLLocationCoordinate2DMake(userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude)];
 //
-//            [self drawStartRunPointAction:StartPointModel];
-//            self.isFirstLocation = NO;
-//            self.isEndLocation = NO;
-//        }else if (self.locationArray.count != 0) {
+//                RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
+//                StartPointModel.location = userLocation.location.coordinate;
+//                StartPointModel.speed = userLocation.location.speed;
+//                StartPointModel.time = userLocation.location.timestamp;
+//                [self.locationArray addObject:StartPointModel]; //向位置数组里面添加第一个定位点
+//                [self.drawLineArray addObject:StartPointModel];     //向画轨迹的位置数组里添加第一个定位定
+//                [self drawStartRunPointAction:StartPointModel];
+//                self.isFirstLocation = NO;
+//                self.isEndLocation = NO;
+//        }
+//        if (self.locationArray.count != 0) {
 //                RunLocationModel *LastlocationModel = self.locationArray.lastObject;
 //
 //            //当前定位的位置信息model
-//            RunLocationModel *currentModel = [[RunLocationModel alloc] init];
-//            currentModel.location = location.coordinate;
-//            currentModel.time = location.timestamp;
-//            currentModel.speed = location.speed;
-//            double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
-//            self.locationModel = currentModel;
-//            [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
-//            double KMeters = meters/1000;
-//            self.distance = self.distance + KMeters;
-//            self.Mainview.numberLabel.text = @"0";
-//            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+//                RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+//                currentModel.location = userLocation.location.coordinate;
+//                currentModel.time = userLocation.location.timestamp;
+//                currentModel.speed = userLocation.location.speed;
+//                //计算距离
+//                double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
+//                self.locationModel = currentModel;
+//                [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+//                //将距离添加到屏幕上
+//                double KMeters = meters/1000;
+//                self.distance = self.distance + KMeters;
+//                self.Mainview.numberLabel.text = @"0";
+//                self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
 //
-//
-//#pragma mark- 绘制轨迹
 //            //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
 //            if (meters >= 5) {
-//                RunLocationModel *lineLastPointLocation = [self.drawLineArray lastObject];
+////                [self.drawLineArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+//                RunLocationModel *lineLastPointLocation = [[RunLocationModel alloc] init];
 //                //开始绘制轨迹
 //                CLLocationCoordinate2D linePoints[2];
 //                linePoints[0] = lineLastPointLocation.location;
@@ -275,13 +239,80 @@
 //                //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
 //                MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
 //                [self.Mainview.mapView addOverlay:lineSection];
-//
 //                [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
 //            }
+//
 //        }
 //    }
-//}
+}
+//
+- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
+    self.signal = location.horizontalAccuracy;
+//    if (self.signal < 80 && self.signal >0){
+        if (self.locationArray.count == 0) {
+            
+            self.distance = 0;
+            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
+            
+            RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
+            StartPointModel.location = location.coordinate;
+            StartPointModel.speed = location.speed;
+            StartPointModel.time = location.timestamp;
+            [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
+            [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
 
+            [self drawStartRunPointAction:StartPointModel];
+            self.isFirstLocation = NO;
+            self.isEndLocation = NO;
+        }else if (self.locationArray.count != 0) {
+                RunLocationModel *LastlocationModel = self.locationArray.lastObject;
+
+            //当前定位的位置信息model
+            RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+            currentModel.location = location.coordinate;
+            currentModel.time = location.timestamp;
+            currentModel.speed = location.speed;
+            double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
+            self.locationModel = currentModel;
+            [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+            double KMeters = meters/1000;
+            self.distance = self.distance + KMeters;
+            self.Mainview.numberLabel.text = @"0";
+            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+
+
+#pragma mark- 绘制轨迹
+            //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
+            if (meters >= 5) {
+                RunLocationModel *lineLastPointLocation = [self.drawLineArray lastObject];
+                //开始绘制轨迹
+                CLLocationCoordinate2D linePoints[2];
+                linePoints[0] = lineLastPointLocation.location;
+                linePoints[1] = self.locationModel.location;
+                //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
+                MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
+                [self.Mainview.mapView addOverlay:lineSection];
+
+                [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
+            }
+        }
+//    }
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    if (self.locationArray.count == 0) {
+        self.locationModel = [[RunLocationModel alloc] init];
+        CLLocation *location = [locations firstObject];
+        self.locationModel.LOCATION = location;
+        self.locationModel.location = location.coordinate;
+        [self.locationArray addObject:self.locationModel];
+    }else if (self.locationArray.count != 0){
+        RunLocationModel *locationModel = self.locationArray.lastObject;
+        RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+        currentModel.LOCATION = [locations firstObject];
+        
+        
+    }
+}
     //计算距离
 -(CLLocationDistance )distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
     
