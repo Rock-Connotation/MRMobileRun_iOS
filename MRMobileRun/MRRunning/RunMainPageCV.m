@@ -589,4 +589,12 @@
 - (void)continueRun2{
     [self.normalAlert removeFromSuperview];
 }
+
+//代理方法
+- (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
+    [locationManager requestAlwaysAuthorization];
+}
+- (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
+    [locationManager requestAlwaysAuthorization];
+}
 @end

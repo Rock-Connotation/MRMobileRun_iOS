@@ -10,7 +10,7 @@
 #import <Masonry.h>
 
 @interface MGDShareView()
-@property (nonatomic, strong)NSArray *bootomBtns;
+
 
 @end
 

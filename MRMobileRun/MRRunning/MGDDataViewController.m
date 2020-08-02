@@ -12,6 +12,7 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
+#import <Photos/Photos.h>
 
 #import "MGDDataViewController.h"
 #import "RunLocationModel.h"
@@ -26,6 +27,8 @@
 //大头针
 @property (nonatomic, strong) MAPointAnnotation *beginAnnotataion;
 @property (nonatomic, strong) MAPointAnnotation *endAnnotataion;
+
+@property __block UIImage *shareImage;
 @end
 
 @implementation MGDDataViewController
@@ -122,12 +125,13 @@
     _shareView = [[MGDShareView alloc] initWithShotImage:@"" logoImage:@"" QRcodeImage:@""];
     [self.view addSubview:_shareView];
     [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self shareAction];
    // 分享界面的地图截图
     CGRect inRect = self.overView.mapView.frame;
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
-       self.shareView.shotImage.image = resultImage;
+       self.shareImage = resultImage;
+    self.shareView.shotImage.image = self.shareImage;
     }];
 }
 
@@ -141,25 +145,6 @@
         [self.shareView removeFromSuperview];
     }];
 }
-
-//获取截屏图片
-//- (UIImage *)getCurrentScreenShot{
-//
-//    UIGraphicsBeginImageContextWithOptions([[[UIApplication sharedApplication] keyWindow] bounds].size, NO, 0.0);
-//    [[[UIApplication sharedApplication] keyWindow].layer renderInContext:UIGraphicsGetCurrentContext()];
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//
-//    return image;
-//}
-
-//- (NSArray * _Nullable)platformImageArray:(NSString * _Nullable)imageArray {
-//    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
-//}
-//
-//- (NSArray * _Nullable)platformTitleArray:(NSString * _Nullable)titleArray {
-//    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
-//}
 
 #pragma mark- 位置管理者
 - (void)initLocationManager{
@@ -262,5 +247,37 @@
     {
         return ;
     }
+}
+
+#pragma mark- 分享的五个按钮的方法
+- (void)shareAction{
+    for (int i = 0; i < self.shareView.bootomBtns.count; i++) {
+        UIButton *btn = [self.shareView.bootomBtns objectAtIndex:i];
+        switch (btn.tag) {
+            case 1:
+                [btn addTarget:self action:@selector(savePhotoAtLocalAlbum) forControlEvents:UIControlEventTouchUpInside];
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+//保存截图到本地
+- (void)savePhotoAtLocalAlbum{
+    CGRect inRect = self.overView.mapView.frame;
+    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
+        state = 1;
+        
+    }];
+}
+#pragma mark-关于两个位置管理者的定位代理方法:实现后台定位
+
+- (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
+    [locationManager requestAlwaysAuthorization];
+}
+- (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
+    [locationManager requestAlwaysAuthorization];
 }
 @end
