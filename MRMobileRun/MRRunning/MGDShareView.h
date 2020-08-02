@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithShotImage:(NSString *)shotImage logoImage:(NSString *)logo QRcodeImage:(NSString *)QRcode;
 
+@property (nonatomic, strong)NSArray *bootomBtns; //保存着分享的五个按钮的数组
+
 @property (nonatomic, strong) UIView *backView;
 
 @property (nonatomic, strong) UIView *popView;
