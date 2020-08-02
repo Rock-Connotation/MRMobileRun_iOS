@@ -11,16 +11,14 @@
 
 -(instancetype)initWithDic:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.totalTime = dict[@"duration"];
-        self.distance = dict[@"mileage"];
-        self.cal = dict[@"kcal"];
-        NSLog(@"字典转模型成功");
+        self.totalTime = dict[@"Duration"];
+        self.distance = dict[@"Mileage"];
+        self.cal = dict[@"Kcal"];
     }
     return self;
 }
 
 +(instancetype)SportDataWithDict:(NSDictionary *)dict {
-    NSLog(@"正在转模型");
     return [[self alloc] initWithDic:dict];
 }
 

@@ -10,9 +10,9 @@
 @implementation MGDUserInfo
 - (instancetype)initWithDic:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.userName = dict[@"nickname"];
-        self.userSign = dict[@"signature"];
-        self.userIcon = dict[@"avatar_url"];
+        self.userName = dict[@"Nickname"];
+        self.userSign = dict[@"Signature"];
+        self.userIcon = dict[@"AvatarUrl"];
     }
     return self;
 }

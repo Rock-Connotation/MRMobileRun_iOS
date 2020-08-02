@@ -17,7 +17,7 @@
         UITableView *sportTableView = [[UITableView alloc] init];
         self.sportTableView = sportTableView;
         [self addSubview:sportTableView];
-        self.sportTableView.backgroundColor = [UIColor clearColor];
+        self.sportTableView.backgroundColor = [UIColor redColor];
     }
     return self;
 }

@@ -1,8 +1,8 @@
 //
-//  MGDUserData.m
+//  mgduserdata.m
 //  MRMobileRun
 //
-//  Created by 阿栋 on 2020/7/16.
+//  Created by 阿栋 on 2020/8/1.
 //
 
 #import "MGDUserData.h"
@@ -11,16 +11,14 @@
 
 - (instancetype)initWithDic:(NSDictionary *)dict {
     if (self = [super init]) {
-        self.total_distance = dict[@"total_distance"];
-        self.total_duration = dict[@"total_duration"];
-        self.total_consume = dict[@"total_consume"];
-        NSLog(@"字典转模型成功");
+        self.distance = dict[@"TotalDistance"];
+        self.duration = dict[@"TotalDuration"];
+        self.consume = dict[@"TotalConsume"];
     }
     return self;
 }
 
 + (instancetype)DataWithDict:(NSDictionary *)dict {
-    NSLog(@"正在转模型");
     return [[self alloc] initWithDic:dict];
 }
 
