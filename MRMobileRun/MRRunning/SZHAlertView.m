@@ -83,6 +83,11 @@
                        self.messageLbl.font = [UIFont fontWithName:@"PingFangSC" size: 16];
         
         
+//        if (@available(iOS 11.0, *)) {
+//            self.backgroundColor = WhiteColor;
+//        } else {
+//            // Fallback on earlier versions
+//        }
         self.backgroundColor = [UIColor whiteColor];
         self.messageLbl.text = title;
         self.layer.cornerRadius = 16;

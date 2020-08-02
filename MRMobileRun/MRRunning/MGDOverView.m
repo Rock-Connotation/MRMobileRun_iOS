@@ -8,7 +8,12 @@
 #import "MGDOverView.h"
 #import <MapKit/MapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AFNetworking.h>
+#import <SDWebImageCompat.h>
+#import <SDWebImageManager.h>
 
+#import "UIImageView+WebCache.h"
+#import "HttpClient.h"
 #import <Masonry.h>
 #define UNITCOLOR [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1.0]
 
@@ -295,7 +300,7 @@
        self.mapView.pausesLocationUpdatesAutomatically = NO;
        self.mapView.showsCompass = NO;
        self.mapView.showsScale = NO;
-       self.mapView.userInteractionEnabled = YES;
+//       self.mapView.userInteractionEnabled = YES;  //是否禁止地图与用户的交互
        [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
        self.mapView.distanceFilter = 10;
     //自定义用户小蓝点，不让其显示精度圈
@@ -308,10 +313,11 @@
     
     //测试温度
     _degree.text = @"23°C";
-    //测试头像
-    _userIcon.image = [UIImage imageNamed:@"avatar"];
-    //测试用户名
-    _userName.text = @"你的寒王";
+//    //测试头像
+//    _userIcon.image = [UIImage imageNamed:@"avatar"];
+//    //测试用户名
+//    _userName.text = @"你的寒王";
+    [self getUserInfo];
     //测试公里数
     _kmLab.text = @"37.26";
     //测试配速
@@ -327,6 +333,40 @@
     //测试时间
     _currentTime.text = @"20:36";
 }
-
+//网络请求 ，从网络上获取用户的头像、昵称
+- (void)getUserInfo {
+               HttpClient *client = [HttpClient defaultClient];
+              NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+               NSString *student_id = [user objectForKey:@"studentID"];
+               NSString *pwd = [user objectForKey:@"password"];
+               NSDictionary *param = @{@"studentId":student_id,@"password":pwd};
+               NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
+               [client requestWithHead:kLoginURL method:HttpRequestPost parameters:param head:head prepareExecute:^
+                {
+                    //
+                } progress:^(NSProgress *progress)
+                {
+                    //
+                } success:^(NSURLSessionDataTask *task, id responseObject)
+                {
+//                    self->_userModel = [MGDUserInfo InfoWithDict:responseObject[@"data"]];
+//                    [self reloadUserInfo:self->_userModel];
+                   NSString *imageUrl = responseObject[@"data"][@"avatar_url"];
+                   [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+                   
+                   NSString *nickName = responseObject[@"data"][@"nickname"];
+                   self.userName.text = nickName;
+       //            NSDictionary *dict = responseObject[@"data"];
+       //            MGDUserInfo *model = [[MGDUserInfo alloc] init];
+       //            model.userName = [dict objectForKey:@"nickname"];
+       //            model.userSign = [dict objectForKey:@"signature"];
+       //            model.userIcon = [dict objectForKey:@"avatar_url"];
+       //            [self reloadUserInfo:model];
+                   
+                } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                    //
+                    NSLog(@"%@",error);
+                }];
+       }
 
 @end
