@@ -265,17 +265,13 @@
 }
 
 //保存截图到本地
-//- (void)savePhotoAtLocalAlbum{
-//    CGRect inRect = self.overView.mapView.frame;
-//    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
-//        state = 1;
-//        UIImageWriteToSavedPhotosAlbum(resultImage, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
-//    }];
-//}
-//- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-//    NSLog(@"保存成功");
-//}
-
+- (void)savePhotoAtLocalAlbum{
+    CGRect inRect = self.overView.mapView.frame;
+    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
+        state = 1;
+        
+    }];
+}
 #pragma mark-关于两个位置管理者的定位代理方法:实现后台定位
 
 - (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
