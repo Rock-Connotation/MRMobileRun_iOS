@@ -143,7 +143,7 @@
     _headerView.frame = CGRectMake(0, 0, screenWidth - 218, 30);
     _chartView.frame = CGRectMake(0, 30, screenWidth, 228);
     _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, 228);
-    _ChartScrollView.contentSize = CGSizeMake(455, _ChartScrollView.frame.size.height);
+    _ChartScrollView.contentSize = CGSizeMake(480, _ChartScrollView.frame.size.height);
 }
 
 
@@ -261,11 +261,11 @@
 - (void)layoutChartView
 {
     CGFloat chartSizeH = self.chartView.frame.size.height;
-    CGFloat itemXMargin = 6;
+    CGFloat itemXMargin = screenWidth * 0.016;
     CGFloat itemCountX = 31;
     CGFloat itemCountY = 5;
     CGFloat itemYH = (YLen - 6) / itemCountY;
-    CGFloat itemXW = 8;
+    CGFloat itemXW = screenWidth * 0.0213;
     CGFloat YlabMargin = 15;
     
     //X轴

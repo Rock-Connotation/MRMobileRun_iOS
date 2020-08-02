@@ -33,7 +33,11 @@ NSString *ID1 = @"Sport_cell";
     // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     // 去除navigationBar底部浅灰色的分割线
-    self.navigationController.navigationBar.subviews[0].subviews[0].alpha = 0;
+    //self.navigationController.navigationBar.subviews[0].subviews[0].alpha = 0;
+    //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.translucent = NO;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     //设置返回按钮的颜色
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.title = @"运动记录";
@@ -57,7 +61,7 @@ NSString *ID1 = @"Sport_cell";
     [self setUI];
     if (@available(iOS 11.0, *)) {
         self.backView.backgroundColor = MGDColor3;
-        self.navigationController.navigationBar.backgroundColor = MGDColor3;
+        self.navigationController.navigationBar.barTintColor = MGDColor1;
        } else {
            // Fallback on earlier versions
     }
