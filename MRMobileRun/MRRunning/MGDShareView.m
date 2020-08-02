@@ -6,11 +6,11 @@
 //
 
 #import "MGDShareView.h"
+#import <SVGKit.h>
 #import <Masonry.h>
 
 @interface MGDShareView()
-
-@property (nonatomic, strong)NSArray *shareBtns;
+@property (nonatomic, strong)NSArray *bootomBtns;
 
 @end
 
@@ -27,32 +27,79 @@
         //底部的按钮的View
         _bottomView = [[UIView alloc] init];
         [self.backView addSubview:_bottomView];
-        
-        //创建五个按钮，后面约束一下内部的位置
+//
+        NSMutableArray *btnAry = [NSMutableArray array];
+        //创建五个View，包括内部的Btn和Lable，后面约束一下内部的位置
         CGFloat gap = (screenWidth - 52 - 250) / 4;
         for (int i = 1;i <= 5; i++) {
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-            [btn setBackgroundColor:[UIColor clearColor]];
-            [btn setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
-            CGFloat x = 26 + (gap + 50) * (i-1);
-            [self.bottomView addSubview:btn];
-            if (kIs_iPhoneX) {
-                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(24);
-                    make.left.mas_equalTo(self.mas_left).mas_offset(x);
-                    make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-18);
-                    make.width.equalTo(@50);
-                }];
-            }else {
-                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(69);
-                    make.left.mas_equalTo(self.mas_left).mas_offset(x);
-                    make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-15);
-                    make.width.equalTo(@50);
-                }];
-            }
+            //View
+            UIView *view = [[UIView alloc] init];
+//            view.backgroundColor = [UIColor redColor];
+            [self.bottomView addSubview:view];
+             CGFloat x = 26 + (gap + 50) * (i-1);
+            //View布局
+                       if (kIs_iPhoneX) {
+                           [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                               make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(50); //(64)
+                               make.left.mas_equalTo(self.mas_left).mas_offset(x);
+                               make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-18);
+                               make.width.equalTo(@50);
+                           }];
+                       }else {
+                           [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                               make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(90); //(69)
+                               make.left.mas_equalTo(self.mas_left).mas_offset(x);
+                               make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-15);
+                               make.width.equalTo(@50);
+                           }];
+                       }
             
+            //Button
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"分享%d",i]] forState:UIControlStateNormal];
+            [view addSubview:btn];
+            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(30, 30));
+                make.centerX.top.equalTo(view);
+            }];
+            //为btn添加标记，等待在controller里为button添加逻辑操作
+             btn.tag = i;
+            [btnAry addObject:btn];
+            
+            //Lable
+            UILabel *label = [[UILabel alloc] init];
+            label.tag = 5 + i;
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
+            label.textColor = [UIColor colorWithRed:136/255.0 green:141/255.0 blue:151/255.0 alpha:1.0];
+            [view addSubview:label];
+            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(50, 17));
+                make.centerX.bottom.equalTo(view);
+            }];
+           //设置五个label的内容
+            switch (label.tag) {
+                case 6:
+                    label.text = @"保存图片";
+                    break;
+                case 7:
+                    label.text = @"QQ";
+                    break;
+                case 8:
+                    label.text = @"QQ空间";
+                    break;
+                case 9:
+                    label.text = @"微信";
+                    break;
+                case 10:
+                    label.text = @"朋友圈";
+                    break;
+                default:
+                    break;
+            }
         }
+        self.bootomBtns = btnAry; //将循环创建的btn保存下来等待在coontrller里面进行逻辑操作
+        
         
         //弹出的View
         _popView = [[UIView alloc] init];
@@ -64,7 +111,8 @@
         
         //截图
         _shotImage = [[UIImageView alloc] init];
-        _shotImage.backgroundColor = [UIColor blueColor];
+        _shotImage.backgroundColor = [UIColor clearColor];
+        //_shotImage.image = [UIImage imageNamed:@"约跑icon-1"];
         [self.popView addSubview:_shotImage];
         
         //两个小的UIImageview
@@ -224,6 +272,11 @@
     }
 }
 
+//添加底部分享的按钮和label
+- (void)addBootomBtnAndLbl{
+    //
+}
+
 -(void)showView{
 
     [[UIApplication sharedApplication].keyWindow addSubview:self];
@@ -241,5 +294,6 @@
     }];
     
 }
+
 
 @end

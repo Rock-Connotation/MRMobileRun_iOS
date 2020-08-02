@@ -547,7 +547,14 @@
     //跳转到下一个页面
     self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
     MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
-    overVC.timeStr = self.timeString;
+    //属性传值
+    overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
+    /*
+      步频还没弄出来，暂时闲置
+     */
+    overVC.timeStr = self.timeString; //时间
+    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
     overVC.drawLineAry = self.drawLineArray;
     overVC.locationAry = self.locationArray;
        self.hidesBottomBarWhenPushed = YES;
@@ -564,6 +571,17 @@
     //跳转到下一个页面
     self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
     MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
+    //属性传值
+    overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
+    /*
+      步频还没弄出来，暂时闲置
+     */
+    overVC.timeStr = self.timeString; //时间
+    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
+    overVC.drawLineAry = self.drawLineArray;
+    overVC.locationAry = self.locationArray;
+
        self.hidesBottomBarWhenPushed = YES;
        [self.navigationController pushViewController:overVC animated:YES];
 }

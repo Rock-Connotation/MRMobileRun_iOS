@@ -15,7 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MGDDataViewController : UIViewController
 
+@property (nonatomic, strong) NSString *distanceStr;
+@property (nonatomic, strong) NSString *speedStr; //配速
+@property (nonatomic, strong) NSString *stepFrequencyStr; //步频
 @property (nonatomic, strong) NSString *timeStr; //跑步时间
+@property (nonatomic, strong) NSString *energyStr;//千卡
+
+
 @property (nonatomic, strong) NSArray *locationAry; //首页中采集到的所有定位点的数据
 @property (nonatomic, strong) NSArray *drawLineAry; //首页中采集到的所有用来绘制轨迹的数据
 

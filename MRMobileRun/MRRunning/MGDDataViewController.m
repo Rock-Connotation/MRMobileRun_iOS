@@ -16,7 +16,8 @@
 #import "MGDDataViewController.h"
 #import "RunLocationModel.h"
 #import "MASmoothPathTool.h"
-@interface MGDDataViewController () <UIGestureRecognizerDelegate,MGDShareViewDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
+#import "UIImageView+WebCache.h"
+@interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
@@ -34,7 +35,14 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];    //隐藏导航栏
     [self fit];
     [self initLocationManager];
-     _overView.timeLab.text = self.timeStr;   //获取时间
+    
+    self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
+    self.overView.speedLab.text = self.speedStr; //配速赋值
+    /*
+     步频未弄出来，暂时先空缺着
+     */
+       _overView.timeLab.text = self.timeStr;   //跑步时间赋值
+    self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
     self.overView.mapView.delegate = self;
     
 /*
@@ -43,7 +51,6 @@
     [self loadTrancePoints];
     [self initSmoothedTrace];
    
-    
     /*
      自定义始终位置的大头针
      */
@@ -64,6 +71,10 @@
     UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
     backGesture.delegate = self;
     [self.shareView.backView addGestureRecognizer:backGesture];
+    
+   
+    
+    
 }
     //适配各个View的深色模式以及页面布局
 - (void)fit{
@@ -112,6 +123,12 @@
     [self.view addSubview:_shareView];
     [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
+   // 分享界面的地图截图
+    CGRect inRect = self.overView.mapView.frame;
+   [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
+       state = 1;
+       self.shareView.shotImage.image = resultImage;
+    }];
 }
 
 - (void)backevent:(UIGestureRecognizer *)sender {
@@ -126,23 +143,23 @@
 }
 
 //获取截屏图片
-- (UIImage *)getCurrentScreenShot{
- 
-    UIGraphicsBeginImageContextWithOptions([[[UIApplication sharedApplication] keyWindow] bounds].size, NO, 0.0);
-    [[[UIApplication sharedApplication] keyWindow].layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
- 
-    return image;
-}
+//- (UIImage *)getCurrentScreenShot{
+//
+//    UIGraphicsBeginImageContextWithOptions([[[UIApplication sharedApplication] keyWindow] bounds].size, NO, 0.0);
+//    [[[UIApplication sharedApplication] keyWindow].layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//
+//    return image;
+//}
 
-- (NSArray * _Nullable)platformImageArray:(NSString * _Nullable)imageArray {
-    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
-}
-
-- (NSArray * _Nullable)platformTitleArray:(NSString * _Nullable)titleArray {
-    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
-}
+//- (NSArray * _Nullable)platformImageArray:(NSString * _Nullable)imageArray {
+//    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
+//}
+//
+//- (NSArray * _Nullable)platformTitleArray:(NSString * _Nullable)titleArray {
+//    return @[@"保存图片",@"QQ",@"QQ空间",@"微信",@"朋友圈"];
+//}
 
 #pragma mark- 位置管理者
 - (void)initLocationManager{
