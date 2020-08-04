@@ -119,6 +119,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+//- (void)setHidesBottomBarWhenPushed:(BOOL)hidesBottomBarWhenPushed{
+//    self.tabView.hidden = hidesBottomBarWhenPushed;
+//}
 #pragma mark -  TabBarViewDelegate
 - (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index
 {

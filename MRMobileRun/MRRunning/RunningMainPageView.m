@@ -123,11 +123,12 @@
     [self.bottomView addSubview:self.speedNumberLbl];
     [self.speedNumberLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.speedImgView);
-        make.top.equalTo(self.speedImgView.mas_bottom).offset(kScreenHight * 0.0225);
+        make.top.equalTo(self.speedImgView.mas_bottom).offset(kScreenHight * 0.0185);
         make.size.mas_equalTo(CGSizeMake(90, 34));
     }];
-//    self.timeNumberLbl.font = [UIFont fontWithName:@"Impact" size: 28]; //真正的font，现在未引入该字体
-    self.speedNumberLbl.font = [UIFont systemFontOfSize:20];
+    self.speedNumberLbl.font = [UIFont fontWithName:@"Impact" size:28];
+    
+//    [UIFont fontWithName:@"Impact" size: 82];
     if (@available(iOS 11.0, *)) {
         self.speedNumberLbl.textColor = SpeedTextColor;
     } else {
@@ -143,7 +144,7 @@
         make.top.equalTo(self.speedNumberLbl.mas_bottom).offset(5);
         make.size.mas_equalTo(CGSizeMake(54, 24));
     }];
-    self.speedLbl.font = [UIFont fontWithName:@"PingFangSC" size: 14];
+    self.speedLbl.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 14];
     self.speedLbl.textColor = [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1.0];
     self.speedLbl.textAlignment = NSTextAlignmentCenter;
     self.speedLbl.text = @"配速";
@@ -173,6 +174,7 @@
     self.timeNumberLbl.textColor = self.speedNumberLbl.textColor;
     self.timeNumberLbl.textAlignment = self.speedNumberLbl.textAlignment;
     self.timeNumberLbl.text = @"00:00:00";
+    
         //显示“时间”的label
     self.timeLbl = [[UILabel alloc] init];
     [self.bottomView addSubview:self.timeLbl];
@@ -247,11 +249,12 @@
         make.size.mas_equalTo(CGSizeMake(24, 26));
     }];
     //图片
-//    self.lockBtn.imageView.image = [UIImage imageNamed:@"smallLockImage"];
-    [self.lockBtn setImage:[UIImage imageNamed:@"smallLockImage"] forState:UIControlStateNormal];
-    
-//    self.lockBtn.hidden = NO;
-    
+    UIImageView *lockImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"smallLockImage"]];
+    [self.lockBtn addSubview:lockImageView];
+    [lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(self.lockBtn);
+    }];
+
     #pragma mark- 暂停按钮
     self.pauseBtn = [[RunMainBtn alloc] init];
     [self.pauseBtn initRunBtn];
@@ -271,6 +274,7 @@
     }
     //图片
     self.pauseBtn.logoImg.image = [UIImage imageNamed:@"pauseBtnImage"];
+    
     self.pauseBtn.descLbl.text = @"暂停";
     self.pauseBtn.hidden = NO;
     
@@ -332,6 +336,7 @@
     
     //图片
     self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
+    self.unlockLongPressView.imgView.backgroundColor = [UIColor greenColor];
     
   
     
@@ -349,7 +354,8 @@
             make.top.equalTo(self.mas_top).offset(kScreenHight * 0.0739);
             make.size.mas_equalTo(CGSizeMake(28, 28));
         }];
-        
+    self.GPSImgView.backgroundColor = [UIColor clearColor];
+    self.GPSImgView.image = [UIImage imageNamed:@"GPS"];
     
         //中心显示跑了多少公里数字的label
         self.numberLabel = [[UILabel alloc] init];
@@ -360,8 +366,7 @@
             make.height.mas_equalTo(100);
             make.width.mas_equalTo(self.frame.size.width);
         }];
-    //    self.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-        [self.numberLabel setFont:[UIFont systemFontOfSize:82]];
+        self.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
     if (@available(iOS 11.0, *)) {
         self.numberLabel.textColor = MilesColor;
     } else {
@@ -378,7 +383,7 @@
             make.centerX.equalTo(self.numberLabel.mas_centerX);
             make.size.mas_equalTo(CGSizeMake(44, 30));
         }];
-        self.milesLabel.font = [UIFont fontWithName:@"PingFangSC" size: 22];
+        self.milesLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
     if (@available(iOS 11.0, *)) {
         self.milesLabel.textColor = MilesTxetColor;
     } else {

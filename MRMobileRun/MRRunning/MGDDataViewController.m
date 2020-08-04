@@ -14,6 +14,9 @@
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <Photos/Photos.h>
 
+#import "ZYLMainViewController.h" //首页
+#import "ZYLRunningViewController.h"
+#import "MRTabBarController.h"
 #import "MGDDataViewController.h"
 #import "RunLocationModel.h"
 #import "MASmoothPathTool.h"
@@ -32,6 +35,14 @@
 @end
 
 @implementation MGDDataViewController
+- (void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    self.navigationController.navigationBar.hidden = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+     self.tabBarController.hidesBottomBarWhenPushed = NO;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,14 +50,6 @@
     [self fit];
     [self initLocationManager];
     
-    self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
-    self.overView.speedLab.text = self.speedStr; //配速赋值
-    /*
-     步频未弄出来，暂时先空缺着
-     */
-       _overView.timeLab.text = self.timeStr;   //跑步时间赋值
-    self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
-    self.overView.mapView.delegate = self;
     
 /*
 绘制轨迹
@@ -103,7 +106,7 @@
        }
        
        //两个butto的View
-       [_twoBtnView.overBtn addTarget:self action:@selector(showData) forControlEvents:UIControlEventTouchUpInside];
+       [_twoBtnView.overBtn addTarget:self action:@selector(backRootCV) forControlEvents:UIControlEventTouchUpInside];
        [_twoBtnView.shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
        [self.view addSubview:_twoBtnView];
        _backScrollView.contentSize = CGSizeMake(screenWidth, 1432);
@@ -112,13 +115,28 @@
        //地图下，统计图上的View，配速、时间、燃烧千卡等label的数据
        _overView = [[MGDOverView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth)];
        [self.backScrollView addSubview:_overView];
+       self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
+       self.overView.speedLab.text = self.speedStr; //配速赋值
+       /*
+        步频未弄出来，暂时先空缺着
+        */
+          _overView.timeLab.text = self.timeStr;   //跑步时间赋值
+       self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
+       self.overView.mapView.delegate = self;
+
     
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];
 }
-
-- (void)showData {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+//跳转到首页界面
+- (void)backRootCV {
+  
+    ZYLMainViewController *cv = [[ZYLMainViewController alloc] init];
+       [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+    [self.navigationController pushViewController:cv animated:YES];
+//    self.tabBarController.hidesBottomBarWhenPushed = NO;
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
 
 - (void)share {
@@ -272,6 +290,7 @@
         
     }];
 }
+
 #pragma mark-关于两个位置管理者的定位代理方法:实现后台定位
 
 - (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
@@ -280,4 +299,8 @@
 - (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
     [locationManager requestAlwaysAuthorization];
 }
+
+//- (void)dealloc{
+//    [[NSNotificationCenter defaultCenter]removeObserver:self];
+//}
 @end

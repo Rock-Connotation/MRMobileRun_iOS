@@ -11,6 +11,7 @@
 #import "ZYLHostView.h"
 #import "ZYLGetTimeScale.h"
 #import "ZYLHealthManager.h"
+#import "MRTabBarController.h"
 #import <MGJRouter.h>
 #import <Masonry.h>
 @interface ZYLMainViewController ()
@@ -29,6 +30,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+    self.tabBarController.hidesBottomBarWhenPushed = NO;
 }
 
 - (void)viewDidLoad {

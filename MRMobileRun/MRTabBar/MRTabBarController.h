@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MRTabBarController : UITabBarController
 @property (strong, nonatomic) MRTabBarView *tabView;
 //@property (assign, nonatomic) id<MRTabBarControllerDelegate> delegate;
-
+- (void)showTabView;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -21,8 +21,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        
-        
         //地图的View
         _mapView = [[MAMapView alloc] init];
         [self addSubview:_mapView];
@@ -54,60 +52,60 @@
         //展示跑步信息的一些Label
         _kmLab = [[UILabel alloc] init];
         _kmLab.textAlignment = NSTextAlignmentCenter;
-        _kmLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 44];
+        _kmLab.font = [UIFont fontWithName:@"Impact" size: 44];
         _kmLab.numberOfLines = 0;
         [self.backView addSubview:_kmLab];
         
         _km = [[UILabel alloc] init];
         _km.textAlignment = NSTextAlignmentCenter;
-        _km.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 18];
+        _km.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
         _km.text = @"公里";
         [self.backView addSubview:_km];
         
         _speedLab = [[UILabel alloc] init];
         _speedLab.textAlignment = NSTextAlignmentCenter;
-        _speedLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _speedLab.font = [UIFont fontWithName:@"Impact" size: 24];
         [self.backView addSubview:_speedLab];
         
         _speed = [[UILabel alloc] init];
         _speed.textAlignment = NSTextAlignmentCenter;
-        _speed.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
+        _speed.font =  [UIFont fontWithName:@"PingFangSC-Semibold" size: 12];
         _speed.text = @"配速";
         _speed.tintColor = UNITCOLOR;
         [self.backView addSubview:_speed];
         
         _paceLab = [[UILabel alloc] init];
         _paceLab.textAlignment = NSTextAlignmentCenter;
-        _paceLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _paceLab.font = self.speedLab.font;
         [self.backView addSubview:_paceLab];
         
         _pace = [[UILabel alloc] init];
         _pace.textAlignment = NSTextAlignmentCenter;
-        _pace.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
+        _pace.font =  _speed.font;
         _pace.text = @"步频";
         _pace.tintColor = UNITCOLOR;
         [self.backView addSubview:_pace];
         
         _timeLab = [[UILabel alloc] init];
         _timeLab.textAlignment = NSTextAlignmentCenter;
-        _timeLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _timeLab.font = self.speedLab.font;
         [self.backView addSubview:_timeLab];
         
         _time = [[UILabel alloc] init];
         _time.textAlignment = NSTextAlignmentCenter;
-        _time.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
+        _time.font =  self.speed.font;
         _time.text = @"时间";
         _time.tintColor = UNITCOLOR;
         [self.backView addSubview:_time];
         
         _calLab = [[UILabel alloc] init];
         _calLab.textAlignment = NSTextAlignmentCenter;
-        _calLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _calLab.font = self.speedLab.font;
         [self.backView addSubview:_calLab];
         
         _cal = [[UILabel alloc] init];
         _cal.textAlignment = NSTextAlignmentCenter;
-        _cal.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
+        _cal.font =  self.speed.font;
         _cal.text = @"千卡";
         _cal.tintColor = UNITCOLOR;
         [self.backView addSubview:_cal];
@@ -317,7 +315,8 @@
 //    _userIcon.image = [UIImage imageNamed:@"avatar"];
 //    //测试用户名
 //    _userName.text = @"你的寒王";
-    [self getUserInfo];
+        [self getUserInfo];
+    
     //测试公里数
     _kmLab.text = @"37.26";
     //测试配速
