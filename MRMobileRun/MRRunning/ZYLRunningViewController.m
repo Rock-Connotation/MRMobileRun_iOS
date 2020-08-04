@@ -12,6 +12,8 @@
 
 #import "RunMainPageCV.h"
 #import "ZYLRunningViewController.h"
+#import "MRTabBarController.h"
+
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <Masonry.h>
@@ -26,8 +28,13 @@
 @end
 
 @implementation ZYLRunningViewController
+- (void)viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+    self.tabBarController.tabBar.hidden = YES;
+}
+
 - (void)viewDidLoad {
-    
+    [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:100/255.0 green:104/255.0 blue:111/255.0 alpha:1.0];
     [self Add];
     
@@ -52,8 +59,7 @@ if (!timer) {
         
     }];
 
-//    self.NumberLabel.font = [UIFont fontWithName:@"PingFangSC" size: 160];
-    [self.NumberLabel setFont:[UIFont systemFontOfSize:160]];
+    self.NumberLabel.font = [UIFont fontWithName:@"Impact" size: 160];
     self.NumberLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
     self.NumberLabel.textAlignment = NSTextAlignmentCenter;
      self.NumberLabel.text = @"0";
@@ -70,6 +76,7 @@ if (!timer) {
             make.size.mas_equalTo(CGSizeMake(168, 52));
         }];
     self.btnView = view;
+    self.btnView.layer.cornerRadius = 12;
     
     self.BeginBtn = [[UIButton alloc] init];
     [self.view addSubview:self.BeginBtn];
@@ -81,7 +88,8 @@ if (!timer) {
     self.BeginBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC" size: 16];
     [self.BeginBtn setTitle:@"直接开始" forState:UIControlStateNormal];
     [self.BeginBtn addTarget:self action:@selector(Begin) forControlEvents:UIControlEventTouchUpInside];
-
+    self.BeginBtn.layer.cornerRadius = 12;
+    
 }
 //随计时器改变label里面的数字
 -(void)changeLabelStr
@@ -112,9 +120,12 @@ if (!timer) {
     //切换到Go图片，并且跳转到基础界面
     [timer invalidate];
     self.NumberLabel.text = @"Go";
-            RunMainPageCV *cv = [[RunMainPageCV alloc] init];
-            [self.navigationController pushViewController:cv animated:YES];
-    
+     [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+        RunMainPageCV *cv = [[RunMainPageCV alloc] init];
+        [self.navigationController pushViewController:cv animated:YES];
+       
 }
-
+//- (void)dealloc{
+//    [[NSNotificationCenter defaultCenter]removeObserver:self];
+//}
 @end

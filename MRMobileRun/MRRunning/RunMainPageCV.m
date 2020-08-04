@@ -14,6 +14,7 @@
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 
+#import "MRTabBarController.h"
 #import "RunMainPageCV.h"
 #import "RunningMainPageView.h"
 #import "RunningModel.h"
@@ -61,7 +62,9 @@
 
 @implementation RunMainPageCV
 
-
+- (void)viewWillAppear:(BOOL)animated{
+    
+}
 - (void)viewDidAppear:(BOOL)animated{
 //    self.sportsState = SportsStateStart;
 }
@@ -298,6 +301,7 @@
         }
 //    }
 }
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
     if (self.locationArray.count == 0) {
         self.locationModel = [[RunLocationModel alloc] init];
@@ -404,7 +408,6 @@
         polyLineRender.lineWidth = 8;
 //        polyLineRender.strokeImage = [UIImage imageNamed:@"运动轨迹"];
         polyLineRender.strokeColor = [UIColor colorWithRed:123/255.0 green:183/255.0 blue:196/255.0 alpha:1.0]; //折线颜色
-        
   }
     return nil;
 }
@@ -584,6 +587,7 @@
 
        self.hidesBottomBarWhenPushed = YES;
        [self.navigationController pushViewController:overVC animated:YES];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
 }
     //继续跑步
 - (void)continueRun2{

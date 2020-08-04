@@ -159,6 +159,7 @@
 		B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B817B30224C5ACFF004023C3 /* LongPressView.m */; };
 		B84F257C24D1537800EB8FB7 /* SZHAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257B24D1537800EB8FB7 /* SZHAlertView.m */; };
 		B84F258024D16D0B00EB8FB7 /* RecordtimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */; };
+		B874029424D7E85900395A7C /* Impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B874029324D7E85900395A7C /* Impact.ttf */; };
 		B89E087424CBBD60006033D5 /* MAMutablePolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */; };
 		B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */; };
 		B8B0207324B85789009A8985 /* RunMainPageCV.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B0207224B85789009A8985 /* RunMainPageCV.m */; };
@@ -499,6 +500,7 @@
 		B84F257B24D1537800EB8FB7 /* SZHAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SZHAlertView.m; sourceTree = "<group>"; };
 		B84F257E24D16D0B00EB8FB7 /* RecordtimeString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordtimeString.h; sourceTree = "<group>"; };
 		B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordtimeString.m; sourceTree = "<group>"; };
+		B874029324D7E85900395A7C /* Impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact.ttf; sourceTree = "<group>"; };
 		B89E087224CBBD60006033D5 /* MAMutablePolylineRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAMutablePolylineRenderer.h; sourceTree = "<group>"; };
 		B89E087324CBBD60006033D5 /* MAMutablePolylineRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAMutablePolylineRenderer.m; sourceTree = "<group>"; };
 		B8ACCD9924D4331B00D9F0D4 /* MASmoothPathTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASmoothPathTool.h; sourceTree = "<group>"; };
@@ -839,6 +841,7 @@
 				2F6DF0B7227B2E2700BA6099 /* ZYLRunningViewController.m */,
 				B8B0207124B85789009A8985 /* RunMainPageCV.h */,
 				B8B0207224B85789009A8985 /* RunMainPageCV.m */,
+				B874029324D7E85900395A7C /* Impact.ttf */,
 				B8CC789F24CECDF4002D2314 /* MGDDataViewController.h */,
 				B8CC78A024CECDF4002D2314 /* MGDDataViewController.m */,
 			);
@@ -1555,6 +1558,7 @@
 				2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */,
 				CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */,
 				2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */,
+				B874029424D7E85900395A7C /* Impact.ttf in Resources */,
 				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
 				B8CC78A724CECF03002D2314 /* Assets.xcassets in Resources */,
 				2F0E8153225F30A400D5E511 /* XIGView.xib in Resources */,

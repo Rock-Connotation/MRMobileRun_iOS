@@ -231,6 +231,7 @@ NSString *ID1 = @"Sport_cell";
     self.tabBarController.hidesBottomBarWhenPushed = YES;
     self.navigationController.navigationBar.hidden = NO;
 }
+
 -(void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.hidesBottomBarWhenPushed = NO;
 }
