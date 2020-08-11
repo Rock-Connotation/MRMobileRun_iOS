@@ -401,8 +401,8 @@
 - (CGFloat)getChartH:(CGFloat)chartH
 {
     CGFloat itemH = _oneItemH * chartH;
-    if (chartH > 5.6) {
-        itemH = _oneItemH * 5.6;
+    if (chartH > 5.3) {
+        itemH = _oneItemH * 5.3;
     }
     return itemH;
 }
@@ -411,26 +411,30 @@
 {
     if (!_isLayoutChart && [_delegate respondsToSelector:@selector(columnChartNumberArrayFor:index:year:)]) {
         NSArray *arr = [_delegate columnChartNumberArrayFor:name index:index year:_yearName];
-        if (arr.count >= _currentHeaderItem.count && self.chartItems.count > 0) {
+        if (self.chartItems.count > 0) {
             _isLayoutChart = YES;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 self->_isLayoutChart = NO;
             });
             [UIView animateWithDuration:0.1 animations:^{
+                NSInteger cnt = arr.count;
                 NSInteger indexTemp = 0;
                 for (CALayer *item in self.chartItems) {
-                    CGFloat itemH = [self getChartH:[arr[indexTemp] floatValue]];
-                    item.frame = CGRectMake(item.frame.origin.x, self->_itemBottomY - itemH, item.frame.size.width, itemH);
+                    if (indexTemp <= cnt) {
+                        CGFloat itemH = [self getChartH:[arr[indexTemp] floatValue]];
+                        item.frame = CGRectMake(item.frame.origin.x, self->_itemBottomY - itemH, item.frame.size.width, itemH);
+                    }else {
+                        //高度设置为0
+                       CGFloat itemH = [self getChartH:0];
+                       item.frame = CGRectMake(item.frame.origin.x, self->_itemBottomY - itemH, item.frame.size.width, itemH);
+                    }
                     indexTemp++;
                 }
-                
             } completion:^(BOOL finished) {
-                
             }];
         }
     }
 }
-
 //换页面时重新显示
 - (void)reloadData
 {
@@ -441,7 +445,5 @@
     [self clickItemIndex:_firstIndex];
 }
 
-
-
-
 @end
+

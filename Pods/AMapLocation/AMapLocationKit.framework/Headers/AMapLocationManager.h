@@ -23,9 +23,9 @@ typedef void (^AMapLocatingCompletionBlock)(CLLocation *location, AMapLocationRe
 #pragma mark - AMapLocationManager
 
 ///AMapLocationManager类。初始化之前请设置 AMapServices 中的apikey(例如：[AMapServices sharedServices].apiKey = @"您的key")，否则将无法正常使用服务.
-@interface AMapLocationManager : NSObject///实现了 AMapLocationManagerDelegate 协议的类指针。
+@interface AMapLocationManager : NSObject
 
-
+///实现了 AMapLocationManagerDelegate 协议的类指针。
 @property (nonatomic, weak) id<AMapLocationManagerDelegate> delegate;
 
 ///设定定位的最小更新距离。单位米，默认为 kCLDistanceFilterNone，表示只要检测到设备位置发生变化就会更新位置信息。

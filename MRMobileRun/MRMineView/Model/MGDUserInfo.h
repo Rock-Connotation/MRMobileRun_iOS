@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *userIcon;
 
+@property (nonatomic, strong) NSString *name;
+
 -(instancetype)initWithDic:(NSDictionary *)dict;
 
 +(instancetype)InfoWithDict:(NSDictionary *)dict;

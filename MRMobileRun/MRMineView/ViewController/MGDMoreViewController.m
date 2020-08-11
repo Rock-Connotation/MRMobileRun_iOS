@@ -3,7 +3,7 @@
 //  MRMobileRun
 //
 //  Created by 阿栋 on 2020/7/13.
-//
+
 
 #import "MGDMoreViewController.h"
 #import "MGDSportTableViewCell.h"
@@ -12,29 +12,66 @@
 #import "MRTabBarController.h"
 #import <Masonry.h>
 #import <MJRefresh.h>
+#import <AFNetworking.h>
+#import "MGDSportData.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 #define DIVIDERCOLOR [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
 
-@interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate> {
+@interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate,UIGestureRecognizerDelegate> {
     BOOL _isShowSec;
     NSArray *_selectArr;
+    MJRefreshBackNormalFooter *_footer;
 }
+
+//用于展示页面第一次加载出来时的柱形图数据模型的数组
+@property (nonatomic, strong) NSMutableArray *recordArray;
+//用于展示改变年份后的柱形图数据模型的数组
+@property (nonatomic, strong) NSMutableArray *tmpArray;
+//用于展示列表数据的数组数据模型的数组
+@property (nonatomic, strong) NSMutableArray *cellListArray;
+//列表数据模型
+@property (nonatomic, strong) MGDSportData *userDataModel;
+//柱形图数组
+@property (nonatomic, strong) NSMutableArray *chartArr;
+//列表分页展示的查询的页面
+@property (nonatomic, assign) int pageNumber;
 
 @end
 
 @implementation MGDMoreViewController
 
+- (NSMutableArray *)chartArr
+{
+    if (_chartArr == nil) {
+        _chartArr = [NSMutableArray array];
+    }
+    return _chartArr;
+}
+
 NSString *ID1 = @"Sport_cell";
+
+-(void)viewWillAppear:(BOOL)animated {
+    _recordArray = [[NSMutableArray alloc] init];
+    _tmpArray = [[NSMutableArray alloc] init];
+    _cellListArray = [[NSMutableArray alloc] init];
+    _pageNumber = 1;
+    [self getRecordList:^(NSMutableArray *recordList) {
+        //尝试在这里来使用数组，无效
+        [self loadmoreDataWithPage:1];
+        [self setUI];
+    }];
+    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    self.navigationController.navigationBar.hidden = NO;
+}
+-(void)viewWillDisappear:(BOOL)animated {
+    self.tabBarController.hidesBottomBarWhenPushed = NO;
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    // 去除navigationBar底部浅灰色的分割线
-    //self.navigationController.navigationBar.subviews[0].subviews[0].alpha = 0;
-    //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.translucent = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -47,29 +84,45 @@ NSString *ID1 = @"Sport_cell";
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backItem;
-    
     _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, -15, screenWidth, screenHeigth + 15) style:UITableViewStylePlain];
     [self scrollViewDidScroll:_recordTableView];
     _recordTableView.separatorStyle = NO;
     _recordTableView.delegate = self;
     _recordTableView.dataSource = self;
     [self.view addSubview:_recordTableView];
-    
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
-    
-    
-    [self setUI];
+    //[self loadMoreData];
     if (@available(iOS 11.0, *)) {
         self.backView.backgroundColor = MGDColor3;
         self.navigationController.navigationBar.barTintColor = MGDColor1;
        } else {
            // Fallback on earlier versions
     }
-    self.recordTableView.tableHeaderView = self.backView;
     
-    self.recordTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    //设置右滑返回
+    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+    //handleNavigationTransition:为系统私有API,即系统自带侧滑手势的回调方法，我们在自己的手势上直接用它的回调方法
+       UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+       panGesture.delegate = self; // 设置手势代理，拦截手势触发
+       [self.view addGestureRecognizer:panGesture];
     
+       // 一定要禁止系统自带的滑动手势
+       self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+   
 }
+
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    // 当当前控制器是根控制器时，不可以侧滑返回，所以不能使其触发手势
+    if(self.navigationController.childViewControllers.count == 1)
+    {
+        return NO;
+    }
+ 
+    return YES;
+}
+
 
 - (void) back {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
@@ -88,32 +141,85 @@ NSString *ID1 = @"Sport_cell";
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
     }
 
-
     NSDate *date =[NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy"];
-    NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
-    NSString *currentyear = [NSString stringWithFormat: @"%ld", (long)currentYear];
-    _columnChartView.yearName = currentyear;
+    _columnChartView.yearName = [self dateToYear:date];
     _columnChartView.delegate = self;
     [self.backView addSubview:_columnChartView];
-    
-    
+    //UITableView的头视图是柱形图
+    self.recordTableView.tableHeaderView = self.backView;
+
     if (@available(iOS 11.0, *)) {
         self.divider.backgroundColor = MGDdividerColor;
+        self.recordTableView.backgroundColor = MGDColor3;
     } else {
         // Fallback on earlier versions
     }
     [self.backView addSubview:_divider];
     
+    [self setUpRefresh];
     _isShowSec = false;
-    
     _selectArr = [self columnYearLabelYear];
-    
+}
+
+- (void)setUpRefresh {
+    _footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    [_footer setTitle:@"上滑加载更多" forState:MJRefreshStateIdle];
+    [_footer setTitle:@"上滑加载更多" forState:MJRefreshStatePulling];
+    [_footer setTitle:@"正在加载中" forState:MJRefreshStateRefreshing];
+    [_footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
+    self.recordTableView.mj_footer = _footer;
+    self.recordTableView.estimatedRowHeight = 0;
 }
 
 - (void)loadMoreData {
-    NSLog(@"111");
+    [self.recordTableView.mj_footer beginRefreshing];
+    if (_footer.state == MJRefreshStateNoMoreData) {
+        [_footer endRefreshingWithNoMoreData];
+    }
+    //上滑时count++进行查询
+    _pageNumber++;
+    [self loadmoreDataWithPage:_pageNumber];
+}
+
+- (void)loadmoreDataWithPage:(int)page {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"15"};
+    NSLog(@"%d",_pageNumber);
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        //还有数据时继续查询，没有数据了改变状态为没有数据
+        if (record.count > 0) {
+            for (NSDictionary *dic in record) {
+                self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+                self->_userDataModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
+                [self->_cellListArray addObject:self.userDataModel];
+            }
+            //数组元素反转
+            self->_cellListArray =  [[self->_cellListArray reverseObjectEnumerator] allObjects];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //列表数据刷新
+                [self.recordTableView reloadData];
+                //停止刷新
+            });
+            [self.recordTableView.mj_footer endRefreshing];
+        }else {
+            //改变状态
+            self->_footer.state = MJRefreshStateNoMoreData;
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+    }];
 }
 
 - (void)changeYearClick:(MGDColumnChartView *)chartView sender:(UIButton *)sender
@@ -161,34 +267,77 @@ NSString *ID1 = @"Sport_cell";
     return [yearArray copy];
 }
 
-
+//柱形图的数据，无数据设为0
 - (NSArray *)columnChartNumberArrayFor:(NSString *)itemName index:(NSInteger)index year:(NSString *)year {
     NSMutableArray *arr = [NSMutableArray array];
+    NSDictionary *dic = self.chartArr[index];
+    
     for (NSInteger i = 0; i < 31; i++) {
-        NSString *data = [NSString stringWithFormat:@"%f", [self randomBetween:0 AndBigNum:5.8 AndPrecision:100]];
-        [arr addObject:data];
-    }
-    return arr;
-}
+        NSString* point = [NSString stringWithFormat:@"%ld", (long)i];
+        if (point.length == 1) {
+            point = [NSString stringWithFormat:@"0%@", point];
+        }
 
-//测试函数
-- (float)randomBetween:(float)smallNum AndBigNum:(float)bigNum AndPrecision:(NSInteger)precision {
-    float subtraction = ABS(bigNum - smallNum);
-    subtraction *= precision;
-    float randomNumber = (arc4random() % ((int) subtraction + 1)) / precision;
-    float result = MIN(smallNum, bigNum) + randomNumber;
-    return result;
+        NSString *num = dic[point];
+        if (num) {
+            [arr addObject:num];
+
+        }else {
+            [arr addObject:@"0"];
+        }
+    }
+
+    return arr;
 }
 
 - (void)showYearSelect:(UIButton *)sender {
     [YBPopupMenu showRelyOnView:sender titles:_selectArr icons:@[@"", @"", @"", @"", @""] menuWidth:180 delegate:self];
 }
 
+//点击年份，查询不同的年份
 - (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index {
+
+    [self.tmpArray removeAllObjects];
     NSString *year = _selectArr[index];
+    NSLog(@"这是当前的年份----%@",year);
+    NSDate *mydate=[NSDate date];
+    NSString *currentYear = [self dateToYear:mydate];
+    if ([year isEqualToString:currentYear]) {
+         NSLog(@"%@-------%@",year,currentYear);
+    }
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSString *currentDateStr = [year stringByAppendingString:@"-12-31 11:59:59"];
+    NSString *lastDateStr = [year stringByAppendingFormat:@"-01-01 00:00:00"];
+    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
+    NSLog(@"%@",param);
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        for (NSDictionary *dic in record) {
+            self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+            self->_userDataModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
+            [self->_tmpArray addObject:self.userDataModel];
+        }
+        self->_tmpArray =  [[self->_tmpArray reverseObjectEnumerator] allObjects];
+            dispatch_async(dispatch_get_main_queue(), ^{
+            [self makeListData:self->_tmpArray];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+    }];
     self.columnChartView.yearName = year;
     [self.columnChartView reloadData];
 }
+
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == _recordTableView) {
@@ -207,98 +356,191 @@ NSString *ID1 = @"Sport_cell";
 
 #pragma mark- 数据源方法
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 55;
+    return _cellListArray.count;
 }
 
+//UITableView里要用的数据在_cellListArray里面，通过for循环就可以了
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //跳转到具体的跑步详情页面
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     //创建单元格（用复用池）
     MGDSportTableViewCell* cell = nil;
     cell.backgroundColor = [UIColor clearColor];
     cell = [tableView dequeueReusableCellWithIdentifier:ID1];
-    
-    //测试用数据
-    [self cell:cell andtest:indexPath.row];
-    
+
+    if (_recordArray != nil && ![_recordArray isKindOfClass:[NSNull class]] && _recordArray.count != 0) {
+        MGDSportData *model = _recordArray[indexPath.row];
+        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.date]];
+        NSDate *currentDate = [NSDate date];
+        NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
+        NSString *lastDay = [[self yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
+        if ([date isEqualToString:currentDateStr]) {
+            cell.dayLab.text = @"今天";
+        }else if ([date isEqualToString:lastDay]) {
+            cell.dayLab.text = @"昨天";
+        }else {
+            cell.dayLab.text = date;
+        }
+        NSString *time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.date]];
+        cell.timeLab.text = time;
+        cell.kmLab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]];
+        cell.minLab.text = [NSString stringWithFormat:@"%@",[self getMMSSFromSS:[NSString stringWithFormat:@"%@", model.totalTime]]];
+        cell.calLab.text = [NSString stringWithFormat:@"%d",[model.cal intValue]];
+    }else {
+
+    }
     return cell;
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    self.tabBarController.hidesBottomBarWhenPushed = YES;
-    self.navigationController.navigationBar.hidden = NO;
+
+//网络请求
+- (void)getRecordList:(void(^)(NSMutableArray *recordList))result {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDate *currentDate = [NSDate date];
+    NSString *currentDateStr = [self dateToString:currentDate];
+    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        for (NSDictionary *dic in record) {
+            self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+            self->_userDataModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
+            [self->_recordArray addObject:self.userDataModel];
+        }
+        self->_recordArray =  [[self->_recordArray reverseObjectEnumerator] allObjects];
+        [self makeListData:self->_recordArray];
+        //通过block把值传出来
+        dispatch_async(dispatch_get_main_queue(), ^{
+            result(self->_recordArray);
+              });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+    }];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    self.tabBarController.hidesBottomBarWhenPushed = NO;
+//返回当前的时间（网络请求时返回的字典内容）
+- (NSString *) dateToString:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateStr = [dateFormatter stringFromDate:date];
+    return dateStr;
 }
 
-
-
-- (void)cell:(MGDSportTableViewCell* )cell andtest:(NSInteger) row {
-    switch (row) {
-           case 0:
-               {
-                   cell.dayLab.text = @"今天";
-                   cell.timeLab.text = @"19:32";
-                   cell.kmLab.text = @"5.32";
-                   cell.minLab.text = @"29:12";
-                   cell.calLab.text = @"461";
-                   
-               }
-               break;
-           case 1:
-               {
-                   cell.dayLab.text = @"";
-                   cell.timeLab.text = @"8:02";
-                   cell.kmLab.text = @"2.04";
-                   cell.minLab.text = @"12:40";
-                   cell.calLab.text = @"1933213";
-               }
-               break;
-           case 2:
-               {
-                   cell.dayLab.text = @"昨天";
-                   cell.timeLab.text = @"2:03";
-                   cell.kmLab.text = @"1.03";
-                   cell.minLab.text = @"5:42";
-                   cell.calLab.text = @"95";
-               }
-               break;
-           case 3:
-               {
-                   cell.dayLab.text = @"10-12";
-                   cell.timeLab.text = @"20:16";
-                   cell.kmLab.text = @"1.20";
-                   cell.minLab.text = @"6:32";
-                   cell.calLab.text = @"103";
-               }
-               break;
-               
-           case 4:
-               {
-                   cell.dayLab.text = @"10-18";
-                   cell.timeLab.text = @"7:58";
-                   cell.kmLab.text = @"5.32";
-                   cell.minLab.text = @"29:12";
-                   cell.calLab.text = @"461";
-               }
-               break;
-           case 5:
-               {
-                  cell.dayLab.text = @"";
-                  cell.timeLab.text = @"14:22";
-                  cell.kmLab.text = @"4.31";
-                  cell.minLab.text = @"18:54";
-                  cell.calLab.text = @"375";
-               }
-           default:
-               break;
-       }
+- (NSString *) dateToYear:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy"];
+    NSString *dateStr = [dateFormatter stringFromDate:date];
+    return dateStr;
 }
 
+//返回去年的时间（网络请求时返回的字典内容）
+- (NSString *) lastDateTostring:(NSDate *)date {
+    NSDate *mydate=[NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *comps = nil;
+    comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
+    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+    [adcomps setYear:-1];
+    [adcomps setMonth:0];
+    [adcomps setDay:0];
+    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
+    return [self dateToString:newdate];
+}
+
+//返回昨天
+- (NSString *) yesterdayTostring:(NSDate *)date {
+    NSDate *mydate=[NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *comps = nil;
+    comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
+    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+    [adcomps setYear:0];
+    [adcomps setMonth:0];
+    [adcomps setDay:-1];
+    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
+    return [self dateToString:newdate];
+}
+
+//秒数转换成时分秒
+-(NSString *)getMMSSFromSS:(NSString *)totalTime{
+    NSInteger seconds = [totalTime integerValue];
+    NSString *str_hour = [NSString stringWithFormat:@"%02ld",(long)seconds/3600];
+    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+    return format_time;
+}
+
+//时间戳换成日期
+- (NSString *)getDateStringWithTimeStr:(NSString *)str{
+    NSTimeInterval time=[str doubleValue];
+    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+    [dateFormatter setDateFormat:@"MM-dd"];
+    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
+    return currentDateStr;
+}
+
+//时间戳换成具体的时间
+- (NSString *)getTimeStringWithTimeStr:(NSString *)str {
+    NSTimeInterval time=[str doubleValue];
+    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+    [dateFormatter setDateFormat:@"HH:mm"];
+    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
+    return currentDateStr;
+}
+
+- (void)makeListData:(NSArray *)array {
+    NSInteger count = 12;
+    NSMutableArray *dataArr = [NSMutableArray array];
+    for (NSInteger i = 0; i < count; i++) {
+        [dataArr addObject:[NSMutableDictionary dictionary]];
+    }
+    for (MGDSportData *model in array) {
+        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.date]];
+        //以-符号来分割字符串
+        NSArray *arr = [date componentsSeparatedByString:@"-"];
+        if (arr.count > 1) {
+            NSInteger count = [arr.firstObject integerValue] - 1;
+            NSMutableDictionary *monthDic = dataArr[count];
+
+            NSString* dayNum = arr[1];
+            NSString* runNum = monthDic[dayNum];
+
+            //累加每一天的走路
+            if (runNum) {
+                CGFloat runTemp = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]].floatValue;
+                CGFloat all = runTemp + runNum.floatValue;
+                monthDic[dayNum] = [NSString stringWithFormat:@"%.2f", all];
+
+            }else {
+                monthDic[dayNum] = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]];
+            }
+        }
+
+    }
+    [self.chartArr removeAllObjects];
+    [self.chartArr addObjectsFromArray:dataArr];
+    [self.columnChartView reloadData];
+    NSLog(@"每月%@", dataArr);
+}
 
 @end

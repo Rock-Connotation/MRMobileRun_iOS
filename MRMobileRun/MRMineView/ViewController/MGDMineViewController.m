@@ -41,10 +41,14 @@ NSString *ID = @"Recored_cell";
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.hidden = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getUserInfo];
+    [self getBaseInfo];
+    [self getUserSportData];
     userSportArray = [[NSMutableArray alloc] init];
     CGFloat tabBarHeight;
     if (kIs_iPhoneX) {
@@ -57,7 +61,7 @@ NSString *ID = @"Recored_cell";
     self.sportTableView.separatorStyle = NO;
     self.sportTableView.delegate = self;
     self.sportTableView.dataSource = self;
-    self.sportTableView.scrollEnabled = NO;
+    self.sportTableView.bounces = YES;
     [self.view addSubview:self.sportTableView];
     
     [self.sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
@@ -71,10 +75,6 @@ NSString *ID = @"Recored_cell";
         // Fallback on earlier versions
     }
     self.sportTableView.tableHeaderView = self.backView;
-    
-    [self getUserInfo];
-    [self getBaseInfo];
-    [self getUserSportData];
 }
 
 - (void)buildUI {
@@ -105,7 +105,7 @@ NSString *ID = @"Recored_cell";
 
 #pragma mark- 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return  screenHeigth * 0.0961;
+    return  78;
 }
 
 #pragma mark- 数据源方法
@@ -117,6 +117,7 @@ NSString *ID = @"Recored_cell";
     }
 }
 
+//要用的数据在_userSportArray里面，只拿前五个数据
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //跳转到具体的跑步详情页面
 }
@@ -131,9 +132,12 @@ NSString *ID = @"Recored_cell";
     if (userSportArray != nil && ![userSportArray isKindOfClass:[NSNull class]] && userSportArray.count != 0) {
         MGDSportData *model = userSportArray[indexPath.row];
         NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.date]];
-        if ([self isToday:date]) {
+        NSDate *currentDate = [NSDate date];
+        NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
+        NSString *lastDay = [[self yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
+        if ([date isEqualToString:currentDateStr]) {
             cell.dayLab.text = @"今天";
-        }else if ([self isYesterday:date]) {
+        }else if ([date isEqualToString:lastDay]) {
             cell.dayLab.text = @"昨天";
         }else {
             cell.dayLab.text = date;
@@ -181,30 +185,6 @@ NSString *ID = @"Recored_cell";
     return currentDateStr;
 }
 
-//判断跑步的日期是否是今天
-- (BOOL)isToday:(NSString *)timeStr {
-    NSString *str = [self getDateStringWithTimeStr:timeStr];
-    NSDate *currentDate = [NSDate date];
-    NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
-    if ([currentDateStr isEqualToString:str]) {
-        return YES;
-    }else {
-        return NO;
-    }
-}
-
-//判断跑步的日期是否是昨天
-- (BOOL)isYesterday:(NSString *)timeStr {
-    NSString *str = [self getDateStringWithTimeStr:timeStr];
-    NSDate *mydate=[NSDate date];
-    NSString *lastDay = [[self yesterdayTostring:mydate] substringWithRange:NSMakeRange(5, 5)];
-    if ([lastDay isEqualToString:str]) {
-        return YES;
-    }else {
-        return NO;
-    }
-}
-
 //tableView禁止向上滑动
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == _sportTableView) {
@@ -221,8 +201,10 @@ NSString *ID = @"Recored_cell";
     [self.navigationController pushViewController:moreVC animated:YES];
 }
 
+//原来的三大数据的网络请求
 - (void)getBaseInfo{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     NSLog(@"%@",token);
@@ -232,8 +214,8 @@ NSString *ID = @"Recored_cell";
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]]; //设置接收内容的格式
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    
-    [manager POST:@"https://cyxbsmobile.sajo.fun/wxapi/mobile-run/getTotalData" parameters:nil
+
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getTotalData" parameters:nil
         success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
@@ -254,28 +236,9 @@ NSString *ID = @"Recored_cell";
 
 //关于用户信息的网络请求
 - (void)getUserInfo {
-//        HttpClient *client = [HttpClient defaultClient];
-//        _user = [NSUserDefaults standardUserDefaults];
-//        NSString *student_id = [_user objectForKey:@"studentID"];
-//        NSString *pwd = [_user objectForKey:@"password"];
-//        NSDictionary *param = @{@"studentId":student_id,@"password":pwd};
-//        NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
-//        [client requestWithHead:kLoginURL method:HttpRequestPost parameters:param head:head prepareExecute:^
-//         {
-//             //
-//         } progress:^(NSProgress *progress)
-//         {
-//             //
-//         } success:^(NSURLSessionDataTask *task, id responseObject)
-//         {
-//             self->_userModel = [MGDUserInfo InfoWithDict:responseObject[@"data"]];
-//             [self reloadUserInfo:self->_userModel];
-//         } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//             //
-//             NSLog(@"%@",error);
-//         }];
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    // 有缓存就用缓存，没有缓存就重新请求
+    manager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *student_id = [user objectForKey:@"studentID"];
     NSString *pwd = [user objectForKey:@"password"];
@@ -284,8 +247,9 @@ NSString *ID = @"Recored_cell";
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]]; //设置接收内容的格式
     [manager setResponseSerializer:responseSerializer];
-    [manager POST:@"https://cyxbsmobile.sajo.fun/wxapi/mobile-run/login" parameters:param
+    [manager POST:kLoginURL parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@",responseObject[@"data"]);
         self->_userModel = [MGDUserInfo InfoWithDict:responseObject[@"data"]];
         [self reloadUserInfo:self->_userModel];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -300,8 +264,10 @@ NSString *ID = @"Recored_cell";
     [self.topview.userIcon sd_setImageWithURL:[NSURL URLWithString:model.userIcon]];
 }
 
+//获取近五次的运动记录（只显示五次）
 - (void)getUserSportData {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
@@ -312,21 +278,23 @@ NSString *ID = @"Recored_cell";
     NSString *currentDateStr = [self dateToString:currentDate];
     NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    [manager POST:@"https://cyxbsmobile.sajo.fun/wxapi/mobile-run/getAllSportRecord" parameters:param
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
         record = dict[@"record_list"];
         for (NSDictionary *dic in record) {
-            NSLog(@"%@",dic[@"FinishDate"]);
             self->_sportModel = [MGDSportData SportDataWithDict:dic];
             self->_sportModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
             [self->userSportArray addObject:self->_sportModel];
-            [self.sportTableView reloadData];
         }
+        self->userSportArray = [[self->userSportArray reverseObjectEnumerator] allObjects];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.sportTableView reloadData];
+        });
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"=====%@", error); // 404  500
+        NSLog(@"报错信息%@", error); // 404  500
         //MBProgressHUD  服务器异常 请稍后重试
     }];
 }
@@ -339,15 +307,15 @@ NSString *ID = @"Recored_cell";
     return dateStr;
 }
 
-//返回上个月的时间
+//返回去年的时间
 - (NSString *) lastDateTostring:(NSDate *)date {
      NSDate *mydate=[NSDate date];
      NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
      NSDateComponents *comps = nil;
      comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
      NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-     [adcomps setYear:0];
-     [adcomps setMonth:-1];
+     [adcomps setYear:-1];
+     [adcomps setMonth:0];
      [adcomps setDay:0];
      NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
      return [self dateToString:newdate];
