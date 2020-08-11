@@ -15,6 +15,10 @@
 #import "MRTabBarController.h"
 #import <MBProgressHUD.h>
 #import <MGJRouter.h>
+#import "YYZCommentViewController.h"
+#import "YYZTextViewController.h"
+#import "AboutViewController.h"
+#import "SportSettingViewController.h"
 @interface ZYLPersonalViewController () <UITextFieldDelegate>
 
 //@property (strong, nonatomic) ZYLPersonalInformationView *personalInformationView;
@@ -46,9 +50,53 @@
     [self.view addSubview: self.bkgView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAvatar:)  name:@"getAvatar" object:nil];
 //    NSData *imageData = [[NSData alloc] init];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myAvatar:)  name:@"getAvatarSuccess" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myAvatar:)  name:@"getAvatarSuccess" object: nil];
+    
+    UIButton *textBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+       textBtn.frame = CGRectMake(0, 240, 400, 60);
+       textBtn.backgroundColor = [UIColor clearColor];
+       [textBtn addTarget:self action:@selector(actionText) forControlEvents:UIControlEventTouchUpInside];
+       [self.view addSubview:textBtn];
+    UIButton *aboutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    aboutBtn.frame = CGRectMake(0, 300, 400, 60);
+    aboutBtn.backgroundColor = [UIColor clearColor];
+    [aboutBtn addTarget:self action:@selector(actionAbout) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:aboutBtn];
+    UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    settingBtn.frame = CGRectMake(0, 370, 400, 60);
+    settingBtn.backgroundColor = [UIColor clearColor];
+    [settingBtn addTarget:self action:@selector(actionSetting) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:settingBtn];
+    UIButton *commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    commentBtn.frame = CGRectMake(0, 433, 400, 60);
+    commentBtn.backgroundColor = [UIColor clearColor];
+    [commentBtn addTarget:self action:@selector(actionComment) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:commentBtn];
+    
+    /*UIButton *darkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    darkBtn.frame = CGRectMake(305, 515, 60, 35);
+    darkBtn.backgroundColor = [UIColor clearColor];
+    [darkBtn addTarget:self action:@selector(actionDark) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:darkBtn];*/
+    
 }
 
+- (void)actionText{
+    YYZTextViewController *vc1 =[[YYZTextViewController alloc]init];
+    [self.navigationController pushViewController:vc1 animated:YES];
+}
+- (void)actionAbout{
+    AboutViewController *vc1 =[[AboutViewController alloc]init];
+    [self.navigationController pushViewController:vc1 animated:YES];
+}
+- (void)actionSetting{
+    SportSettingViewController *vc1 =[[SportSettingViewController alloc]init];
+    [self.navigationController pushViewController:vc1 animated:YES];
+}
+- (void)actionComment{
+    YYZCommentViewController *vc1 =[[YYZCommentViewController alloc]init];
+    [self.navigationController pushViewController:vc1 animated:YES];
+}
 - (void)clickLogoutBtu{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
 //    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];
