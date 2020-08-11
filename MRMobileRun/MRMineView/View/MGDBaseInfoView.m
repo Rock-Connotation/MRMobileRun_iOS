@@ -45,24 +45,21 @@
         [self.backView addSubview:KmLab];
         _Kmlab.textAlignment = NSTextAlignmentCenter;
         _Kmlab.numberOfLines = 0;
-        //字体不同，需要修改
-        _Kmlab.font =  [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _Kmlab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *MinLab = [[UILabel alloc] init];
         self.MinLab = MinLab;
         [self.backView addSubview:MinLab];
         _MinLab.textAlignment = NSTextAlignmentCenter;
         _MinLab.numberOfLines = 0;
-        //字体不同，需要修改
-        _MinLab.font =  [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _MinLab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *CalLab = [[UILabel alloc] init];
         self.CalLab = CalLab;
         [self addSubview:CalLab];
         _CalLab.textAlignment = NSTextAlignmentCenter;
         _CalLab.numberOfLines = 0;
-        //字体不同，需要修改
-        _CalLab.font =  [UIFont fontWithName:@"PingFangSC-Medium" size: 24];
+        _CalLab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *kilometre = [[UILabel alloc] init];
         self.kilometre = kilometre;
@@ -99,8 +96,6 @@
            } else {
                // Fallback on earlier versions
         }
-        //测试用数据
-        //[self test];
     }
     return self;
 }

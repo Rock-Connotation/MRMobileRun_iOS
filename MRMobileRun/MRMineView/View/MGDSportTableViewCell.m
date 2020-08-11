@@ -114,8 +114,8 @@
         
         [_timeLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.dayLab.mas_bottom).mas_offset(-1);
-            make.left.mas_equalTo(self.contentView.mas_left).mas_offset(44);
-            make.width.equalTo(@25);
+            make.right.mas_equalTo(self.dayLab);
+            make.width.equalTo(@30);
             make.height.equalTo(@14);
         }];
         
