@@ -6,7 +6,11 @@
 //
 
 #import "YYZCommentViewController.h"
+<<<<<<< HEAD
+#import "ZYLPersonalViewController.h"
+=======
 
+>>>>>>> 0de4443aaec289ccce590da323197f5c25aeb520
 @interface YYZCommentViewController ()
 
 @end
@@ -16,6 +20,53 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+<<<<<<< HEAD
+
+    [self.navigationItem setTitle:@"意见反馈"];
+
+    UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(13, 630, 350, 50)];
+
+    saveBtn.backgroundColor = [UIColor darkGrayColor];
+
+    [saveBtn setTitle:@"提交反馈" forState:UIControlStateNormal];
+
+    [saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+    [saveBtn addTarget:self action:@selector(actionBack) forControlEvents:UIControlEventTouchUpInside];
+
+    [saveBtn.layer setMasksToBounds:YES];
+
+    [saveBtn.layer setCornerRadius:10.0];
+
+    [self.view addSubview:saveBtn];
+
+     
+
+    UITextField *tf = [[UITextField alloc]initWithFrame:CGRectMake(18, 110, 342, 100)];
+
+    tf.borderStyle = UITextBorderStyleRoundedRect;
+
+    tf.placeholder = @"请在此处写下你反馈的意见";
+
+    tf.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+
+    tf.backgroundColor = [UIColor lightTextColor];
+
+    [self.view addSubview:tf];
+
+}
+- (void)actionBack{
+
+  ZYLPersonalViewController *vc1 = [[ZYLPersonalViewController alloc]init];
+
+  [self.navigationController popViewControllerAnimated:YES];
+
+
+
+  // Do any additional setup after loading the view.
+
+=======
+>>>>>>> 0de4443aaec289ccce590da323197f5c25aeb520
 }
 
 /*
