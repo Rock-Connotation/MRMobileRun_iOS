@@ -15,7 +15,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-<<<<<<< HEAD
     [self.navigationItem setTitle:@"关于约跑"];
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(125, 170, 130, 130)];
     imageView.image = [UIImage imageNamed:@"约跑icon"];
@@ -68,11 +67,6 @@
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
-=======
-    // Do any additional setup after loading the view.
-}
-
->>>>>>> 0de4443aaec289ccce590da323197f5c25aeb520
 /*
 #pragma mark - Navigation
 

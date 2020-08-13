@@ -15,7 +15,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-<<<<<<< HEAD
     [self.navigationItem setTitle:@"系统权限设置"];
 
     UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(15, 300, 345, 50)];
@@ -62,11 +61,6 @@
 
     }
 }
-=======
-    // Do any additional setup after loading the view from its nib.
-}
-
->>>>>>> 0de4443aaec289ccce590da323197f5c25aeb520
 /*
 #pragma mark - Navigation
 
