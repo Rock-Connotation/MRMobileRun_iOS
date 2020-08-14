@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) MGDColumnChartView *columnChartView;
 
+@property (nonatomic, assign) int pageNumber;
 
 @end
 
