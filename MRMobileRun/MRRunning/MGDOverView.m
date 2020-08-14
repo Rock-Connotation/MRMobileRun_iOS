@@ -118,7 +118,7 @@
         _currentTime = [[UILabel alloc] init];
         _currentTime.textAlignment = NSTextAlignmentRight;
         _currentTime.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
-        [self.backView addSubview:_date];
+        [self.backView addSubview:_currentTime];
         
         
         if (@available(iOS 11.0, *)) {

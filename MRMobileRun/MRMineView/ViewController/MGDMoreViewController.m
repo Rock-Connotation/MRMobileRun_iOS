@@ -14,6 +14,7 @@
 #import <MJRefresh.h>
 #import <AFNetworking.h>
 #import "MGDSportData.h"
+#import "MGDCellDataViewController.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 #define DIVIDERCOLOR [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
@@ -34,8 +35,6 @@
 @property (nonatomic, strong) MGDSportData *userDataModel;
 //柱形图数组
 @property (nonatomic, strong) NSMutableArray *chartArr;
-//列表分页展示的查询的页面
-@property (nonatomic, assign) int pageNumber;
 
 @end
 
@@ -55,13 +54,13 @@ NSString *ID1 = @"Sport_cell";
     _recordArray = [[NSMutableArray alloc] init];
     _tmpArray = [[NSMutableArray alloc] init];
     _cellListArray = [[NSMutableArray alloc] init];
-    _pageNumber = 1;
     [self getRecordList:^(NSMutableArray *recordList) {
         //尝试在这里来使用数组，无效
-        [self loadmoreDataWithPage:1];
+        [self loadmoreDataWithPage:self->_pageNumber];
         [self setUI];
     }];
-    self.tabBarController.hidesBottomBarWhenPushed = YES;
+//    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.hidden = NO;
 }
 -(void)viewWillDisappear:(BOOL)animated {
@@ -71,7 +70,6 @@ NSString *ID1 = @"Sport_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.translucent = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -102,13 +100,17 @@ NSString *ID1 = @"Sport_cell";
     //设置右滑返回
     id target = self.navigationController.interactivePopGestureRecognizer.delegate;
     //handleNavigationTransition:为系统私有API,即系统自带侧滑手势的回调方法，我们在自己的手势上直接用它的回调方法
-       UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-       panGesture.delegate = self; // 设置手势代理，拦截手势触发
-       [self.view addGestureRecognizer:panGesture];
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+    panGesture.delegate = self; // 设置手势代理，拦截手势触发
+    [self.view addGestureRecognizer:panGesture];
+    // 一定要禁止系统自带的滑动手势
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
-       // 一定要禁止系统自带的滑动手势
-       self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-   
+    //UITableView返回时contentOffset还在原来的位置
+    self.recordTableView.estimatedRowHeight = 0;
+    self.recordTableView.estimatedSectionHeaderHeight = 0;
+    self.recordTableView.estimatedSectionFooterHeight = 0;
+
 }
 
 
@@ -191,7 +193,6 @@ NSString *ID1 = @"Sport_cell";
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
     NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"15"};
-    NSLog(@"%d",_pageNumber);
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -202,11 +203,8 @@ NSString *ID1 = @"Sport_cell";
         if (record.count > 0) {
             for (NSDictionary *dic in record) {
                 self->_userDataModel = [MGDSportData SportDataWithDict:dic];
-                self->_userDataModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
                 [self->_cellListArray addObject:self.userDataModel];
             }
-            //数组元素反转
-            self->_cellListArray =  [[self->_cellListArray reverseObjectEnumerator] allObjects];
             dispatch_async(dispatch_get_main_queue(), ^{
                 //列表数据刷新
                 [self.recordTableView reloadData];
@@ -324,7 +322,6 @@ NSString *ID1 = @"Sport_cell";
         record = dict[@"record_list"];
         for (NSDictionary *dic in record) {
             self->_userDataModel = [MGDSportData SportDataWithDict:dic];
-            self->_userDataModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
             [self->_tmpArray addObject:self.userDataModel];
         }
         self->_tmpArray =  [[self->_tmpArray reverseObjectEnumerator] allObjects];
@@ -359,10 +356,37 @@ NSString *ID1 = @"Sport_cell";
     return _cellListArray.count;
 }
 
-//UITableView里要用的数据在_cellListArray里面，通过for循环就可以了
+//转到杨诚的界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //跳转到具体的跑步详情页面
+    MGDSportData *model = _cellListArray[indexPath.row];
     
+    MGDCellDataViewController *detailDataVC = [[MGDCellDataViewController alloc] init];
+    //距离
+    detailDataVC.distanceStr = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]];
+    //日期
+    detailDataVC.date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
+    //时间
+    detailDataVC.time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
+    //速度
+    detailDataVC.speedStr = [self getAverageSpeed:[NSString stringWithFormat:@"%0.2f",[model.AverageSpeed floatValue]]];
+    //步频
+    detailDataVC.stepFrequencyStr = [NSString stringWithFormat:@"%d",[model.AverageStepFrequency intValue]];
+    //跑步时长
+    detailDataVC.timeStr = [self getRunTimeFromSS:model.totalTime];
+    //卡路里
+    detailDataVC.energyStr = [NSString stringWithFormat:@"%d",[model.cal intValue]];
+    //最大速度
+    detailDataVC.MaxSpeed = [NSString stringWithFormat:@"%0.2f",[model.MaxSpeed floatValue]];
+    //最大步频
+    detailDataVC.MaxStepFrequency = [NSString stringWithFormat:@"%d",[model.MaxStepFrequency intValue]];
+    //温度
+    detailDataVC.degree = [NSString stringWithFormat:@"%d°C",[model.Temperature intValue]];
+    //步频数组，用于画图
+    detailDataVC.stepFrequencyArray = model.StepFrequencyArray;
+    //速度数组，用于画图
+    detailDataVC.speedArray = model.SpeedArray;
+    
+    [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -373,8 +397,8 @@ NSString *ID1 = @"Sport_cell";
     cell = [tableView dequeueReusableCellWithIdentifier:ID1];
 
     if (_recordArray != nil && ![_recordArray isKindOfClass:[NSNull class]] && _recordArray.count != 0) {
-        MGDSportData *model = _recordArray[indexPath.row];
-        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.date]];
+        MGDSportData *model = _cellListArray[indexPath.row];
+        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
         NSDate *currentDate = [NSDate date];
         NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
         NSString *lastDay = [[self yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
@@ -385,7 +409,7 @@ NSString *ID1 = @"Sport_cell";
         }else {
             cell.dayLab.text = date;
         }
-        NSString *time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.date]];
+        NSString *time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
         cell.timeLab.text = time;
         cell.kmLab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]];
         cell.minLab.text = [NSString stringWithFormat:@"%@",[self getMMSSFromSS:[NSString stringWithFormat:@"%@", model.totalTime]]];
@@ -419,10 +443,8 @@ NSString *ID1 = @"Sport_cell";
         record = dict[@"record_list"];
         for (NSDictionary *dic in record) {
             self->_userDataModel = [MGDSportData SportDataWithDict:dic];
-            self->_userDataModel.date = [NSString stringWithFormat:@"%@",dic[@"FinishDate"]];
             [self->_recordArray addObject:self.userDataModel];
         }
-        self->_recordArray =  [[self->_recordArray reverseObjectEnumerator] allObjects];
         [self makeListData:self->_recordArray];
         //通过block把值传出来
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -486,6 +508,15 @@ NSString *ID1 = @"Sport_cell";
     return format_time;
 }
 
+//跑步时间的字符串
+-(NSString *)getRunTimeFromSS:(NSString *)totalTime{
+    NSInteger seconds = [totalTime integerValue];
+    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
+    return format_time;
+}
+
 //时间戳换成日期
 - (NSString *)getDateStringWithTimeStr:(NSString *)str{
     NSTimeInterval time=[str doubleValue];
@@ -496,6 +527,7 @@ NSString *ID1 = @"Sport_cell";
     NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
     return currentDateStr;
 }
+
 
 //时间戳换成具体的时间
 - (NSString *)getTimeStringWithTimeStr:(NSString *)str {
@@ -508,6 +540,13 @@ NSString *ID1 = @"Sport_cell";
     return currentDateStr;
 }
 
+//配速的字符串
+- (NSString *)getAverageSpeed:(NSString *)averagespeed {
+    NSArray  *array = [averagespeed componentsSeparatedByString:@"."];
+    NSString *speed = [NSString stringWithFormat:@"%@'%@''",array[0],array[1]];
+    return speed;
+}
+
 - (void)makeListData:(NSArray *)array {
     NSInteger count = 12;
     NSMutableArray *dataArr = [NSMutableArray array];
@@ -515,7 +554,7 @@ NSString *ID1 = @"Sport_cell";
         [dataArr addObject:[NSMutableDictionary dictionary]];
     }
     for (MGDSportData *model in array) {
-        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.date]];
+        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
         //以-符号来分割字符串
         NSArray *arr = [date componentsSeparatedByString:@"-"];
         if (arr.count > 1) {

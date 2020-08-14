@@ -14,6 +14,16 @@
         self.totalTime = dict[@"Duration"];
         self.distance = dict[@"Mileage"];
         self.cal = dict[@"Kcal"];
+        self.FinishDate = dict[@"FinishDate"];
+        self.AverageSpeed = dict[@"AverageSpeed"];
+        self.AverageStepFrequency = dict[@"AverageStepFrequency"];
+        self.MaxSpeed = dict[@"MaxSpeed"];
+        self.MaxStepFrequency = dict[@"MaxStepFrequency"];
+        self.Temperature = dict[@"Temperature"];
+        self.Weather = dict[@"Weather"];
+        self.StepFrequencyArray = dict[@"StepFrequency"];
+        self.SpeedArray = dict[@"Speed"];
+        self.pathArray = dict[@"path"];
     }
     return self;
 }

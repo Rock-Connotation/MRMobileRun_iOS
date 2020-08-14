@@ -45,6 +45,7 @@
         [self.backView addSubview:KmLab];
         _Kmlab.textAlignment = NSTextAlignmentCenter;
         _Kmlab.numberOfLines = 0;
+        //字体不同，需要修改
         _Kmlab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *MinLab = [[UILabel alloc] init];
@@ -52,6 +53,7 @@
         [self.backView addSubview:MinLab];
         _MinLab.textAlignment = NSTextAlignmentCenter;
         _MinLab.numberOfLines = 0;
+        //字体不同，需要修改
         _MinLab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *CalLab = [[UILabel alloc] init];
@@ -59,6 +61,7 @@
         [self addSubview:CalLab];
         _CalLab.textAlignment = NSTextAlignmentCenter;
         _CalLab.numberOfLines = 0;
+        //字体不同，需要修改
         _CalLab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *kilometre = [[UILabel alloc] init];
@@ -100,11 +103,6 @@
     return self;
 }
 
-- (void)test {
-    _Kmlab.text = @"23";
-    _MinLab.text = @"132";
-    _CalLab.text = @"3254";
-}
 
 - (void)layoutSubviews {
     [super layoutSubviews];

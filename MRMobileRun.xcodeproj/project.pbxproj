@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		182693A624E636CD000C3575 /* MGDCellDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182693A524E636CD000C3575 /* MGDCellDataViewController.m */; };
+		1833408024E634CD00D436DD /* SportSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833407524E634CB00D436DD /* SportSettingViewController.m */; };
+		1833408124E634CD00D436DD /* YYZCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833407624E634CC00D436DD /* YYZCommentViewController.m */; };
+		1833408224E634CD00D436DD /* YYZTextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1833407724E634CC00D436DD /* YYZTextViewController.xib */; };
+		1833408324E634CD00D436DD /* SportSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1833407924E634CC00D436DD /* SportSettingViewController.xib */; };
+		1833408424E634CD00D436DD /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833407A24E634CC00D436DD /* AboutViewController.m */; };
+		1833408524E634CD00D436DD /* YYZTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1833407D24E634CC00D436DD /* YYZTextView.xib */; };
+		1833408624E634CD00D436DD /* YYZTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833407F24E634CD00D436DD /* YYZTextViewController.m */; };
 		1877D9C224D3F83300B7F616 /* MGDSportData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877D9C124D3F83300B7F616 /* MGDSportData.m */; };
 		187C812824D037210040A78E /* MGDShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812724D037210040A78E /* MGDShareView.m */; };
 		187C812D24D037B30040A78E /* MGDShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812C24D037B30040A78E /* MGDShareModel.m */; };
@@ -208,6 +216,19 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		182693A424E636CD000C3575 /* MGDCellDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDCellDataViewController.h; sourceTree = "<group>"; };
+		182693A524E636CD000C3575 /* MGDCellDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDCellDataViewController.m; sourceTree = "<group>"; };
+		1833407524E634CB00D436DD /* SportSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SportSettingViewController.m; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/SportSettingViewController.m"; sourceTree = "<group>"; };
+		1833407624E634CC00D436DD /* YYZCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YYZCommentViewController.m; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/YYZCommentViewController.m"; sourceTree = "<group>"; };
+		1833407724E634CC00D436DD /* YYZTextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YYZTextViewController.xib; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/YYZTextViewController.xib"; sourceTree = "<group>"; };
+		1833407824E634CC00D436DD /* SportSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SportSettingViewController.h; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/SportSettingViewController.h"; sourceTree = "<group>"; };
+		1833407924E634CC00D436DD /* SportSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SportSettingViewController.xib; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/SportSettingViewController.xib"; sourceTree = "<group>"; };
+		1833407A24E634CC00D436DD /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/AboutViewController.m"; sourceTree = "<group>"; };
+		1833407B24E634CC00D436DD /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/AboutViewController.h"; sourceTree = "<group>"; };
+		1833407C24E634CC00D436DD /* YYZCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYZCommentViewController.h; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/YYZCommentViewController.h"; sourceTree = "<group>"; };
+		1833407D24E634CC00D436DD /* YYZTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YYZTextView.xib; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/YYZTextView.xib"; sourceTree = "<group>"; };
+		1833407E24E634CD00D436DD /* YYZTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYZTextViewController.h; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/YYZTextViewController.h"; sourceTree = "<group>"; };
+		1833407F24E634CD00D436DD /* YYZTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YYZTextViewController.m; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/MRMobileRun_iOS/MRMobileRun/MRSettinglView/YYZTextViewController.m"; sourceTree = "<group>"; };
 		1877D9C024D3F83300B7F616 /* MGDSportData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDSportData.h; sourceTree = "<group>"; };
 		1877D9C124D3F83300B7F616 /* MGDSportData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDSportData.m; sourceTree = "<group>"; };
 		187C812624D037210040A78E /* MGDShareView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDShareView.h; sourceTree = "<group>"; };
@@ -786,6 +807,17 @@
 		2F0E8166225F457200D5E511 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1833407B24E634CC00D436DD /* AboutViewController.h */,
+				1833407A24E634CC00D436DD /* AboutViewController.m */,
+				1833407824E634CC00D436DD /* SportSettingViewController.h */,
+				1833407524E634CB00D436DD /* SportSettingViewController.m */,
+				1833407924E634CC00D436DD /* SportSettingViewController.xib */,
+				1833407C24E634CC00D436DD /* YYZCommentViewController.h */,
+				1833407624E634CC00D436DD /* YYZCommentViewController.m */,
+				1833407D24E634CC00D436DD /* YYZTextView.xib */,
+				1833407E24E634CD00D436DD /* YYZTextViewController.h */,
+				1833407F24E634CD00D436DD /* YYZTextViewController.m */,
+				1833407724E634CC00D436DD /* YYZTextViewController.xib */,
 				2F0E8167225F4B3400D5E511 /* ZYLPersonalViewController.h */,
 				2F0E8168225F4B3400D5E511 /* ZYLPersonalViewController.m */,
 			);
@@ -856,6 +888,8 @@
 				B874029324D7E85900395A7C /* Impact.ttf */,
 				B8CC789F24CECDF4002D2314 /* MGDDataViewController.h */,
 				B8CC78A024CECDF4002D2314 /* MGDDataViewController.m */,
+				182693A424E636CD000C3575 /* MGDCellDataViewController.h */,
+				182693A524E636CD000C3575 /* MGDCellDataViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1580,7 +1614,10 @@
 				2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */,
 				B874029424D7E85900395A7C /* Impact.ttf in Resources */,
 				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
+				1833408324E634CD00D436DD /* SportSettingViewController.xib in Resources */,
+				1833408524E634CD00D436DD /* YYZTextView.xib in Resources */,
 				B8CC78A724CECF03002D2314 /* Assets.xcassets in Resources */,
+				1833408224E634CD00D436DD /* YYZTextViewController.xib in Resources */,
 				2F0E8153225F30A400D5E511 /* XIGView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1667,6 +1704,7 @@
 				18CD288924C5B1DA0093D396 /* MGDSportTableView.m in Sources */,
 				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
 				CE0CC18C222E205B001283EA /* main.m in Sources */,
+				1833408124E634CD00D436DD /* YYZCommentViewController.m in Sources */,
 				2F7ADC7D237C29EE00FE9461 /* ZYLLoginViewController.m in Sources */,
 				2FBE893B230C448D0042AB0D /* ZYLButtonNoticeView.m in Sources */,
 				2F7ADC7A23799ECD00FE9461 /* ZYLSettingDarkModeCell.m in Sources */,
@@ -1704,6 +1742,7 @@
 				2FBE8938230C446F0042AB0D /* ZYLNoticeBanner.m in Sources */,
 				B817B30324C5ACFF004023C3 /* LongPressView.m in Sources */,
 				2F495E542282C064003DD714 /* LJJInviteRunView.m in Sources */,
+				1833408024E634CD00D436DD /* SportSettingViewController.m in Sources */,
 				187C812D24D037B30040A78E /* MGDShareModel.m in Sources */,
 				2F0E817B225F775600D5E511 /* ZYLInvitationRankViewModel.m in Sources */,
 				2F3ACABD230C41E2008D51E5 /* ZYLStartRunningButton.m in Sources */,
@@ -1729,6 +1768,7 @@
 				2FF3BB17238D4BB400DB9051 /* ZYLGrayNoticeLabel.m in Sources */,
 				2F495E392282BEB3003DD714 /* MRLoginView.m in Sources */,
 				2F495E4E2282BFF3003DD714 /* LJJInviteSearchResultView.m in Sources */,
+				182693A624E636CD000C3575 /* MGDCellDataViewController.m in Sources */,
 				2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */,
 				2F495E452282BFD0003DD714 /* LJJInviteRunVCViewController.m in Sources */,
 				2FF3BB1D238D4C0B00DB9051 /* ZYLRedBar.m in Sources */,
@@ -1764,6 +1804,7 @@
 				2F0E815B225F33C400D5E511 /* UIImage+Extension.m in Sources */,
 				28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */,
 				2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */,
+				1833408424E634CD00D436DD /* AboutViewController.m in Sources */,
 				2F0E8172225F74A700D5E511 /* ZYLInvitationRankModel.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
 				2F495E5A2282E509003DD714 /* ZYLRunningRecordModel.m in Sources */,
@@ -1781,6 +1822,7 @@
 				B84F257C24D1537800EB8FB7 /* SZHAlertView.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
 				B8CC78A124CECDF4002D2314 /* MGDDataViewController.m in Sources */,
+				1833408624E634CD00D436DD /* YYZTextViewController.m in Sources */,
 				18CD288624C5B1DA0093D396 /* MGDUserData.m in Sources */,
 				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
 				280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */,
