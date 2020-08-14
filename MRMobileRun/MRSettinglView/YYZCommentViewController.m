@@ -6,11 +6,7 @@
 //
 
 #import "YYZCommentViewController.h"
-<<<<<<< HEAD
 #import "ZYLPersonalViewController.h"
-=======
-
->>>>>>> 0de4443aaec289ccce590da323197f5c25aeb520
 @interface YYZCommentViewController ()
 
 @end
@@ -20,7 +16,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-<<<<<<< HEAD
 
     [self.navigationItem setTitle:@"意见反馈"];
 
@@ -65,8 +60,6 @@
 
   // Do any additional setup after loading the view.
 
-=======
->>>>>>> 0de4443aaec289ccce590da323197f5c25aeb520
 }
 
 /*

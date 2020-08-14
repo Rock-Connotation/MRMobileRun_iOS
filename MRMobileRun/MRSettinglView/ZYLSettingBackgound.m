@@ -49,7 +49,7 @@
     
     self.aboutCell = [[ZYLSettingNomalCell alloc] init];
     self.aboutCell.frame = CGRectMake(0, 210*kRateY, screenWidth, 70*kRateY);
-    self.aboutCell.textLab.text = @"关于跑酷";
+    self.aboutCell.textLab.text = @"关于约跑";
     self.aboutCell.iconImage.image = [UIImage imageNamed:@"setting_about"];
     [self addSubview: self.aboutCell];
     
