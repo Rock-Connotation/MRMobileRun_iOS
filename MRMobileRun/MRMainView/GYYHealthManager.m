@@ -78,6 +78,41 @@
     [self.healthStore executeQuery:query];
 }
 
+/**
+ * 跑步页面获取步数来计算吧步频
+ */
+- (void)getStepCountFromBeginTime:(NSDate *)begin ToEndTime:(NSDate *)end completion:(void(^)(double stepValue, NSError *error))completion{
+    //1.确定类型 HKQuantityTypeIdentifierStepCount
+       HKQuantityType *stepType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
+       //2.确定检索
+       NSSortDescriptor *start2 = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:NO];
+       NSSortDescriptor *end2 = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierEndDate ascending:NO];
+    HKSampleQuery *query = [[HKSampleQuery alloc] initWithSampleType:stepType predicate:[GYYHealthManager getStepPredicateForSampleFromBeginTime:begin ToEndTime:end] limit:HKObjectQueryNoLimit sortDescriptors:@[start2,end2] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
+        if(error){
+                   completion(0,error);
+               }else{
+                   NSInteger runTotleSteps = 0;
+                   for(HKQuantitySample *quantitySample in results){
+                       HKQuantity *quantity = quantitySample.quantity;
+                       HKUnit *heightUnit = [HKUnit countUnit];
+                       double usersHeight = [quantity doubleValueForUnit:heightUnit];
+                       runTotleSteps += usersHeight;
+                   }
+//                   NSString *totleSteps = [NSString stringWithFormat:@"%ld",(long)runTotleSteps];
+                   completion(runTotleSteps, error);
+               }
+    }];
+    [self.healthStore executeQuery:query];
+}
+//跑步界面步数的时段
++ (NSPredicate *)getStepPredicateForSampleFromBeginTime:(NSDate *)begin ToEndTime:(NSDate *)end{
+    NSDate * startDate = begin;
+    NSDate * endDate = end;
+    NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:startDate endDate:endDate options:HKQueryOptionNone];
+    return predicate;
+}
+
+
 //获取阶梯数
 - (void)getStairIsToday:(BOOL)isToday completion:(void(^)(double value, NSError *error))completion{
     //1.要检索的数据类型

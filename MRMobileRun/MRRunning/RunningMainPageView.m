@@ -6,7 +6,6 @@
 //
 
 #import "RunningMainPageView.h"
-#import "RunningModel.h"
 
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
@@ -38,11 +37,12 @@
     //定位以后改变地图的图层显示
     [self.mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
     [self addSubview:self.mapView];
+    
     //设置地图位置：
     [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self);
             make.left.right.equalTo(self);
-            make.bottom.equalTo(self).offset(-10);
+            make.bottom.equalTo(self);
         }];
     //设置地图相关属性
     self.mapView.zoomLevel = 18;
@@ -52,7 +52,6 @@
     self.mapView.showsScale = NO;
     self.mapView.userInteractionEnabled = YES;
     [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
-    self.mapView.distanceFilter = 10;
     self.mapView.customizeUserLocationAccuracyCircleRepresentation = YES;
    
     //自定义用户位置小蓝点
@@ -66,9 +65,6 @@
 
 //在地图上添加控件
 - (void)addViewOnMap{
-    
-
-   
     //设置一个未显示地图时白色的蒙板
     self.topView = [[UIView alloc] init];
     [self.mapView addSubview:self.topView];
@@ -82,14 +78,16 @@
     } else {
         // Fallback on earlier versions
     }
-    self.topView.alpha = 0.7;
+    self.topView.alpha = 0.6;
+    
     
     //下面的白色View
        self.bottomView = [[UIView alloc] init];
        [self.mapView addSubview:self.bottomView];
        [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
            make.top.equalTo(self.mas_top).offset(kScreenHight * 0.5369);
-           make.bottom.equalTo(self.mas_bottom);
+           make.bottom.equalTo(self.mapView.mas_bottom);
+//           make.height.mas_equalTo(kScreenHight * 0.4631);
            make.width.mas_equalTo(kScreenWidth);
        }];
         //适配深色模式
@@ -103,6 +101,27 @@
        self.bottomView.layer.shadowOpacity = 1;
        self.bottomView.layer.shadowRadius = 6;
        
+    //左上角的GPS图标
+      self.GPSImgView = [[UIImageView alloc] init];
+      [self.mapView addSubview:self.GPSImgView];
+      [self.GPSImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+          make.left.equalTo(self.mapView.mas_left).offset(kScreenWidth * 0.04);
+          make.top.equalTo(self.mapView.mas_top).offset(kScreenHight * 0.0739);
+              make.size.mas_equalTo(CGSizeMake(28, 28));
+          }];
+      self.GPSImgView.backgroundColor = [UIColor clearColor];
+//      self.GPSImgView.alpha = 0.05;
+      self.GPSImgView.image = [UIImage imageNamed:@"GPS"];
+    
+    //左上角的GPS信号
+    self.GPSSignal = [[UIImageView alloc] init];
+    [self.mapView addSubview:self.GPSSignal];
+    [self.GPSSignal mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.GPSImgView.mas_right).offset(screenWidth * 0.0213);
+        make.centerY.equalTo(_GPSImgView);
+        make.size.mas_equalTo(CGSizeMake(34, 18));
+    }];
+    self.GPSSignal.backgroundColor = [UIColor clearColor];
 }
 
 //在底部视图上添加控件
@@ -123,7 +142,7 @@
     [self.bottomView addSubview:self.speedNumberLbl];
     [self.speedNumberLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.speedImgView);
-        make.top.equalTo(self.speedImgView.mas_bottom).offset(kScreenHight * 0.0185);
+        make.top.equalTo(self.speedImgView.mas_bottom).offset(kScreenHight * 0.0224);
         make.size.mas_equalTo(CGSizeMake(90, 34));
     }];
     self.speedNumberLbl.font = [UIFont fontWithName:@"Impact" size:28];
@@ -136,12 +155,13 @@
     }
     self.speedNumberLbl.textAlignment = NSTextAlignmentCenter;
     self.speedNumberLbl.text = @"3'55''";
+    
     //显示“配速”的label
     self.speedLbl = [[UILabel alloc] init];
     [self.bottomView addSubview:self.speedLbl];
     [self.speedLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.speedImgView.mas_centerX);
-        make.top.equalTo(self.speedNumberLbl.mas_bottom).offset(5);
+        make.top.equalTo(self.speedNumberLbl.mas_bottom).offset(kScreenHight * 0.0074);
         make.size.mas_equalTo(CGSizeMake(54, 24));
     }];
     self.speedLbl.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 14];
@@ -317,7 +337,7 @@
     
     self.continueBtn.backgroundColor = [UIColor colorWithRed:85/255.0 green:213/255.0 blue:226/255.0 alpha:1.0];
     self.continueBtn.layer.cornerRadius = 45;
-    self.continueBtn.layer.masksToBounds = 45;
+    self.continueBtn.layer.masksToBounds = YES;
     self.continueBtn.hidden = YES;
     
    #pragma mark- 解锁的View（相当于按钮）
@@ -336,27 +356,35 @@
     
     //图片
     self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
-    self.unlockLongPressView.imgView.backgroundColor = [UIColor greenColor];
-    
+    self.unlockLongPressView.layer.cornerRadius = 51;
+    self.unlockLongPressView.layer.masksToBounds = YES;
   
     
     self.unlockLongPressView.hidden = YES;
+#pragma mark- 拖动的labl和图片框
+    self.dragLabel = [[UILabel alloc] init];
+    [self.bottomView addSubview:self.dragLabel];
+    [self.dragLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.timeImgView);
+        make.top.equalTo(self.bottomView.mas_top);
+        make.bottom.equalTo(self.timeImgView.mas_top);
+//        make.height.mas_equalTo(@25);
+        make.width.mas_equalTo(screenWidth * 0.6666);
+    }];
+    
+    self.dragimageView = [[UIImageView alloc] init];
+    [self.dragLabel addSubview:self.dragimageView];
+//    self.dragimageView.backgroundColor = [UIColor greenColor];
+    self.dragimageView.image = [UIImage imageNamed:@"初始位置"];
+    [self.dragimageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.dragLabel);
+        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(screenWidth * 0.2666);
+    }];
 }
 
 //在顶部视图上添加控件
 - (void)addViewOnTopView{
-    
-        //左上角的GPS图标
-        self.GPSImgView = [[UIImageView alloc] init];
-        [self addSubview:self.GPSImgView];
-        [self.GPSImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.mas_left).offset(kScreenWidth * 0.04);
-            make.top.equalTo(self.mas_top).offset(kScreenHight * 0.0739);
-            make.size.mas_equalTo(CGSizeMake(28, 28));
-        }];
-    self.GPSImgView.backgroundColor = [UIColor clearColor];
-    self.GPSImgView.image = [UIImage imageNamed:@"GPS"];
-    
         //中心显示跑了多少公里数字的label
         self.numberLabel = [[UILabel alloc] init];
         [self addSubview:self.numberLabel];

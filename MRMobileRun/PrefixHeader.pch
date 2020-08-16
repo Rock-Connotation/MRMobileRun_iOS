@@ -18,7 +18,12 @@
 /*TabBar高度*/
 #define kTabBarHeight (CGFloat)(kIs_iPhoneX?(49.0 + 34.0):(49.0))
 
-//黑暗模式背景颜色
+/**
+黑暗模式背景颜色
+ */
+/*
+ 跑步页的深色模式颜色
+ */
 #define k_DarkBkgColor [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1.0]
 //关于黑暗模式的颜色
     //白色模式是白色
@@ -43,8 +48,19 @@
 #define MilesColor  [UIColor colorNamed:@"milesColor" inBundle:[NSBundle mainBundle]compatibleWithTraitCollection:nil]
     //显示@“公里”的字体颜色
 #define MilesTxetColor  [UIColor colorNamed:@"milesTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+//跑步结束后的提示界面的警告框
+#define SZHAlertColor  [UIColor colorNamed:@"SZHAlertColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//跑步结束后提示界面内的label的字体颜色
+#define SZHAlertTextColor  [UIColor colorNamed:@"SZHAlertTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//跑步结束后提示界面的蒙板
+#define SZHAlertViewColor  [UIColor colorNamed:@"SZHAlertViewColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//跑步结束后提示界面的结束按钮字体颜色
+#define SZHAlertEndBtnTexteColor  [UIColor colorNamed:@"SZHAlertEndBtnTexteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
+
 
 
 //"我的"页面的黑暗模式适配
@@ -85,6 +101,10 @@
 #define ktheDataAboutHistoryInvited @"https://wx.redrock.team/mobilerun/invite/history"
 //邀约上传跑步数据
 #define kLaunchTheInviteRunData @"hhttps://wx.redrock.team/mobilerun/invite/update_data"
+
+//上传跑步数据
+#define HandUpRunData @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/sportRecord"
+
 //历史足迹
 #define kHistoryTrack @"https://wx.redrock.team/mobilerun/user/lat_lng"
 

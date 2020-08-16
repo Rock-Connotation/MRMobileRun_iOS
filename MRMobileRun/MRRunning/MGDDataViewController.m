@@ -21,11 +21,15 @@
 #import "RunLocationModel.h"
 #import "MASmoothPathTool.h"
 #import "UIImageView+WebCache.h"
+#import "SZHChart.h"//速度图表的View
+#import "SZHWaveChart.h"//步频的波浪图
 @interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
 @property (nonatomic, strong) MAPolyline *smoothedTrace;
+
+
 
 //大头针
 @property (nonatomic, strong) MAPointAnnotation *beginAnnotataion;
@@ -46,41 +50,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];    //隐藏导航栏
+    [self.navigationController setNavigationBarHidden:YES animated:YES];//隐藏导航栏
+    
+    
     [self fit];
+    self.overView.mapView.delegate = self;
+    self.overView.mapView.showsUserLocation = NO;
+    self.overView.mapView.userInteractionEnabled = YES;
     [self initLocationManager];
     
     
 /*
 绘制轨迹
     */
+    //初始化原始数据数组和处理后的数组
+    self.origTracePoints = [NSArray array];
+    self.smoothedTracePoints = [NSArray array];
     [self loadTrancePoints];
     [self initSmoothedTrace];
    
-    /*
-     自定义始终位置的大头针
-     */
-    //开始地点
-    MAPointAnnotation *beginAnnotation = [[MAPointAnnotation alloc] init];
-    RunLocationModel *beginLocation = self.locationAry.firstObject;
-    beginAnnotation.coordinate = beginLocation.location;
-    self.beginAnnotataion = beginAnnotation;
-    [self.overView.mapView addAnnotation:self.beginAnnotataion];
-    //结束地点
-    MAPointAnnotation *endAnnotation = [[MAPointAnnotation alloc] init];
-    RunLocationModel *endLocation = self.locationAry.lastObject;
-    endAnnotation.coordinate = endLocation.location;
-    self.endAnnotataion = endAnnotation;
-    [self.overView.mapView addAnnotation:self.endAnnotataion];
+   //绘制始终位置大头针
+    [self initBeginAndEndAnnotations];
     
     // 给分享界面添加手势
     UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
     backGesture.delegate = self;
     [self.shareView.backView addGestureRecognizer:backGesture];
-    
-   
-    
-    
 }
     //适配各个View的深色模式以及页面布局
 - (void)fit{
@@ -96,12 +91,16 @@
        //根据机型进行控件布局
        if (kIs_iPhoneX) {
            _backScrollView.frame = CGRectMake(0, 0, screenWidth, screenHeigth - 100);
+           
            _twoBtnView = [[MGDButtonsView alloc] initWithFrame:CGRectMake(0,  screenHeigth - 100, screenWidth, 100)];
-           _dataView = [[MGDDataView alloc] initWithFrame:CGRectMake(0, screenHeigth - 100 + 10, screenWidth, 710)];
+           
+           _dataView = [[MGDDataView alloc] initWithFrame:CGRectMake(0, screenHeigth - 100 + 10, screenWidth, 710 + 35)];
        }else {
            _backScrollView.frame = CGRectMake(0, 0, screenWidth, screenHeigth - 66);
+           
             _twoBtnView = [[MGDButtonsView alloc] initWithFrame:CGRectMake(0, screenHeigth - 66, screenWidth, 66)];
-           _dataView = [[MGDDataView alloc] initWithFrame:CGRectMake(0, screenHeigth - 66 + 10, screenWidth, 710)];
+           
+           _dataView = [[MGDDataView alloc] initWithFrame:CGRectMake(0, screenHeigth - 66 + 10, screenWidth, 710 + 35)];
 
        }
        
@@ -109,41 +108,112 @@
        [_twoBtnView.overBtn addTarget:self action:@selector(backRootCV) forControlEvents:UIControlEventTouchUpInside];
        [_twoBtnView.shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
        [self.view addSubview:_twoBtnView];
-       _backScrollView.contentSize = CGSizeMake(screenWidth, 1432);
+       _backScrollView.contentSize = CGSizeMake(screenWidth, 1432 + 35 + 40);
        [self.view addSubview:_backScrollView];
        
        //地图下，统计图上的View，配速、时间、燃烧千卡等label的数据
        _overView = [[MGDOverView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth)];
        [self.backScrollView addSubview:_overView];
-       self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
-       self.overView.speedLab.text = self.speedStr; //配速赋值
-       /*
-        步频未弄出来，暂时先空缺着
-        */
-          _overView.timeLab.text = self.timeStr;   //跑步时间赋值
-       self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
        self.overView.mapView.delegate = self;
-
-    
+       /*
+        步频、速度两个图表
+        */
+        [self addTwoCharts];
+        
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];
+    
+    
+    //赋值
+    self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
+    self.overView.speedLab.text = self.speedStr; //配速赋值
+    if (self.averageStepFrequency >0 && self.averageStepFrequency < 300) {
+        self.overView.paceLab.text = [NSString stringWithFormat:@"%d",self.averageStepFrequency]; //平均步频赋值
+    }
+    _overView.timeLab.text = self.timeStr;   //跑步时间赋值
+    self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
+    self.dataView.paceLab.text = [NSString stringWithFormat:@"%d",self.maxStepFrequency];   //最大步频
+    self.dataView.speedLab.text = [NSString stringWithFormat:@"%.02f",self.maxSpeed]; //最大速度
+    
 }
+
+//添加两个图表
+- (void)addTwoCharts{
+//    //处理步频的数组
+//    NSMutableArray *stepsMuteAry = [NSMutableArray array];
+//    int totleSteps = 0;
+//    for (int i = 0; i < self.originStepsAry.count; i +=5) {
+//        NSString *stepStr = self.originStepsAry[i];
+//        int stepsValue = [stepStr intValue];
+//        totleSteps = totleSteps + stepsValue;
+//        [stepsMuteAry addObject:stepStr];
+//    }
+//    int averageStepFrequence = totleSteps/self.cacultedStepsAry.count;
+//    self.caculatedSpeedAry = stepsMuteAry;
+    
+    //画步频的波浪图
+    if (self.cacultedStepsAry.count != 0) {
+        //步频的波浪图
+//        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
+        SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
+        [paceWaveChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.cacultedStepsAry AndYMaxNumber:250];
+        [self.dataView.paceBackView addSubview:paceWaveChart];
+        [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.dataView.paceBackView);
+            make.height.mas_equalTo(245);
+        }];
+        paceWaveChart.topYlabel.text = @"步/分";
+        paceWaveChart.bottomXLabel.text = @"分钟";
+        for (int i = 0; i < paceWaveChart.leftLblAry.count; i++) {
+            UILabel *label = paceWaveChart.leftLblAry[i];
+            label.text = [NSString stringWithFormat:@"%d",(i+1) * 50];
+        }
+    }
+    
+//    //处理画速度的折线图
+//    NSMutableArray *speedMuteAry = [NSMutableArray array];
+//    for (int i = 0; i < self.locationAry.count; i += 160) {
+//        RunLocationModel *Model = self.locationAry[i];
+//        double speed = Model.speed;
+//        NSString *speedStr = [[NSNumber numberWithDouble:speed] stringValue];
+//        [speedMuteAry addObject:speedStr];
+//    }
+//    self.caculatedSpeedAry = speedMuteAry;
+    
+    if (self.caculatedSpeedAry.count != 0) {
+        //速度的折线图
+        SZHChart *speedChart = [[SZHChart alloc] init];
+        [speedChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+        [self.dataView.speedBackView addSubview:speedChart];
+        [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.dataView.speedBackView);
+            make.height.mas_equalTo(245);
+        }];
+        speedChart.topYlabel.text = @"米/秒";
+        speedChart.bottomXLabel.text = @"分钟";
+        for (int i = 0; i < speedChart.leftLblAry.count; i++) {
+            UILabel *label = speedChart.leftLblAry[i];
+            label.text = [NSString stringWithFormat:@"%d", i + 2];
+        }
+    }
+}
+
 //跳转到首页界面
 - (void)backRootCV {
   
-    ZYLMainViewController *cv = [[ZYLMainViewController alloc] init];
-       [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+    MRTabBarController *cv = [[MRTabBarController alloc] init];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
     [self.navigationController pushViewController:cv animated:YES];
-//    self.tabBarController.hidesBottomBarWhenPushed = NO;
-//    [self.navigationController popToRootViewControllerAnimated:YES];
-    
 }
 
 - (void)share {
     _shareView = [[MGDShareView alloc] initWithShotImage:@"" logoImage:@"" QRcodeImage:@""];
     [self.view addSubview:_shareView];
     [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    
+    //分享界面下五个按钮的方法
     [self shareAction];
+    
    // 分享界面的地图截图
     CGRect inRect = self.overView.mapView.frame;
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
@@ -173,6 +243,12 @@
     self.ALocationManager.locationTimeout = 2; //定位超时时间
     [self.ALocationManager setLocatingWithReGeocode:YES];
     [self.ALocationManager startUpdatingLocation];
+    // 延迟执行取消定位操作
+     __weak typeof(self) weakSelf = self;
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [weakSelf.ALocationManager stopUpdatingLocation];
+    });
 }
 
 #pragma mark- 轨迹相关
@@ -186,8 +262,10 @@
             MALonLatPoint *point = [[MALonLatPoint alloc] init];
             point.lat = lineLocationModel.location.latitude;
             point.lon = lineLocationModel.location.longitude;
+            [muteableAry addObject:point];
         }
         self.origTracePoints = muteableAry;
+    NSLog(@"原始轨迹数据测绘点个数为%lu",(unsigned long)self.origTracePoints.count);
 }
 
 //处理、绘制轨迹线
@@ -197,7 +275,7 @@
     tool.threshHold = 0.3;
     tool.noiseThreshhold = 10;
     self.smoothedTracePoints = [tool pathOptimize:self.origTracePoints];
-
+    NSLog(@"处理后的轨迹绘制数据点%lu",(unsigned long)self.smoothedTracePoints.count);
     CLLocationCoordinate2D *pCoords = malloc(sizeof(CLLocationCoordinate2D) * self.smoothedTracePoints.count);
     if(!pCoords) {
         return;
@@ -206,6 +284,7 @@
     for(int i = 0; i < self.smoothedTracePoints.count; ++i) {
         MALonLatPoint *p = [self.smoothedTracePoints objectAtIndex:i];
         CLLocationCoordinate2D *pCur = pCoords + i;
+//        CLLocationCoordinate2D *pCur = &pCoords[i];
         pCur->latitude = p.lat;
         pCur->longitude = p.lon;
     }
@@ -224,22 +303,55 @@
             MAPolylineRenderer *polyLineRender = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
             polyLineRender.lineWidth = 8;
             polyLineRender.strokeColor = [UIColor colorWithRed:123/255.0 green:183/255.0 blue:196/255.0 alpha:1.0]; //折线颜色
+       return polyLineRender;
       }
         return nil;
 }
 
-#pragma mark- 自定义大头针
+#pragma mark- 大头针相关
+//设置开始，结束位置的大头针
+- (void)initBeginAndEndAnnotations{
+        //开始地点
+        MAPointAnnotation *beginAnnotation = [[MAPointAnnotation alloc] init];
+    //    RunLocationModel *beginLocation = self.locationAry.firstObject;
+        MALonLatPoint *beginLocation = self.smoothedTracePoints.firstObject;
+        beginAnnotation.coordinate = CLLocationCoordinate2DMake(beginLocation.lat, beginLocation.lon);
+        self.beginAnnotataion = beginAnnotation;
+        [self.overView.mapView addAnnotation:self.beginAnnotataion];
+        
+        //结束地点
+        MAPointAnnotation *endAnnotation = [[MAPointAnnotation alloc] init];
+    //    RunLocationModel *endLocation = self.locationAry.lastObject;
+        MALonLatPoint *endLocation = self.smoothedTracePoints.lastObject;
+        endAnnotation.coordinate = CLLocationCoordinate2DMake(endLocation.lat, endLocation.lon);
+        self.endAnnotataion = endAnnotation;
+        [self.overView.mapView addAnnotation:self.endAnnotataion];
+}
+
+//自定义大头针样式
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
    if ([annotation isKindOfClass:[MAPointAnnotation class]]){
        if (annotation == self.beginAnnotataion) {
-           MAPinAnnotationView *annotationView = [[MAPinAnnotationView alloc] init];
+           static NSString *pointReuseIndentifier = @"pointReuseIndentifier";
+           MAPinAnnotationView*annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:pointReuseIndentifier];
+           if (annotationView == nil){
+            annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pointReuseIndentifier];
+           }
            annotationView.image = [UIImage imageNamed:@"startPointImage"];
-           annotationView.animatesDrop = NO;
+           annotationView.animatesDrop = NO;         //设置标注动画显示，默认为NO
+           annotationView.canShowCallout= NO;       //设置气泡可以弹出，默认为NO
+           annotationView.draggable = NO;            //设置不可被拖动
            return annotationView;
        }else if (annotation == self.endAnnotataion){
-           MAPinAnnotationView *annotationView = [[MAPinAnnotationView alloc] init];
+         static NSString *end = @"end";
+           MAPinAnnotationView*annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:end];
+           if (annotationView == nil){
+                annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:end];
+                }
            annotationView.image = [UIImage imageNamed:@"endPointImage"];
-           annotationView.animatesDrop = NO;
+           annotationView.animatesDrop = NO;         //设置标注动画显示，默认为NO
+           annotationView.canShowCallout= NO;       //设置气泡可以弹出，默认为NO
+           annotationView.draggable = NO;            //设置不可被拖动
            return annotationView;
        }
     }
@@ -265,6 +377,7 @@
     {
         return ;
     }
+    [self.overView.mapView setCenterCoordinate:location.coordinate];
 }
 
 #pragma mark- 分享的五个按钮的方法
@@ -290,6 +403,7 @@
         
     }];
 }
+
 
 #pragma mark-关于两个位置管理者的定位代理方法:实现后台定位
 

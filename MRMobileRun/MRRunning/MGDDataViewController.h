@@ -25,7 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *locationAry; //首页中采集到的所有定位点的数据
 @property (nonatomic, strong) NSArray *drawLineAry; //首页中采集到的所有用来绘制轨迹的数据
 
+@property (nonatomic, strong) NSArray *caculatedSpeedAry; //首页中处理后的速度数组
+@property (nonatomic, strong) NSArray *cacultedStepsAry; //首页中的处理后步频数组
+@property int averageStepFrequency; //平均步频
+@property int maxStepFrequency; //最大步频
+@property double averageSpeed; //平均速度
+@property double maxSpeed; //最大速度
 
+@property (nonatomic, strong) NSArray *originStepsAry; //原始的获取到的步频数组；
 
 @property (nonatomic ,strong) UIScrollView *backScrollView;
 

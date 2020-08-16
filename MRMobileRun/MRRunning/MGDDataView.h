@@ -25,8 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 //整体背景
 @property (nonatomic, strong) UIView *backView;
+
 //速度背景View
 @property (nonatomic, strong) UIView *speedBackView;
+
 //步频背景View
 @property (nonatomic, strong) UIView *paceBackView;
 

@@ -13,16 +13,22 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
+#import <AFNetworking.h>
 
+#import "ZYLTimeStamp.h" //获取开始、结束的时间
+#import "GYYHealthManager.h" //读取健康数据，获取跑步时间段的步数来计算步频
 #import "MRTabBarController.h"
+#import "MRMainTabBarController.h"
 #import "RunMainPageCV.h"
 #import "RunningMainPageView.h"
-#import "RunningModel.h"
 #import "RunLocationModel.h"
 #import "MGDDataViewController.h"
 #import "SZHAlertView.h" //跑步距离过短时结束的提示弹窗
 #import "RecordtimeString.h"
-@interface RunMainPageCV ()<MAMapViewDelegate,RunmodelDelegate,AMapLocationManagerDelegate,CLLocationManagerDelegate>
+@interface RunMainPageCV ()<MAMapViewDelegate,AMapLocationManagerDelegate,CLLocationManagerDelegate>
+{
+    CGFloat _yyy;
+}
 @property (nonatomic, strong) RunningMainPageView *Mainview;
 
 //关于时间
@@ -34,9 +40,26 @@
 @property (nonatomic) int minute;
 @property (nonatomic) int second;
 
+//数组
+@property (nonatomic, strong) NSMutableArray *stepsAry; //每分钟的步数
+@property (nonatomic, strong) NSArray *caculateStepsAry; //处理后的步频数组
+@property int averageStepFrequency; //平均步频
+@property int maxStepFrequency; //最大步频
+@property (nonatomic, strong) NSMutableArray *mintesAry; //跑步过程中的分钟数的数组
+
+@property (nonatomic, strong) NSMutableArray *speedAry; //速度的数组
+@property double averageSpeed; //平均速度
+@property double maxSpeed; //最大速度
+@property (nonatomic, strong) NSArray *caculateSpeedAry; //处理后的速度数组
+
+@property double mileage; //总路程
+@property double duration; //总时间
+@property (nonatomic, strong) NSString *finishDate;//完成的日期
+
+@property double kcal; //燃烧千卡；
 
 //关于模型
-@property (nonatomic, strong) RunningModel *model;
+//@property (nonatomic, strong) RunningModel *model;
 @property (nonatomic, strong) RunLocationModel *locationModel;
 
 /*
@@ -71,89 +94,109 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.isFirstLocation = YES;
-    self.isEndLocation = NO;
+    //关于一些初始化设置
+    self.locationArray = [NSMutableArray array];
+    self.drawLineArray = [NSMutableArray array];
+    self.beginTime = [ZYLTimeStamp getTimeStamp]; //跑步开始的时间
+    self.distance = 0;
+    self.mintesAry = [NSMutableArray array];
+    self.stepsAry = [NSMutableArray array];
+    
+
+    
     //跑步首页UI
     self.Mainview = [[RunningMainPageView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.Mainview];
     [self.Mainview mainRunView];
+    //给拖拽的label添加手势
+     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
+    [self.Mainview.dragLabel addGestureRecognizer:pan];
+    self.Mainview.dragLabel.userInteractionEnabled = YES;
     
-//    [self initlocation];
-    [self initAMapLocation];
-    [self btnFunction];
+    self.Mainview.mapView.delegate = self; //设置地图代理
+    [self initAMapLocation]; //初始化位置管理者
+    
+    self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
+    
+    [self btnFunction]; //跑步首页关于继续暂停等按钮的方法
     self.Mainview.mapView.delegate = self;
     
     //跑步时间初始化
     self.runTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startTimer) userInfo:nil repeats:YES];
      self.second = self.minute = self.hour = 0;
     
-
-    
 }
 
+//    //拖动label来动态改变底部bottomView的高度
+- (void)dragAction:(UIPanGestureRecognizer *)pan{
+     if ((pan.state == UIGestureRecognizerStateBegan)) {
+         if (_yyy == 0) {
+             _yyy = CGRectGetMaxY(self.Mainview.dragLabel.frame);
+                       }
+        }else if (pan.state == UIGestureRecognizerStateChanged){
+            //获取手势的偏移量
 
+            CGPoint point = [pan translationInView:self.Mainview.dragLabel];
+    //        NSLog(@"%f",point.y);
+            
+            CGFloat y = _yyy + point.y; //手势偏移量+初始量为改变量
+            if (point.y < -screenHeigth * 0.05) {
+                self.Mainview.topView.alpha = 0.6;
+                self.Mainview.dragimageView.image = [UIImage imageNamed:@"初始位置"];
+                [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.bottom.equalTo(self.view);
+                make.top.equalTo(self.Mainview.mas_top).offset(screenHeigth * 0.5369);
+                }];
+                //更换numberLabel的位置和显示公里的位置
+                //公里数
+                [self.Mainview.numberLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.equalTo(self.Mainview);
+                    make.top.equalTo(self.Mainview.GPSImgView.mas_bottom).offset(screenHeigth * 0.1589);
+                    make.height.mas_equalTo(100);
+                    make.width.mas_equalTo(self.Mainview.frame.size.width);
+                }];
+                self.Mainview.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+                
+            //显示公里的label
+                [self.Mainview.milesLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.Mainview.numberLabel.mas_bottom);
+                    make.centerX.equalTo(self.Mainview.numberLabel.mas_centerX);
+                    make.size.mas_equalTo(CGSizeMake(44, 30));
+                }];
+                self.Mainview.milesLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
+                
+            }
+                if(y > screenHeigth * 0.15) {
+                       y = screenHeigth * 0.3;
+                self.Mainview.topView.alpha = 0;
+                self.Mainview.dragimageView.image = [UIImage imageNamed:@"底部位置"];
+                //更新对bottomView的约束，使得它的高度变化
+                [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.right.bottom.equalTo(self.view);
+                    make.top.equalTo(self.Mainview.mas_top).offset(screenHeigth * 0.4869 + y);
+                }];
+                    //更换numberLabel的位置和显示公里的位置
+                    //显示公里的lable
+                    [self.Mainview.milesLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(self.Mainview.mapView).offset(screenHeigth * 0.0572);
+                        make.right.equalTo(self.Mainview.mapView.mas_right).offset(screenWidth * -0.04);
+                        make.size.mas_equalTo(CGSizeMake(36, 25));
+                    }];
+                    self.Mainview.milesLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:18];
+                    
+                    [self.Mainview.numberLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(self.Mainview.milesLabel.mas_top).offset(5);
+                        make.right.equalTo(self.Mainview.milesLabel.mas_left);
+                        make.size.mas_equalTo(CGSizeMake(84, 53));
+                    }];
+                    self.Mainview.numberLabel.font = [UIFont fontWithName:@"Impact" size:44];
+                          }
+            
+        }
+}
+                 
 
-// #pragma mark- 状态监听
-// - (void)setSportsState:(SportsState)sportsState{
-//     sportsState = self.sportsState;
-//     switch (sportsState) {
-//         case SportsStateIdle:{
-//             if (self.polyline != nil ) {
-////                 [self.locationManager stopUpdatingLocation];
-//                 [self.Mainview.mapView removeOverlay:self.polyline];
-//             }
-//             self.distance = 0;
-//             self.locationNumber = 0;
-//             self.isFirstLocation = YES;
-//             self.drawLineArray = [NSMutableArray arrayWithCapacity:16];
-//             break;
-//         }
-//         case SportsStateStart:{
-//             if (self.polyline != nil) {
-//                 [self.Mainview.mapView removeOverlay:self.polyline];
-//             }
-//             self.distance = 0;
-//             self.locationNumber = 0;
-//             self.isFirstLocation = YES;
-//             self.locationModel = [[RunLocationModel alloc] init];
-//             self.locationArray = [NSMutableArray array];
-//
-//             self.drawLineArray = [NSMutableArray arrayWithCapacity:16];
-////             [self.locationManager startUpdatingLocation];//开始持续定位
-//             
-//             /*
-//              是否使用陀螺仪（用经纬度计算距离，单纯用陀螺仪的计步来计算步频）
-//              */
-//             
-//         }
-//             
-//         case SportsStateRunning:
-//             
-//             return;
-//             
-//         case SportsStateStop:
-////             [self.locationManager stopUpdatingLocation];
-//             self.isEndLocation = YES;
-//             RunLocationModel *endLocationModel = self.locationArray.lastObject;
-//             [self drawEndRunPointAction:endLocationModel];
-//              
-//             break;
-//     }
-// }
-
-#pragma mark- 懒加载位置管理者
-//- (AMapLocationManager *)locationManager{
-//    if (!_locationManager) {
-//        _locationManager = [[AMapLocationManager alloc] init];
-//            _locationManager.delegate = self;
-//            _locationManager.distanceFilter = 5;//设置移动精度(单位:米)
-//            _locationManager.locationTimeout = 3;//定位时间
-//            _locationManager.allowsBackgroundLocationUpdates = YES;//开启后台定位
-//            [_locationManager startUpdatingLocation];
-//            [_locationManager setLocatingWithReGeocode:YES];
-//        }
-//        return _locationManager;
-//}
+#pragma mark- 加载位置管理者
 - (void)initAMapLocation{
     _locationManager = [[AMapLocationManager alloc] init];
                 _locationManager.delegate = self;
@@ -178,12 +221,8 @@
         }
 }
 #pragma mark- 定位数据
+//疑似无用的
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
-#pragma mark- 根据信号强度改变左上角的GPS信号图片
-
-    CGFloat signal = userLocation.location.horizontalAccuracy;
-    self.signal = signal;
-
 
     if(!updatingLocation)
         return ;
@@ -192,98 +231,73 @@
     {
         return ;
     }
-
-//    //设置信号强度，小于80，大于0的时候进来
-//    if (self.signal < 80 && self.signal >0) {
-//#pragma mark- 一下关于位置点距离测算以及画轨迹与locationManager里面设置的方法重复，记得删除一个
-//
-//        if (self.locationArray.count == 0) {
-//            self.isFirstLocation = YES;
-//            self.distance = 0;
-//            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
-//            [self.Mainview.mapView setCenterCoordinate:CLLocationCoordinate2DMake(userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude)];
-//
-//                RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
-//                StartPointModel.location = userLocation.location.coordinate;
-//                StartPointModel.speed = userLocation.location.speed;
-//                StartPointModel.time = userLocation.location.timestamp;
-//                [self.locationArray addObject:StartPointModel]; //向位置数组里面添加第一个定位点
-//                [self.drawLineArray addObject:StartPointModel];     //向画轨迹的位置数组里添加第一个定位定
-//                [self drawStartRunPointAction:StartPointModel];
-//                self.isFirstLocation = NO;
-//                self.isEndLocation = NO;
-//        }
-//        if (self.locationArray.count != 0) {
-//                RunLocationModel *LastlocationModel = self.locationArray.lastObject;
-//
-//            //当前定位的位置信息model
-//                RunLocationModel *currentModel = [[RunLocationModel alloc] init];
-//                currentModel.location = userLocation.location.coordinate;
-//                currentModel.time = userLocation.location.timestamp;
-//                currentModel.speed = userLocation.location.speed;
-//                //计算距离
-//                double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
-//                self.locationModel = currentModel;
-//                [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
-//                //将距离添加到屏幕上
-//                double KMeters = meters/1000;
-//                self.distance = self.distance + KMeters;
-//                self.Mainview.numberLabel.text = @"0";
-//                self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
-//
-//            //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
-//            if (meters >= 5) {
-////                [self.drawLineArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
-//                RunLocationModel *lineLastPointLocation = [[RunLocationModel alloc] init];
-//                //开始绘制轨迹
-//                CLLocationCoordinate2D linePoints[2];
-//                linePoints[0] = lineLastPointLocation.location;
-//                linePoints[1] = self.locationModel.location;
-//                //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
-//                MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
-//                [self.Mainview.mapView addOverlay:lineSection];
-//                [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
-//            }
-//
-//        }
-//    }
 }
 //
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
     self.signal = location.horizontalAccuracy;
-//    if (self.signal < 80 && self.signal >0){
-        if (self.locationArray.count == 0) {
-            
-            self.distance = 0;
-            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
-            
+    //根据信号强度设置信号强度的照片
+    if (self.signal < 20 ) {
+          //信号强
+          self.Mainview.GPSSignal.image = [UIImage imageNamed:@"信号三格"];
+      }else if(self.signal < 70){
+          //信号中等
+          self.Mainview.GPSSignal.image = [UIImage imageNamed:@"信号二格"];
+      }else{
+          //信号差
+          self.Mainview.GPSSignal.image = [UIImage imageNamed:@"信号一格"];
+      }
+    //GPS信号大于0。小于80的时候进来
+     if (self.signal < 80 && self.signal >0){
+          if (self.locationArray.count == 0) {
+              
             RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
             StartPointModel.location = location.coordinate;
             StartPointModel.speed = location.speed;
+              self.maxSpeed = location.speed;
             StartPointModel.time = location.timestamp;
             [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
             [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
-
-            [self drawStartRunPointAction:StartPointModel];
-            self.isFirstLocation = NO;
-            self.isEndLocation = NO;
+            //展示配速
+            int speedMinutes = (int)(1000/StartPointModel.speed)/60;
+            int speedSeconds = (int)(1000/StartPointModel.speed)%60;
+            if (speedMinutes > 99) {
+                self.Mainview.speedNumberLbl.text = @"--'--''";
+            }else{
+                self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
+            }
         }else if (self.locationArray.count != 0) {
                 RunLocationModel *LastlocationModel = self.locationArray.lastObject;
-
             //当前定位的位置信息model
             RunLocationModel *currentModel = [[RunLocationModel alloc] init];
             currentModel.location = location.coordinate;
             currentModel.time = location.timestamp;
             currentModel.speed = location.speed;
+            //比较此处定位点的速度是否比最大速度大，是的话将其赋值给最大速度
+            if (self.maxSpeed < currentModel.speed) {
+                self.maxSpeed = currentModel.speed;
+            }
             double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
-            self.locationModel = currentModel;
-            [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
-            double KMeters = meters/1000;
-            self.distance = self.distance + KMeters;
-            self.Mainview.numberLabel.text = @"0";
-            self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
-
-
+            //过滤偏移
+            if (currentModel.speed < 13) {
+                 self.locationModel = currentModel;
+                 [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+                 double KMeters = meters/1000;
+                 self.distance = self.distance + KMeters;
+                 self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+                
+                //计算配速
+                int speedMinutes = (int)(1000/self.locationModel.speed)/60;
+                int speedSeconds = (int)(1000/self.locationModel.speed)%60;
+                if (speedMinutes > 99) {
+                    self.Mainview.speedNumberLbl.text = @"--'--''";
+                }else{
+                  self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
+                }
+                //计算燃烧千卡
+                self.kcal = 60 * KMeters * 1.036;
+                self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%d",(int)self.kcal];
+                       }
+            
 #pragma mark- 绘制轨迹
             //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
             if (meters >= 5) {
@@ -295,13 +309,13 @@
                 //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
                 MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
                 [self.Mainview.mapView addOverlay:lineSection];
-
                 [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
+                NSLog(@"绘制轨迹的数组内的元素个数为%lu-----位置数组内的元素个数为%lu",(unsigned long)self.drawLineArray.count,(unsigned long)self.locationArray.count);
             }
         }
-//    }
+    }
 }
-
+//疑似无用的
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
     if (self.locationArray.count == 0) {
         self.locationModel = [[RunLocationModel alloc] init];
@@ -310,7 +324,6 @@
         self.locationModel.location = location.coordinate;
         [self.locationArray addObject:self.locationModel];
     }else if (self.locationArray.count != 0){
-        RunLocationModel *locationModel = self.locationArray.lastObject;
         RunLocationModel *currentModel = [[RunLocationModel alloc] init];
         currentModel.LOCATION = [locations firstObject];
         
@@ -319,75 +332,19 @@
 }
     //计算距离
 -(CLLocationDistance )distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
-    
-//       double startLongitude = start.longitude;
-//       double startLatitude = start.latitude;
-//       double endLongitude = end.longitude;
-//       double endLatitude = end.latitude;
-//
-//       double radLatitude1 = startLatitude * M_PI / 180.0;
-//       double radLatitude2 = endLatitude * M_PI / 180.0;
-//       double a = fabs(radLatitude1 - radLatitude2);
-//       double b = fabs(startLongitude * M_PI / 180.0 - endLongitude * M_PI / 180.0);
-//
-//       double s = 2 * asin(sqrt(pow(sin(a/2),2) + cos(radLatitude1) * cos(radLatitude2) * pow(sin(b/2),2)));
-//       s = s * 6378137;
-//
-//       meter = round(s * 10000) / 10000;
-    CLLocationDistance Meters = 0;
+        CLLocationDistance Meters = 0;
     MAMapPoint point1 = MAMapPointForCoordinate(lastModel.location);
        MAMapPoint point2 = MAMapPointForCoordinate(lastButOneModel.location);
        //2.计算距离
        CLLocationDistance newdistance = MAMetersBetweenMapPoints(point1,point2);
-       
-       //估算两者之间的时间差,单位 秒
-       NSTimeInterval secondsBetweenDates= [lastModel.time timeIntervalSinceDate:lastButOneModel.time];
-         //世界飞人9.97秒百米,当超过这个速度,即为误差值
-    if ((float)newdistance/secondsBetweenDates <= 9.97) {
         Meters = newdistance;
-    }
         return Meters;
 }
 
 #pragma mark- 绘制定位大头针
-//绘制开始位置大头针
-- (void)drawStartRunPointAction:(RunLocationModel *)startLocationModel{
-    if (self.isFirstLocation && self.Mainview.mapView.userLocation.location != nil) {
-        MAPointAnnotation *startPointAnnotation = [[MAPointAnnotation alloc] init];
-        startPointAnnotation.coordinate = startLocationModel.location;
-    }
-}
-
-//绘制结束位置大头针
-- (void)drawEndRunPointAction:(RunLocationModel *)endLocationModel{
-    if (!self.isFirstLocation && self.isEndLocation &&self.Mainview.mapView.userLocation.location != nil) {
-        MAPointAnnotation *endPointAnnotation = [[MAPointAnnotation alloc] init];
-        endPointAnnotation.coordinate = endLocationModel.location;
-    }
-}
     //自定义大头针
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
 
-//    if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
-//        if (self.isFirstLocation && !self.isEndLocation) {
-//            static NSString *startPointAnnotation = @"startPointAnnotation";
-//                        MAAnnotationView *startAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:startPointAnnotation];
-//                        if (startAnnotation == nil) {
-//                            startAnnotation = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:startPointAnnotation];
-//                        }
-//                         startAnnotation.image = [UIImage imageNamed:@"startPointImage"];
-//            //            startAnnotation.calloutOffset = CGPointMake(0, -20);
-//                        return startAnnotation;
-//        }else if (!self.isFirstLocation && self.isEndLocation){
-//            static NSString *endPointAnnotation = @"endPointAnnotation";
-//            MAAnnotationView *endAnnotation = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:endPointAnnotation];
-//            if (endAnnotation == nil) {
-//                endAnnotation = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:endPointAnnotation];
-//            }
-//            endAnnotation.image = [UIImage imageNamed:@"endPointImage"];
-//            return endAnnotation;
-//        }
-//    }
    // 自定义userlocation的大头针
     if ([annotation isKindOfClass:[MAUserLocation class]]) {
         static NSString *userLocationReuseIndetifier = @"userLocation";
@@ -406,8 +363,8 @@
     if ([overlay isKindOfClass:[MAPolyline class]]) {
         MAPolylineRenderer *polyLineRender = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
         polyLineRender.lineWidth = 8;
-//        polyLineRender.strokeImage = [UIImage imageNamed:@"运动轨迹"];
         polyLineRender.strokeColor = [UIColor colorWithRed:123/255.0 green:183/255.0 blue:196/255.0 alpha:1.0]; //折线颜色
+        return polyLineRender;
   }
     return nil;
 }
@@ -425,6 +382,14 @@
     //获取跑步时间
     self.Mainview.timeNumberLbl.text = timeString;
     self.timeString = timeString;
+    
+    //如果有一分钟了执行一下操作
+    if (self.second%60 == 0) {
+        self.endTime = [ZYLTimeStamp getTimeStamp];
+        [self caculatePace]; //获取这一分钟内的步数
+        self.beginTime = self.endTime;
+    }
+    
 }
 
 #pragma mark- 按钮的方法
@@ -451,7 +416,8 @@
 - (void)pauseMethod{
     //计时器暂停
     [self.runTimer setFireDate:[NSDate distantFuture]];
-    
+    //定位暂停
+    [self.locationManager stopUpdatingLocation];
     
     //按钮的变化
     self.Mainview.pauseBtn.hidden = YES;
@@ -462,41 +428,12 @@
     self.Mainview.continueBtn.hidden = NO;
 }
 
-//点击锁屏按钮方法
-- (void)lockMethod{
-//    self.Mainview.mapView.userInteractionEnabled = NO;
-
-    self.Mainview.topView.userInteractionEnabled = NO;
-//    self.Mainview.bottomView.userInteractionEnabled = NO;
-//    self.Mainview.unlockLongPressView.userInteractionEnabled = YES;
-    
-    
-#pragma mark- 按钮的变换
-    self.Mainview.pauseBtn.hidden = YES;
-    self.Mainview.lockBtn.hidden = YES;
-    self.Mainview.endLongPressView.hidden = YES;
-    self.Mainview.continueBtn.hidden = YES;
-    
-    self.Mainview.unlockLongPressView.hidden = NO;
-    
-}
-//长按解锁按钮方法
-- (void)unlockMethod{
-    
-    self.Mainview.topView.userInteractionEnabled = YES;
-#pragma mark- 按钮的变换
-    self.Mainview.unlockLongPressView.hidden = YES;
-    self.Mainview.endLongPressView.hidden = YES;
-    self.Mainview.continueBtn.hidden = YES;
-    
-    self.Mainview.lockBtn.hidden = NO;
-    self.Mainview.pauseBtn.hidden = NO;
-}
 //点击继续按钮方法
 - (void)continueMethod{
     //计时器继续
     [self.runTimer setFireDate:[NSDate distantPast]];
-    
+    //定位继续
+    [self.locationManager startUpdatingHeading];
     
     //按钮的变换
     self.Mainview.unlockLongPressView.hidden = YES;
@@ -508,93 +445,248 @@
     
 }
 
+//点击锁屏按钮方法
+- (void)lockMethod{
+    self.Mainview.topView.userInteractionEnabled = NO;
+#pragma mark- 按钮的变换
+    self.Mainview.pauseBtn.hidden = YES;
+    self.Mainview.lockBtn.hidden = YES;
+    self.Mainview.endLongPressView.hidden = YES;
+    self.Mainview.continueBtn.hidden = YES;
+    self.Mainview.unlockLongPressView.hidden = NO;
+}
+
+//长按解锁按钮方法
+- (void)unlockMethod{
+    self.Mainview.topView.userInteractionEnabled = YES;
+#pragma mark- 按钮的变换
+    self.Mainview.unlockLongPressView.hidden = YES;
+    self.Mainview.endLongPressView.hidden = YES;
+    self.Mainview.continueBtn.hidden = YES;
+    self.Mainview.lockBtn.hidden = NO;
+    self.Mainview.pauseBtn.hidden = NO;
+}
+
 //长按结束按钮方法
 - (void)endMethod{
     //计时器停止
 //    [self.runTimer setFireDate:[NSDate distantFuture]];
+    //处理步频、速度数组
+    [self caculateSpeedAndStepsArys];
+    self.mileage = self.distance; //总路程
+    self.duration = self.second; //总时间
+//    //获取当前日期
+    NSDate *date = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    self.finishDate = [formatter stringFromDate:date];
+    
     //弹出提示框
     if (self.second < 60 || self.distance < 100) {
         SZHAlertView *shortAlert = [[SZHAlertView alloc] initWithTitle:@"本次跑步距离过短，无法保存记录，确定结束吗？"];
         [self.view addSubview:shortAlert];
-        [shortAlert mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).offset(screenHeigth *0.335);
-//            make.left.equalTo(self.view.mas_left).offset(screenWidth *0.0907);
-            make.centerX.equalTo(self.view);
-            make.size.mas_equalTo(CGSizeMake(306, 200));
-        }];
+        shortAlert.frame = self.view.frame;
         [shortAlert.endBtn addTarget:self action:@selector(shortEndRun) forControlEvents:UIControlEventTouchUpInside];
         [shortAlert.ContinueRunBtn addTarget:self action:@selector(continueRun1) forControlEvents:UIControlEventTouchUpInside];
         self.shortAlert = shortAlert;
     }else{
         SZHAlertView *endAlert = [[SZHAlertView alloc] initWithTitle:@"您确定要结束跑步吗？"];
         [self.view addSubview:endAlert];
-        [endAlert mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).offset(screenHeigth *0.335);
-            make.centerX.equalTo(self.view);
-            make.size.mas_equalTo(CGSizeMake(306, 200));
-        }];
+        endAlert.frame = self.view.frame;
         [endAlert.endBtn addTarget:self action:@selector(endRun) forControlEvents:UIControlEventTouchUpInside];
         [endAlert.ContinueRunBtn addTarget:self action:@selector(continueRun2) forControlEvents:UIControlEventTouchUpInside];
         self.normalAlert = endAlert;
-
     }
-    
-    
-    
-   
 }
 
 //距离过短时的按钮
     //结束
+/**
+ 此处应当是直接跳转到首页，不会跳转到跑步结束页，也不会上传跑步数据，最后进行处理
+ */
 - (void)shortEndRun{
-    //跳转到下一个页面
-    self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
+//   MRTabBarController *cv = [[MRTabBarController alloc] init];
+////    MRMainTabBarController *cv = [[MRMainTabBarController alloc] init];
+//   [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+//   [self.navigationController pushViewController:cv animated:YES];
+////    [self.navigationController popToRootViewControllerAnimated:YES];
+    
     MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
-    //属性传值
-    overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
-    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
-    /*
-      步频还没弄出来，暂时闲置
-     */
-    overVC.timeStr = self.timeString; //时间
-    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
-    overVC.drawLineAry = self.drawLineArray;
-    overVC.locationAry = self.locationArray;
-       self.hidesBottomBarWhenPushed = YES;
-       [self.navigationController pushViewController:overVC animated:YES];
+                  //属性传值
+                     overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+                       overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
+                       overVC.cacultedStepsAry = self.caculateStepsAry; //处理后的步频数组
+                       overVC.caculatedSpeedAry = self.caculateSpeedAry; //处理后的速度数组
+                       overVC.averageSpeed = self.averageStepFrequency; //平均速度
+                       overVC.maxSpeed = self.maxSpeed; //最大速度
+                       overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
+                       overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
+                       overVC.timeStr = self.timeString; //时间
+                       overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
+                       overVC.drawLineAry = self.drawLineArray;
+                       overVC.locationAry = self.locationArray;
+                 self.hidesBottomBarWhenPushed = YES;
+                 [self.navigationController pushViewController:overVC animated:YES];
+              [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
 }
 
 - (void)continueRun1{
+    
     [self.shortAlert removeFromSuperview];
 }
 
 //正常结束
     //结束
 - (void)endRun{
-    //跳转到下一个页面
-    self.sportsState = SportsStateStop; //切换运动状态至停止跑步状态
-    MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
-    //属性传值
-    overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
-    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
-    /*
-      步频还没弄出来，暂时闲置
-     */
-    overVC.timeStr = self.timeString; //时间
-    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
-    overVC.drawLineAry = self.drawLineArray;
-    overVC.locationAry = self.locationArray;
-
-       self.hidesBottomBarWhenPushed = YES;
-       [self.navigationController pushViewController:overVC animated:YES];
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+     
+    //异步执行网络请求，上传跑步数据
+       dispatch_async(dispatch_get_global_queue(0, 0), ^{
+           [self handUpData];
+       });
+       //回到主线程去执行界面跳转以及属性传值
+       dispatch_async(dispatch_get_main_queue(), ^{
+           //跳转到下一个页面
+              MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
+               //属性传值
+                  overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+                    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
+                    overVC.cacultedStepsAry = self.caculateStepsAry; //处理后的步频数组
+                    overVC.caculatedSpeedAry = self.caculateSpeedAry; //处理后的速度数组
+                    overVC.averageSpeed = self.averageStepFrequency; //平均速度
+                    overVC.maxSpeed = self.maxSpeed; //最大速度
+                    overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
+                    overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
+                    overVC.timeStr = self.timeString; //时间
+                    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
+                    overVC.drawLineAry = self.drawLineArray;
+                    overVC.locationAry = self.locationArray;
+              self.hidesBottomBarWhenPushed = YES;
+              [self.navigationController pushViewController:overVC animated:YES];
+           [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+       });
 }
     //继续跑步
 - (void)continueRun2{
     [self.normalAlert removeFromSuperview];
 }
 
-//代理方法
+#pragma mark-步频和配速
+//步频
+- (void)caculatePace{
+    GYYHealthManager *healthManager = [GYYHealthManager shareInstance];
+    [healthManager authorizeHealthKit:^(BOOL success, NSError * _Nonnull error){
+        __weak typeof(self) weakSelf = self;   //block里避免循环引用，要用__weak 弱引用self    避免循环引用
+        __block NSString *steps;   //不是属性的基本类型，要用__block修饰
+        //异步去读取跑步时的步数
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [healthManager getStepCountFromBeginTime:[ZYLTimeStamp getDateFromTimeStamp:self.beginTime] ToEndTime:[ZYLTimeStamp getDateFromTimeStamp:self.endTime] completion:^(double stepValue, NSError * _Nonnull error) {
+                //找出最大的步频
+                if (weakSelf.stepsAry.count == 0) {
+                    self.maxStepFrequency = (int)stepValue;
+                }else if(weakSelf.stepsAry.count != 0){
+                    if (self.maxStepFrequency < (int)stepValue) {
+                        self.maxStepFrequency = (int)stepValue;
+                    }
+                }
+                steps = [[NSNumber numberWithDouble:stepValue] stringValue];
+            }];
+            //回到主线程
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.stepsAry addObject:steps];
+            });
+        });
+    }];
+}
+
+//处理步频和速度的数组
+- (void)caculateSpeedAndStepsArys{
+    //处理步频数组
+    if (self.stepsAry != 0) {
+         NSMutableArray *stepsMuteAry = [NSMutableArray array];
+            double totleSteps = 0;
+            for (int i = 0; i < self.stepsAry.count; i += 5) {
+                NSString *stepStr = self.stepsAry[i];
+                int stepsValue = [stepStr intValue];
+        //        int stepsValue = [self.stepsAry[i] intValue];
+                totleSteps = totleSteps + stepsValue; //求总步数
+                [stepsMuteAry addObject:stepStr];
+            }
+            self.caculateStepsAry = stepsMuteAry;
+            self.averageStepFrequency = totleSteps/self.caculateStepsAry.count; //平均步频
+    }
+    NSLog(@"----平均步频为%d",self.averageStepFrequency);
+    
+    //处理速度数组
+    if (self.locationArray.count != 0) {
+             NSMutableArray *speedMuteAry = [NSMutableArray array];
+        double totleSpeeds = 0;
+            for (int i = 0; i < self.locationArray.count; i += 160) {
+                RunLocationModel *Model = self.locationArray[i];
+                double speed = Model.speed;
+                totleSpeeds = totleSpeeds + speed;
+                NSString *speedStr = [[NSNumber numberWithDouble:speed] stringValue];
+                [speedMuteAry addObject:speedStr];
+            }
+        self.caculateSpeedAry = speedMuteAry;
+        self.averageSpeed = totleSpeeds/self.caculateSpeedAry.count;
+    }
+#warning 如果用下面的排序，程序会崩溃
+//    //排序找出最大速度
+//    RunLocationModel *Model = self.caculateSpeedAry[0];
+//    self.maxSpeed = Model.speed;
+//    for (int i = 1; i < self.caculateSpeedAry.count; i++) {
+//        RunLocationModel *model = self.caculateSpeedAry[i];
+//        double speed = model.speed;
+//        if (self.maxSpeed < speed) {
+//            self.maxSpeed = speed;
+//        }
+//    }
+}
+
+#pragma mark- 网络请求上传跑步数据
+- (void)handUpData{
+    
+    //创建要穿上去的数据字典
+    NSMutableDictionary *paramDic = [NSMutableDictionary new];
+    [paramDic setObject:self.locationArray forKey:@"path"]; //跑步沿途路径
+    NSString *duration = [[NSNumber numberWithDouble:self.duration] stringValue];
+    [paramDic setObject:duration forKey:@"duration"]; //跑步总时间
+    [paramDic setObject:self.Mainview.numberLabel.text forKey:@"mileage"]; //跑步总距离
+    [paramDic setObject:self.Mainview.energyNumberLbl.text forKey:@"kcal"];
+    NSString *averageSpeedStr = [[NSNumber numberWithDouble:self.averageSpeed] stringValue];
+    [paramDic setObject:averageSpeedStr forKey:@"averageSpeed"]; //平均速度
+    NSString *averageStepFrequencyStr = [[NSNumber numberWithInt:self.averageStepFrequency] stringValue];
+    [paramDic setObject:averageStepFrequencyStr forKey:@"averageStepFrequency"]; //平均步频
+    NSString *maxSpeedStr = [[NSNumber numberWithDouble:self.maxSpeed] stringValue];
+    [paramDic setObject:maxSpeedStr forKey:@"maxSpeed"]; //最大速度
+    NSString *maxStepFrequencyStr = [[NSNumber numberWithInt:self.maxStepFrequency] stringValue];
+    [paramDic setObject:maxStepFrequencyStr forKey:@"maxStepFrequency"]; //最大步频
+    [paramDic setObject:self.finishDate forKey:@"finishDate"]; //完成日期
+    [paramDic setObject:self.caculateStepsAry forKey:@"stepFrequency"]; //处理后的步频数组
+    [paramDic setObject:self.caculateSpeedAry forKey:@"speed"]; //处理后的速度数组
+
+       AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+       NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+       NSString *token = [user objectForKey:@"token"];
+       // 请求   TCP/IP   http
+       AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+       //添加请求头
+       [requestSerializer setValue:token forHTTPHeaderField:@"token"];
+       [manager setRequestSerializer:requestSerializer];
+       // 响应
+       AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+       [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
+       responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",@"text/xml",nil]]; //设置接收内容的格式
+       [manager setResponseSerializer:responseSerializer];
+    [manager POST:HandUpRunData parameters:paramDic success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"上传数据成功，得到的结果为%@",responseObject);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"上传跑步数据失败，结果为%@",error);
+    }];
+    
+}
+
+#pragma mark- 关于后台定位需要调用的代理方法
 - (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
     [locationManager requestAlwaysAuthorization];
 }
