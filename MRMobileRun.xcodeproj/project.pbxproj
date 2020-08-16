@@ -195,6 +195,9 @@
 		E323B11B24E1444C0092BD40 /* GYYRunTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E323B11A24E1444C0092BD40 /* GYYRunTableViewCell.m */; };
 		E323B11D24E144680092BD40 /* GYYHealthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E323B11C24E144680092BD40 /* GYYHealthManager.m */; };
 		E323B12024E144890092BD40 /* GYYRunModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E323B11F24E144890092BD40 /* GYYRunModel.m */; };
+		E34D9E2224E981A800906BAD /* GYYRankHeaderMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2124E981A800906BAD /* GYYRankHeaderMainView.m */; };
+		E34D9E2524E981D400906BAD /* GYYRankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */; };
+		E34D9E2824E981F000906BAD /* GYYRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2624E981F000906BAD /* GYYRankModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -583,6 +586,12 @@
 		E323B11E24E1446D0092BD40 /* GYYHealthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYHealthManager.h; sourceTree = "<group>"; };
 		E323B11F24E144890092BD40 /* GYYRunModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRunModel.m; sourceTree = "<group>"; };
 		E323B12124E1448F0092BD40 /* GYYRunModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRunModel.h; sourceTree = "<group>"; };
+		E34D9E2024E981A800906BAD /* GYYRankHeaderMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankHeaderMainView.h; sourceTree = "<group>"; };
+		E34D9E2124E981A800906BAD /* GYYRankHeaderMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankHeaderMainView.m; sourceTree = "<group>"; };
+		E34D9E2324E981D400906BAD /* GYYRankTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankTableViewCell.h; sourceTree = "<group>"; };
+		E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankTableViewCell.m; sourceTree = "<group>"; };
+		E34D9E2624E981F000906BAD /* GYYRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankModel.m; sourceTree = "<group>"; };
+		E34D9E2724E981F000906BAD /* GYYRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankModel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1231,6 +1240,10 @@
 		2FD8E784224F500F003EC09E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E34D9E2324E981D400906BAD /* GYYRankTableViewCell.h */,
+				E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */,
+				E34D9E2024E981A800906BAD /* GYYRankHeaderMainView.h */,
+				E34D9E2124E981A800906BAD /* GYYRankHeaderMainView.m */,
 				2FF3BB30238EB51100DB9051 /* old */,
 				2FF3BB31238EB57900DB9051 /* ZYLSelfRankCell.h */,
 				2FF3BB32238EB57900DB9051 /* ZYLSelfRankCell.m */,
@@ -1251,6 +1264,8 @@
 		2FD8E785224F501C003EC09E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E34D9E2724E981F000906BAD /* GYYRankModel.h */,
+				E34D9E2624E981F000906BAD /* GYYRankModel.m */,
 				2F0E816A225F745F00D5E511 /* ZYLClassRankModel.h */,
 				2F0E816B225F745F00D5E511 /* ZYLClassRankModel.m */,
 				2F0E816D225F748800D5E511 /* ZYLStudentRankModel.h */,
@@ -1719,6 +1734,7 @@
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
 				18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */,
+				E34D9E2224E981A800906BAD /* GYYRankHeaderMainView.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
 				2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */,
 				B89E087424CBBD60006033D5 /* MAMutablePolylineRenderer.m in Sources */,
@@ -1757,6 +1773,7 @@
 				2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */,
 				28EBE4EC22F07A70001B4293 /* LJJSearchedView.m in Sources */,
 				18CD288C24C5B1DA0093D396 /* MGDTopView.m in Sources */,
+				E34D9E2524E981D400906BAD /* GYYRankTableViewCell.m in Sources */,
 				2F0E814D225F309B00D5E511 /* XIGRankViewViewController.m in Sources */,
 				2F14F89A2391025000356CDF /* ZYLSliderView.m in Sources */,
 				B8CC789E24CECDDE002D2314 /* MGDOverView.m in Sources */,
@@ -1827,6 +1844,7 @@
 				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
 				280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */,
 				2FF3BB23238D4C5400DB9051 /* ZYLBackGroudView.m in Sources */,
+				E34D9E2824E981F000906BAD /* GYYRankModel.m in Sources */,
 				2F7ADC7723799CEE00FE9461 /* ZYLSettingNameCell.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
