@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Impact.ttf">
-   </FileRef>
-   <FileRef
       location = "group:MRMobileRun.xcodeproj">
    </FileRef>
    <FileRef

@@ -22,6 +22,7 @@
 #import <AFNetworking.h>
 #import <MBProgressHUD.h>
 #import <YYKit.h>
+#import <MJExtension.h>
 
 static NSString *const cellIdentifier = @"healthCell";
 static NSString *const runCellIdentifier = @"runCell";
@@ -51,7 +52,7 @@ static NSString *const runCellIdentifier = @"runCell";
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
     self.tabBarController.hidesBottomBarWhenPushed = NO;
-    
+    [self healthManagerConfig];
 }
 
 - (void)viewDidAppear:(BOOL)animated{  //视图已经出现
@@ -75,7 +76,6 @@ static NSString *const runCellIdentifier = @"runCell";
 //    [self getDataFromHealth];
 //    [self.hostView setTextOfStepLab:[NSString stringWithFormat:@"%ld",(long)todaySteps]  andStairLab:[NSString stringWithFormat:@"%ld",(long)todayStairs]];
     [self createSubviews];
-    [self healthManagerConfig];
     [self requestData];
     //请求成功时发送广播
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestData) name:@"isLoginSuccess" object:nil];
@@ -104,7 +104,7 @@ static NSString *const runCellIdentifier = @"runCell";
     
     //HUD  加载菊花
     
-    [manager POST:@"https://cyxbsmobile.sajo.fun/wxapi/mobile-run/home" parameters:@{} success:^(NSURLSessionDataTask *task, id responseObject) {
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/home" parameters:@{} success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"请求到的数据 = %@", responseObject);
         //hud remove
         NSInteger status = [responseObject[@"status"] integerValue]; //NSNumber
@@ -128,12 +128,17 @@ static NSString *const runCellIdentifier = @"runCell";
 //                //用时少  0.001  MJExtension   YYModel
             
 //            NSLog(@"%@",responseObject);
-            for (int i = 0; i < classify.count; i++) {
-                NSDictionary *tempDic = classify[i];
-                GYYRunModel *model = [[GYYRunModel alloc] init];
-                [model setValuesForKeysWithDictionary:tempDic];  //KVC  要走好多方法  访问好多成员变量
-               [self.runDataArr addObject:model];
-            }
+//            for (int i = 0; i < classify.count; i++) {
+//                NSDictionary *tempDic = classify[i];
+//                GYYRunModel *model = [[GYYRunModel alloc] init];
+//                [model setValuesForKeysWithDictionary:tempDic];  //KVC  要走好多方法  访问好多成员变量
+//               [self.runDataArr addObject:model];
+//            }
+                                                //对象数组      键值对数组  字典
+            self.runDataArr = [GYYRunModel mj_objectArrayWithKeyValuesArray:classify];  //没有 page size 所以直接赋值
+            
+            
+            
             [self.tableView reloadData];
 //            NSArray *classify = result[@"data"][@"classify"];
         }else{
@@ -154,39 +159,50 @@ static NSString *const runCellIdentifier = @"runCell";
             __block NSString *todayStais, *yesterdayStairs, *todayStep, *yesterdayStep;  //不是属性的基本类型，要用__block修饰
             
             dispatch_group_t group =  dispatch_group_create();//创建一个任务组
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
             
-            //把一个任务异步提交到任务组
-            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //把一个任务异步加到队列
+            dispatch_group_enter(group);
+            dispatch_async(queue, ^{
                 // 追加任务 1
                 [healthManager getStairIsToday:YES completion:^(double value, NSError * _Nonnull error) {
-                    todayStais = [[NSNumber numberWithDouble:value] stringValue];
+                    todayStais = [NSString stringWithFormat:@"%@", [NSNumber numberWithDouble:value]];
                     NSLog(@"今日阶梯：%@", todayStais);
+                    dispatch_group_leave(group);
                 }];
             });
             
-            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_group_enter(group);
+            dispatch_async(queue, ^{
                 // 追加任务 2
                 [healthManager getStairIsToday:NO completion:^(double value, NSError * _Nonnull error) {
-                    yesterdayStairs = [[NSNumber numberWithDouble:value] stringValue];
+                    yesterdayStairs = [NSString stringWithFormat:@"%@", [NSNumber numberWithDouble:value]];
                     NSLog(@"昨日阶梯：%@", yesterdayStairs);
+                    dispatch_group_leave(group);
                 }];
             });
-            
-            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+           
+            dispatch_group_enter(group);
+            dispatch_async(queue, ^{
                 // 追加任务 3
                 [healthManager getStepCountIsToday:YES completion:^(double value, NSError * _Nonnull error) {
-                    todayStep = [[NSNumber numberWithDouble:value] stringValue];
+                    todayStep = [NSString stringWithFormat:@"%@", [NSNumber numberWithDouble:value]];
                     NSLog(@"今日步数：%@", todayStep);
+                    dispatch_group_leave(group);
+                }];
+            });
+        
+            
+            dispatch_group_enter(group);
+            dispatch_async(queue, ^{
+                // 追加任务 4
+                [healthManager getStepCountIsToday:NO completion:^(double value, NSError * _Nonnull error) {
+                    yesterdayStep = [NSString stringWithFormat:@"%@", [NSNumber numberWithDouble:value]];
+                    NSLog(@"昨日步数：%@", yesterdayStep);
+                    dispatch_group_leave(group);
                 }];
             });
             
-            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                // 追加任务 4
-                [healthManager getStepCountIsToday:NO completion:^(double value, NSError * _Nonnull error) {
-                    yesterdayStep = [[NSNumber numberWithDouble:value] stringValue];
-                    NSLog(@"昨日步数：%@", yesterdayStep);
-                }];
-            });
             
             //监听任务组事件的执行完毕
             dispatch_group_notify(group, dispatch_get_main_queue(), ^{
@@ -195,17 +211,17 @@ static NSString *const runCellIdentifier = @"runCell";
                 NSMutableDictionary *stepDic = weakSelf.dataArray[0];
                 NSMutableDictionary *stairsDic = weakSelf.dataArray[1];
                 
-                [stepDic setObject:(todayStep == nil ? @" 12836":todayStep)
+                
+                [stepDic setObject:(todayStep == nil ? @" 12836" : todayStep)
                             forKey:@"todayData"];
                 [stepDic setObject:(yesterdayStep == nil? @"8762":yesterdayStep)
                             forKey:@"yesterdayData"];
                 
-                [stairsDic setObject:(todayStais == nil ? @"387":todayStais)
+                [stairsDic setObject:(todayStais == nil ? @"387" : todayStais)
                               forKey:@"todayData"];
-                [stairsDic setObject:(yesterdayStairs == nil ?@"411":yesterdayStairs)
+                [stairsDic setObject:(yesterdayStairs == nil ? @"411" : yesterdayStairs)
                               forKey:@"yesterdayData"];
                 
-                NSLog(@"=====%@", stepDic);
                 
                 [weakSelf.tableView reloadData];
                 [weakSelf.tableView layoutIfNeeded];
