@@ -54,7 +54,6 @@ static NSString *const rankCellIdentifier = @"rankCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
     [self createSubviews];   //创建视图
     currentPage = 1;
     currentType = 0;
@@ -181,6 +180,19 @@ static NSString *const rankCellIdentifier = @"rankCell";
 - (void)createSubviews{
     self.view.backgroundColor = [UIColor whiteColor];
     UIView *navView = [[UIView alloc] init];
+    if (@available(iOS 13.0, *)) {
+        UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return COLOR_WITH_HEX(0xFCFCFC);
+            }
+            else {
+                return COLOR_WITH_HEX(0x3C3F43);
+            }
+        }];
+        navView.backgroundColor = GYYColor;
+    } else {
+        navView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+    }
     [self.view addSubview:navView];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -189,44 +201,43 @@ static NSString *const rankCellIdentifier = @"rankCell";
         make.top.mas_equalTo(150);
     }];
     [navView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.top.and.right.mas_equalTo(0);
-        make.height.mas_equalTo(150);
+           make.left.and.top.and.right.mas_equalTo(0);
+           make.height.mas_equalTo(150);
     }];
-      
-    [navView addSubview:self.dayButton];
-    [navView addSubview:self.weekButton];
-    [navView addSubview:self.monthButton];
-    [navView addSubview:self.schoolButton];
-    [navView addSubview:self.academyButton];
-      //    [navView addSubview:_schoolButton];
-      //    [navView addSubview:_academyButton];
-    [_dayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(17);
-        make.bottom.mas_equalTo(-4);
-        make.size.mas_equalTo(CGSizeMake(42, 25));
-          }];
-    [_weekButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(86);
-        make.bottom.mas_equalTo(-4);
-        make.size.mas_equalTo(CGSizeMake(42, 25));
-          }];
-    [_monthButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(155);
-        make.bottom.mas_equalTo(-4);
-        make.size.mas_equalTo(CGSizeMake(42, 25));
-          }];
-    [_schoolButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(64);
-        make.bottom.mas_equalTo(-50);
-        make.size.mas_equalTo(CGSizeMake(124, 28));
-          }];
-    [_academyButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(214);
-        make.bottom.mas_equalTo(-50);
-        make.size.mas_equalTo(CGSizeMake(124, 28));
-          }];
-      }
-
+    
+     [navView addSubview:self.dayButton];
+        [navView addSubview:self.weekButton];
+        [navView addSubview:self.monthButton];
+        [navView addSubview:self.schoolButton];
+        [navView addSubview:self.academyButton];
+    //    [navView addSubview:_schoolButton];
+    //    [navView addSubview:_academyButton];
+        [_dayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(17);
+            make.bottom.mas_equalTo(-4);
+            make.size.mas_equalTo(CGSizeMake(42, 25));
+        }];
+        [_weekButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(86);
+            make.bottom.mas_equalTo(-4);
+            make.size.mas_equalTo(CGSizeMake(42, 25));
+        }];
+        [_monthButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(155);
+            make.bottom.mas_equalTo(-4);
+            make.size.mas_equalTo(CGSizeMake(42, 25));
+        }];
+        [_schoolButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(64);
+            make.bottom.mas_equalTo(-50);
+            make.size.mas_equalTo(CGSizeMake(124, 28));
+        }];
+        [_academyButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(214);
+            make.bottom.mas_equalTo(-50);
+            make.size.mas_equalTo(CGSizeMake(124, 28));
+        }];
+    }
 
 #pragma mark ======== UITableViewDelegate & UITableViewDataSource ========
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {  //分几个区
@@ -275,7 +286,19 @@ static NSString *const rankCellIdentifier = @"rankCell";
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
         
-        _tableView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+        if (@available(iOS 13.0, *)) {
+            UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0xFCFCFC);
+                }
+                else {
+                    return COLOR_WITH_HEX(0x3C3F43);
+                }
+            }];
+            _tableView.backgroundColor = GYYColor;
+        } else {
+            _tableView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+        }
         _tableView.showsVerticalScrollIndicator = NO;    //右侧 竖条
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -297,23 +320,37 @@ static NSString *const rankCellIdentifier = @"rankCell";
 
 
 -(UIButton *)dayButton{
-        if (!_dayButton) {
-            _dayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [_dayButton setTitle:@"日榜" forState:UIControlStateNormal];
-            [_dayButton setTitleColor:COLOR_WITH_HEX(0xB2B2B2) forState:UIControlStateNormal];
+    if (!_dayButton) {
+        _dayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_dayButton setTitle:@"日榜" forState:UIControlStateNormal];
+        [_dayButton setTitleColor:COLOR_WITH_HEX(0xB2B2B2) forState:UIControlStateNormal];
+        if (@available(iOS 13.0, *)) {
+            [_dayButton setTitleColor:[UIColor labelColor]
+                             forState:UIControlStateSelected];
+        } else {
+            
             [_dayButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
-            [_dayButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
-            _dayButton.tag = 100;
+            // Fallback on earlier versions
         }
-        return _dayButton;
+        [_dayButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
+        _dayButton.tag = 100;
     }
+    return _dayButton;
+}
 
 -(UIButton *)weekButton{
     if (!_weekButton) {
         _weekButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_weekButton setTitle:@"周榜" forState:UIControlStateNormal];
         [_weekButton setTitleColor:COLOR_WITH_HEX(0xB2B2B2) forState:UIControlStateNormal];
-        [_weekButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
+        if (@available(iOS 13.0, *)) {
+            [_weekButton setTitleColor:[UIColor labelColor]
+                              forState:UIControlStateSelected];
+        } else {
+            
+            [_weekButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
+            // Fallback on earlier versions
+        }
         [_weekButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
         _weekButton.tag = 200;
     }
@@ -325,7 +362,14 @@ static NSString *const rankCellIdentifier = @"rankCell";
         _monthButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_monthButton setTitle:@"月榜" forState:UIControlStateNormal];
         [_monthButton setTitleColor:COLOR_WITH_HEX(0xB2B2B2) forState:UIControlStateNormal];
-        [_monthButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
+        if (@available(iOS 13.0, *)) {
+            [_monthButton setTitleColor:[UIColor labelColor]
+                               forState:UIControlStateSelected];
+        } else {
+            
+            [_monthButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
+            // Fallback on earlier versions
+        }
         [_monthButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
         _monthButton.tag = 300;
     }
@@ -337,8 +381,15 @@ static NSString *const rankCellIdentifier = @"rankCell";
         _schoolButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_schoolButton setTitle:@"校园排行" forState:UIControlStateNormal];
         [_schoolButton setTitleColor:COLOR_WITH_HEX(0xB2B2B2) forState:UIControlStateNormal];
-        [_schoolButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
-//        [_schoolButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
+        if (@available(iOS 13.0, *)) {
+            [_schoolButton setTitleColor:[UIColor labelColor]
+                                forState:UIControlStateSelected];
+        } else {
+            
+            [_schoolButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
+            // Fallback on earlier versions
+        }
+        [_schoolButton addTarget:self action:@selector(clicktopButton:) forControlEvents:UIControlEventTouchUpInside];
         _schoolButton.tag = 400;
     }
     return _schoolButton;
@@ -349,13 +400,19 @@ static NSString *const rankCellIdentifier = @"rankCell";
         _academyButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_academyButton setTitle:@"学院排行" forState:UIControlStateNormal];
         [_academyButton setTitleColor:COLOR_WITH_HEX(0xB2B2B2) forState:UIControlStateNormal];
-        [_academyButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
-//        [_academyButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
+        if (@available(iOS 13.0, *)) {
+            [_academyButton setTitleColor:[UIColor labelColor]
+                                 forState:UIControlStateSelected];
+        } else {
+            
+            [_academyButton setTitleColor:COLOR_WITH_HEX(0x333739) forState:UIControlStateSelected];
+            // Fallback on earlier versions
+        }
+        [_academyButton addTarget:self action:@selector(clicktopButton:) forControlEvents:UIControlEventTouchUpInside];
         _academyButton.tag = 500;
     }
     return _academyButton;
 }
-
 - (void)clickButton:(UIButton*)btn{
     if (_tempSmallBtn == btn) {
         return;
@@ -384,12 +441,13 @@ static NSString *const rankCellIdentifier = @"rankCell";
     }else if (btn.tag == 500){
         [self refreshAcademyAction];
     }
-    _tempSmallBtn.selected = NO;
-       _tempTopBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-       _tempTopBtn = btn;
-       _tempTopBtn.selected = YES;
-       _tempTopBtn.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+    _tempTopBtn.selected = NO;
+    _tempTopBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    _tempTopBtn = btn;
+    _tempTopBtn.selected = YES;
+    _tempTopBtn.titleLabel.font = [UIFont boldSystemFontOfSize:20];
 }
+
 
 - (NSMutableArray *)dataArr{
     if (!_dataArr) {

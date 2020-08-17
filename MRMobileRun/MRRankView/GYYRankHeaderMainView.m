@@ -47,7 +47,20 @@
     [self addSubview:self.rankLab];
     [self addSubview:self.nameLab];
     [self addSubview:self.distanceLab];
-    
+   
+    if (@available(iOS 13.0, *)) {
+        UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return COLOR_WITH_HEX(0xFFFFFF);
+            }
+            else {
+                return COLOR_WITH_HEX(0x4A4D52);
+            }
+        }];
+        self.backgroundColor = GYYColor;
+    } else {
+        self.backgroundColor = COLOR_WITH_HEX(0xFFFFFF);
+    }
     UILabel *tipLab = [[UILabel alloc] init];
     [self addSubview:tipLab];
     tipLab.text = @"排名";
@@ -123,7 +136,20 @@
 - (UILabel *)nameLab{
     if (!_nameLab) {
         _nameLab = [[UILabel alloc] init];
-        _nameLab.textColor = COLOR_WITH_HEX(0x333739);
+        if (@available(iOS 13.0, *)) {
+            UIColor *rankColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0x333739);
+                }
+                else {
+                    return COLOR_WITH_HEX(0xFFFFFF);
+                }
+            }];
+            self->_nameLab.textColor = rankColor;
+        } else {
+            _nameLab.textColor = COLOR_WITH_HEX(0x333739);
+            // Fallback on earlier versions
+        }
         _nameLab.font = [UIFont boldSystemFontOfSize:16];
     }
     return _nameLab;
@@ -132,11 +158,23 @@
 - (UILabel *)distanceLab{
     if (!_distanceLab) {
         _distanceLab = [[UILabel alloc] init];
-        _distanceLab.textColor = COLOR_WITH_HEX(0x333739);
+        if (@available(iOS 13.0, *)) {
+            UIColor *rankColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0x333739);
+                }
+                else {
+                    return COLOR_WITH_HEX(0xFFFFFF);
+                }
+            }];
+            self->_distanceLab.textColor = rankColor;
+        } else {
+            _distanceLab.textColor = COLOR_WITH_HEX(0x333739);
+            // Fallback on earlier versions
+        }
     }
     return _distanceLab;
 }
-
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

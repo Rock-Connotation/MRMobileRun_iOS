@@ -38,6 +38,19 @@
     [self.contentView addSubview:self.nameLab];
     [self.contentView addSubview:self.signLab];
     [self.contentView addSubview:self.distanceLab];
+    if (@available(iOS 13.0, *)) {
+        UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return COLOR_WITH_HEX(0xFCFCFC);
+            }
+            else {
+                return COLOR_WITH_HEX(0x3C3F43);
+            }
+        }];
+        self.contentView.backgroundColor = GYYColor;
+    } else {
+        self.contentView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+    }
     
     [self.rankIcon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -111,7 +124,20 @@
 - (UILabel *)rankLab{
     if (!_rankLab) {
         _rankLab = [[UILabel alloc] init];
-        _rankLab.textColor = COLOR_WITH_HEX(0x64686F);
+        if (@available(iOS 13.0, *)) {
+            UIColor *rankColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0x64686F);
+                }
+                else {
+                    return COLOR_WITH_HEX(0xFFFFFF);
+                }
+            }];
+            self->_rankLab.textColor = rankColor;
+        } else {
+            _rankLab.textColor = COLOR_WITH_HEX(0x64686F);
+            // Fallback on earlier versions
+        }
         _rankLab.font = [UIFont systemFontOfSize:16];
     }
     return _rankLab;
@@ -129,7 +155,20 @@
 - (UILabel *)nameLab{
     if (!_nameLab) {
         _nameLab = [[UILabel alloc] init];
-        _nameLab.textColor = COLOR_WITH_HEX(0x333739);
+        if (@available(iOS 13.0, *)) {
+            UIColor *rankColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0x333739);
+                }
+                else {
+                    return COLOR_WITH_HEX(0xFFFFFF);
+                }
+            }];
+            self->_nameLab.textColor = rankColor;
+        } else {
+            _nameLab.textColor = COLOR_WITH_HEX(0x333739);
+            // Fallback on earlier versions
+        }
         _nameLab.font = [UIFont systemFontOfSize:15];
     }
     return _nameLab;
@@ -148,7 +187,20 @@
 - (UILabel *)distanceLab{
     if (!_distanceLab) {
         _distanceLab = [[UILabel alloc] init];
-        _distanceLab.textColor = COLOR_WITH_HEX(0x333739);
+        if (@available(iOS 13.0, *)) {
+            UIColor *rankColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0x333739);
+                }
+                else {
+                    return COLOR_WITH_HEX(0xA0A0A0);
+                }
+            }];
+            self->_distanceLab.textColor = rankColor;
+        } else {
+            _distanceLab.textColor = COLOR_WITH_HEX(0x333739);
+            // Fallback on earlier versions
+        }
     }
     return _distanceLab;
 }
@@ -163,7 +215,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
