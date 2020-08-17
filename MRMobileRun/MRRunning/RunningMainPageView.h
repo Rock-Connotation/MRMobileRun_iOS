@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RunningMainPageView : UIView
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) UIImageView *GPSImgView;
+@property (nonatomic, strong) UIImageView *GPSSignal;
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *milesLabel;
 @property (nonatomic, strong) UIView *bottomView;
@@ -47,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView *unlockImgView;
 @property (nonatomic, strong) UILabel *unlockLabel;
 
+@property (nonatomic, strong) UILabel *dragLable;
+@property (nonatomic, strong) UIImageView *dragimageView;
 - (void)mainRunView;
 - (void)addMapView;
 - (void)addViewOnMap;

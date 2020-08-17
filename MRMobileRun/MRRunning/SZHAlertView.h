@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SZHAlertView : UIView
+@property (nonatomic, strong) UIView *AlertView;
 @property (nonatomic, strong) UILabel *messageLbl; //信息框
 @property (nonatomic, strong) UIButton *endBtn; //结束按钮
 @property (nonatomic, strong) UIButton *ContinueRunBtn; //继续跑步按钮

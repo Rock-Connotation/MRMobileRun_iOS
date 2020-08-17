@@ -173,7 +173,7 @@
         }];
         
         [_currentTime mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.backView.mas_top).mas_offset(15);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
             make.left.mas_equalTo(self.date.mas_right).mas_offset(5);
             make.width.equalTo(@35);
             make.height.equalTo(@17);
@@ -211,9 +211,10 @@
     
     [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(42);
+        make.bottom.equalTo(self.userIcon.mas_bottom);
         make.left.mas_equalTo(self.userIcon.mas_right).mas_offset(14);
         make.width.equalTo(@127);
-        make.height.equalTo(@22);
+//        make.height.equalTo(@22);
     }];
     
     [_kmLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -261,7 +262,7 @@
     [_timeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-104);
-        make.width.equalTo(@78);
+        make.width.equalTo(@90); //78
         make.height.equalTo(@29);
     }];
     
@@ -293,8 +294,9 @@
    
     //设置地图相关属性
        self.mapView.zoomLevel = 18;
-    self.mapView.showsUserLocation = NO;
-    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+    self.mapView.mapType = MAMapTypeStandard; //设置地图的样式
+       self.mapView.showsUserLocation = NO; //不显示小蓝点
+       self.mapView.userTrackingMode = MAUserTrackingModeFollow;
        self.mapView.pausesLocationUpdatesAutomatically = NO;
        self.mapView.showsCompass = NO;
        self.mapView.showsScale = NO;
@@ -315,7 +317,9 @@
 //    _userIcon.image = [UIImage imageNamed:@"avatar"];
 //    //测试用户名
 //    _userName.text = @"你的寒王";
-        [self getUserInfo];
+    
+    [self getUserInfo];
+//    [self getUserData];
     
     //测试公里数
     _kmLab.text = @"37.26";
@@ -333,39 +337,14 @@
     _currentTime.text = @"20:36";
 }
 //网络请求 ，从网络上获取用户的头像、昵称
+
 - (void)getUserInfo {
-               HttpClient *client = [HttpClient defaultClient];
-              NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
-               NSString *student_id = [user objectForKey:@"studentID"];
-               NSString *pwd = [user objectForKey:@"password"];
-               NSDictionary *param = @{@"studentId":student_id,@"password":pwd};
-               NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
-               [client requestWithHead:kLoginURL method:HttpRequestPost parameters:param head:head prepareExecute:^
-                {
-                    //
-                } progress:^(NSProgress *progress)
-                {
-                    //
-                } success:^(NSURLSessionDataTask *task, id responseObject)
-                {
-//                    self->_userModel = [MGDUserInfo InfoWithDict:responseObject[@"data"]];
-//                    [self reloadUserInfo:self->_userModel];
-                   NSString *imageUrl = responseObject[@"data"][@"avatar_url"];
-                   [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
-                   
-                   NSString *nickName = responseObject[@"data"][@"nickname"];
-                   self.userName.text = nickName;
-       //            NSDictionary *dict = responseObject[@"data"];
-       //            MGDUserInfo *model = [[MGDUserInfo alloc] init];
-       //            model.userName = [dict objectForKey:@"nickname"];
-       //            model.userSign = [dict objectForKey:@"signature"];
-       //            model.userIcon = [dict objectForKey:@"avatar_url"];
-       //            [self reloadUserInfo:model];
-                   
-                } failure:^(NSURLSessionDataTask *task, NSError *error) {
-                    //
-                    NSLog(@"%@",error);
-                }];
-       }
+    NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+    NSString *nickName = [user objectForKey:@"nickname"];
+    NSString *imageUrl = [user objectForKey:@"avatar_url"];
+    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+    self.userName.text = nickName;
+}
+
 
 @end
