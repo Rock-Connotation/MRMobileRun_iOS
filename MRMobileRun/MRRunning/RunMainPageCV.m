@@ -482,7 +482,7 @@
     self.finishDate = [formatter stringFromDate:date];
     
     //弹出提示框
-    if (self.second < 60 || self.distance < 100) {
+    if (self.second < 60 || self.distance < 0.1) {
         SZHAlertView *shortAlert = [[SZHAlertView alloc] initWithTitle:@"本次跑步距离过短，无法保存记录，确定结束吗？"];
         [self.view addSubview:shortAlert];
         shortAlert.frame = self.view.frame;
@@ -538,7 +538,6 @@
 //正常结束
     //结束
 - (void)endRun{
-     
     //异步执行网络请求，上传跑步数据
        dispatch_async(dispatch_get_global_queue(0, 0), ^{
            [self handUpData];
@@ -679,7 +678,8 @@
        responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",@"text/xml",nil]]; //设置接收内容的格式
        [manager setResponseSerializer:responseSerializer];
     [manager POST:HandUpRunData parameters:paramDic success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSLog(@"上传数据成功，得到的结果为%@",responseObject);
+        NSLog(@"-----------上传数据成功，得到的结果为%@",responseObject);
+        NSLog(@"---------···上传的数据为%@",paramDic);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"上传跑步数据失败，结果为%@",error);
     }];
