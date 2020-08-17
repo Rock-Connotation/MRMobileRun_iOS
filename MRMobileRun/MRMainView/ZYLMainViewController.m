@@ -5,6 +5,7 @@
 //  Created by 丁磊 on 2019/3/23.
 //
 
+
 #import "ZYLMainViewController.h"
 #import "ZYLMainView.h"
 #import "ZYLStartRunningButton.h"
@@ -70,6 +71,17 @@ static NSString *const runCellIdentifier = @"runCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (@available(iOS 13.0, *)) {
+        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) { //浅色模式
+                return [UIColor whiteColor];
+            } else { //深色模式
+                return [UIColor blackColor];
+            }
+        }];
+        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色
+    }
+
 //    self.user = [NSUserDefaults standardUserDefaults];
 //    self.healthManager = [ZYLHealthManager shareInstance];
 //    [self.view addSubview: self.hostView];
@@ -233,7 +245,19 @@ static NSString *const runCellIdentifier = @"runCell";
 }
 
 - (void)createSubviews{
-    self.view.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return COLOR_WITH_HEX(0xFCFCFC);
+            }
+            else {
+                return COLOR_WITH_HEX(0x3C3F43);
+            }
+        }];
+        self.view.backgroundColor = GYYColor;
+    } else {
+        self.view.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+    }
     
     UIView *navView = [[UIView alloc] init];
     [self.view addSubview:navView];
@@ -251,8 +275,19 @@ static NSString *const runCellIdentifier = @"runCell";
         make.centerY.equalTo(_navLab.mas_centerY).offset(0);
         make.right.mas_equalTo(55);
     }];
-    navView.backgroundColor = [UIColor whiteColor];
-    
+    if (@available(iOS 13.0, *)) {
+        UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return COLOR_WITH_HEX(0xFCFCFC);
+            }
+            else {
+                return COLOR_WITH_HEX(0x3C3F43);
+            }
+        }];
+        navView.backgroundColor = GYYColor;
+    } else {
+        navView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+    }
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.mas_equalTo(0);
@@ -335,7 +370,19 @@ static NSString *const runCellIdentifier = @"runCell";
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return COLOR_WITH_HEX(0xFCFCFC);
+            }
+            else {
+                return COLOR_WITH_HEX(0x3C3F43);
+            }
+        }];
+        headerView.backgroundColor = GYYColor;
+    } else {
+        headerView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+    }
     
 //    if (section == 0) {
     UILabel *headerLab = [[UILabel alloc] init];
@@ -347,7 +394,12 @@ static NSString *const runCellIdentifier = @"runCell";
         headerLab.text = @"跑步";
     }
     headerLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size:18];
-    headerLab.textColor = COLOR_WITH_HEX(0x333739);
+    if (@available(iOS 13.0, *)) {
+        headerLab.textColor = [UIColor labelColor];
+    } else {
+        headerLab.textColor = COLOR_WITH_HEX(0x333739);
+        // Fallback on earlier versions
+    }
     [headerLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
         make.centerY.mas_equalTo(0);
@@ -397,7 +449,19 @@ static NSString *const runCellIdentifier = @"runCell";
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
         
-        _tableView.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0xFCFCFC);
+                }
+                else {
+                    return COLOR_WITH_HEX(0x3C3F43);
+                }
+            }];
+            _tableView.backgroundColor = GYYColor;
+        } else {
+            _tableView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+        }
         _tableView.showsVerticalScrollIndicator = NO;    //右侧 竖条
         _tableView.delegate = self;
         _tableView.dataSource = self;

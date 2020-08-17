@@ -47,7 +47,19 @@
     [self.contentView addSubview:self.grayBarView];
     [self.grayBarView addSubview:self.grayBarTitleLab];
     [self.grayBarView addSubview:self.yestodaydataLab];
-    
+    if (@available(iOS 13.0, *)) {
+           UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+               if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                   return COLOR_WITH_HEX(0xFCFCFC);
+               }
+               else {
+                   return COLOR_WITH_HEX(0x3C3F43);
+               }
+           }];
+           self.contentView.backgroundColor = GYYColor;
+       } else {
+           self.contentView.backgroundColor = COLOR_WITH_HEX(0xFCFCFC);
+       }
     [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(-(screenWidth / 2 - 27.5));
         make.centerY.equalTo(self.titleLab);
@@ -194,7 +206,11 @@
     NSString *targetStr = [countStr stringByAppendingString:unitStr];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:targetStr];
     
-    [attributedString addAttribute:NSForegroundColorAttributeName value:COLOR_WITH_HEX(0x333739) range:[targetStr rangeOfString:countStr]];
+    if (@available(iOS 13.0, *)) {
+        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor labelColor] range:[targetStr rangeOfString:countStr]];
+    } else {
+        // Fallback on earlier versions
+    }
     [attributedString addAttribute:NSForegroundColorAttributeName value:COLOR_WITH_HEX(0xA0A0A0) range:[targetStr rangeOfString:unitStr]];
     
     [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Medium" size:24] range:[targetStr rangeOfString:countStr]];
@@ -258,6 +274,7 @@
 - (UILabel *)dataLab{
     if (!_dataLab) {
         _dataLab = [[UILabel alloc] init];
+        
     }
     return _dataLab;
 }
@@ -284,7 +301,19 @@
 - (UIView *)grayBarView{
     if (!_grayBarView) {
         _grayBarView = [[UIView alloc] init];
-        _grayBarView.backgroundColor = COLOR_WITH_HEX(0xE1E4E5);
+        if (@available(iOS 13.0, *)) {
+            UIColor *GYYColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0xE1E4E5);
+                }
+                else {
+                    return COLOR_WITH_HEX(0x64686F);
+                }
+            }];
+            _grayBarView.backgroundColor = GYYColor;
+        } else {
+            _grayBarView.backgroundColor = COLOR_WITH_HEX(0xE1E4E5);
+        }
         _grayBarView.layer.masksToBounds = YES;  //开启圆角
         _grayBarView.layer.cornerRadius = 6.0;   //圆角大小  半径
     }
