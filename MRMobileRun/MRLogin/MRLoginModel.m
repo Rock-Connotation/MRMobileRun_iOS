@@ -97,7 +97,7 @@
     } progress:^(NSProgress *progress) {
         //
     } success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] isEqual:@-2])
+        if ([[responseObject objectForKey:@"status"] isEqual:@401])
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:nil];
         }
