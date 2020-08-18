@@ -123,7 +123,7 @@
     NSString *targetStr = [countStr stringByAppendingString:unitStr];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:targetStr];
     
-    [attributedString addAttribute:NSForegroundColorAttributeName value:COLOR_WITH_HEX(0x333739) range:[targetStr rangeOfString:countStr]];
+//    [attributedString addAttribute:NSForegroundColorAttributeName value:COLOR_WITH_HEX(0x333739) range:[targetStr rangeOfString:countStr]];
     [attributedString addAttribute:NSForegroundColorAttributeName value:COLOR_WITH_HEX(0xA0A0A0) range:[targetStr rangeOfString:unitStr]];
     
     [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Medium" size:24] range:[targetStr rangeOfString:countStr]];
@@ -206,11 +206,11 @@
     NSString *targetStr = [countStr stringByAppendingString:unitStr];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:targetStr];
     
-    if (@available(iOS 13.0, *)) {
-        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor labelColor] range:[targetStr rangeOfString:countStr]];
-    } else {
-        // Fallback on earlier versions
-    }
+//    if (@available(iOS 13.0, *)) {
+//        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor labelColor] range:[targetStr rangeOfString:countStr]];
+//    } else {
+//        // Fallback on earlier versions
+//    }
     [attributedString addAttribute:NSForegroundColorAttributeName value:COLOR_WITH_HEX(0xA0A0A0) range:[targetStr rangeOfString:unitStr]];
     
     [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Medium" size:24] range:[targetStr rangeOfString:countStr]];
@@ -274,6 +274,21 @@
 - (UILabel *)dataLab{
     if (!_dataLab) {
         _dataLab = [[UILabel alloc] init];
+        if (@available(iOS 13.0, *)) {
+            UIColor *rankColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+                if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                    return COLOR_WITH_HEX(0x333739);
+                }
+                else {
+                    return COLOR_WITH_HEX(0xFFFFFF);
+                }
+            }];
+            self->_dataLab.textColor = rankColor;
+        } else {
+            _dataLab.textColor = COLOR_WITH_HEX(0x333739);
+            // Fallback on earlier versions
+        }
+
         
     }
     return _dataLab;
