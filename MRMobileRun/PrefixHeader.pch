@@ -18,11 +18,61 @@
 /*TabBar高度*/
 #define kTabBarHeight (CGFloat)(kIs_iPhoneX?(49.0 + 34.0):(49.0))
 
-//黑暗模式背景颜色
+/**
+黑暗模式背景颜色
+ */
+/*
+ 跑步页的深色模式颜色
+ */
 #define k_DarkBkgColor [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1.0]
+//关于黑暗模式的颜色
+    //白色模式是白色
+ #define WhiteColor  [UIColor colorNamed:@"whiteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //白天是灰色
+#define GrayColor  [UIColor colorNamed:@"grayColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    
+//结束页面的底部view背景色
+#define bottomColor  [UIColor colorNamed:@"BottomColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的字体颜色
+#define bottomTitleColor  [UIColor colorNamed:@"bottomTitleColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的公里的字的颜色
+#define kmColor  [UIColor colorNamed:@"BottomUnitColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的结束按钮字体颜色
+#define OverColor  [UIColor colorNamed:@"OverBtnColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //结束页面的结束按钮背景色
+#define OverBackColor  [UIColor colorNamed:@"OverBtnBackColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+//配速、时间、燃烧卡路里 显示数字的字体颜色
+#define SpeedTextColor  [UIColor colorNamed:@"SpeedNumberLblTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+    //显示公里数字的字体颜色
+#define MilesColor  [UIColor colorNamed:@"milesColor" inBundle:[NSBundle mainBundle]compatibleWithTraitCollection:nil]
+    //显示@“公里”的字体颜色
+#define MilesTxetColor  [UIColor colorNamed:@"milesTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+//跑步结束后的提示界面的警告框
+#define SZHAlertColor  [UIColor colorNamed:@"SZHAlertColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//跑步结束后提示界面内的label的字体颜色
+#define SZHAlertTextColor  [UIColor colorNamed:@"SZHAlertTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//跑步结束后提示界面的蒙板
+#define SZHAlertViewColor  [UIColor colorNamed:@"SZHAlertViewColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//跑步结束后提示界面的结束按钮字体颜色
+#define SZHAlertEndBtnTexteColor  [UIColor colorNamed:@"SZHAlertEndBtnTexteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]
+
+
+
+//"我的"页面的黑暗模式适配
+#define MGDColor1  [UIColor colorNamed:@"MGDColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDColor2  [UIColor colorNamed:@"MGDColor-2" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDTextColor1  [UIColor colorNamed:@"MGDTextColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDTextColor2  [UIColor colorNamed:@"MGDTextColor-2" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDColor3  [UIColor colorNamed:@"MGDColor-3" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDlineColor  [UIColor colorNamed:@"MGDLineColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDLineColor1  [UIColor colorNamed:@"MGDLineColor-1" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDtextXColor  [UIColor colorNamed:@"MGDTextXColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define MGDdividerColor  [UIColor colorNamed:@"MGDDividerColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 
 //高德地图的key
 #define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
@@ -51,11 +101,15 @@
 #define ktheDataAboutHistoryInvited @"https://wx.redrock.team/mobilerun/invite/history"
 //邀约上传跑步数据
 #define kLaunchTheInviteRunData @"hhttps://wx.redrock.team/mobilerun/invite/update_data"
+
+//上传跑步数据
+#define HandUpRunData @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/sportRecord"
+
 //历史足迹
 #define kHistoryTrack @"https://wx.redrock.team/mobilerun/user/lat_lng"
 
 //登陆URL 跟学号和身份证后六位(post)
-#define kLoginURL @"https://cyxbsmobile.redrock.team/wxapi/mobilerun/login"
+#define kLoginURL @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/login"
 //注销登陆(get)
 #define kLoginoutURL @"https://wx.redrock.team/mobilerun/user/loginout"
 //获取头像，后接学号+.jpg

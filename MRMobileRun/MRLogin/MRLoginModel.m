@@ -10,7 +10,70 @@
 #import <AFNetworking.h>
 #import "MRLoginViewController.h"
 @implementation MRLoginModel
+//java后端版本的登陆的post请求
+//- (NSMutableDictionary *)postRequestWithStudentID:(NSString *)studentID andPassword:(NSString *)password
+//{
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//    if ([studentID  isEqual: @""] || [password  isEqual: @""])
+//    {
+//        NSLog(@"账号密码为空");
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:nil];
+//    }
+//    else
+//    {
+//    HttpClient *client = [HttpClient defaultClient];
+//    NSLog(@"studentID = %@",studentID);
+//    NSLog(@"password = %@",password);
+//    [dic setObject:studentID forKey:@"studentId"];
+//    [dic setObject:password forKey:@"password"];
+//    NSLog(@"%@",dic);
+//    NSDictionary *head = @{@"Content-Type":@"application/x-www-form-urlencoded"};
+//    [client requestWithHead:kLoginURL method:HttpRequestPost parameters:dic head:head prepareExecute:^{
+//        //
+//    } progress:^(NSProgress *progress) {
+//        //
+//    } success:^(NSURLSessionDataTask *task, id responseObject) {
+//        if ([[responseObject objectForKey:@"status"] isEqual:@-2])
+//        {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:nil];
+//        }
+//        else
+//        {
+//
+//            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+//
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"student_id"] forKey:@"studentID"];
+//
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"token"] forKey:@"token"];
+//            //存储学号
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"class_id"] forKey:@"class_id"];
+//            //储存班级号
+//
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"nickname"] forKey:@"nickname"];
+//            //存储昵称
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"avatar_url"] forKey:@"avatar_url"];
+////            存储头像
+//            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"signature"] forKey:@"signature"];
+////            存储个性签名
+//            [user setObject:password forKey:@"password"];
+//            [user synchronize];
+//            //请求成功时发送广播
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginSuccess" object:nil];
+//            NSLog(@"the data is JJ EDC Michael %@",responseObject);
+//            self->_threadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateTimer)  name:@"turnOffTimer" object:nil];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer)  name:@"offTimer" object:nil];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keepTimer)  name:@"keepTimer" object:nil];
+//        }
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"the error is %@",error);
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:error];
+//    }];
+//    }
+//    return dic;
+//}
 
+//重写登陆的post请求，因为后端改成golang后返回的字段与java版本不同，此处按照postman返回的字段来写的
 //登录的post请求
 - (NSMutableDictionary *)postRequestWithStudentID:(NSString *)studentID andPassword:(NSString *)password
 {
@@ -34,42 +97,37 @@
     } progress:^(NSProgress *progress) {
         //
     } success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] isEqual:@-2])
+        if ([[responseObject objectForKey:@"status"] isEqual:@401])
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:nil];
         }
         else
         {
-            
             NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-            
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"student_id"] forKey:@"studentID"];
-            
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"token"] forKey:@"token"];
-            //存储学号
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"class_id"] forKey:@"class_id"];
-            //储存班级号
-            
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"nickname"] forKey:@"nickname"];
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"StudentId"] forKey:@"studentID"];
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"Token"] forKey:@"token"];
+
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"Nickname"] forKey:@"nickname"];
             //存储昵称
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"avatar_url"] forKey:@"avatar_url"];
-//            存储头像
-            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"signature"] forKey:@"signature"];
-//            存储个性签名
+            
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"AvatarUrl"] forKey:@"avatar_url"];
+            //            存储头像
+            [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"Signature"] forKey:@"signature"];
+            //            存储个性签名
             [user setObject:password forKey:@"password"];
             [user synchronize];
-            //请求成功时发送广播
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginSuccess" object:nil];
-            NSLog(@"the data is JJ EDC Michael %@",responseObject);
-            self->_threadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateTimer)  name:@"turnOffTimer" object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer)  name:@"offTimer" object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keepTimer)  name:@"keepTimer" object:nil];
-        }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"the error is %@",error);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:error];
-    }];
+                    //请求成功时发送广播
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginSuccess" object:nil];
+                    NSLog(@"the data is JJ EDC Michael %@",responseObject);
+                    self->_threadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
+                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateTimer)  name:@"turnOffTimer" object:nil];
+                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer)  name:@"offTimer" object:nil];
+                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keepTimer)  name:@"keepTimer" object:nil];
+                }
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"the error is %@",error);
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:error];
+            }];
     }
     return dic;
 }
@@ -134,6 +192,9 @@
              NSLog(@"%@",responseObject);
          }
      } failure:nil];
-    
+
 }
 @end
+
+
+

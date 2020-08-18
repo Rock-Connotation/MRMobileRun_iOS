@@ -3,10 +3,24 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1855104E24EBDD2C009D5026 /* MGDUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855104D24EBDD2C009D5026 /* MGDUserData.m */; };
+		1855105124EBDD58009D5026 /* MGDSportData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105024EBDD58009D5026 /* MGDSportData.m */; };
+		1855106024EBDE09009D5026 /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105224EBDDF8009D5026 /* MGDBaseInfoView.m */; };
+		1855106124EBDE09009D5026 /* MGDRecordTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105424EBDDFA009D5026 /* MGDRecordTableView.m */; };
+		1855106224EBDE09009D5026 /* MGDColumnChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105624EBDDFC009D5026 /* MGDColumnChartView.m */; };
+		1855106324EBDE09009D5026 /* MGDSportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105B24EBDE02009D5026 /* MGDSportTableViewCell.m */; };
+		1855106424EBDE09009D5026 /* MGDMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105C24EBDE04009D5026 /* MGDMiddleView.m */; };
+		1855106524EBDE09009D5026 /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105D24EBDE06009D5026 /* MGDTopView.m */; };
+		1855106624EBDE09009D5026 /* MGDSportTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855105E24EBDE07009D5026 /* MGDSportTableView.m */; };
+		1855106E24EBDE1F009D5026 /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855106924EBDE1F009D5026 /* YBRectConst.m */; };
+		1855106F24EBDE1F009D5026 /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855106A24EBDE1F009D5026 /* YBPopupMenuPath.m */; };
+		1855107024EBDE1F009D5026 /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855106C24EBDE1F009D5026 /* YBPopupMenu.m */; };
+		1855107624EBDE37009D5026 /* MGDMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855107224EBDE37009D5026 /* MGDMineViewController.m */; };
+		1855107724EBDE37009D5026 /* MGDMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855107524EBDE37009D5026 /* MGDMoreViewController.m */; };
 		280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */; };
 		280B3B7F228BA04200FDD695 /* LJJInviteSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 280B3B7E228BA04200FDD695 /* LJJInviteSearchView.m */; };
 		2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2889400E231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m */; };
@@ -150,6 +164,11 @@
 		2FF3BB3C238EB64D00DB9051 /* ZYLRankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FF3BB3B238EB64D00DB9051 /* ZYLRankTableViewCell.m */; };
 		2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25122845E3300779B7B /* AVFoundation.framework */; };
 		2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25322845E3B00779B7B /* Photos.framework */; };
+		7FE101DD24E2955E009A1C16 /* YYZTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE101DB24E2955E009A1C16 /* YYZTextViewController.m */; };
+		7FE101DE24E2955E009A1C16 /* YYZTextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FE101DC24E2955E009A1C16 /* YYZTextViewController.xib */; };
+		7FE101E124E2B8B5009A1C16 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE101E024E2B8B5009A1C16 /* AboutViewController.m */; };
+		7FE101E424E2B90C009A1C16 /* SportSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE101E324E2B90C009A1C16 /* SportSettingViewController.m */; };
+		7FE101E724E2B950009A1C16 /* YYZCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE101E624E2B950009A1C16 /* YYZCommentViewController.m */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
 		CE0CC17E222E2059001283EA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0CC17D222E2059001283EA /* AppDelegate.m */; };
 		CE0CC186222E205B001283EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE0CC185222E205B001283EA /* Assets.xcassets */; };
@@ -185,6 +204,34 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		1855104C24EBDD2C009D5026 /* MGDUserData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDUserData.h; sourceTree = "<group>"; };
+		1855104D24EBDD2C009D5026 /* MGDUserData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDUserData.m; sourceTree = "<group>"; };
+		1855104F24EBDD58009D5026 /* MGDSportData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDSportData.h; sourceTree = "<group>"; };
+		1855105024EBDD58009D5026 /* MGDSportData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDSportData.m; sourceTree = "<group>"; };
+		1855105224EBDDF8009D5026 /* MGDBaseInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
+		1855105324EBDDF9009D5026 /* MGDTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
+		1855105424EBDDFA009D5026 /* MGDRecordTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDRecordTableView.m; sourceTree = "<group>"; };
+		1855105524EBDDFB009D5026 /* MGDColumnChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDColumnChartView.h; sourceTree = "<group>"; };
+		1855105624EBDDFC009D5026 /* MGDColumnChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDColumnChartView.m; sourceTree = "<group>"; };
+		1855105724EBDDFD009D5026 /* MGDRecordTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDRecordTableView.h; sourceTree = "<group>"; };
+		1855105824EBDDFE009D5026 /* MGDBaseInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDBaseInfoView.h; sourceTree = "<group>"; };
+		1855105924EBDDFF009D5026 /* MGDSportTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableViewCell.h; sourceTree = "<group>"; };
+		1855105A24EBDE00009D5026 /* MGDMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMiddleView.h; sourceTree = "<group>"; };
+		1855105B24EBDE02009D5026 /* MGDSportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableViewCell.m; sourceTree = "<group>"; };
+		1855105C24EBDE04009D5026 /* MGDMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMiddleView.m; sourceTree = "<group>"; };
+		1855105D24EBDE06009D5026 /* MGDTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
+		1855105E24EBDE07009D5026 /* MGDSportTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableView.m; sourceTree = "<group>"; };
+		1855105F24EBDE09009D5026 /* MGDSportTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportTableView.h; sourceTree = "<group>"; };
+		1855106824EBDE1F009D5026 /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
+		1855106924EBDE1F009D5026 /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
+		1855106A24EBDE1F009D5026 /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
+		1855106B24EBDE1F009D5026 /* YBRectConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBRectConst.h; sourceTree = "<group>"; };
+		1855106C24EBDE1F009D5026 /* YBPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenu.m; sourceTree = "<group>"; };
+		1855106D24EBDE1F009D5026 /* YBPopupMenuPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenuPath.h; sourceTree = "<group>"; };
+		1855107224EBDE37009D5026 /* MGDMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMineViewController.m; sourceTree = "<group>"; };
+		1855107324EBDE37009D5026 /* MGDMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMoreViewController.h; sourceTree = "<group>"; };
+		1855107424EBDE37009D5026 /* MGDMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMineViewController.h; sourceTree = "<group>"; };
+		1855107524EBDE37009D5026 /* MGDMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMoreViewController.m; sourceTree = "<group>"; };
 		280B3B7A228B9F9700FDD695 /* LJJInviteSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchVC.h; sourceTree = "<group>"; };
 		280B3B7B228B9F9700FDD695 /* LJJInviteSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJJInviteSearchVC.m; sourceTree = "<group>"; };
 		280B3B7D228BA04200FDD695 /* LJJInviteSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJJInviteSearchView.h; sourceTree = "<group>"; };
@@ -464,6 +511,15 @@
 		2FF3BB3B238EB64D00DB9051 /* ZYLRankTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZYLRankTableViewCell.m; sourceTree = "<group>"; };
 		2FF4B25122845E3300779B7B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2FF4B25322845E3B00779B7B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		7FE101DA24E2955E009A1C16 /* YYZTextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYZTextViewController.h; sourceTree = "<group>"; };
+		7FE101DB24E2955E009A1C16 /* YYZTextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYZTextViewController.m; sourceTree = "<group>"; };
+		7FE101DC24E2955E009A1C16 /* YYZTextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YYZTextViewController.xib; sourceTree = "<group>"; };
+		7FE101DF24E2B8B5009A1C16 /* AboutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		7FE101E024E2B8B5009A1C16 /* AboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		7FE101E224E2B90C009A1C16 /* SportSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SportSettingViewController.h; sourceTree = "<group>"; };
+		7FE101E324E2B90C009A1C16 /* SportSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SportSettingViewController.m; sourceTree = "<group>"; };
+		7FE101E524E2B950009A1C16 /* YYZCommentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYZCommentViewController.h; sourceTree = "<group>"; };
+		7FE101E624E2B950009A1C16 /* YYZCommentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYZCommentViewController.m; sourceTree = "<group>"; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
 		CE0CC179222E2059001283EA /* MRMobileRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRMobileRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -527,6 +583,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1855104324EBDCA7009D5026 /* MRMineView */ = {
+			isa = PBXGroup;
+			children = (
+				1855107124EBDE37009D5026 /* ViewController */,
+				1855106724EBDE1F009D5026 /* YBPopupMenu */,
+				1855104424EBDCA7009D5026 /* Model */,
+				1855104724EBDCA7009D5026 /* View */,
+			);
+			path = MRMineView;
+			sourceTree = "<group>";
+		};
+		1855104424EBDCA7009D5026 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1855104C24EBDD2C009D5026 /* MGDUserData.h */,
+				1855104D24EBDD2C009D5026 /* MGDUserData.m */,
+				1855104F24EBDD58009D5026 /* MGDSportData.h */,
+				1855105024EBDD58009D5026 /* MGDSportData.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1855104724EBDCA7009D5026 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1855105824EBDDFE009D5026 /* MGDBaseInfoView.h */,
+				1855105224EBDDF8009D5026 /* MGDBaseInfoView.m */,
+				1855105524EBDDFB009D5026 /* MGDColumnChartView.h */,
+				1855105624EBDDFC009D5026 /* MGDColumnChartView.m */,
+				1855105A24EBDE00009D5026 /* MGDMiddleView.h */,
+				1855105C24EBDE04009D5026 /* MGDMiddleView.m */,
+				1855105724EBDDFD009D5026 /* MGDRecordTableView.h */,
+				1855105424EBDDFA009D5026 /* MGDRecordTableView.m */,
+				1855105F24EBDE09009D5026 /* MGDSportTableView.h */,
+				1855105E24EBDE07009D5026 /* MGDSportTableView.m */,
+				1855105924EBDDFF009D5026 /* MGDSportTableViewCell.h */,
+				1855105B24EBDE02009D5026 /* MGDSportTableViewCell.m */,
+				1855105324EBDDF9009D5026 /* MGDTopView.h */,
+				1855105D24EBDE06009D5026 /* MGDTopView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1855106724EBDE1F009D5026 /* YBPopupMenu */ = {
+			isa = PBXGroup;
+			children = (
+				1855106824EBDE1F009D5026 /* YBPopupMenu.h */,
+				1855106924EBDE1F009D5026 /* YBRectConst.m */,
+				1855106A24EBDE1F009D5026 /* YBPopupMenuPath.m */,
+				1855106B24EBDE1F009D5026 /* YBRectConst.h */,
+				1855106C24EBDE1F009D5026 /* YBPopupMenu.m */,
+				1855106D24EBDE1F009D5026 /* YBPopupMenuPath.h */,
+			);
+			path = YBPopupMenu;
+			sourceTree = "<group>";
+		};
+		1855107124EBDE37009D5026 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1855107224EBDE37009D5026 /* MGDMineViewController.m */,
+				1855107324EBDE37009D5026 /* MGDMoreViewController.h */,
+				1855107424EBDE37009D5026 /* MGDMineViewController.h */,
+				1855107524EBDE37009D5026 /* MGDMoreViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		1B011DB0C0CCA19896847627 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,6 +763,15 @@
 			children = (
 				2F0E8167225F4B3400D5E511 /* ZYLPersonalViewController.h */,
 				2F0E8168225F4B3400D5E511 /* ZYLPersonalViewController.m */,
+				7FE101DA24E2955E009A1C16 /* YYZTextViewController.h */,
+				7FE101DB24E2955E009A1C16 /* YYZTextViewController.m */,
+				7FE101DC24E2955E009A1C16 /* YYZTextViewController.xib */,
+				7FE101DF24E2B8B5009A1C16 /* AboutViewController.h */,
+				7FE101E024E2B8B5009A1C16 /* AboutViewController.m */,
+				7FE101E224E2B90C009A1C16 /* SportSettingViewController.h */,
+				7FE101E324E2B90C009A1C16 /* SportSettingViewController.m */,
+				7FE101E524E2B950009A1C16 /* YYZCommentViewController.h */,
+				7FE101E624E2B950009A1C16 /* YYZCommentViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1182,6 +1314,7 @@
 		CE0CC17B222E2059001283EA /* MRMobileRun */ = {
 			isa = PBXGroup;
 			children = (
+				1855104324EBDCA7009D5026 /* MRMineView */,
 				2F054302243B348600A11C17 /* MRMobileRun.entitlements */,
 				2F5A1BA022468A910014B249 /* Base */,
 				2F5A1B522245DFB00014B249 /* MRTabBar */,
@@ -1419,6 +1552,7 @@
 				2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */,
 				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
 				CE0CC186222E205B001283EA /* Assets.xcassets in Resources */,
+				7FE101DE24E2955E009A1C16 /* YYZTextViewController.xib in Resources */,
 				2F0E8153225F30A400D5E511 /* XIGView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1463,19 +1597,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources.sh",
-				"${PODS_ROOT}/AMap2DMap/MAMapKit.framework/AMap.bundle",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AMap.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1518,11 +1649,13 @@
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
 				2F734CCD22676997006D8B63 /* ZYLChangeNickname.m in Sources */,
+				7FE101DD24E2955E009A1C16 /* YYZTextViewController.m in Sources */,
 				2F7ADC89237C2FDB00FE9461 /* ZYLLoginView.m in Sources */,
 				2F5A1B9922468A890014B249 /* NSString+We.m in Sources */,
 				2FF3BB14238D4B9900DB9051 /* ZYLNoticeWhiteLabel.m in Sources */,
 				2F0E8178225F774800D5E511 /* ZYLStudentRankViewModel.m in Sources */,
 				2F5A1B612245FCF70014B249 /* MRTabBarView.m in Sources */,
+				1855106E24EBDE1F009D5026 /* YBRectConst.m in Sources */,
 				2FF3BB11238D4B1A00DB9051 /* ZYLNumLabel.m in Sources */,
 				CE0CC1D4222E506B001283EA /* MRDemoViewModel.m in Sources */,
 				2FF3BB0B238D499600DB9051 /* ZYLPlateChinieseLabel.m in Sources */,
@@ -1554,9 +1687,11 @@
 				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
 				2F6DF0CD227B34A400BA6099 /* MRRunningLabel.m in Sources */,
 				2F0E8147225F309B00D5E511 /* XIGClassRankViewController.m in Sources */,
+				1855106024EBDE09009D5026 /* MGDBaseInfoView.m in Sources */,
 				2F0E814A225F309B00D5E511 /* XIGClass.m in Sources */,
 				2FF3BB17238D4BB400DB9051 /* ZYLGrayNoticeLabel.m in Sources */,
 				2F495E392282BEB3003DD714 /* MRLoginView.m in Sources */,
+				1855104E24EBDD2C009D5026 /* MGDUserData.m in Sources */,
 				2F495E602282FA90003DD714 /* MRTabBar.m in Sources */,
 				2F495E4E2282BFF3003DD714 /* LJJInviteSearchResultView.m in Sources */,
 				2F5A1BA622468BBA0014B249 /* MRChineseLabel.m in Sources */,
@@ -1581,6 +1716,7 @@
 				2F495E432282BFC4003DD714 /* LJJInviteRunVC.m in Sources */,
 				2F5A1B9F22468A890014B249 /* UIImage+We.m in Sources */,
 				2F0E8160225F33D900D5E511 /* UILabel+LabelHeightAndWidth.m in Sources */,
+				1855106624EBDE09009D5026 /* MGDSportTableView.m in Sources */,
 				2F5A1BAC22468BD40014B249 /* MRTimeLabel.m in Sources */,
 				2F5A1B9E22468A890014B249 /* UIView+We.m in Sources */,
 				2F0E8152225F30A400D5E511 /* XIGStudentViewController.m in Sources */,
@@ -1589,13 +1725,20 @@
 				2F0E815B225F33C400D5E511 /* UIImage+Extension.m in Sources */,
 				28A5EDFB22DE925600CA6B6A /* LJJInviteCancel.m in Sources */,
 				2F27F57C243CB0F900315D61 /* ZYLCountdownView.m in Sources */,
+				1855106124EBDE09009D5026 /* MGDRecordTableView.m in Sources */,
 				2F734CCA22675EF9006D8B63 /* ZYLUploadAvatar.m in Sources */,
 				2F0E8172225F74A700D5E511 /* ZYLInvitationRankModel.m in Sources */,
 				CE0CC1CB222E5038001283EA /* MRDemoTableViewCell.m in Sources */,
+				7FE101E724E2B950009A1C16 /* YYZCommentViewController.m in Sources */,
+				1855106224EBDE09009D5026 /* MGDColumnChartView.m in Sources */,
+				1855107724EBDE37009D5026 /* MGDMoreViewController.m in Sources */,
 				2F495E5A2282E509003DD714 /* ZYLRunningRecordModel.m in Sources */,
 				2FF3BB33238EB57900DB9051 /* ZYLSelfRankCell.m in Sources */,
+				1855106524EBDE09009D5026 /* MGDTopView.m in Sources */,
+				7FE101E424E2B90C009A1C16 /* SportSettingViewController.m in Sources */,
 				2F6DF0B8227B2E2700BA6099 /* ZYLRunningViewController.m in Sources */,
 				2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */,
+				1855106F24EBDE1F009D5026 /* YBPopupMenuPath.m in Sources */,
 				2F60AB40227C7E5300109420 /* MRAlertView.m in Sources */,
 				2F7ADC86237C2EB000FE9461 /* ZYLLoginButton.m in Sources */,
 				2F60AB46227C858C00109420 /* ZYLTimeStamp.m in Sources */,
@@ -1608,10 +1751,13 @@
 				2F60AB43227C816400109420 /* ZYLUptateRunningData.m in Sources */,
 				2F0E814C225F309B00D5E511 /* XIGInviteViewController.m in Sources */,
 				2F0E818A22608C1300D5E511 /* ZYLSetAvatarBtn.m in Sources */,
+				7FE101E124E2B8B5009A1C16 /* AboutViewController.m in Sources */,
 				280B3B7C228B9F9700FDD695 /* LJJInviteSearchVC.m in Sources */,
 				2FF3BB23238D4C5400DB9051 /* ZYLBackGroudView.m in Sources */,
+				1855107024EBDE1F009D5026 /* YBPopupMenu.m in Sources */,
 				2F7ADC7723799CEE00FE9461 /* ZYLSettingNameCell.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
+				1855107624EBDE37009D5026 /* MGDMineViewController.m in Sources */,
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
 				2F64924F243A031700472B57 /* ZYLGetTimeScale.m in Sources */,
@@ -1619,10 +1765,13 @@
 				2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
 				2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */,
+				1855106324EBDE09009D5026 /* MGDSportTableViewCell.m in Sources */,
 				2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */,
 				2F7ADC712379957800FE9461 /* ZYLSettingNomalCell.m in Sources */,
 				2F0E816C225F745F00D5E511 /* ZYLClassRankModel.m in Sources */,
+				1855105124EBDD58009D5026 /* MGDSportData.m in Sources */,
 				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,
+				1855106424EBDE09009D5026 /* MGDMiddleView.m in Sources */,
 				2F9CB6E2239BDA260003C09D /* ZYLConfirmButton.m in Sources */,
 				2F495E232282BE19003DD714 /* HttpClient.m in Sources */,
 				2F5A1B67224610580014B249 /* MRTabBarController.m in Sources */,

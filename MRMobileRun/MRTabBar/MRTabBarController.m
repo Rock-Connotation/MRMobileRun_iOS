@@ -21,6 +21,7 @@
 #import "ZYLRunningViewController.h"
 #import "ZYLRankViewController.h"
 #import "LJJInviteRunVC.h"
+#import "MGDMineViewController.h"
 #import <Masonry.h>
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 @interface MRTabBarController ()<MRTabBarViewDelegate>
@@ -31,6 +32,13 @@
 
 @implementation MRTabBarController
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //移除系统自带的tabBar
+    for (UIView *child in self.tabBar.subviews) {
+        if ([child isKindOfClass:[UIControl class]]) {
+            [child removeFromSuperview];
+        }
+    }
     [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -80,7 +88,7 @@
     ZYLPersonalViewController *vc4 = [[ZYLPersonalViewController alloc] init];
     [self addChildViewController:vc4 title:@"设置" imageNamed:@"setting_normal" selectedImageNamed:@"setting_highlighted" tag:4];
 
-    UIViewController *vc5 = [[UIViewController alloc] init];
+    MGDMineViewController *vc5 = [[MGDMineViewController  alloc] init];
     [self addChildViewController:vc5 title:@"我的" imageNamed:@"MyView_normal" selectedImageNamed:@"MyView_highlighted" tag:5];
 }
 
@@ -107,6 +115,13 @@
     self.tabView.hidden = NO;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+//- (void)setHidesBottomBarWhenPushed:(BOOL)hidesBottomBarWhenPushed{
+//    self.tabView.hidden = hidesBottomBarWhenPushed;
+//}
 #pragma mark -  TabBarViewDelegate
 - (void)tabBarView:(MRTabBarView *_Nullable)view didSelectedItemAtIndex:(NSInteger) index
 {

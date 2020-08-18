@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>重邮约跑需要您的同意，才能访问健康更新，给您带来更好的服务</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>重邮约跑需要您的同意，才能访问健康更新，给您带来更好的服务</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Impact.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -39,8 +39,16 @@
 	<string>用来获取照片作为头像</string>
 	<key>NSContactsUsageDescription</key>
 	<string></string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>重邮约跑需要您的同意，才能访问健康更新，给您带来更好的服务</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>重邮约跑需要您的同意，才能访问健康更新，给您带来更好的服务</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>用来在后台时获取用户跑步时路线画路线图</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDeion</key>
+	<string>VUP需要您的允许才能持续定位，并记录您的轨迹。</string>
+	<key>NSLocationWhenInUseUsageDeion</key>
+	<string>VUP需要您的允许才能持续定位，并记录您的轨迹。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>用来获取用户跑步时路线画路线图</string>
 	<key>NSMicrophoneUsageDescription</key>
