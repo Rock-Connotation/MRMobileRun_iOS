@@ -165,8 +165,15 @@
             CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
     //               NSLog(@"%f",ratio);
             CGFloat Y = (6 * _spaceY ) * ratio; //关键点的竖直位置
-    //        NSLog(@"%f",Y);
-            CGFloat X = 8 + i*_spaceX + (i-1)*15; //关键点的横向位置
+    //        NSLog(@"%f",Y)
+            //关键点的横向位置;
+            CGFloat X = 0;
+             if (i == 0) {
+                X = 0;
+                       }else{
+                X = (8 + i*_spaceX + (i-1)*15)/5;
+                       }
+            
             //绘制折线
             if (pointAry.count == 0) {
                 NSValue *firstvalue = [NSValue valueWithCGPoint:CGPointMake(X, _spaceY * 6 - Y + _spaceY)];

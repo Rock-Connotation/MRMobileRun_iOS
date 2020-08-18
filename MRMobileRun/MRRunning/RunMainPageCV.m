@@ -42,15 +42,15 @@
 
 //数组
 @property (nonatomic, strong) NSMutableArray *stepsAry; //每分钟的步数
-@property (nonatomic, strong) NSArray *caculateStepsAry; //处理后的步频数组
+@property (nonatomic, strong) NSArray *originalStepsAry; //原始的步频数组
 @property int averageStepFrequency; //平均步频
 @property int maxStepFrequency; //最大步频
 @property (nonatomic, strong) NSMutableArray *mintesAry; //跑步过程中的分钟数的数组
 
 @property (nonatomic, strong) NSMutableArray *speedAry; //速度的数组
+@property (nonatomic, strong) NSArray *originalSpeedAry;//原始的速度数组
 @property double averageSpeed; //平均速度
 @property double maxSpeed; //最大速度
-@property (nonatomic, strong) NSArray *caculateSpeedAry; //处理后的速度数组
 
 @property double mileage; //总路程
 @property double duration; //总时间
@@ -99,8 +99,12 @@
     self.drawLineArray = [NSMutableArray array];
     self.beginTime = [ZYLTimeStamp getTimeStamp]; //跑步开始的时间
     self.distance = 0;
+    self.kcal = 0;
     self.mintesAry = [NSMutableArray array];
     self.stepsAry = [NSMutableArray array];
+    self.speedAry = [NSMutableArray array];
+    self.originalStepsAry = [NSArray array];
+    self.originalSpeedAry = [NSArray array]; //原始的速度数组
     
 
     
@@ -221,17 +225,17 @@
         }
 }
 #pragma mark- 定位数据
-//疑似无用的
-- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
-
-    if(!updatingLocation)
-        return ;
-
-    if (userLocation.location.horizontalAccuracy < 0)
-    {
-        return ;
-    }
-}
+////疑似无用的
+//- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
+//
+//    if(!updatingLocation)
+//        return ;
+//
+//    if (userLocation.location.horizontalAccuracy < 0)
+//    {
+//        return ;
+//    }
+//}
 //
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
     self.signal = location.horizontalAccuracy;
@@ -253,8 +257,13 @@
             RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
             StartPointModel.location = location.coordinate;
             StartPointModel.speed = location.speed;
-              self.maxSpeed = location.speed;
             StartPointModel.time = location.timestamp;
+              //收集速度
+              self.maxSpeed = location.speed;
+              double speed = location.speed;
+              NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+              [self.speedAry addObject:speedStr];
+              
             [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
             [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
             //展示配速
@@ -276,6 +285,11 @@
             if (self.maxSpeed < currentModel.speed) {
                 self.maxSpeed = currentModel.speed;
             }
+            //收集速度
+            double speed = location.speed;
+            NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+            [self.speedAry addObject:speedStr];
+            
             double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
             //过滤偏移
             if (currentModel.speed < 13) {
@@ -295,7 +309,7 @@
                 }
                 //计算燃烧千卡
                 self.kcal = 60 * KMeters * 1.036;
-                self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%d",(int)self.kcal];
+                self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%0.1f",self.kcal];
                        }
             
 #pragma mark- 绘制轨迹
@@ -315,21 +329,22 @@
         }
     }
 }
-//疑似无用的
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    if (self.locationArray.count == 0) {
-        self.locationModel = [[RunLocationModel alloc] init];
-        CLLocation *location = [locations firstObject];
-        self.locationModel.LOCATION = location;
-        self.locationModel.location = location.coordinate;
-        [self.locationArray addObject:self.locationModel];
-    }else if (self.locationArray.count != 0){
-        RunLocationModel *currentModel = [[RunLocationModel alloc] init];
-        currentModel.LOCATION = [locations firstObject];
-        
-        
-    }
-}
+
+////疑似无用的
+//- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+//    if (self.locationArray.count == 0) {
+//        self.locationModel = [[RunLocationModel alloc] init];
+//        CLLocation *location = [locations firstObject];
+//        self.locationModel.LOCATION = location;
+//        self.locationModel.location = location.coordinate;
+//        [self.locationArray addObject:self.locationModel];
+//    }else if (self.locationArray.count != 0){
+//        RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+//        currentModel.LOCATION = [locations firstObject];
+//
+//
+//    }
+//}
     //计算距离
 -(CLLocationDistance )distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
         CLLocationDistance Meters = 0;
@@ -382,8 +397,7 @@
     //获取跑步时间
     self.Mainview.timeNumberLbl.text = timeString;
     self.timeString = timeString;
-    
-    //如果有一分钟了执行一下操作
+    //如果有一分钟了执行一下操作来获取步频
     if (self.second%60 == 0) {
         self.endTime = [ZYLTimeStamp getTimeStamp];
         [self caculatePace]; //获取这一分钟内的步数
@@ -433,7 +447,7 @@
     //计时器继续
     [self.runTimer setFireDate:[NSDate distantPast]];
     //定位继续
-    [self.locationManager startUpdatingHeading];
+    [self.locationManager startUpdatingLocation];
     
     //按钮的变换
     self.Mainview.unlockLongPressView.hidden = YES;
@@ -469,12 +483,14 @@
 
 //长按结束按钮方法
 - (void)endMethod{
-    //计时器停止
-//    [self.runTimer setFireDate:[NSDate distantFuture]];
-    //处理步频、速度数组
-    [self caculateSpeedAndStepsArys];
     self.mileage = self.distance; //总路程
     self.duration = self.second; //总时间
+    self.originalSpeedAry = self.speedAry; //原始的速度数组
+    NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
+    self.originalStepsAry = self.stepsAry; //原始的步频数组
+    NSLog(@"原始的步频数组为%@",self.originalStepsAry);
+    [self averageSpeedAndSteps];           //找出平均速度和平均步频
+   
 //    //获取当前日期
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -513,18 +529,18 @@
     
     MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
                   //属性传值
-                     overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
-                       overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
-                       overVC.cacultedStepsAry = self.caculateStepsAry; //处理后的步频数组
-                       overVC.caculatedSpeedAry = self.caculateSpeedAry; //处理后的速度数组
-                       overVC.averageSpeed = self.averageStepFrequency; //平均速度
-                       overVC.maxSpeed = self.maxSpeed; //最大速度
-                       overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
-                       overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
-                       overVC.timeStr = self.timeString; //时间
-                       overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
-                       overVC.drawLineAry = self.drawLineArray;
-                       overVC.locationAry = self.locationArray;
+    overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
+    overVC.originalStepsAry = self.originalStepsAry; //处理后的步频数组
+    overVC.originalSpeedAry = self.originalSpeedAry; //处理后的速度数组
+    overVC.averageSpeed = self.averageSpeed; //平均速度
+    overVC.maxSpeed = self.maxSpeed; //最大速度
+    overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
+    overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
+    overVC.timeStr = self.timeString; //时间
+    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
+    overVC.drawLineAry = self.drawLineArray;
+    overVC.locationAry = self.locationArray;
                  self.hidesBottomBarWhenPushed = YES;
                  [self.navigationController pushViewController:overVC animated:YES];
               [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
@@ -545,23 +561,23 @@
        //回到主线程去执行界面跳转以及属性传值
        dispatch_async(dispatch_get_main_queue(), ^{
            //跳转到下一个页面
-              MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
+        MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
                //属性传值
-                  overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
-                    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
-                    overVC.cacultedStepsAry = self.caculateStepsAry; //处理后的步频数组
-                    overVC.caculatedSpeedAry = self.caculateSpeedAry; //处理后的速度数组
-                    overVC.averageSpeed = self.averageStepFrequency; //平均速度
-                    overVC.maxSpeed = self.maxSpeed; //最大速度
-                    overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
-                    overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
-                    overVC.timeStr = self.timeString; //时间
-                    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
-                    overVC.drawLineAry = self.drawLineArray;
-                    overVC.locationAry = self.locationArray;
-              self.hidesBottomBarWhenPushed = YES;
-              [self.navigationController pushViewController:overVC animated:YES];
-           [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+        overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+        overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
+        overVC.originalStepsAry = self.originalStepsAry; //原始的步频数组
+        overVC.originalSpeedAry = self.originalSpeedAry; //原始的的速度数组
+        overVC.averageSpeed = self.averageStepFrequency; //平均速度
+        overVC.maxSpeed = self.maxSpeed; //最大速度
+        overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
+        overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
+        overVC.timeStr = self.timeString; //时间
+        overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
+        overVC.drawLineAry = self.drawLineArray;
+        overVC.locationAry = self.locationArray;
+        self.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:overVC animated:YES];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
        });
 }
     //继续跑步
@@ -580,108 +596,148 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [healthManager getStepCountFromBeginTime:[ZYLTimeStamp getDateFromTimeStamp:self.beginTime] ToEndTime:[ZYLTimeStamp getDateFromTimeStamp:self.endTime] completion:^(double stepValue, NSError * _Nonnull error) {
                 //找出最大的步频
-                if (weakSelf.stepsAry.count == 0) {
-                    self.maxStepFrequency = (int)stepValue;
-                }else if(weakSelf.stepsAry.count != 0){
-                    if (self.maxStepFrequency < (int)stepValue) {
+                if (stepValue != 0) {
+                                    //找出最大的步频
+                    if (weakSelf.stepsAry.count == 0) {
                         self.maxStepFrequency = (int)stepValue;
+                    }else if(weakSelf.stepsAry.count != 0){
+                            if (self.maxStepFrequency < (int)stepValue) {
+                            self.maxStepFrequency = (int)stepValue;
+                        }
                     }
                 }
                 steps = [[NSNumber numberWithDouble:stepValue] stringValue];
             }];
             //回到主线程
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.stepsAry addObject:steps];
+                if (steps!= nil) {
+                    [weakSelf.stepsAry addObject:steps];
+                }
             });
         });
     }];
 }
 
-//处理步频和速度的数组
-- (void)caculateSpeedAndStepsArys{
-    //处理步频数组
-    if (self.stepsAry != 0) {
-         NSMutableArray *stepsMuteAry = [NSMutableArray array];
-            double totleSteps = 0;
-            for (int i = 0; i < self.stepsAry.count; i += 5) {
-                NSString *stepStr = self.stepsAry[i];
-                int stepsValue = [stepStr intValue];
-        //        int stepsValue = [self.stepsAry[i] intValue];
-                totleSteps = totleSteps + stepsValue; //求总步数
-                [stepsMuteAry addObject:stepStr];
-            }
-            self.caculateStepsAry = stepsMuteAry;
-            self.averageStepFrequency = totleSteps/self.caculateStepsAry.count; //平均步频
+//找出平均步频和平均速度
+- (void)averageSpeedAndSteps{
+    //平均速度
+    double totleSpeed = 0;
+    for (int i = 0; i < self.originalSpeedAry.count; i++) {
+        NSString *speedStr = self.originalSpeedAry[i];
+        double speed = [speedStr doubleValue];
+        totleSpeed = speed + totleSpeed;
     }
-    NSLog(@"----平均步频为%d",self.averageStepFrequency);
+    self.averageSpeed = totleSpeed/self.originalSpeedAry.count;
+    NSLog(@"此次跑步的平均速度为%f",self.averageSpeed);
     
-    //处理速度数组
-    if (self.locationArray.count != 0) {
-             NSMutableArray *speedMuteAry = [NSMutableArray array];
-        double totleSpeeds = 0;
-            for (int i = 0; i < self.locationArray.count; i += 160) {
-                RunLocationModel *Model = self.locationArray[i];
-                double speed = Model.speed;
-                totleSpeeds = totleSpeeds + speed;
-                NSString *speedStr = [[NSNumber numberWithDouble:speed] stringValue];
-                [speedMuteAry addObject:speedStr];
-            }
-        self.caculateSpeedAry = speedMuteAry;
-        self.averageSpeed = totleSpeeds/self.caculateSpeedAry.count;
+    //平均步频
+    if (!self.stepsAry) {
+        int totleSteps = 0;
+        for (int i = 0; i < self.originalStepsAry.count; i++) {
+            NSString *stepsStr = self.originalStepsAry[i];
+            int steps = [stepsStr intValue];
+            totleSteps = totleSteps + steps;
+        }
+        self.averageStepFrequency = totleSteps/self.originalStepsAry.count;
     }
-#warning 如果用下面的排序，程序会崩溃
-//    //排序找出最大速度
-//    RunLocationModel *Model = self.caculateSpeedAry[0];
-//    self.maxSpeed = Model.speed;
-//    for (int i = 1; i < self.caculateSpeedAry.count; i++) {
-//        RunLocationModel *model = self.caculateSpeedAry[i];
-//        double speed = model.speed;
-//        if (self.maxSpeed < speed) {
-//            self.maxSpeed = speed;
-//        }
-//    }
 }
 
 #pragma mark- 网络请求上传跑步数据
 - (void)handUpData{
     
-    //创建要穿上去的数据字典
+    //创建要传上去的数据字典
     NSMutableDictionary *paramDic = [NSMutableDictionary new];
-    [paramDic setObject:self.locationArray forKey:@"path"]; //跑步沿途路径
-    NSString *duration = [[NSNumber numberWithDouble:self.duration] stringValue];
-    [paramDic setObject:duration forKey:@"duration"]; //跑步总时间
-    [paramDic setObject:self.Mainview.numberLabel.text forKey:@"mileage"]; //跑步总距离
-    [paramDic setObject:self.Mainview.energyNumberLbl.text forKey:@"kcal"];
+    //获取跑步路径数据
+    NSMutableArray *muteAry = [NSMutableArray array];
+    NSArray *path = [NSArray array];
+    for (int i = 0; i < self.locationArray.count; i++ ) {
+        RunLocationModel *model = self.locationArray[i];
+        CLLocationCoordinate2D coordinate = model.location;
+        double latitude = coordinate.latitude;
+        double lontitude = coordinate.longitude;
+        NSString *location = [NSString stringWithFormat:@"%f,%f",latitude,lontitude];
+        [muteAry addObject:location];
+    }
+    path = muteAry;
+    [paramDic setValue:path forKey:@"path"]; //跑步沿途路径
+    //跑步时间小于23时59分
+    if (self.duration < 1440) {
+         NSString *duration = [[NSNumber numberWithDouble:self.duration] stringValue];
+        [paramDic setValue:duration forKey:@"duration"]; //跑步总时间
+    }
+   
+    
+    NSString *mileage = [[NSNumber numberWithDouble:self.distance] stringValue];
+    [paramDic setValue:mileage forKey:@"mileage"]; //跑步总距离
+    
+    NSString *kcal = [NSString stringWithFormat:@"%0.2f",self.kcal];
+    [paramDic setValue:kcal forKey:@"kcal"];
+    
     NSString *averageSpeedStr = [[NSNumber numberWithDouble:self.averageSpeed] stringValue];
-    [paramDic setObject:averageSpeedStr forKey:@"averageSpeed"]; //平均速度
+    [paramDic setValue:averageSpeedStr forKey:@"averageSpeed"]; //平均速度
+    
     NSString *averageStepFrequencyStr = [[NSNumber numberWithInt:self.averageStepFrequency] stringValue];
-    [paramDic setObject:averageStepFrequencyStr forKey:@"averageStepFrequency"]; //平均步频
+    [paramDic setValue:averageStepFrequencyStr forKey:@"averageStepFrequency"]; //平均步频
+    
     NSString *maxSpeedStr = [[NSNumber numberWithDouble:self.maxSpeed] stringValue];
-    [paramDic setObject:maxSpeedStr forKey:@"maxSpeed"]; //最大速度
+    [paramDic setValue:maxSpeedStr forKey:@"maxSpeed"]; //最大速度
+    
     NSString *maxStepFrequencyStr = [[NSNumber numberWithInt:self.maxStepFrequency] stringValue];
-    [paramDic setObject:maxStepFrequencyStr forKey:@"maxStepFrequency"]; //最大步频
-    [paramDic setObject:self.finishDate forKey:@"finishDate"]; //完成日期
-    [paramDic setObject:self.caculateStepsAry forKey:@"stepFrequency"]; //处理后的步频数组
-    [paramDic setObject:self.caculateSpeedAry forKey:@"speed"]; //处理后的速度数组
+    [paramDic setValue:maxStepFrequencyStr forKey:@"maxStepFrequency"]; //最大步频
+    
+    [paramDic setValue:self.finishDate forKey:@"finishDate"]; //完成日期
+    NSLog(@"上传的日期为%@",self.finishDate);
+    
+    
+    if (self.originalStepsAry == nil) {
+        int i = 0;
+        int j = 0;
+        NSString *nilsteparray = [NSString stringWithFormat:@"%d,%d",i,j];
+        NSMutableArray *array = [NSMutableArray array];
+        [array addObject:nilsteparray];
+        self.originalStepsAry = array;
+        [paramDic setValue:self.originalStepsAry forKey:@"stepFrequency"]; //原始的步频数组
+    }else{
+         [paramDic setValue:self.originalStepsAry forKey:@"stepFrequency"]; //原始的步频数组
+    }
+    [paramDic setValue:self.originalSpeedAry forKey:@"speed"]; //原始的速度数组
+    
+    [paramDic setValue:@"1" forKey:@"weather"];
+    
+    [paramDic setValue:@"24" forKey:@"temperature"];
+    
+//       AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//       NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+//       NSString *token = [user objectForKey:@"token"];
+//       AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+//       //添加请求头
+//       [requestSerializer setValue:token forHTTPHeaderField:@"token"];
+//       [manager setRequestSerializer:requestSerializer];
+////    manager.requestSerializer = requestSerializer;
+//       // 响应
+//       AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+//       [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
+//       responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]]; //设置接收内容的格式
+//       [manager setResponseSerializer:responseSerializer];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    NSLog(@"%@",token);
+    // 响应
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]]; //设置接收内容的格式
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
 
-       AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-       NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-       NSString *token = [user objectForKey:@"token"];
-       // 请求   TCP/IP   http
-       AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-       //添加请求头
-       [requestSerializer setValue:token forHTTPHeaderField:@"token"];
-       [manager setRequestSerializer:requestSerializer];
-       // 响应
-       AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
-       [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
-       responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",@"text/xml",nil]]; //设置接收内容的格式
-       [manager setResponseSerializer:responseSerializer];
     [manager POST:HandUpRunData parameters:paramDic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"-----------上传数据成功，得到的结果为%@",responseObject);
         NSLog(@"---------···上传的数据为%@",paramDic);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"上传跑步数据失败，结果为%@",error);
+//        NSLog(@"上传跑步数据失败，结果为%@",error);
+//        NSLog(@"上传数据失败，token为%@",token);
+        NSLog(@"上传数据失败，上传的参数为%@",paramDic);
     }];
     
 }

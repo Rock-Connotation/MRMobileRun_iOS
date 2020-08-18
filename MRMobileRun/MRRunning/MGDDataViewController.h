@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSArray *caculatedSpeedAry; //首页中处理后的速度数组
 @property (nonatomic, strong) NSArray *cacultedStepsAry; //首页中的处理后步频数组
+@property (nonatomic, strong) NSArray *originalSpeedAry; //原始的速度数组
+@property (nonatomic, strong) NSArray *originalStepsAry; //原始的步频数组
+
 @property int averageStepFrequency; //平均步频
 @property int maxStepFrequency; //最大步频
 @property double averageSpeed; //平均速度
