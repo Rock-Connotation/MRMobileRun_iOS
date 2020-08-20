@@ -151,7 +151,7 @@ NSString *ID = @"Recored_cell";
     NSLog(@"步频数组----%@",detailDataVC.stepFrequencyArray);
     NSLog(@"路径数组----%@",detailDataVC.speedArray);
     //路径数组，不用你那个locationAry就没问题,自己模仿下上面的写法
-    
+    detailDataVC.locationAry = [self DataViewArray:model.pathArray];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 

@@ -139,7 +139,7 @@
 		2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25122845E3300779B7B /* AVFoundation.framework */; };
 		2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25322845E3B00779B7B /* Photos.framework */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
-		B84F258024D16D0B00EB8FB7 /* RecordtimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */; };
+		B897C29924EE85B900E230EE /* RecordtimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = B897C29824EE85B900E230EE /* RecordtimeString.m */; };
 		B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */; };
 		B8BDEE8F24C7F8C20013293B /* RunLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDEE8E24C7F8C20013293B /* RunLocationModel.m */; };
 		B8D962F524E9B1C70035CF1C /* YYZTextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8D962ED24E9B1C60035CF1C /* YYZTextViewController.xib */; };
@@ -473,8 +473,8 @@
 		2FF4B25322845E3B00779B7B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
-		B84F257E24D16D0B00EB8FB7 /* RecordtimeString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordtimeString.h; sourceTree = "<group>"; };
-		B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordtimeString.m; sourceTree = "<group>"; };
+		B897C29724EE85B800E230EE /* RecordtimeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordtimeString.h; sourceTree = "<group>"; };
+		B897C29824EE85B900E230EE /* RecordtimeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordtimeString.m; sourceTree = "<group>"; };
 		B8ACCD9924D4331B00D9F0D4 /* MASmoothPathTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASmoothPathTool.h; sourceTree = "<group>"; };
 		B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASmoothPathTool.m; sourceTree = "<group>"; };
 		B8BDEE8D24C7F8C20013293B /* RunLocationModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RunLocationModel.h; sourceTree = "<group>"; };
@@ -1257,8 +1257,8 @@
 		B84F257D24D16CD600EB8FB7 /* Time */ = {
 			isa = PBXGroup;
 			children = (
-				B84F257E24D16D0B00EB8FB7 /* RecordtimeString.h */,
-				B84F257F24D16D0B00EB8FB7 /* RecordtimeString.m */,
+				B897C29724EE85B800E230EE /* RecordtimeString.h */,
+				B897C29824EE85B900E230EE /* RecordtimeString.m */,
 				B8D9633024E9B2AE0035CF1C /* ZYLTimeStamp.h */,
 				B8D9632F24E9B2AD0035CF1C /* ZYLTimeStamp.m */,
 			);
@@ -1843,6 +1843,7 @@
 				2F7ADC7723799CEE00FE9461 /* ZYLSettingNameCell.m in Sources */,
 				CE0CC1CE222E5048001283EA /* MRDemoModel.m in Sources */,
 				B8FE2AFD24EBA434009DC23D /* MGDColumnChartView.m in Sources */,
+				B897C29924EE85B900E230EE /* RecordtimeString.m in Sources */,
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
 				B8D9633124E9B2AE0035CF1C /* ZYLTimeStamp.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
@@ -1858,7 +1859,6 @@
 				2F7ADC712379957800FE9461 /* ZYLSettingNomalCell.m in Sources */,
 				2F0E816C225F745F00D5E511 /* ZYLClassRankModel.m in Sources */,
 				B8D9639724E9B33D0035CF1C /* SZHChart.m in Sources */,
-				B84F258024D16D0B00EB8FB7 /* RecordtimeString.m in Sources */,
 				B8FE2B0224EBA434009DC23D /* MGDMineViewController.m in Sources */,
 				2F36BD042240CF4B00C1D8FC /* WeProgressCircle.m in Sources */,
 				B8FE2AF624EBA434009DC23D /* YBRectConst.m in Sources */,
