@@ -59,6 +59,13 @@
     r.showsAccuracyRing = NO;//不显示精度圈
 //    r.image = [UIImage imageNamed:@"userAnnotation"];
     [self.mapView updateUserLocationRepresentation:r];
+//    //  自定义地图样式
+//       NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+//       NSData *data = [NSData dataWithContentsOfFile:path];
+//        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+//        options.styleData = data;
+//    [self.mapView setCustomMapStyleOptions:options];
+//    [self.mapView setCustomMapStyleEnabled:YES];
 //    UIAlertController
     //
 }

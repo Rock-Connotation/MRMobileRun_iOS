@@ -139,17 +139,13 @@
 
 //添加两个图表
 - (void)addTwoCharts{
-//    //处理步频的数组
-//    NSMutableArray *stepsMuteAry = [NSMutableArray array];
-//    int totleSteps = 0;
-//    for (int i = 0; i < self.originStepsAry.count; i +=5) {
-//        NSString *stepStr = self.originStepsAry[i];
-//        int stepsValue = [stepStr intValue];
-//        totleSteps = totleSteps + stepsValue;
-//        [stepsMuteAry addObject:stepStr];
-//    }
-//    int averageStepFrequence = totleSteps/self.cacultedStepsAry.count;
-//    self.caculatedSpeedAry = stepsMuteAry;
+    //处理步频的数组
+    NSMutableArray *stepsMuteAry = [NSMutableArray array];
+    for (int i = 0; i < self.originStepsAry.count; i += 5) {
+        NSString *stepStr = self.originStepsAry[i];
+        [stepsMuteAry addObject:stepStr];
+    }
+    self.caculatedSpeedAry = stepsMuteAry;
     
     //画步频的波浪图
     if (self.cacultedStepsAry.count != 0) {
@@ -170,20 +166,20 @@
         }
     }
     
-//    //处理画速度的折线图
-//    NSMutableArray *speedMuteAry = [NSMutableArray array];
-//    for (int i = 0; i < self.locationAry.count; i += 160) {
-//        RunLocationModel *Model = self.locationAry[i];
-//        double speed = Model.speed;
-//        NSString *speedStr = [[NSNumber numberWithDouble:speed] stringValue];
-//        [speedMuteAry addObject:speedStr];
-//    }
-//    self.caculatedSpeedAry = speedMuteAry;
+    //处理画速度的折线图
+    NSMutableArray *speedMuteAry = [NSMutableArray array];
+    for (int i = 0; i < self.locationAry.count; i += 32) {
+        RunLocationModel *Model = self.locationAry[i];
+        double speed = Model.speed;
+        NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+        [speedMuteAry addObject:speedStr];
+    }
+    self.caculatedSpeedAry = speedMuteAry;
     
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图
         SZHChart *speedChart = [[SZHChart alloc] init];
-        [speedChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
@@ -200,7 +196,6 @@
 
 //跳转到首页界面
 - (void)backRootCV {
-  
     MRTabBarController *cv = [[MRTabBarController alloc] init];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
     [self.navigationController pushViewController:cv animated:YES];
@@ -414,7 +409,4 @@
     [locationManager requestAlwaysAuthorization];
 }
 
-//- (void)dealloc{
-//    [[NSNotificationCenter defaultCenter]removeObserver:self];
-//}
 @end
