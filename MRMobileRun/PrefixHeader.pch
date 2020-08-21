@@ -20,11 +20,23 @@
 
 //黑暗模式背景颜色
 #define k_DarkBkgColor [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1.0]
+
+//登陆页的背景颜色
+#define LoginBackground  [UIColor colorNamed:@"LoginBackgroundColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//登陆页的按钮颜色
+#define LoginButton  [UIColor colorNamed:@"LoginButtonColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//登陆页的字体颜色
+#define LoginText  [UIColor colorNamed:@"LoginTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+//登陆页的提示字体的颜色
+#define LoginPal  [UIColor colorNamed:@"LoginPalColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 //关于黑暗模式的颜色
     //白色模式是白色
  #define WhiteColor  [UIColor colorNamed:@"whiteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
     //白天是灰色
 #define GrayColor  [UIColor colorNamed:@"grayColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+
+//跑步按钮的背景图
+#define RunBackColor  [UIColor colorNamed:@"RunBtnColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
     
 //结束页面的底部view背景色
 #define bottomColor  [UIColor colorNamed:@"BottomColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]

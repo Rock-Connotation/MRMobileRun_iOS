@@ -81,7 +81,7 @@
     if ([studentID  isEqual: @""] || [password  isEqual: @""])
     {
         NSLog(@"账号密码为空");
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoData" object:nil];
     }
     else
     {
@@ -97,12 +97,9 @@
     } progress:^(NSProgress *progress) {
         //
     } success:^(NSURLSessionDataTask *task, id responseObject) {
-        if ([[responseObject objectForKey:@"status"] isEqual:@401])
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:nil];
-        }
-        else
-        {
+        if ([[responseObject objectForKey:@"status"] isEqual:@401]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailErrorData" object:nil];
+        } else {
             NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"StudentId"] forKey:@"studentID"];
             [user setObject:[[responseObject objectForKey:@"data"] objectForKey:@"Token"] forKey:@"token"];
@@ -126,7 +123,7 @@
                 }
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"the error is %@",error);
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFail" object:error];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoClient" object:nil];
             }];
     }
     return dic;

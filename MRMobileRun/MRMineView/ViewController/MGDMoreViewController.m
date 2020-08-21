@@ -51,13 +51,15 @@
 NSString *ID1 = @"Sport_cell";
 
 -(void)viewWillAppear:(BOOL)animated {
-    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
 }
 -(void)viewWillDisappear:(BOOL)animated {
-    self.tabBarController.hidesBottomBarWhenPushed = NO;
+    self.tabBarController.tabBar.hidden = NO;
 }
+
+
 
 
 - (void)viewDidLoad {
@@ -112,6 +114,14 @@ NSString *ID1 = @"Sport_cell";
 }
 
 
+- (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan
+{
+    //自定义滑动手势
+    NSLog(@"右滑返回");
+}
+
+
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     // 当当前控制器是根控制器时，不可以侧滑返回，所以不能使其触发手势
@@ -124,7 +134,7 @@ NSString *ID1 = @"Sport_cell";
 
 
 - (void) back {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+    self.tabBarController.tabBar.hidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

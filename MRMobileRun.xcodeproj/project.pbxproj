@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		185510C824F02405009D5026 /* MGDTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 185510C724F02405009D5026 /* MGDTabBar.m */; };
+		185510CB24F0241E009D5026 /* MGDTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185510CA24F0241E009D5026 /* MGDTabBarViewController.m */; };
 		187C812D24D037B30040A78E /* MGDShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812C24D037B30040A78E /* MGDShareModel.m */; };
 		187C813024D037CE0040A78E /* MGDSharePlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812E24D037CE0040A78E /* MGDSharePlatform.m */; };
 		18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285B24C5B1B70093D396 /* MRTabBarView.m */; };
@@ -173,7 +175,6 @@
 		B8FE2AFB24EBA434009DC23D /* MGDBaseInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AE524EBA434009DC23D /* MGDBaseInfoView.m */; };
 		B8FE2AFC24EBA434009DC23D /* MGDSportTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AE624EBA434009DC23D /* MGDSportTableView.m */; };
 		B8FE2AFD24EBA434009DC23D /* MGDColumnChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AEA24EBA434009DC23D /* MGDColumnChartView.m */; };
-		B8FE2AFE24EBA434009DC23D /* MGDRecordTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AEB24EBA434009DC23D /* MGDRecordTableView.m */; };
 		B8FE2AFF24EBA434009DC23D /* MGDTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AEC24EBA434009DC23D /* MGDTopView.m */; };
 		B8FE2B0024EBA434009DC23D /* MGDMiddleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AED24EBA434009DC23D /* MGDMiddleView.m */; };
 		B8FE2B0124EBA434009DC23D /* MGDSportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AEE24EBA434009DC23D /* MGDSportTableViewCell.m */; };
@@ -219,6 +220,10 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		185510C624F02405009D5026 /* MGDTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTabBar.h; sourceTree = "<group>"; };
+		185510C724F02405009D5026 /* MGDTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDTabBar.m; sourceTree = "<group>"; };
+		185510C924F0241E009D5026 /* MGDTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTabBarViewController.h; sourceTree = "<group>"; };
+		185510CA24F0241E009D5026 /* MGDTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDTabBarViewController.m; sourceTree = "<group>"; };
 		187C812A24D037860040A78E /* MGDShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDShareModel.h; sourceTree = "<group>"; };
 		187C812C24D037B30040A78E /* MGDShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDShareModel.m; sourceTree = "<group>"; };
 		187C812E24D037CE0040A78E /* MGDSharePlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSharePlatform.m; sourceTree = "<group>"; };
@@ -533,7 +538,6 @@
 		B8FE2ADF24EBA434009DC23D /* MGDSportData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDSportData.h; sourceTree = "<group>"; };
 		B8FE2AE024EBA434009DC23D /* MGDUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDUserData.h; sourceTree = "<group>"; };
 		B8FE2AE124EBA434009DC23D /* MGDSportData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportData.m; sourceTree = "<group>"; };
-		B8FE2AE324EBA434009DC23D /* MGDRecordTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDRecordTableView.h; sourceTree = "<group>"; };
 		B8FE2AE424EBA434009DC23D /* MGDColumnChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDColumnChartView.h; sourceTree = "<group>"; };
 		B8FE2AE524EBA434009DC23D /* MGDBaseInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDBaseInfoView.m; sourceTree = "<group>"; };
 		B8FE2AE624EBA434009DC23D /* MGDSportTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableView.m; sourceTree = "<group>"; };
@@ -541,7 +545,6 @@
 		B8FE2AE824EBA434009DC23D /* MGDMiddleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDMiddleView.h; sourceTree = "<group>"; };
 		B8FE2AE924EBA434009DC23D /* MGDTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDTopView.h; sourceTree = "<group>"; };
 		B8FE2AEA24EBA434009DC23D /* MGDColumnChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDColumnChartView.m; sourceTree = "<group>"; };
-		B8FE2AEB24EBA434009DC23D /* MGDRecordTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDRecordTableView.m; sourceTree = "<group>"; };
 		B8FE2AEC24EBA434009DC23D /* MGDTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDTopView.m; sourceTree = "<group>"; };
 		B8FE2AED24EBA434009DC23D /* MGDMiddleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDMiddleView.m; sourceTree = "<group>"; };
 		B8FE2AEE24EBA434009DC23D /* MGDSportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDSportTableViewCell.m; sourceTree = "<group>"; };
@@ -634,6 +637,10 @@
 				18CD285C24C5B1B70093D396 /* MRTabBar.m */,
 				18CD285E24C5B1B70093D396 /* MRTabBarView.h */,
 				18CD285B24C5B1B70093D396 /* MRTabBarView.m */,
+				185510C624F02405009D5026 /* MGDTabBar.h */,
+				185510C724F02405009D5026 /* MGDTabBar.m */,
+				185510C924F0241E009D5026 /* MGDTabBarViewController.h */,
+				185510CA24F0241E009D5026 /* MGDTabBarViewController.m */,
 			);
 			path = MRTabBar;
 			sourceTree = "<group>";
@@ -1345,20 +1352,18 @@
 		B8FE2AE224EBA434009DC23D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B8FE2AE324EBA434009DC23D /* MGDRecordTableView.h */,
-				B8FE2AE424EBA434009DC23D /* MGDColumnChartView.h */,
+				B8FE2AE924EBA434009DC23D /* MGDTopView.h */,
+				B8FE2AEC24EBA434009DC23D /* MGDTopView.m */,
+				B8FE2AF024EBA434009DC23D /* MGDBaseInfoView.h */,
 				B8FE2AE524EBA434009DC23D /* MGDBaseInfoView.m */,
+				B8FE2AE824EBA434009DC23D /* MGDMiddleView.h */,
+				B8FE2AED24EBA434009DC23D /* MGDMiddleView.m */,
+				B8FE2AEF24EBA434009DC23D /* MGDSportTableView.h */,
 				B8FE2AE624EBA434009DC23D /* MGDSportTableView.m */,
 				B8FE2AE724EBA434009DC23D /* MGDSportTableViewCell.h */,
-				B8FE2AE824EBA434009DC23D /* MGDMiddleView.h */,
-				B8FE2AE924EBA434009DC23D /* MGDTopView.h */,
-				B8FE2AEA24EBA434009DC23D /* MGDColumnChartView.m */,
-				B8FE2AEB24EBA434009DC23D /* MGDRecordTableView.m */,
-				B8FE2AEC24EBA434009DC23D /* MGDTopView.m */,
-				B8FE2AED24EBA434009DC23D /* MGDMiddleView.m */,
 				B8FE2AEE24EBA434009DC23D /* MGDSportTableViewCell.m */,
-				B8FE2AEF24EBA434009DC23D /* MGDSportTableView.h */,
-				B8FE2AF024EBA434009DC23D /* MGDBaseInfoView.h */,
+				B8FE2AE424EBA434009DC23D /* MGDColumnChartView.h */,
+				B8FE2AEA24EBA434009DC23D /* MGDColumnChartView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1366,9 +1371,9 @@
 		B8FE2AF124EBA434009DC23D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B8FE2AF424EBA434009DC23D /* MGDMineViewController.h */,
 				B8FE2AF224EBA434009DC23D /* MGDMineViewController.m */,
 				B8FE2AF324EBA434009DC23D /* MGDMoreViewController.h */,
-				B8FE2AF424EBA434009DC23D /* MGDMineViewController.h */,
 				B8FE2AF524EBA434009DC23D /* MGDMoreViewController.m */,
 			);
 			path = ViewController;
@@ -1784,7 +1789,6 @@
 				B8D9633C24E9B2CD0035CF1C /* MGDDataViewController.m in Sources */,
 				2F14F89A2391025000356CDF /* ZYLSliderView.m in Sources */,
 				B8FE2AFB24EBA434009DC23D /* MGDBaseInfoView.m in Sources */,
-				B8FE2AFE24EBA434009DC23D /* MGDRecordTableView.m in Sources */,
 				2F0E8146225F309B00D5E511 /* XIGInviteTableViewCell.m in Sources */,
 				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
 				2F0E8147225F309B00D5E511 /* XIGClassRankViewController.m in Sources */,
@@ -1854,6 +1858,7 @@
 				2F7ADC7423799AA900FE9461 /* ZYLSettingIconCell.m in Sources */,
 				B8D9633124E9B2AE0035CF1C /* ZYLTimeStamp.m in Sources */,
 				2F5A1BA322468BA80014B249 /* MRBackBtu.m in Sources */,
+				185510C824F02405009D5026 /* MGDTabBar.m in Sources */,
 				B8D9639824E9B33D0035CF1C /* MGDOverView.m in Sources */,
 				2F64924F243A031700472B57 /* ZYLGetTimeScale.m in Sources */,
 				2F7ADC83237C2BEB00FE9461 /* ZYLLoginField.m in Sources */,
@@ -1875,6 +1880,7 @@
 				2F9CB6E2239BDA260003C09D /* ZYLConfirmButton.m in Sources */,
 				2F495E232282BE19003DD714 /* HttpClient.m in Sources */,
 				1A16B99F24EED4E700EAD884 /* YYZCommentViewController.m in Sources */,
+				185510CB24F0241E009D5026 /* MGDTabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

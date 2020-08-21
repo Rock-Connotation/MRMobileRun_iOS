@@ -24,20 +24,20 @@
         UIImageView *KmImage = [[UIImageView alloc] init];
         self.KmImage = KmImage;
         [self.backView addSubview:KmImage];
-        _KmImage.image = [UIImage imageNamed:@"homepage_kilometer"];
+        _KmImage.image = [UIImage imageNamed:@"路程"];
         _KmImage.contentMode =  UIViewContentModeScaleAspectFit;
         
         UIImageView *MinImage = [[UIImageView alloc] init];
         self.MinImage = MinImage;
         [self.backView addSubview:MinImage];
-        _MinImage.image = [UIImage imageNamed:@"homepage_time"];
+        _MinImage.image = [UIImage imageNamed:@"时间"];
         _MinImage.contentMode =  UIViewContentModeScaleAspectFit;
         
         UIImageView *CalImage = [[UIImageView alloc] init];
         self.calImage = CalImage;
         [self.backView addSubview:CalImage];
         //测试用数据
-        _calImage.image = [UIImage imageNamed:@"homepage_consume"];
+        _calImage.image = [UIImage imageNamed:@"千卡"];
         _calImage.contentMode =  UIViewContentModeScaleAspectFit;
         
         UILabel *KmLab = [[UILabel alloc] init];

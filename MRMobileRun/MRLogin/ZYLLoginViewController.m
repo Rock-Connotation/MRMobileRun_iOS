@@ -10,11 +10,13 @@
 #import "MRTabBarController.h"
 #import "MRLoginModel.h"
 #import "MBProgressHUD.h"
+#import "MGDTabBarViewController.h"
 
 @interface ZYLLoginViewController ()
 @property (nonatomic, strong) ZYLLoginView *loginView;
 @property (nonatomic,strong) MRLoginModel *loginModel;
 @property (nonatomic,strong) MBProgressHUD *loginProgress;
+@property (nonatomic,strong) MBProgressHUD *waitProgress;
 @end
 
 @implementation ZYLLoginViewController
@@ -32,22 +34,43 @@
     //登录的广播
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess:)  name:@"isLoginSuccess" object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFail:)  name:@"isLoginFail" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailNoClient:)  name:@"isLoginFailNoClient" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailErrorData:)  name:@"isLoginFailErrorData" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailNoData:)  name:@"isLoginFailNoData" object:nil];
 }
 
-- (void)loginFail:(NSNotification*)notification{
+- (void)loginFailNoClient:(NSNotification*)notification{
+    [self.waitProgress removeFromSuperview];
     self.loginProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //登录失败后
     [self.loginView.loginBtn setEnabled:YES];
     self.loginProgress.mode = MBProgressHUDModeText;
-    self.loginProgress.label.text = @" 登录失败 ";
-    [self.loginProgress hideAnimated:YES afterDelay:1];
+    self.loginProgress.label.text = @" 网络连接错误,请重新连接网络 ";
+    [self.loginProgress hideAnimated:YES afterDelay:2.0];
+}
+
+- (void)loginFailErrorData:(NSNotification*)notification{
+    [self.waitProgress removeFromSuperview];
+    self.loginProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.loginView.loginBtn setEnabled:YES];
+    self.loginProgress.mode = MBProgressHUDModeText;
+    self.loginProgress.label.text = @" 账号密码输入错误 ";
+    [self.loginProgress hideAnimated:YES afterDelay:2.0];
+}
+
+- (void)loginFailNoData:(NSNotification*)notification{
+    self.loginProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.loginView.loginBtn setEnabled:YES];
+    self.loginProgress.mode = MBProgressHUDModeText;
+    self.loginProgress.label.text = @" 账号密码为空 ";
+    [self.loginProgress hideAnimated:YES afterDelay:2.0];
 }
 
 - (void)loginSuccess:(NSNotification*)notification{
 
     [self.loginProgress hideAnimated:YES];
-    MRTabBarController *mainVC = [[MRTabBarController alloc] init];
+    MGDTabBarViewController *mainVC = [[MGDTabBarViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
     [UIApplication sharedApplication].keyWindow.rootViewController = nav;
     //登录成功后进入主界面
@@ -61,14 +84,16 @@
 
     [self.loginModel postRequestWithStudentID:self.loginView.usernameField.text   andPassword:self.loginView.passwordField.text];
     //传入登录的数据
-
-    if (!([self.loginView.usernameField.text length] != 10 || [self.loginView.passwordField.text length] != 6))
-    {
-        self.loginProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.loginProgress.mode = MBProgressHUDModeIndeterminate;
-        self.loginProgress.label.text = @" 正在登录 ";
-        self.loginProgress.bezelView.alpha = 0.8;
-        [self.loginProgress hideAnimated:YES afterDelay:0.5];
+    if (!([self.loginView.usernameField.text length] != 0 || [self.loginView.passwordField.text length] != 0)) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoData" object:nil];
+    }
+//    }else if (!([self.loginView.usernameField.text length] != 10 || [self.loginView.passwordField.text length] != 6))
+    else {
+        self.waitProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self.waitProgress.mode = MBProgressHUDModeIndeterminate;
+        self.waitProgress.label.text = @" 正在登录 ";
+        self.waitProgress.bezelView.alpha = 0.8;
+        [self.waitProgress hideAnimated:YES afterDelay:30.0];
     }
 }
 

@@ -48,7 +48,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)viewDidLoad {

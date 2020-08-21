@@ -42,10 +42,6 @@ NSString *ID = @"Recored_cell";
     self.navigationController.navigationBar.hidden = YES;
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getBaseInfo];
@@ -97,6 +93,13 @@ NSString *ID = @"Recored_cell";
         _baseView.frame = CGRectMake(0,111,screenWidth,117);
         _middleView.frame = CGRectMake(0,228,screenWidth,22);
     }
+    //只设置左下角为圆角
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.topview.bounds byRoundingCorners:UIRectCornerBottomLeft cornerRadii:CGSizeMake(50, 50)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.topview.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.topview.layer.mask = maskLayer;
+    
     [self.backView addSubview:_topview];
     [self.backView addSubview:_baseView];
     [self.backView addSubview:_middleView];
@@ -187,38 +190,6 @@ NSString *ID = @"Recored_cell";
     return cell;
 }
 
-//秒数转换成时分秒
--(NSString *)getMMSSFromSS:(NSString *)totalTime{
-    NSInteger seconds = [totalTime integerValue];
-    NSString *str_hour = [NSString stringWithFormat:@"%02ld",(long)seconds/3600];
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
-    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
-    return format_time;
-}
-
-//时间戳换成日期
-- (NSString *)getDateStringWithTimeStr:(NSString *)str{
-    NSTimeInterval time=[str doubleValue];
-    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"MM-dd"];
-    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
-    return currentDateStr;
-}
-
-//时间戳换成具体的时间
-- (NSString *)getTimeStringWithTimeStr:(NSString *)str {
-    NSTimeInterval time=[str doubleValue];
-    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"HH:mm"];
-    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
-    return currentDateStr;
-}
-
 //tableView禁止向上滑动
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == _sportTableView) {
@@ -231,7 +202,6 @@ NSString *ID = @"Recored_cell";
 
 - (void)MoreVC{
     MGDMoreViewController *moreVC = [[MGDMoreViewController alloc] init];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
     moreVC.pageNumber = 1;
     [self.navigationController pushViewController:moreVC animated:YES];
 }
@@ -265,7 +235,7 @@ NSString *ID = @"Recored_cell";
 //展示跑步总距离的数据
 - (void)reloadBaseData:(MGDUserData *)model {
     self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]];
-    self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[model.duration intValue]];
+    self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[model.duration intValue]/60];
     self.baseView.CalLab.text = [NSString stringWithFormat:@"%d",[model.consume intValue]];
 }
 
@@ -355,6 +325,38 @@ NSString *ID = @"Recored_cell";
     NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
     NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
     return format_time;
+}
+
+//秒数转换成时分秒
+-(NSString *)getMMSSFromSS:(NSString *)totalTime{
+    NSInteger seconds = [totalTime integerValue];
+    NSString *str_hour = [NSString stringWithFormat:@"%02ld",(long)seconds/3600];
+    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+    return format_time;
+}
+
+//时间戳换成日期
+- (NSString *)getDateStringWithTimeStr:(NSString *)str{
+    NSTimeInterval time=[str doubleValue];
+    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+        [dateFormatter setDateFormat:@"MM-dd"];
+    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
+    return currentDateStr;
+}
+
+//时间戳换成具体的时间
+- (NSString *)getTimeStringWithTimeStr:(NSString *)str {
+    NSTimeInterval time=[str doubleValue];
+    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+        [dateFormatter setDateFormat:@"HH:mm"];
+    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
+    return currentDateStr;
 }
 
 - (NSArray *)DataViewArray:(NSArray *)dataArr {

@@ -98,7 +98,7 @@
     [self.navigationController pushViewController:vc1 animated:YES];
 }
 - (void)clickLogoutBtu{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
+    self.tabBarController.tabBar.hidden = YES;
 //    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];
 //    for (id key in dic)
 //    {

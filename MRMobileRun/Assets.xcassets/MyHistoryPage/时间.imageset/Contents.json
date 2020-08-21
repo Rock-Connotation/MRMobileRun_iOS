@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "基本／路程.png",
+      "filename" : "基本／路程备份t1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,11 +12,12 @@
           "value" : "dark"
         }
       ],
+      "filename" : "基本／路程备份t2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "基本／路程@2x.png",
+      "filename" : "基本／路程备份@2xt1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -27,11 +28,12 @@
           "value" : "dark"
         }
       ],
+      "filename" : "基本／路程备份@2xt2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "基本／路程@3x.png",
+      "filename" : "基本／路程备份@3xt1.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -42,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "1.png",
+      "filename" : "基本／路程备份@3xt2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
