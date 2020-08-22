@@ -12,6 +12,8 @@
   [super viewDidLoad];
 
   [self.navigationItem setTitle:@"个性签名"];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+
   UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(13, 630, 350, 50)];
   //UIButton *saveBtn = [[UIButton alloc]init];
   saveBtn.backgroundColor = [UIColor darkGrayColor];

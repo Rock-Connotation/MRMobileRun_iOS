@@ -16,6 +16,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"关于约跑"];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];    
     
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(125, 170, 130, 130)];
     imageView.image = [UIImage imageNamed:@"约跑"];

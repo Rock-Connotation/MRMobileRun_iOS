@@ -18,6 +18,8 @@
     // Do any additional setup after loading the view.
 
     [self.navigationItem setTitle:@"意见反馈"];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+
     UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(13, 630, 350, 50)];
     saveBtn.backgroundColor = [UIColor darkGrayColor];
     [saveBtn setTitle:@"提交反馈" forState:UIControlStateNormal];

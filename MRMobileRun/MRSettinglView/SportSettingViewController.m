@@ -16,6 +16,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"系统权限设置"];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 
     UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(15, 300, 345, 50)];
     saveBtn.backgroundColor = [UIColor darkGrayColor];
