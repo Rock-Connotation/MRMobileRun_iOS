@@ -583,7 +583,7 @@
     overVC.locationAry = self.locationArray;
                  self.hidesBottomBarWhenPushed = YES;
                  [self.navigationController pushViewController:overVC animated:YES];
-              [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+              self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)continueRun1{
@@ -617,7 +617,7 @@
         overVC.locationAry = self.locationArray;
         self.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:overVC animated:YES];
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+        self.tabBarController.tabBar.hidden = YES;
        });
 }
     //继续跑步

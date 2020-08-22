@@ -11,6 +11,7 @@
 #import "MGDMiddleView.h"
 #import "MGDSportTableView.h"
 #import "MGDSportTableViewCell.h"
+#import "MRTabBarView.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) MGDMiddleView *middleView;
 
 @property (nonatomic, strong) MGDSportTableView *sportTableView;
+
+@property (nonatomic, strong) MRTabBarView *tabView;
 
 
 @end

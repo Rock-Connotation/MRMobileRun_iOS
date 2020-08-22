@@ -11,13 +11,14 @@
 #import "ZYLLoginViewController.h"
 #import "MRLoginModel.h"
 #import <AMapFoundationKit/AMapFoundationKit.h>
+#import "MGDTabBarViewController.h"
 #define BUGLY_APPID @"354f05b571"
 #define BUGLY_APPKEY @"c423889d-fa34-4de8-aa6c-8e29305d03b6"
 
 //高德地图的key
 #define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
 @interface AppDelegate ()
-@property (nonatomic, strong) MRTabBarController *tabBarVC;
+@property (nonatomic, strong) MGDTabBarViewController *tabBarVC;
 @end
 
 @implementation AppDelegate
@@ -32,7 +33,7 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     ZYLLoginViewController *loginVC = [[ZYLLoginViewController alloc] init];
 //    ZYLMainViewController *mainVC = [[ZYLMainViewController alloc] init];
-    MRTabBarController *tabVC = [[MRTabBarController alloc] init];
+    MGDTabBarViewController *tabVC = [[MGDTabBarViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: tabVC];
     self.window.rootViewController = nav;
     if ([user valueForKey:@"password"]) {

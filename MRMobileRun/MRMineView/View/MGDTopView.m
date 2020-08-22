@@ -8,7 +8,6 @@
 #import "MGDTopView.h"
 #import <Masonry.h>
 #import "UIImageView+WebCache.h"
-#define BACGROUNDCOLOR [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
 #define SHAWDOWCOLOR [UIColor colorWithRed:136/255.0 green:154/255.0 blue:181/255.0 alpha:0.05]
 
 @implementation MGDTopView
@@ -23,8 +22,6 @@
         } else {
             // Fallback on earlier versions
         }
-        //self.topView.backgroundColor = BACGROUNDCOLOR;
-        self.topView.layer.cornerRadius = 50;
         self.topView.layer.shadowColor = SHAWDOWCOLOR.CGColor;
         self.topView.layer.shadowOffset = CGSizeMake(0,3);
         self.topView.layer.shadowOpacity = 1;

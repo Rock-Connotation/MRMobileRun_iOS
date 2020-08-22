@@ -23,6 +23,8 @@
 #import "UIImageView+WebCache.h"
 #import "SZHChart.h"//速度图表的View
 #import "SZHWaveChart.h"//步频的波浪图
+#import "MGDTabBarViewController.h"
+
 @interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
@@ -196,8 +198,8 @@
 
 //跳转到首页界面
 - (void)backRootCV {
-    MRTabBarController *cv = [[MRTabBarController alloc] init];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
+    MGDTabBarViewController *cv = [[MGDTabBarViewController alloc] init];
+    self.tabBarController.tabBar.hidden = NO;
     [self.navigationController pushViewController:cv animated:YES];
 }
 

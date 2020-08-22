@@ -95,8 +95,8 @@
     [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(4);
-        make.width.equalTo(@51);
-        make.height.equalTo(@17);
+        make.width.equalTo(@71);
+        make.height.mas_equalTo(_backView);
     }];
 }
 @end
