@@ -23,6 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ZYLSettingNomalCell *suggestionCell;
 @property (nonatomic, strong) UIButton *logoutBtn;
 //@property (nonatomic, strong) ZYLNicknameTextField *nicknameTextFiled;
+-(void) YYZdarkChange;
 @end
-
 NS_ASSUME_NONNULL_END
