@@ -199,6 +199,14 @@
 		E34D9E2224E981A800906BAD /* GYYRankHeaderMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2124E981A800906BAD /* GYYRankHeaderMainView.m */; };
 		E34D9E2524E981D400906BAD /* GYYRankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */; };
 		E34D9E2824E981F000906BAD /* GYYRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2624E981F000906BAD /* GYYRankModel.m */; };
+		E3F60FDA24F13049001F42B1 /* GYYRankChidlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FD924F13049001F42B1 /* GYYRankChidlViewController.m */; };
+		E3F60FDE24F13057001F42B1 /* GYYRankUnitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FDB24F13057001F42B1 /* GYYRankUnitViewController.m */; };
+		E3F60FF024F14CE8001F42B1 /* TYPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FE324F14CE8001F42B1 /* TYPagerController.m */; };
+		E3F60FF124F14CE8001F42B1 /* TYPagerViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FE424F14CE8001F42B1 /* TYPagerViewLayout.m */; };
+		E3F60FF224F14CE8001F42B1 /* TYTabPagerBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FE624F14CE8001F42B1 /* TYTabPagerBar.m */; };
+		E3F60FF324F14CE8001F42B1 /* TYTabPagerBarLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FE724F14CE8001F42B1 /* TYTabPagerBarLayout.m */; };
+		E3F60FF424F14CE8001F42B1 /* TYTabPagerBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FEB24F14CE8001F42B1 /* TYTabPagerBarCell.m */; };
+		E3F60FF524F14CE8001F42B1 /* TYPagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FEC24F14CE8001F42B1 /* TYPagerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -595,6 +603,22 @@
 		E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankTableViewCell.m; sourceTree = "<group>"; };
 		E34D9E2624E981F000906BAD /* GYYRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankModel.m; sourceTree = "<group>"; };
 		E34D9E2724E981F000906BAD /* GYYRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankModel.h; sourceTree = "<group>"; };
+		E3F60FD824F13049001F42B1 /* GYYRankChidlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankChidlViewController.h; sourceTree = "<group>"; };
+		E3F60FD924F13049001F42B1 /* GYYRankChidlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankChidlViewController.m; sourceTree = "<group>"; };
+		E3F60FDB24F13057001F42B1 /* GYYRankUnitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankUnitViewController.m; sourceTree = "<group>"; };
+		E3F60FDD24F13057001F42B1 /* GYYRankUnitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankUnitViewController.h; sourceTree = "<group>"; };
+		E3F60FE324F14CE8001F42B1 /* TYPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYPagerController.m; sourceTree = "<group>"; };
+		E3F60FE424F14CE8001F42B1 /* TYPagerViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYPagerViewLayout.m; sourceTree = "<group>"; };
+		E3F60FE624F14CE8001F42B1 /* TYTabPagerBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabPagerBar.m; sourceTree = "<group>"; };
+		E3F60FE724F14CE8001F42B1 /* TYTabPagerBarLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabPagerBarLayout.m; sourceTree = "<group>"; };
+		E3F60FE824F14CE8001F42B1 /* TYTabPagerBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabPagerBarCell.h; sourceTree = "<group>"; };
+		E3F60FE924F14CE8001F42B1 /* TYTabPagerBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabPagerBar.h; sourceTree = "<group>"; };
+		E3F60FEA24F14CE8001F42B1 /* TYTabPagerBarLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTabPagerBarLayout.h; sourceTree = "<group>"; };
+		E3F60FEB24F14CE8001F42B1 /* TYTabPagerBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTabPagerBarCell.m; sourceTree = "<group>"; };
+		E3F60FEC24F14CE8001F42B1 /* TYPagerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYPagerView.m; sourceTree = "<group>"; };
+		E3F60FED24F14CE8001F42B1 /* TYPagerViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYPagerViewLayout.h; sourceTree = "<group>"; };
+		E3F60FEE24F14CE8001F42B1 /* TYPagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYPagerController.h; sourceTree = "<group>"; };
+		E3F60FEF24F14CE8001F42B1 /* TYPagerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYPagerView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1141,6 +1165,7 @@
 		2FD8E783224F4FF3003EC09E /* MRRankView */ = {
 			isa = PBXGroup;
 			children = (
+				E3F60FE224F14CE8001F42B1 /* TYPagerController */,
 				2FD8E787224F5033003EC09E /* ViewModel */,
 				2FD8E786224F5026003EC09E /* Controller */,
 				2FD8E785224F501C003EC09E /* Model */,
@@ -1193,6 +1218,10 @@
 		2FD8E786224F5026003EC09E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E3F60FDD24F13057001F42B1 /* GYYRankUnitViewController.h */,
+				E3F60FDB24F13057001F42B1 /* GYYRankUnitViewController.m */,
+				E3F60FD824F13049001F42B1 /* GYYRankChidlViewController.h */,
+				E3F60FD924F13049001F42B1 /* GYYRankChidlViewController.m */,
 				2F4044D723954D7F00EE93EC /* old */,
 				2F14F88C2390BD6000356CDF /* ZYLRankViewController.h */,
 				2F14F88D2390BD6000356CDF /* ZYLRankViewController.m */,
@@ -1523,6 +1552,33 @@
 			path = MRRouterManager;
 			sourceTree = "<group>";
 		};
+		E3F60FE224F14CE8001F42B1 /* TYPagerController */ = {
+			isa = PBXGroup;
+			children = (
+				E3F60FE324F14CE8001F42B1 /* TYPagerController.m */,
+				E3F60FE424F14CE8001F42B1 /* TYPagerViewLayout.m */,
+				E3F60FE524F14CE8001F42B1 /* TabPager */,
+				E3F60FEC24F14CE8001F42B1 /* TYPagerView.m */,
+				E3F60FED24F14CE8001F42B1 /* TYPagerViewLayout.h */,
+				E3F60FEE24F14CE8001F42B1 /* TYPagerController.h */,
+				E3F60FEF24F14CE8001F42B1 /* TYPagerView.h */,
+			);
+			path = TYPagerController;
+			sourceTree = "<group>";
+		};
+		E3F60FE524F14CE8001F42B1 /* TabPager */ = {
+			isa = PBXGroup;
+			children = (
+				E3F60FE624F14CE8001F42B1 /* TYTabPagerBar.m */,
+				E3F60FE724F14CE8001F42B1 /* TYTabPagerBarLayout.m */,
+				E3F60FE824F14CE8001F42B1 /* TYTabPagerBarCell.h */,
+				E3F60FE924F14CE8001F42B1 /* TYTabPagerBar.h */,
+				E3F60FEA24F14CE8001F42B1 /* TYTabPagerBarLayout.h */,
+				E3F60FEB24F14CE8001F42B1 /* TYTabPagerBarCell.m */,
+			);
+			path = TabPager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1728,6 +1784,7 @@
 				B8D9639D24E9B33D0035CF1C /* MGDShareView.m in Sources */,
 				28A5EDFE22DE927A00CA6B6A /* LJJInviteOk.m in Sources */,
 				2F7ADC80237C2A8D00FE9461 /* ZYLWelcomeLabel.m in Sources */,
+				E3F60FF124F14CE8001F42B1 /* TYPagerViewLayout.m in Sources */,
 				2FF3BB2C238D6B9900DB9051 /* ZYLHostView.m in Sources */,
 				2F0E816F225F748800D5E511 /* ZYLStudentRankModel.m in Sources */,
 				2F495E512282BFFA003DD714 /* LJJInviteRunModel.m in Sources */,
@@ -1741,8 +1798,10 @@
 				18CD286124C5B1B70093D396 /* MRTabBarController.m in Sources */,
 				B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */,
 				2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */,
+				E3F60FDA24F13049001F42B1 /* GYYRankChidlViewController.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
+				E3F60FF324F14CE8001F42B1 /* TYTabPagerBarLayout.m in Sources */,
 				18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */,
 				E34D9E2224E981A800906BAD /* GYYRankHeaderMainView.m in Sources */,
 				2F0E8148225F309B00D5E511 /* XIGClassTableViewCell.m in Sources */,
@@ -1760,6 +1819,7 @@
 				B8D9639B24E9B33D0035CF1C /* SZHWaveChart.m in Sources */,
 				28ED985F22F14431003AA58D /* LJJSearchedVC.m in Sources */,
 				187C813024D037CE0040A78E /* MGDSharePlatform.m in Sources */,
+				E3F60FDE24F13057001F42B1 /* GYYRankUnitViewController.m in Sources */,
 				1A16B99324EED4AA00EAD884 /* AboutViewController.m in Sources */,
 				2FF3BB26238D4DB200DB9051 /* ZYLUnitLabel.m in Sources */,
 				2F0E818422608BD600D5E511 /* ZYLPersonalBackGroud.m in Sources */,
@@ -1781,6 +1841,7 @@
 				2F495E4B2282BFEB003DD714 /* LJJInviteViewModel.m in Sources */,
 				2F495E372282BEAD003DD714 /* MRLoginBtu.m in Sources */,
 				B8FE2AF724EBA434009DC23D /* YBPopupMenuPath.m in Sources */,
+				E3F60FF024F14CE8001F42B1 /* TYPagerController.m in Sources */,
 				2F5CBE97225F00A000813943 /* GTMBase64.m in Sources */,
 				28EBE4EC22F07A70001B4293 /* LJJSearchedView.m in Sources */,
 				B8FE2AFA24EBA434009DC23D /* MGDSportData.m in Sources */,
@@ -1803,6 +1864,7 @@
 				2F495E452282BFD0003DD714 /* LJJInviteRunVCViewController.m in Sources */,
 				2FF3BB1D238D4C0B00DB9051 /* ZYLRedBar.m in Sources */,
 				2F9CB6DF239BD8F60003C09D /* ZYLRewriteTextField.m in Sources */,
+				E3F60FF524F14CE8001F42B1 /* TYPagerView.m in Sources */,
 				2F14F8912390C0CC00356CDF /* ZYLAcademyRankViewController.m in Sources */,
 				B8D9639624E9B33D0035CF1C /* LongPressView.m in Sources */,
 				2F14BF8D226AE62800CCA2B8 /* ZYLHomePageModel.m in Sources */,
@@ -1862,6 +1924,8 @@
 				B8D9639824E9B33D0035CF1C /* MGDOverView.m in Sources */,
 				2F64924F243A031700472B57 /* ZYLGetTimeScale.m in Sources */,
 				2F7ADC83237C2BEB00FE9461 /* ZYLLoginField.m in Sources */,
+				E3F60FF224F14CE8001F42B1 /* TYTabPagerBar.m in Sources */,
+				E3F60FF424F14CE8001F42B1 /* TYTabPagerBarCell.m in Sources */,
 				B8FE2B0124EBA434009DC23D /* MGDSportTableViewCell.m in Sources */,
 				2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,

@@ -20,9 +20,9 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AMap3DMap (7.5.0):
+  - AMap3DMap (7.6.0):
     - AMapFoundation (~> 1.6.3)
-  - AMapFoundation (1.6.3)
+  - AMapFoundation (1.6.4)
   - AMapLocation (2.6.5):
     - AMapFoundation (~> 1.6.3)
   - Bugly (2.5.71)
@@ -79,8 +79,8 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  AMap3DMap: fc7c911f5cf079d544ad7faec256c9554cbbb202
-  AMapFoundation: 9ed923193b357ebb30a073e9fe255d3c24054d5a
+  AMap3DMap: fddccc76459c63e955f637812c8ba5e1e6024277
+  AMapFoundation: 3638198dfa40be54648570c3520edefad288286b
   AMapLocation: c566d448285cd502c1e313063d9e2460bd4d7100
   Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
