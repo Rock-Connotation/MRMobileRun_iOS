@@ -17,6 +17,7 @@
         self.iconImage.image = [UIImage imageNamed:@"setting_darkMode"];
         self.arrowImage.hidden = YES;
         self.mySwitch = [[UISwitch alloc] initWithFrame: CGRectMake(screenWidth-70*kRateX, 17*kRateY, 52*kRateX, 30*kRateY)];
+        [self.mySwitch addTarget:self action:@selector(DarkChange:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview: self.mySwitch];
 //        [self.mySwitch mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.centerX.equalTo(self.mas_centerX);
@@ -28,4 +29,12 @@
     return self;
 }
 
+- (void)DarkChange:(UISwitch *)sender{
+    if(sender.on == YES){
+        printf("adsad\nfsdfds");
+        [self setOverrideUserInterfaceStyle:UIUserInterfaceStyleDark];
+    }
+    else
+        [self setOverrideUserInterfaceStyle:UIUserInterfaceStyleLight];
+}
 @end
