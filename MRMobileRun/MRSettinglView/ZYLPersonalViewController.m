@@ -32,6 +32,7 @@
 @implementation ZYLPersonalViewController
 
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     self.view.backgroundColor = [UIColor clearColor];
     [self.navigationController setNavigationBarHidden: NO];
 //    设置透明导航栏
@@ -39,45 +40,83 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]}; // title颜色
+<<<<<<< HEAD
     
-}
+=======
+    self.title = @"设置";
+    if (@available(iOS 13.0, *)) {
+        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return [UIColor whiteColor];
+            } else { //深色模式
+                self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
+                return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
+            }
+        }];
+        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+    }
+    [self->_bkgView YYZdarkChange];
 
+>>>>>>> 897afcff6a4f2b3a50f2f13c5072f0f7410d765e
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self->_bkgView YYZdarkChange];
+
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [self->_bkgView YYZdarkChange];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [self->_bkgView YYZdarkChange];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+   // [self setOverrideUserInterfaceStyle:UIUserInterfaceStyleDark];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
 //    [self.view addSubview: self.personalInformationView];
     [ZYLAvatarRequest ZYLGetAvatar];
     [self.view addSubview: self.bkgView];
+    [_bkgView YYZdarkChange];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAvatar:)  name:@"getAvatar" object:nil];
 //    NSData *imageData = [[NSData alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myAvatar:)  name:@"getAvatarSuccess" object: nil];
     
     UIButton *textBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-       textBtn.frame = CGRectMake(0, 240, 400, 60);
+       textBtn.frame = CGRectMake(0, 210*kRateY, screenWidth, 70*kRateY);
        textBtn.backgroundColor = [UIColor clearColor];
        [textBtn addTarget:self action:@selector(actionText) forControlEvents:UIControlEventTouchUpInside];
-       [self.view addSubview:textBtn];
+    [self.view addSubview:textBtn];
+    
     UIButton *aboutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    aboutBtn.frame = CGRectMake(0, 300, 400, 60);
+    aboutBtn.frame = CGRectMake(0, 280*kRateY, screenWidth, 70*kRateY);
     aboutBtn.backgroundColor = [UIColor clearColor];
     [aboutBtn addTarget:self action:@selector(actionAbout) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:aboutBtn];
+    
     UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    settingBtn.frame = CGRectMake(0, 370, 400, 60);
+    settingBtn.frame = CGRectMake(0, 350*kRateY, screenWidth, 70*kRateY);
     settingBtn.backgroundColor = [UIColor clearColor];
     [settingBtn addTarget:self action:@selector(actionSetting) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:settingBtn];
     UIButton *commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    commentBtn.frame = CGRectMake(0, 433, 400, 60);
+    commentBtn.frame = CGRectMake(0, 420*kRateY, screenWidth, 70*kRateY);
     commentBtn.backgroundColor = [UIColor clearColor];
     [commentBtn addTarget:self action:@selector(actionComment) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commentBtn];
     
-    /*UIButton *darkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    darkBtn.frame = CGRectMake(305, 515, 60, 35);
-    darkBtn.backgroundColor = [UIColor clearColor];
-    [darkBtn addTarget:self action:@selector(actionDark) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:darkBtn];*/
+    if (@available(iOS 13.0, *)) {
+        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return [UIColor whiteColor];
+            } else { //深色模式
+                self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
+                
+                return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
+            }
+        }];
+        [self->_bkgView YYZdarkChange];
+        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+    }
     
 }
 
@@ -98,7 +137,7 @@
     [self.navigationController pushViewController:vc1 animated:YES];
 }
 - (void)clickLogoutBtu{
-    self.tabBarController.tabBar.hidden = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
 //    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];
 //    for (id key in dic)
 //    {

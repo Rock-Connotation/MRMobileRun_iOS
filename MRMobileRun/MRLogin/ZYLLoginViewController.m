@@ -87,7 +87,6 @@
     if (!([self.loginView.usernameField.text length] != 0 || [self.loginView.passwordField.text length] != 0)) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoData" object:nil];
     }
-//    }else if (!([self.loginView.usernameField.text length] != 10 || [self.loginView.passwordField.text length] != 6))
     else {
         self.waitProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.waitProgress.mode = MBProgressHUDModeIndeterminate;
