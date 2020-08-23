@@ -53,7 +53,7 @@
     self.mainVC = [[ZYLMainViewController alloc] init];
     //self.mainVC.tabBarItem.title = @"首页";
     self.mainVC.tabBarItem.imageInsets = UIEdgeInsetsMake(9, 0,-9, 0);
-    self.mainVC.tabBarItem.image = [[UIImage imageNamed:@"MyView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.mainVC.tabBarItem.image = [[UIImage imageNamed:@"mainView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     self.mainVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"mainView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     ZYLRankViewController *vc2 = [[ZYLRankViewController alloc] init];

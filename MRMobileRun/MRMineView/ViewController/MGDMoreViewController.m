@@ -15,6 +15,7 @@
 #import <AFNetworking.h>
 #import "MGDSportData.h"
 #import "MGDCellDataViewController.h"
+#import "MBProgressHUD.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 #define DIVIDERCOLOR [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
@@ -36,6 +37,8 @@
 //柱形图数组
 @property (nonatomic, strong) NSMutableArray *chartArr;
 
+@property (nonatomic, strong) MBProgressHUD *hud;
+
 @end
 
 @implementation MGDMoreViewController
@@ -49,6 +52,8 @@
 }
 
 NSString *ID1 = @"Sport_cell";
+static bool iscache = false;
+static int page = 1;
 
 -(void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -64,6 +69,7 @@ NSString *ID1 = @"Sport_cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     self.navigationController.navigationBar.translucent = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -93,10 +99,33 @@ NSString *ID1 = @"Sport_cell";
     _tmpArray = [[NSMutableArray alloc] init];
     _cellListArray = [[NSMutableArray alloc] init];
     [self.recordTableView reloadData];
-    [self getRecordList:^(NSMutableArray *recordList) {
-        [self loadmoreDataWithPage:self->_pageNumber];
-        [self setUI];
-    }];
+    NSData *arrayData = [user objectForKey:@"SportMoreList"];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
+    NSMutableArray *columnArray = [NSMutableArray arrayWithArray:array];
+    
+    NSData *cellarrayData = [user objectForKey:@"CellData"];
+    NSArray *cellarray = [NSKeyedUnarchiver unarchiveObjectWithData:cellarrayData];
+    NSMutableArray *listArray = [NSMutableArray arrayWithArray:cellarray];
+    _recordArray = columnArray;
+    _cellListArray = listArray;
+    if (iscache) {
+        NSLog(@"=====更多页面使用缓存数据=====");
+        [self getCache:^(NSMutableArray *recordList) {
+            [self loadmoreDataWithPageWithCache];
+            [self setUI];
+        }];
+    }else {
+        NSLog(@"=====更多页面使用网络数据=====");
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.mode = MBProgressHUDModeIndeterminate;
+        _hud.label.text = @" 正在加载中 ";
+        [self getRecordList:^(NSMutableArray *recordList) {
+            [self loadmoreDataWithPage:self->_pageNumber];
+            [self setUI];
+            [self->_hud removeFromSuperview];
+        }];
+        iscache = true;
+    }
     
     //设置右滑返回
     id target = self.navigationController.interactivePopGestureRecognizer.delegate;
@@ -186,14 +215,15 @@ NSString *ID1 = @"Sport_cell";
         [_footer endRefreshingWithNoMoreData];
     }
     //上滑时count++进行查询
-    _pageNumber++;
+    page++;
+    _pageNumber = page;
     [self loadmoreDataWithPage:_pageNumber];
 }
 
 - (void)loadmoreDataWithPage:(int)page {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    //manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
@@ -212,6 +242,9 @@ NSString *ID1 = @"Sport_cell";
                 self->_userDataModel = [MGDSportData SportDataWithDict:dic];
                 [self->_cellListArray addObject:self.userDataModel];
             }
+            NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
+            [user setObject:arrayData forKey:@"CellData"];
+            [user synchronize];
             dispatch_async(dispatch_get_main_queue(), ^{
                 //列表数据刷新
                 [self.recordTableView reloadData];
@@ -226,6 +259,16 @@ NSString *ID1 = @"Sport_cell";
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
     }];
+}
+
+- (void)loadmoreDataWithPageWithCache{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //列表数据刷新
+        [self.recordTableView reloadData];
+        [self.recordTableView layoutIfNeeded];
+        //停止刷新
+    });
+    [self.recordTableView.mj_footer endRefreshing];
 }
 
 - (void)changeYearClick:(MGDColumnChartView *)chartView sender:(UIButton *)sender
@@ -438,7 +481,6 @@ NSString *ID1 = @"Sport_cell";
 //网络请求
 - (void)getRecordList:(void(^)(NSMutableArray *recordList))result {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
@@ -459,14 +501,25 @@ NSString *ID1 = @"Sport_cell";
             self->_userDataModel = [MGDSportData SportDataWithDict:dic];
             [self->_recordArray addObject:self.userDataModel];
         }
+        NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_recordArray];
+        [user setObject:arrayData forKey:@"SportMoreList"];
+        [user synchronize];
         [self makeListData:self->_recordArray];
         //通过block把值传出来
         dispatch_async(dispatch_get_main_queue(), ^{
             result(self->_recordArray);
-              });
+        });
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
     }];
+}
+
+- (void)getCache:(void(^)(NSMutableArray *recordList))result {
+    [self makeListData:self->_recordArray];
+        //通过block把值传出来
+    dispatch_async(dispatch_get_main_queue(), ^{
+            result(self->_recordArray);
+        });
 }
 
 //返回当前的时间（网络请求时返回的字典内容）

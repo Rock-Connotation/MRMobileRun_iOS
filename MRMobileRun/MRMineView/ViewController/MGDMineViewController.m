@@ -24,29 +24,52 @@
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
 
-@interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
-    NSMutableArray *userSportArray;
-}
-
+@interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) MGDUserData *currentModel;
 @property (nonatomic, strong) MGDSportData *sportModel;
 @property (nonatomic, strong) NSUserDefaults *user;
+@property (nonatomic, strong) NSMutableArray *userSportArray;
+
 
 @end
 
 @implementation MGDMineViewController
 
 NSString *ID = @"Recored_cell";
+static bool isCache = false;
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.hidden = YES;
+    _userSportArray = [[NSMutableArray alloc] init];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    if ([user objectForKey:@"km"] != nil && [user objectForKey:@"min"] != nil && [user objectForKey:@"cal"] != nil) {
+        NSLog(@"====三大数据使用缓存数据====");
+        self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[[user objectForKey:@"km"] floatValue]];
+        self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"min"] intValue]/60];
+        self.baseView.CalLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"cal"] intValue]];
+    }else {
+        NSLog(@"三大数据使用网络请求");
+        [self getBaseInfo];
+    }
+    
+    NSData *arrayData = [user objectForKey:@"SportList"];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
+    NSMutableArray *sportList = [NSMutableArray arrayWithArray:array];
+    _userSportArray = sportList;
+    if (isCache) {
+        NSLog(@"=====记录列表的缓存的数据=====");
+        [self.sportTableView reloadData];
+    }else {
+        NSLog(@"====记录列表的网络数据====");
+        [self getUserSportData];
+        isCache = true;
+    }
+    
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getBaseInfo];
-    [self getUserSportData];
-    userSportArray = [[NSMutableArray alloc] init];
     CGFloat tabBarHeight;
     if (kIs_iPhoneX) {
         tabBarHeight = 83;
@@ -114,16 +137,16 @@ NSString *ID = @"Recored_cell";
 
 #pragma mark- 数据源方法
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (userSportArray.count > 5) {
+    if (_userSportArray.count > 5) {
         return 5;
     }else {
-        return userSportArray.count;
+        return _userSportArray.count;
     }
 }
 
 //转到杨诚的界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    MGDSportData *model = userSportArray[indexPath.row];
+    MGDSportData *model = _userSportArray[indexPath.row];
     
     MGDCellDataViewController *detailDataVC = [[MGDCellDataViewController alloc] init];
     //距离
@@ -166,8 +189,8 @@ NSString *ID = @"Recored_cell";
     cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
     //展示cell的数据
-    if (userSportArray != nil && ![userSportArray isKindOfClass:[NSNull class]] && userSportArray.count != 0) {
-        MGDSportData *model = userSportArray[indexPath.row];
+    if (_userSportArray != nil && ![_userSportArray isKindOfClass:[NSNull class]] && _userSportArray.count != 0) {
+        MGDSportData *model = _userSportArray[indexPath.row];
         NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
         NSDate *currentDate = [NSDate date];
         NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
@@ -209,7 +232,7 @@ NSString *ID = @"Recored_cell";
 //原来的三大数据的网络请求
 - (void)getBaseInfo{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    //manager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     NSLog(@"%@",token);
@@ -226,6 +249,10 @@ NSString *ID = @"Recored_cell";
         dict = responseObject[@"data"];
         self->_currentModel = [MGDUserData DataWithDict:dict];
         [self reloadBaseData:self->_currentModel];
+        [user setObject:self->_currentModel.distance forKey:@"km"];
+        [user setObject:self->_currentModel.duration forKey:@"min"];
+        [user setObject:self->_currentModel.consume forKey:@"cal"];
+        [user synchronize];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error); // 404  500
         //MBProgressHUD  服务器异常 请稍后重试
@@ -263,9 +290,12 @@ NSString *ID = @"Recored_cell";
         record = dict[@"record_list"];
         for (NSDictionary *dic in record) {
             self->_sportModel = [MGDSportData SportDataWithDict:dic];
-            [self->userSportArray addObject:self->_sportModel];
+            [self->_userSportArray addObject:self->_sportModel];
         }
-        self->userSportArray = [[self->userSportArray reverseObjectEnumerator] allObjects];
+        self->_userSportArray = [[self->_userSportArray reverseObjectEnumerator] allObjects];
+        NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_userSportArray];
+        [user setObject:arrayData forKey:@"SportList"];
+        [user synchronize];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.sportTableView reloadData];
         });
@@ -375,4 +405,5 @@ NSString *ID = @"Recored_cell";
 }
 
 @end
+
 

@@ -42,6 +42,10 @@
     UIView *cellView = [[UIView alloc] init];
     self.cellView = cellView;
     self.cellView.layer.cornerRadius = 12.0;
+    self.cellView.layer.shadowColor = [UIColor colorWithRed:136/255.0 green:154/255.0 blue:181/255.0 alpha:0.05].CGColor;
+    self.cellView.layer.shadowOffset = CGSizeMake(0,3);
+    self.cellView.layer.shadowOpacity = 1;
+    self.cellView.layer.shadowRadius = 6;
     [self.contentView addSubview:cellView];
     
     UILabel *kmLab = [[UILabel alloc] init];

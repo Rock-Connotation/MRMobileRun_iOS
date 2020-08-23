@@ -95,6 +95,8 @@
         self.waitProgress.bezelView.alpha = 0.8;
         [self.waitProgress hideAnimated:YES afterDelay:30.0];
     }
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    
 }
 
 #pragma mark - lazyload

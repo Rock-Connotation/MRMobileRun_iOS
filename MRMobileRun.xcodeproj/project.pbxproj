@@ -535,7 +535,7 @@
 		B8D9639224E9B33C0035CF1C /* MGDOverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDOverView.h; sourceTree = "<group>"; };
 		B8D9639324E9B33D0035CF1C /* MGDShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDShareView.m; sourceTree = "<group>"; };
 		B8D9639E24E9B4360035CF1C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		B8D9639F24E9B4CF0035CF1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B8D9639F24E9B4CF0035CF1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "/Users/apple/Desktop/约跑/MRMobileRun_iOS/MRMobileRun/Assets.xcassets"; sourceTree = "<absolute>"; };
 		B8FE2AD724EBA434009DC23D /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
 		B8FE2AD824EBA434009DC23D /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
 		B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
@@ -1370,9 +1370,9 @@
 		B8FE2ADD24EBA434009DC23D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B8FE2AE024EBA434009DC23D /* MGDUserData.h */,
 				B8FE2ADE24EBA434009DC23D /* MGDUserData.m */,
 				B8FE2ADF24EBA434009DC23D /* MGDSportData.h */,
-				B8FE2AE024EBA434009DC23D /* MGDUserData.h */,
 				B8FE2AE124EBA434009DC23D /* MGDSportData.m */,
 			);
 			path = Model;
@@ -2111,7 +2111,7 @@
 				CODE_SIGN_ENTITLEMENTS = MRMobileRun/MRMobileRun.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L6H5KK95UK;
+				DEVELOPMENT_TEAM = RT6PQ9CYD3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2120,7 +2120,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rrr.MRMobileRunfyh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rr.MRMobileRunfyh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2135,7 +2135,7 @@
 				CODE_SIGN_ENTITLEMENTS = MRMobileRun/MRMobileRun.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L6H5KK95UK;
+				DEVELOPMENT_TEAM = RT6PQ9CYD3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2144,7 +2144,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rrr.MRMobileRunfyh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rr.MRMobileRunfyh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
