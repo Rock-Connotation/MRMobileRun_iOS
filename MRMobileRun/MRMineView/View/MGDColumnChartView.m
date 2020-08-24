@@ -306,7 +306,7 @@
         //X轴的文字
         NSString *currentIndex = [NSString stringWithFormat:@"%ld",(long)i+1];
         if ([showXArr containsObject: currentIndex]) {
-            CATextLayer *labelX = [self getXLabel:currentIndex font:8 frame:CGRectMake(itemX.frame.origin.x - 2, axisX.frame.origin.y + 1, 10, 11)];
+            CATextLayer *labelX = [self getXLabel:currentIndex font:8 frame:CGRectMake(itemX.frame.origin.x  + itemXW + itemXMargin, axisX.frame.origin.y + 1, 10, 11)];
             if (@available(iOS 11.0, *)) {
                     labelX.foregroundColor = MGDtextXColor.CGColor;
                 } else {

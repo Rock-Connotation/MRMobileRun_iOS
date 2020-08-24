@@ -6,7 +6,7 @@
 //
 
 #import "GYYRankUnitViewController.h"
-#import "GYYRankChidlViewController.h"
+#import "GYYRankChildViewController.h"
 #import "TYPagerController.h"
 #import "TYTabPagerBar.h"
 
@@ -66,7 +66,7 @@
 }
 
 - (UIViewController *)pagerController:(TYPagerController *)pagerController controllerForIndex:(NSInteger)index prefetching:(BOOL)prefetching {
-    GYYRankChidlViewController *rankChildVC = [[GYYRankChidlViewController alloc] init];
+    GYYRankChildViewController *rankChildVC = [[GYYRankChildViewController alloc] init];
     rankChildVC.isFaculty = self.isFaculty;
     rankChildVC.rankType = index;
     return rankChildVC;

@@ -46,4 +46,42 @@
     }
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        self.totalTime = [aDecoder decodeObjectForKey:@"totalTime"];
+        self.distance = [aDecoder decodeObjectForKey:@"distance"];
+        self.cal = [aDecoder decodeObjectForKey:@"cal"];
+        self.FinishDate = [aDecoder decodeObjectForKey:@"FinishDate"];
+        self.AverageSpeed = [aDecoder decodeObjectForKey:@"AverageSpeed"];
+        self.AverageStepFrequency = [aDecoder decodeObjectForKey:@"AverageStepFrequency"];
+        self.MaxSpeed = [aDecoder decodeObjectForKey:@"MaxSpeed"];
+        self.MaxStepFrequency = [aDecoder decodeObjectForKey:@"MaxStepFrequency"];
+        self.Temperature = [aDecoder decodeObjectForKey:@"Temperature"];
+        self.Weather = [aDecoder decodeObjectForKey:@"Weather"];
+        self.StepFrequencyArray = [aDecoder decodeObjectForKey:@"StepFrequencyArray"];
+        self.SpeedArray = [aDecoder decodeObjectForKey:@"SpeedArray"];
+        self.pathArray = [aDecoder decodeObjectForKey:@"pathArray"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.totalTime forKey:@"totalTime"];
+    [aCoder encodeObject:self.distance forKey:@"distance"];
+    [aCoder encodeObject:self.cal forKey:@"cal"];
+    [aCoder encodeObject:self.FinishDate forKey:@"FinishDate"];
+    [aCoder encodeObject:self.AverageSpeed forKey:@"AverageSpeed"];
+    [aCoder encodeObject:self.AverageStepFrequency forKey:@"AverageStepFrequency"];
+    [aCoder encodeObject:self.MaxSpeed forKey:@"MaxSpeed"];
+    [aCoder encodeObject:self.MaxStepFrequency forKey:@"MaxStepFrequency"];
+    [aCoder encodeObject:self.Temperature forKey:@"Temperature"];
+    [aCoder encodeObject:self.Weather forKey:@"Weather"];
+    [aCoder encodeObject:self.StepFrequencyArray forKey:@"StepFrequencyArray"];
+    [aCoder encodeObject:self.SpeedArray forKey:@"SpeedArray"];
+    [aCoder encodeObject:self.pathArray forKey:@"pathArray"];
+    
+}
+
+
 @end
+

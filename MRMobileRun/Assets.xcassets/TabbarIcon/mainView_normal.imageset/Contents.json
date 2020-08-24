@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "排行.png",
+      "filename" : "未选中.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "选中.png",
+      "filename" : "未选中-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "排行@2x.png",
+      "filename" : "未选中@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "选中_gaitubao_84x84.png",
+      "filename" : "未选中@2x-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "排行@3x.png",
+      "filename" : "未选中@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "选中_gaitubao_126x126.png",
+      "filename" : "未选中@3x-1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
