@@ -115,8 +115,8 @@
     tabBar.delegate = self;
     tabBar.layout.cellSpacing = 20;
     tabBar.layout.adjustContentCellsCenter = YES;
-    tabBar.layout.selectedTextFont = [UIFont boldSystemFontOfSize:20];
-    tabBar.layout.normalTextFont = [UIFont systemFontOfSize:18];
+    tabBar.layout.selectedTextFont = [UIFont fontWithName:@"PingFangSC-Medium" size:20];
+    tabBar.layout.normalTextFont = [UIFont fontWithName:@"PingFangSC-Medium" size:18];
     [tabBar registerClass:[TYTabPagerBarCell class] forCellWithReuseIdentifier:[TYTabPagerBarCell cellIdentifier]];
     [self.view addSubview:tabBar];
     _tabBar = tabBar;

@@ -1,5 +1,5 @@
 //
-//  GYYRankChidlViewController.h
+//  GYYRankChildViewController.h
 //  MRMobileRun
 //
 //  Created by 郭蕴尧 on 2020/8/21.
@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, RankType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GYYRankChidlViewController : UIViewController
+@interface GYYRankChildViewController : UIViewController
 
 @property (nonatomic, assign)RankType rankType;
 @property (nonatomic, assign)NSInteger isFaculty;
