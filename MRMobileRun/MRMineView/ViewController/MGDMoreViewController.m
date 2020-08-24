@@ -24,6 +24,7 @@
     BOOL _isShowSec;
     NSArray *_selectArr;
     MJRefreshBackNormalFooter *_footer;
+    MJRefreshNormalHeader *_header;
 }
 
 //用于展示页面第一次加载出来时的柱形图数据模型的数组
@@ -82,14 +83,18 @@ static int page = 1;
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backItem;
-    _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, -15, screenWidth, screenHeigth + 15) style:UITableViewStylePlain];
-    [self scrollViewDidScroll:_recordTableView];
+    if (kIs_iPhoneX) {
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 370, screenWidth, screenHeigth - 370) style:UITableViewStylePlain];
+    }else {
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 348, screenWidth, screenHeigth -348) style:UITableViewStylePlain];
+    }
     _recordTableView.separatorStyle = NO;
     _recordTableView.delegate = self;
     _recordTableView.dataSource = self;
     [self.view addSubview:_recordTableView];
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     if (@available(iOS 11.0, *)) {
+        self.view.backgroundColor = MGDColor3;
         self.backView.backgroundColor = MGDColor3;
         self.navigationController.navigationBar.barTintColor = MGDColor1;
        } else {
@@ -182,10 +187,10 @@ static int page = 1;
     NSDate *date =[NSDate date];
     _columnChartView.yearName = [self dateToYear:date];
     _columnChartView.delegate = self;
+    [self.view addSubview:_backView];
     [self.backView addSubview:_columnChartView];
-    //UITableView的头视图是柱形图
-    self.recordTableView.tableHeaderView = self.backView;
-
+    
+    
     if (@available(iOS 11.0, *)) {
         self.divider.backgroundColor = MGDdividerColor;
         self.recordTableView.backgroundColor = MGDColor3;
@@ -206,6 +211,12 @@ static int page = 1;
     [_footer setTitle:@"正在加载中" forState:MJRefreshStateRefreshing];
     [_footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.recordTableView.mj_footer = _footer;
+    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    _header.lastUpdatedTimeLabel.hidden = YES;
+    [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
+    [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
+    [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+    self.recordTableView.mj_header = _header;
     self.recordTableView.estimatedRowHeight = 0;
 }
 
@@ -220,6 +231,15 @@ static int page = 1;
     [self loadmoreDataWithPage:_pageNumber];
 }
 
+- (void)loadNewData{
+    [self.recordTableView.mj_header beginRefreshing];
+    [_cellListArray removeAllObjects];
+    page = 1;
+    self->_pageNumber = page;
+    [self loadmoreDataWithPage:self->_pageNumber];
+    [self.recordTableView.mj_header endRefreshing];
+}
+
 - (void)loadmoreDataWithPage:(int)page {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -229,7 +249,7 @@ static int page = 1;
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"15"};
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"10"};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -386,15 +406,6 @@ static int page = 1;
     [self.columnChartView reloadData];
 }
 
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == _recordTableView) {
-        CGFloat offY = scrollView.contentOffset.y;
-        if (offY < 0) {
-            scrollView.contentOffset = CGPointZero;
-        }
-    }
-}
 
 
 #pragma mark- 代理方法

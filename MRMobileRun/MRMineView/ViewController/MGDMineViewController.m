@@ -20,11 +20,14 @@
 #import "HttpClient.h"
 #import "MGDSportData.h"
 #import "MGDCellDataViewController.h"
+#import <MJRefresh.h>
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
 
-@interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
+    MJRefreshNormalHeader *_header;
+}
 @property (nonatomic, strong) MGDUserData *currentModel;
 @property (nonatomic, strong) MGDSportData *sportModel;
 @property (nonatomic, strong) NSUserDefaults *user;
@@ -76,8 +79,11 @@ static bool isCache = false;
     }else {
         tabBarHeight = 49;
     }
-    self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,0, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
-    [self scrollViewDidScroll:self.sportTableView];
+    if (kIs_iPhoneX) {
+        self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
+    }else {
+      self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,265, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
+    }
     self.sportTableView.separatorStyle = NO;
     self.sportTableView.delegate = self;
     self.sportTableView.dataSource = self;
@@ -94,7 +100,8 @@ static bool isCache = false;
     } else {
         // Fallback on earlier versions
     }
-    self.sportTableView.tableHeaderView = self.backView;
+    [self setUpRefresh];
+    
 }
 
 - (void)buildUI {
@@ -122,10 +129,27 @@ static bool isCache = false;
     maskLayer.frame = self.topview.bounds;
     maskLayer.path = maskPath.CGPath;
     self.topview.layer.mask = maskLayer;
-    
+    [self.view addSubview:_backView];
     [self.backView addSubview:_topview];
     [self.backView addSubview:_baseView];
     [self.backView addSubview:_middleView];
+}
+
+- (void)setUpRefresh {
+    _header.lastUpdatedTimeLabel.hidden = YES;
+    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
+    [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
+    [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+    self.sportTableView.mj_header = _header;
+    self.sportTableView.estimatedRowHeight = 0;
+}
+
+- (void)loadNewData {
+    [_header beginRefreshing];
+    [_userSportArray removeAllObjects];
+    [self getUserSportData];
+    [_header endRefreshing];
 }
 
 
@@ -211,16 +235,6 @@ static bool isCache = false;
 
     }
     return cell;
-}
-
-//tableView禁止向上滑动
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == _sportTableView) {
-        CGFloat offY = scrollView.contentOffset.y;
-        if (offY < 0) {
-            scrollView.contentOffset = CGPointZero;
-        }
-    }
 }
 
 - (void)MoreVC{

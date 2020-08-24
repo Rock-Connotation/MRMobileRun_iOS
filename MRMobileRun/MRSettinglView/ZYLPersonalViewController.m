@@ -40,9 +40,7 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]}; // title颜色
-<<<<<<< HEAD
     
-=======
     self.title = @"设置";
     if (@available(iOS 13.0, *)) {
         UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
@@ -57,7 +55,6 @@
     }
     [self->_bkgView YYZdarkChange];
 
->>>>>>> 897afcff6a4f2b3a50f2f13c5072f0f7410d765e
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [self->_bkgView YYZdarkChange];
