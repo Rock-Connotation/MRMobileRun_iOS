@@ -1,11 +1,11 @@
 //
-//  GYYRankChidlViewController.m
+//  GYYRankChildViewController.m
 //  MRMobileRun
 //
 //  Created by 郭蕴尧 on 2020/8/21.
 //
 
-#import "GYYRankChidlViewController.h"
+#import "GYYRankChildViewController.h"
 #import "GYYRankHeaderMainView.h"
 #import "GYYRankTableViewCell.h"
 #import <AFNetworking.h>
@@ -17,7 +17,7 @@
 
 static NSString *const rankCellIdentifier = @"rankCell";
 
-@interface GYYRankChidlViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface GYYRankChildViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong)UITableView *tableView;
 
@@ -28,7 +28,7 @@ static NSString *const rankCellIdentifier = @"rankCell";
 
 @end
 
-@implementation GYYRankChidlViewController
+@implementation GYYRankChildViewController
 {
     NSInteger currentPage;
 }
@@ -99,7 +99,6 @@ static NSString *const rankCellIdentifier = @"rankCell";
         //  10                              10        = 20
         //  20
         [self.tableView reloadData]; // UI刷新是有开销的
-        self.tableView.tableHeaderView = [self headerView];
         
         if (tempArr.count < 15) {  //假设我一页请求3条，但是这次只给我返回了 0 1 2 总之小于3  那么我可以断定  已经没有更多数据了，除非是后台出错了
             [self.tableView.mj_footer endRefreshingWithNoMoreData];  //脚部标记 没有更多数据，禁止上拉
@@ -145,11 +144,10 @@ static NSString *const rankCellIdentifier = @"rankCell";
     return cell;
 }
 
-- (UIView *)headerView{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 103)];
     
     if (self.myRankModel) {
-        NSLog(@"self.myRankModel  请求到了  可以布局了");
         GYYRankHeaderMainView *mainView = [[GYYRankHeaderMainView alloc] init];
         [headerView addSubview:mainView];
         mainView.rankModel = self.myRankModel;
@@ -158,6 +156,10 @@ static NSString *const rankCellIdentifier = @"rankCell";
         }];
     }
     return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 103;
 }
  
 - (UITableView *)tableView{
@@ -186,7 +188,7 @@ static NSString *const rankCellIdentifier = @"rankCell";
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.estimatedRowHeight = 78;
-        _tableView.tableHeaderView = [self headerView];
+        _tableView.estimatedSectionHeaderHeight = 103;
         [_tableView registerClass:[GYYRankTableViewCell class] forCellReuseIdentifier:rankCellIdentifier];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         

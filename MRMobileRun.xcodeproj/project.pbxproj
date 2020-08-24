@@ -199,7 +199,7 @@
 		E34D9E2224E981A800906BAD /* GYYRankHeaderMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2124E981A800906BAD /* GYYRankHeaderMainView.m */; };
 		E34D9E2524E981D400906BAD /* GYYRankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */; };
 		E34D9E2824E981F000906BAD /* GYYRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34D9E2624E981F000906BAD /* GYYRankModel.m */; };
-		E3F60FDA24F13049001F42B1 /* GYYRankChidlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FD924F13049001F42B1 /* GYYRankChidlViewController.m */; };
+		E3F60FDA24F13049001F42B1 /* GYYRankChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FD924F13049001F42B1 /* GYYRankChildViewController.m */; };
 		E3F60FDE24F13057001F42B1 /* GYYRankUnitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FDB24F13057001F42B1 /* GYYRankUnitViewController.m */; };
 		E3F60FF024F14CE8001F42B1 /* TYPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FE324F14CE8001F42B1 /* TYPagerController.m */; };
 		E3F60FF124F14CE8001F42B1 /* TYPagerViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F60FE424F14CE8001F42B1 /* TYPagerViewLayout.m */; };
@@ -603,8 +603,8 @@
 		E34D9E2424E981D400906BAD /* GYYRankTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankTableViewCell.m; sourceTree = "<group>"; };
 		E34D9E2624E981F000906BAD /* GYYRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankModel.m; sourceTree = "<group>"; };
 		E34D9E2724E981F000906BAD /* GYYRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankModel.h; sourceTree = "<group>"; };
-		E3F60FD824F13049001F42B1 /* GYYRankChidlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankChidlViewController.h; sourceTree = "<group>"; };
-		E3F60FD924F13049001F42B1 /* GYYRankChidlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankChidlViewController.m; sourceTree = "<group>"; };
+		E3F60FD824F13049001F42B1 /* GYYRankChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankChildViewController.h; sourceTree = "<group>"; };
+		E3F60FD924F13049001F42B1 /* GYYRankChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankChildViewController.m; sourceTree = "<group>"; };
 		E3F60FDB24F13057001F42B1 /* GYYRankUnitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GYYRankUnitViewController.m; sourceTree = "<group>"; };
 		E3F60FDD24F13057001F42B1 /* GYYRankUnitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GYYRankUnitViewController.h; sourceTree = "<group>"; };
 		E3F60FE324F14CE8001F42B1 /* TYPagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYPagerController.m; sourceTree = "<group>"; };
@@ -1220,8 +1220,8 @@
 			children = (
 				E3F60FDD24F13057001F42B1 /* GYYRankUnitViewController.h */,
 				E3F60FDB24F13057001F42B1 /* GYYRankUnitViewController.m */,
-				E3F60FD824F13049001F42B1 /* GYYRankChidlViewController.h */,
-				E3F60FD924F13049001F42B1 /* GYYRankChidlViewController.m */,
+				E3F60FD824F13049001F42B1 /* GYYRankChildViewController.h */,
+				E3F60FD924F13049001F42B1 /* GYYRankChildViewController.m */,
 				2F4044D723954D7F00EE93EC /* old */,
 				2F14F88C2390BD6000356CDF /* ZYLRankViewController.h */,
 				2F14F88D2390BD6000356CDF /* ZYLRankViewController.m */,
@@ -1798,7 +1798,7 @@
 				18CD286124C5B1B70093D396 /* MRTabBarController.m in Sources */,
 				B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */,
 				2F0E817E22605E8A00D5E511 /* ZYLRankModel.m in Sources */,
-				E3F60FDA24F13049001F42B1 /* GYYRankChidlViewController.m in Sources */,
+				E3F60FDA24F13049001F42B1 /* GYYRankChildViewController.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
 				E3F60FF324F14CE8001F42B1 /* TYTabPagerBarLayout.m in Sources */,
