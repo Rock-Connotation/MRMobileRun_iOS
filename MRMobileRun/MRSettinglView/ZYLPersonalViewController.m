@@ -41,7 +41,7 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor]}; // title颜色
     
-    self.title = @"设置";
+    //self.title = @"设置";
     if (@available(iOS 13.0, *)) {
         UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
             if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
