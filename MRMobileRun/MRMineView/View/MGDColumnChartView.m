@@ -143,7 +143,7 @@
     _headerView.frame = CGRectMake(0, 0, screenWidth - 218, 30);
     _chartView.frame = CGRectMake(0, 30, screenWidth, 228);
     _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, 228);
-    _ChartScrollView.contentSize = CGSizeMake(480, _ChartScrollView.frame.size.height);
+    _ChartScrollView.contentSize = CGSizeMake(510, _ChartScrollView.frame.size.height);
 }
 
 
