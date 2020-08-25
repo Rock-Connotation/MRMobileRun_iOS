@@ -87,7 +87,8 @@ static bool isCache = false;
     self.sportTableView.separatorStyle = NO;
     self.sportTableView.delegate = self;
     self.sportTableView.dataSource = self;
-    self.sportTableView.bounces = YES;
+    //self.sportTableView.bounces = YES;
+     self.sportTableView.scrollEnabled =YES;
     [self.view addSubview:self.sportTableView];
     
     [self.sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
@@ -102,6 +103,10 @@ static bool isCache = false;
     }
     [self setUpRefresh];
     
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    self.sportTableView.contentSize = CGSizeMake(0,screenHeigth - 20);
 }
 
 - (void)buildUI {

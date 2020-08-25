@@ -60,7 +60,6 @@ static int page = 1;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
 }
 -(void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
@@ -96,7 +95,8 @@ static int page = 1;
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     if (@available(iOS 11.0, *)) {
         self.view.backgroundColor = MGDColor3;
-        self.backView.backgroundColor = MGDColor3;
+        self.recordTableView.backgroundColor = MGDColor1;
+        self.backView.backgroundColor = MGDColor1;
         self.navigationController.navigationBar.barTintColor = MGDColor1;
        } else {
            // Fallback on earlier versions
@@ -177,14 +177,16 @@ static int page = 1;
 
 
 - (void)setUI {
+     CGFloat navigationBarAndStatusBarHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    NSLog(@"%f",navigationBarAndStatusBarHeight);
     if (kIs_iPhoneX) {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 370)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 102, screenWidth, 228)];
-        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, 1)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 228)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 344, screenWidth, 1)];
     }else {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 348)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 80, screenWidth, 258)];
-        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 258)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 322, screenWidth, 1)];
     }
 
     NSDate *date =[NSDate date];
@@ -200,7 +202,7 @@ static int page = 1;
     } else {
         // Fallback on earlier versions
     }
-    [self.backView addSubview:_divider];
+    [self.view addSubview:_divider];
     _isShowSec = false;
     _selectArr = [self columnYearLabelYear];
 }
