@@ -60,6 +60,7 @@ static int page = 1;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.hidden = NO;
     self.tabBarController.tabBar.hidden = YES;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
 }
 -(void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
@@ -115,12 +116,14 @@ static int page = 1;
     _cellListArray = listArray;
     if (iscache) {
         NSLog(@"=====更多页面使用缓存数据=====");
+        [self setUpRefresh];
         [self getCache:^(NSMutableArray *recordList) {
             [self loadmoreDataWithPageWithCache];
             [self setUI];
         }];
     }else {
         NSLog(@"=====更多页面使用网络数据=====");
+        [self setUpRefresh];
         _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _hud.mode = MBProgressHUDModeIndeterminate;
         _hud.label.text = @" 正在加载中 ";
@@ -198,8 +201,6 @@ static int page = 1;
         // Fallback on earlier versions
     }
     [self.backView addSubview:_divider];
-    
-    [self setUpRefresh];
     _isShowSec = false;
     _selectArr = [self columnYearLabelYear];
 }
@@ -233,10 +234,9 @@ static int page = 1;
 
 - (void)loadNewData{
     [self.recordTableView.mj_header beginRefreshing];
-    [_cellListArray removeAllObjects];
     page = 1;
     self->_pageNumber = page;
-    [self loadmoreDataWithPage:self->_pageNumber];
+    [self loadmoreDataWithPageRefresh:self->_pageNumber];
     [self.recordTableView.mj_header endRefreshing];
 }
 
@@ -256,6 +256,48 @@ static int page = 1;
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
         record = dict[@"record_list"];
+        //还有数据时继续查询，没有数据了改变状态为没有数据
+        if (record.count > 0) {
+            for (NSDictionary *dic in record) {
+                self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+                [self->_cellListArray addObject:self.userDataModel];
+            }
+            NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
+            [user setObject:arrayData forKey:@"CellData"];
+            [user synchronize];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //列表数据刷新
+                [self.recordTableView reloadData];
+                [self.recordTableView layoutIfNeeded];
+                //停止刷新
+            });
+            [self.recordTableView.mj_footer endRefreshing];
+        }else {
+            //改变状态
+            self->_footer.state = MJRefreshStateNoMoreData;
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+    }];
+}
+
+- (void)loadmoreDataWithPageRefresh:(int)page {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    //manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"12"};
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        [self->_cellListArray removeAllObjects];
         //还有数据时继续查询，没有数据了改变状态为没有数据
         if (record.count > 0) {
             for (NSDictionary *dic in record) {
