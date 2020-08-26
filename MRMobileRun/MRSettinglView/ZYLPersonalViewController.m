@@ -129,10 +129,20 @@
     SportSettingViewController *vc1 =[[SportSettingViewController alloc]init];
     [self.navigationController pushViewController:vc1 animated:YES];
 }
+
 - (void)actionComment{
-    YYZCommentViewController *vc1 =[[YYZCommentViewController alloc]init];
-    [self.navigationController pushViewController:vc1 animated:YES];
+    //YYZCommentViewController *vc1 =[[YYZCommentViewController alloc]init];
+    //[self.navigationController pushViewController:vc1 animated:YES];
+    NSString *qq_number = @"983292781";
+    NSString* urlStr = [NSString stringWithFormat:@"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=%@&key=%@&card_type=group&source=external", qq_number, @"44a6e01f2dab126f87ecd2ec7b7e66ae259b30535fd0c2c25776271e8c0ac08f"];
+    NSURL* url = [NSURL URLWithString:urlStr];
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
+
+
+
 - (void)clickLogoutBtu{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
 //    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];

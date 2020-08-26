@@ -68,6 +68,7 @@ static const NSInteger normalColor = 0x64686F;
 }
 
 - (void)initAlertView {
+    
     UIImage *i1 = [UIImage imageNamed:@"换头像弹窗"];
     self.selectWindowImageView = [[UIImageView alloc] initWithImage:i1];
     self.selectWindowImageView.userInteractionEnabled = YES;
