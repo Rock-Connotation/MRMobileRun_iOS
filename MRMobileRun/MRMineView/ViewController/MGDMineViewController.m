@@ -21,6 +21,7 @@
 #import "MGDSportData.h"
 #import "MGDCellDataViewController.h"
 #import <MJRefresh.h>
+#import "MBProgressHUD.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) MGDSportData *sportModel;
 @property (nonatomic, strong) NSUserDefaults *user;
 @property (nonatomic, strong) NSMutableArray *userSportArray;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 
 @end
@@ -87,7 +89,8 @@ static bool isCache = false;
     self.sportTableView.separatorStyle = NO;
     self.sportTableView.delegate = self;
     self.sportTableView.dataSource = self;
-    self.sportTableView.bounces = YES;
+    //self.sportTableView.bounces = YES;
+     self.sportTableView.scrollEnabled =YES;
     [self.view addSubview:self.sportTableView];
     
     [self.sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
@@ -102,6 +105,10 @@ static bool isCache = false;
     }
     [self setUpRefresh];
     
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    self.sportTableView.contentSize = CGSizeMake(0,screenHeigth - 20);
 }
 
 - (void)buildUI {
@@ -294,7 +301,9 @@ static bool isCache = false;
     NSString *currentDateStr = [self dateToString:currentDate];
     NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    
+    MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    successHud.mode = MBProgressHUDModeIndeterminate;
+    successHud.label.text = @" 正在加载中 ";
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -313,9 +322,15 @@ static bool isCache = false;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.sportTableView reloadData];
         });
+        [successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"报错信息%@", error); // 404  500
-        //MBProgressHUD  服务器异常 请稍后重试
+        NSLog(@"报错信息%@", error);
+        [successHud removeFromSuperview];
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 加载失败 ";
+        [self->_hud hideAnimated:YES afterDelay:1.5];
+        isCache = false;
     }];
 }
 

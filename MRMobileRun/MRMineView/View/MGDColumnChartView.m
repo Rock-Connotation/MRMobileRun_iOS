@@ -143,7 +143,7 @@
     _headerView.frame = CGRectMake(0, 0, screenWidth - 218, 30);
     _chartView.frame = CGRectMake(0, 30, screenWidth, 228);
     _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, 228);
-    _ChartScrollView.contentSize = CGSizeMake(480, _ChartScrollView.frame.size.height);
+    _ChartScrollView.contentSize = CGSizeMake(510, _ChartScrollView.frame.size.height);
 }
 
 
@@ -299,7 +299,7 @@
     NSArray *showXArr = @[@"1", @"5", @"10",@"20",@"15",@"25",@"30"];
     for (NSInteger i = 0; i < itemCountX; i++) {
         //X轴的柱形
-        CALayer *itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i, 300, itemXW, CGRectGetMinY(axisX.frame))];
+        CALayer *itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i, 0, itemXW, CGRectGetMinY(axisX.frame))];
         itemX.cornerRadius = 2.0;
         [self.ChartScrollView.layer addSublayer:itemX];
     

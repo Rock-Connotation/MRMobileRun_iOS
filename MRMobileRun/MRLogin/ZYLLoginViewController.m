@@ -72,6 +72,7 @@
     [self.loginProgress hideAnimated:YES];
     MGDTabBarViewController *mainVC = [[MGDTabBarViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController: mainVC];
+    //点击登录后收起键盘
     [UIApplication sharedApplication].keyWindow.rootViewController = nav;
     //登录成功后进入主界面
     NSLog(@"登陆成功");

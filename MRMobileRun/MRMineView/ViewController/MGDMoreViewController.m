@@ -95,7 +95,8 @@ static int page = 1;
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
     if (@available(iOS 11.0, *)) {
         self.view.backgroundColor = MGDColor3;
-        self.backView.backgroundColor = MGDColor3;
+        self.recordTableView.backgroundColor = MGDColor1;
+        self.backView.backgroundColor = MGDColor1;
         self.navigationController.navigationBar.barTintColor = MGDColor1;
        } else {
            // Fallback on earlier versions
@@ -115,19 +116,18 @@ static int page = 1;
     _cellListArray = listArray;
     if (iscache) {
         NSLog(@"=====更多页面使用缓存数据=====");
+        [self setUpRefresh];
         [self getCache:^(NSMutableArray *recordList) {
             [self loadmoreDataWithPageWithCache];
             [self setUI];
         }];
     }else {
         NSLog(@"=====更多页面使用网络数据=====");
-        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        _hud.mode = MBProgressHUDModeIndeterminate;
-        _hud.label.text = @" 正在加载中 ";
+        [self setUpRefresh];
+        
         [self getRecordList:^(NSMutableArray *recordList) {
             [self loadmoreDataWithPage:self->_pageNumber];
             [self setUI];
-            [self->_hud removeFromSuperview];
         }];
         iscache = true;
     }
@@ -174,14 +174,16 @@ static int page = 1;
 
 
 - (void)setUI {
+     CGFloat navigationBarAndStatusBarHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
+    NSLog(@"%f",navigationBarAndStatusBarHeight);
     if (kIs_iPhoneX) {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 370)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 102, screenWidth, 228)];
-        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, 1)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 228)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 344, screenWidth, 1)];
     }else {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 348)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 80, screenWidth, 258)];
-        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 258)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 322, screenWidth, 1)];
     }
 
     NSDate *date =[NSDate date];
@@ -197,9 +199,7 @@ static int page = 1;
     } else {
         // Fallback on earlier versions
     }
-    [self.backView addSubview:_divider];
-    
-    [self setUpRefresh];
+    [self.view addSubview:_divider];
     _isShowSec = false;
     _selectArr = [self columnYearLabelYear];
 }
@@ -233,10 +233,9 @@ static int page = 1;
 
 - (void)loadNewData{
     [self.recordTableView.mj_header beginRefreshing];
-    [_cellListArray removeAllObjects];
     page = 1;
     self->_pageNumber = page;
-    [self loadmoreDataWithPage:self->_pageNumber];
+    [self loadmoreDataWithPageRefresh:self->_pageNumber];
     [self.recordTableView.mj_header endRefreshing];
 }
 
@@ -249,13 +248,55 @@ static int page = 1;
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"10"};
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"12"};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
         record = dict[@"record_list"];
+        //还有数据时继续查询，没有数据了改变状态为没有数据
+        if (record.count > 0) {
+            for (NSDictionary *dic in record) {
+                self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+                [self->_cellListArray addObject:self.userDataModel];
+            }
+            NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
+            [user setObject:arrayData forKey:@"CellData"];
+            [user synchronize];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //列表数据刷新
+                [self.recordTableView reloadData];
+                [self.recordTableView layoutIfNeeded];
+                //停止刷新
+            });
+            [self.recordTableView.mj_footer endRefreshing];
+        }else {
+            //改变状态
+            self->_footer.state = MJRefreshStateNoMoreData;
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+    }];
+}
+
+- (void)loadmoreDataWithPageRefresh:(int)page {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    //manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"12"};
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        [self->_cellListArray removeAllObjects];
         //还有数据时继续查询，没有数据了改变状态为没有数据
         if (record.count > 0) {
             for (NSDictionary *dic in record) {
@@ -502,6 +543,9 @@ static int page = 1;
     NSString *currentDateStr = [self dateToString:currentDate];
     NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
+    MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    successHud.mode = MBProgressHUDModeIndeterminate;
+    successHud.label.text = @" 正在加载中 ";
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -520,8 +564,15 @@ static int page = 1;
         dispatch_async(dispatch_get_main_queue(), ^{
             result(self->_recordArray);
         });
+        [successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
+        [successHud removeFromSuperview];
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 加载失败 ";
+        [self->_hud hideAnimated:YES afterDelay:1.5];
+        iscache = false;
     }];
 }
 

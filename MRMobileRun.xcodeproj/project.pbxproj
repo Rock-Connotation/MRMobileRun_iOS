@@ -14,6 +14,7 @@
 		18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285B24C5B1B70093D396 /* MRTabBarView.m */; };
 		18CD286024C5B1B70093D396 /* MRTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285C24C5B1B70093D396 /* MRTabBar.m */; };
 		18CD286124C5B1B70093D396 /* MRTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD285D24C5B1B70093D396 /* MRTabBarController.m */; };
+		18D838D224F4AAEF0074D7F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D838D124F4AAEF0074D7F4 /* Assets.xcassets */; };
 		1A16B99324EED4AA00EAD884 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16B99224EED4AA00EAD884 /* AboutViewController.m */; };
 		1A16B99624EED4BA00EAD884 /* SportSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16B99524EED4BA00EAD884 /* SportSettingViewController.m */; };
 		1A16B99824EED4CB00EAD884 /* SportSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A16B99724EED4CB00EAD884 /* SportSettingViewController.xib */; };
@@ -166,7 +167,6 @@
 		B8D9639B24E9B33D0035CF1C /* SZHWaveChart.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639024E9B33B0035CF1C /* SZHWaveChart.m */; };
 		B8D9639C24E9B33D0035CF1C /* MGDButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639124E9B33C0035CF1C /* MGDButtonsView.m */; };
 		B8D9639D24E9B33D0035CF1C /* MGDShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639324E9B33D0035CF1C /* MGDShareView.m */; };
-		B8D963A024E9B4CF0035CF1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8D9639F24E9B4CF0035CF1C /* Assets.xcassets */; };
 		B8FE2AF624EBA434009DC23D /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AD824EBA434009DC23D /* YBRectConst.m */; };
 		B8FE2AF724EBA434009DC23D /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */; };
 		B8FE2AF824EBA434009DC23D /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2ADB24EBA434009DC23D /* YBPopupMenu.m */; };
@@ -242,6 +242,7 @@
 		18CD285C24C5B1B70093D396 /* MRTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTabBar.m; sourceTree = "<group>"; };
 		18CD285D24C5B1B70093D396 /* MRTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTabBarController.m; sourceTree = "<group>"; };
 		18CD285E24C5B1B70093D396 /* MRTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTabBarView.h; sourceTree = "<group>"; };
+		18D838D124F4AAEF0074D7F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A16B99124EED4AA00EAD884 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		1A16B99224EED4AA00EAD884 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		1A16B99424EED4BA00EAD884 /* SportSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SportSettingViewController.h; sourceTree = "<group>"; };
@@ -535,7 +536,6 @@
 		B8D9639224E9B33C0035CF1C /* MGDOverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDOverView.h; sourceTree = "<group>"; };
 		B8D9639324E9B33D0035CF1C /* MGDShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDShareView.m; sourceTree = "<group>"; };
 		B8D9639E24E9B4360035CF1C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		B8D9639F24E9B4CF0035CF1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "/Users/apple/Desktop/约跑/MRMobileRun_iOS/MRMobileRun/Assets.xcassets"; sourceTree = "<absolute>"; };
 		B8FE2AD724EBA434009DC23D /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
 		B8FE2AD824EBA434009DC23D /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
 		B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
@@ -1449,8 +1449,8 @@
 				CE0CC1AE222E22FB001283EA /* MRMainUIModule */,
 				CE0CC17C222E2059001283EA /* AppDelegate.h */,
 				CE0CC17D222E2059001283EA /* AppDelegate.m */,
-				B8D9639F24E9B4CF0035CF1C /* Assets.xcassets */,
 				CE0CC187222E205B001283EA /* LaunchScreen.storyboard */,
+				18D838D124F4AAEF0074D7F4 /* Assets.xcassets */,
 				B8D9639E24E9B4360035CF1C /* PrefixHeader.pch */,
 				CE0CC18A222E205B001283EA /* Info.plist */,
 				CE0CC18B222E205B001283EA /* main.m */,
@@ -1695,13 +1695,13 @@
 				2F0E814E225F309B00D5E511 /* XIGInviteTableViewCell.xib in Resources */,
 				2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */,
 				CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */,
-				B8D963A024E9B4CF0035CF1C /* Assets.xcassets in Resources */,
 				1A16B9A224EED4E700EAD884 /* YYZTextViewController.xib in Resources */,
 				B8D9633924E9B2CD0035CF1C /* Impact.ttf in Resources */,
 				2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */,
 				1A16B99824EED4CB00EAD884 /* SportSettingViewController.xib in Resources */,
 				1A16B9A024EED4E700EAD884 /* YYZTextView.xib in Resources */,
 				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
+				18D838D224F4AAEF0074D7F4 /* Assets.xcassets in Resources */,
 				2F0E8153225F30A400D5E511 /* XIGView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2120,7 +2120,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rr.MRMobileRunfyh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.r.MRMobileRunfyh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2144,7 +2144,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rr.MRMobileRunfyh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.r.MRMobileRunfyh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
