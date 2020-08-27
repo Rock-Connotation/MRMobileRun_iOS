@@ -12,7 +12,19 @@
 @end
 
 @implementation YYZCommentViewController
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -20,6 +32,15 @@
     [self.navigationItem setTitle:@"意见反馈"];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 
+    
+       self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+       UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+       [backBtn setImage:[UIImage imageNamed:@"返回箭头4"] forState:UIControlStateNormal];
+       [backBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 5)];
+       [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+       UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+       self.navigationItem.leftBarButtonItem = backItem;
+    
     UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(13, 630, 350, 50)];
     saveBtn.backgroundColor = [UIColor darkGrayColor];
     [saveBtn setTitle:@"提交反馈" forState:UIControlStateNormal];
@@ -71,12 +92,17 @@
                 UIColor *color = [UIColor whiteColor];
                 NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
                 self.navigationController.navigationBar.titleTextAttributes = dict;
-                
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
                 return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
             }
         }];
         self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
     }
+}
+- (void) back {
+    self.tabBarController.tabBar.hidden = NO;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)actionBack{
 

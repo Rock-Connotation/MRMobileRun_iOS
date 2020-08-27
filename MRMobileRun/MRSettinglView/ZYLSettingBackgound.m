@@ -103,6 +103,8 @@
 }
 
 -(void)YYZdarkChange{
+    if (@available(iOS 13.0, *)){
+        
     if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
         self.iconCell.textLab.textColor = [UIColor blackColor];
         self.nicknameCell.textLab.textColor = [UIColor blackColor];
@@ -136,7 +138,7 @@
         self.iconCell.iconImage.image = [UIImage imageNamed:@"setting_icon_dark"];
         self.nicknameCell.iconImage.image = [UIImage imageNamed:@"setting_nickname_dark"];
        // self.switchCell.iconImage.image = [UIImage imageNamed:@"setting_darkMode_dark"];
-
+    }
     }
 }
 

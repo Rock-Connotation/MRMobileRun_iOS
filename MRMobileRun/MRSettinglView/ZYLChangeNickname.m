@@ -27,6 +27,7 @@
     NSDictionary *dic = @{@"nickname": nickname};
     __block NSData *data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
     NSDictionary *param = @{@"student_id": student_id, @"data": data};
+    //NSDictionary *param = @{@"token": token, @"nickname": nickname};
     
     [manager POST:kNicknameUrl parameters: param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         ;

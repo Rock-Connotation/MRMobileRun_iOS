@@ -1,19 +1,46 @@
 #import "YYZTextViewController.h"
 #import "ZYLPersonalViewController.h"
 #import "Masonry.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import <AFNetworking.h>
+
 
 @interface YYZTextViewController ()
 
+@property(nonatomic, weak)UITextView *tf;
+
+@property(nonatomic, weak)UILabel *placeHolder;
 @end
 
 @implementation YYZTextViewController
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
 - (void)viewDidLoad {
   [super viewDidLoad];
 
   [self.navigationItem setTitle:@"个性签名"];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
-
+    
+       self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+       UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+       [backBtn setImage:[UIImage imageNamed:@"返回箭头4"] forState:UIControlStateNormal];
+       [backBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 5)];
+       [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+       UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+       self.navigationItem.leftBarButtonItem = backItem;
+    
   UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(13, 630, 350, 50)];
   //UIButton *saveBtn = [[UIButton alloc]init];
   saveBtn.backgroundColor = [UIColor darkGrayColor];
@@ -30,22 +57,48 @@
       make.bottom.equalTo(self.view).offset(-160*kRateY);
       make.height.greaterThanOrEqualTo(@(50*kRateY));
       }];
-
-  UITextField *tf = [[UITextField alloc]initWithFrame:CGRectMake(18, 110, 342, 100)];
-  tf.borderStyle = UITextBorderStyleNone;
-  tf.placeholder = @"请在此处写下你的个性签名";
- // [tf setValue:[UIFont boldSystemFontOfSize:7] forKeyPath:@"_placeholderLabel.font"];
+//输入框
+    
+    NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+    NSString *signature = [user objectForKey:@"signature"];
+    unsigned int count = 0;
+       Ivar *ivars = class_copyIvarList([UITextView class], &count);
+       
+       for (int i = 0; i < count; i++) {
+           Ivar ivar = ivars[i];
+           const char *name = ivar_getName(ivar);
+           NSString *objcName = [NSString stringWithUTF8String:name];
+           NSLog(@"%d : %@",i,objcName);
+       }
+  UITextView *tf = [[UITextView alloc]initWithFrame:CGRectMake(18, 110, 342, 100)];
   tf.layer.cornerRadius = 13;
   tf.layer.masksToBounds = YES;
-  tf.contentVerticalAlignment = UIControlContentVerticalAlignmentTop;
+   // [tf setFont:[UIFont systemFontOfSize:20]];
+    tf.text=signature;
   tf.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1];
-  UIView *paddingLeftView = [[UIView alloc] init];
-  CGRect frame = tf.frame;
-  frame.size.width = 12;
-  paddingLeftView.frame = frame;
-  tf.leftViewMode = UITextFieldViewModeAlways;
-  tf.leftView = paddingLeftView;
   [self.view addSubview:tf];
+    self.tf=tf;
+    
+    UIToolbar * topView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+       [topView setBarStyle:UIBarStyleDefault];
+       UIBarButtonItem * btnSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+       UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(dismissKeyBoard)];
+       NSArray * buttonsArray = [NSArray arrayWithObjects:btnSpace, doneButton, nil];
+
+       [topView setItems:buttonsArray];
+       [tf setInputAccessoryView:topView];
+    
+    UILabel *placeHolderLabel = [[UILabel alloc] init];
+    placeHolderLabel.text = @"请在此处写下你的个性签名";
+    placeHolderLabel.numberOfLines = 0;
+    placeHolderLabel.textColor = [UIColor lightGrayColor];
+    [placeHolderLabel sizeToFit];
+    [tf addSubview:placeHolderLabel];
+    // same font
+    tf.font = [UIFont systemFontOfSize:16.f];
+    placeHolderLabel.font = [UIFont systemFontOfSize:16.f];
+    [tf setValue:placeHolderLabel forKey:@"_placeholderLabel"];
+    
   [tf mas_makeConstraints:^(MASConstraintMaker *make) {
       //make.centerX.equalTo(self.view);
   make.left.equalTo(self.view).offset(18*kRateY);
@@ -53,7 +106,20 @@
   make.top.equalTo(self.view).offset(100*kRateY);
   make.height.greaterThanOrEqualTo(@(100*kRateY));
   }];
-
+    
+    NSUserDefaults *user2 = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user2 objectForKey:@"token"];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager.requestSerializer setValue: token forHTTPHeaderField: @"token"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSDictionary *param = @{@"token": token , @"signature": tf.text};
+    //NSDictionary *param = @{@"token": token, @"nickname": nickname};
+    
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/modify/signature" parameters: param constructingBodyWithBlock:nil success:nil
+          failure:^(NSURLSessionDataTask *task, NSError *error) {
+              NSLog(@"=====%@", error); // 404  500
+              //MBProgressHUD  服务器异常 请稍后重试
+          }]; 
     
     if (@available(iOS 13.0, *)) {
         UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
@@ -67,7 +133,8 @@
                 UIColor *color = [UIColor whiteColor];
                 NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
                 self.navigationController.navigationBar.titleTextAttributes = dict;
-                
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
                 return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
             }
         }];
@@ -75,26 +142,26 @@
     }
 
 }
-
+- (void) back {
+    self.tabBarController.tabBar.hidden = NO;
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)actionBack{
 
   ZYLPersonalViewController *vc1 = [[ZYLPersonalViewController alloc]init];
 
   [self.navigationController popViewControllerAnimated:YES];
 
-
-
   // Do any additional setup after loading the view.
 
 }
-
-
+-(void) dismissKeyBoard{
+    [self.tf resignFirstResponder];
+}
 
 /*
 
 \#pragma mark - Navigation
-
-
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 
@@ -107,7 +174,5 @@
 }
 
 */
-
-
 
 @end
