@@ -52,13 +52,13 @@
 - (void)addChildViewControllers{
     self.mainVC = [[ZYLMainViewController alloc] init];
     //self.mainVC.tabBarItem.title = @"首页";
-    self.mainVC.tabBarItem.imageInsets = UIEdgeInsetsMake(9, 0,-9, 0);
+    self.mainVC.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
     self.mainVC.tabBarItem.image = [[UIImage imageNamed:@"mainView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     self.mainVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"mainView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     ZYLRankViewController *vc2 = [[ZYLRankViewController alloc] init];
     
-    vc2.tabBarItem.imageInsets = UIEdgeInsetsMake(9, 0,-9, 0);
+    vc2.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
     vc2.tabBarItem.image = [[UIImage imageNamed:@"rank_nomal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     vc2.tabBarItem.selectedImage = [[UIImage imageNamed:@"rank_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -67,13 +67,13 @@
     
     ZYLPersonalViewController *vc4 = [[ZYLPersonalViewController alloc] init];
     //vc4.tabBarItem.title = @"设置";
-    vc4.tabBarItem.imageInsets = UIEdgeInsetsMake(9, 0,-9, 0);
+    vc4.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
     vc4.tabBarItem.image = [[UIImage imageNamed:@"setting_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     vc4.tabBarItem.selectedImage = [[UIImage imageNamed:@"setting_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     MGDMineViewController *vc5 = [[MGDMineViewController  alloc] init];
     //vc5.tabBarItem.title = @"我的";
-    vc5.tabBarItem.imageInsets = UIEdgeInsetsMake(9, 0,-9, 0);
+    vc5.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
     vc5.tabBarItem.image = [[UIImage imageNamed:@"MyView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     vc5.tabBarItem.selectedImage = [[UIImage imageNamed:@"MyView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     

@@ -114,7 +114,7 @@ static int page = 1;
     NSMutableArray *listArray = [NSMutableArray arrayWithArray:cellarray];
     _recordArray = columnArray;
     _cellListArray = listArray;
-    if (iscache) {
+    if (([user objectForKey:@"SportMoreList"] && [user objectForKey:@"CellData"]) && iscache) {
         NSLog(@"=====更多页面使用缓存数据=====");
         [self setUpRefresh];
         [self getCache:^(NSMutableArray *recordList) {
@@ -175,7 +175,6 @@ static int page = 1;
 
 - (void)setUI {
      CGFloat navigationBarAndStatusBarHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
-    NSLog(@"%f",navigationBarAndStatusBarHeight);
     if (kIs_iPhoneX) {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 370)];
         _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 228)];

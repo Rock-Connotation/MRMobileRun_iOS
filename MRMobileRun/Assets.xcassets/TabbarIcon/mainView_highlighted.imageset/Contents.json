@@ -26,7 +26,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "选中@1x.png",
+      "filename" : "首页-选中白-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -42,7 +42,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "选中@2x.png",
+      "filename" : "首页-选中白-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -58,7 +58,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "选中@3x.png",
+      "filename" : "首页-选中白-3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
