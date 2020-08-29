@@ -18,9 +18,12 @@
 @interface MGDTabBarViewController ()<UITabBarControllerDelegate>
 @property (strong, nonatomic) NSMutableArray *btnArr;
 @property (strong, nonatomic) NSMutableArray<NSString *> *textArr;
-@property (strong, nonatomic) ZYLMainViewController *mainVC;
-
-@property (nonatomic,strong)MGDTabBar *tabBar;
+@property (strong, nonatomic) ZYLMainViewController *vc1;
+@property (strong, nonatomic) ZYLRankViewController *vc2;
+@property (strong, nonatomic) ZYLRunningViewController *vc3;
+@property (strong, nonatomic) ZYLPersonalViewController *vc4;
+@property (strong, nonatomic) MGDMineViewController *vc5;
+@property (strong, nonatomic) MGDTabBar *tabBar;
 
 
 @end
@@ -36,9 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.delegate = self;
-    
     self.tabBar = [[MGDTabBar alloc] init];
     [self.tabBar.centerBtn addTarget:self action:@selector(buttonAction) forControlEvents:UIControlEventTouchUpInside];
     //设置背景颜色透明
@@ -50,36 +51,30 @@
 
 //添加子控制器
 - (void)addChildViewControllers{
-    self.mainVC = [[ZYLMainViewController alloc] init];
-    //self.mainVC.tabBarItem.title = @"首页";
-    self.mainVC.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
-    self.mainVC.tabBarItem.image = [[UIImage imageNamed:@"mainView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.mainVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"mainView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc1 = [[ZYLMainViewController alloc] init];
+    self.vc1.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
+    self.vc1.tabBarItem.image = [[UIImage imageNamed:@"mainView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc1.tabBarItem.selectedImage = [[UIImage imageNamed:@"mainView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    ZYLRankViewController *vc2 = [[ZYLRankViewController alloc] init];
+    self.vc2 = [[ZYLRankViewController alloc] init];
+    self.vc2.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
+    self.vc2.tabBarItem.image = [[UIImage imageNamed:@"rank_nomal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc2.tabBarItem.selectedImage = [[UIImage imageNamed:@"rank_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    vc2.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
-    vc2.tabBarItem.image = [[UIImage imageNamed:@"rank_nomal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    vc2.tabBarItem.selectedImage = [[UIImage imageNamed:@"rank_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc3 = [[ZYLRunningViewController alloc] init];
     
-    ZYLRunningViewController *vc3 = [[ZYLRunningViewController alloc] init];
-    //vc3.tabBarItem.title = @"跑步";
+    self.vc4 = [[ZYLPersonalViewController alloc] init];
+    self.vc4.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
+    self.vc4.tabBarItem.image = [[UIImage imageNamed:@"setting_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc4.tabBarItem.selectedImage = [[UIImage imageNamed:@"setting_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    ZYLPersonalViewController *vc4 = [[ZYLPersonalViewController alloc] init];
-    //vc4.tabBarItem.title = @"设置";
-    vc4.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
-    vc4.tabBarItem.image = [[UIImage imageNamed:@"setting_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    vc4.tabBarItem.selectedImage = [[UIImage imageNamed:@"setting_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc5 = [[MGDMineViewController  alloc] init];
+    self.vc5.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
+    self.vc5.tabBarItem.image = [[UIImage imageNamed:@"MyView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.vc5.tabBarItem.selectedImage = [[UIImage imageNamed:@"MyView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    MGDMineViewController *vc5 = [[MGDMineViewController  alloc] init];
-    //vc5.tabBarItem.title = @"我的";
-    vc5.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0,-6, 0);
-    vc5.tabBarItem.image = [[UIImage imageNamed:@"MyView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    vc5.tabBarItem.selectedImage = [[UIImage imageNamed:@"MyView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    NSArray *itemArrays = @[self.mainVC,vc2,vc3,vc4,vc5];
+    NSArray *itemArrays = @[self.vc1,self.vc2,self.vc3,self.vc4,self.vc5];
     self.viewControllers = itemArrays;
-    self.tabBar.tintColor = [UIColor blackColor];
 }
 - (void)buttonAction{
     //关联中间按钮
@@ -90,6 +85,28 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
     
     [self.tabBar.centerBtn.layer removeAllAnimations];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            // 执行操作
+            NSLog(@"改变了模式");
+            self.vc1.tabBarItem.image = [[UIImage imageNamed:@"mainView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc1.tabBarItem.selectedImage = [[UIImage imageNamed:@"mainView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc2.tabBarItem.image = [[UIImage imageNamed:@"rank_nomal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc2.tabBarItem.selectedImage = [[UIImage imageNamed:@"rank_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc4.tabBarItem.image = [[UIImage imageNamed:@"setting_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc4.tabBarItem.selectedImage = [[UIImage imageNamed:@"setting_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc5.tabBarItem.image = [[UIImage imageNamed:@"MyView_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.vc5.tabBarItem.selectedImage = [[UIImage imageNamed:@"MyView_highlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        }
+    } else {
+        // Fallback on earlier versions
+        NSLog(@"未改变模式");
+    }
+
 }
 
 @end

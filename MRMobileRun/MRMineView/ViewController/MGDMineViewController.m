@@ -144,8 +144,13 @@ static bool isCache = false;
 }
 
 - (void)setUpRefresh {
-    _header.lastUpdatedTimeLabel.hidden = YES;
     _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    _header.lastUpdatedTimeLabel.hidden = YES;
+    if (@available(iOS 11.0, *)) {
+        _header.stateLabel.textColor = MGDTextColor1;
+        } else {
+               // Fallback on earlier versions
+    }
     [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
     [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
     [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
@@ -156,7 +161,7 @@ static bool isCache = false;
 - (void)loadNewData {
     [_header beginRefreshing];
     [_userSportArray removeAllObjects];
-    [self getUserSportData];
+    [self AgaingetUserSportData];
     [_header endRefreshing];
 }
 
@@ -326,6 +331,53 @@ static bool isCache = false;
         [successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [successHud removeFromSuperview];
+        NSLog(@"报错信息%@", error);
+        if (error.code == -1001) {
+            self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self->_hud.mode = MBProgressHUDModeText;
+            self->_hud.label.text = @" 网络异常 请稍后重试 ";
+            [self->_hud hideAnimated:YES afterDelay:1.5];
+        }
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 加载失败 ";
+        [self->_hud hideAnimated:YES afterDelay:1.5];
+    }];
+}
+
+
+- (void)AgaingetUserSportData {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDate *currentDate = [NSDate date];
+    NSString *currentDateStr = [self dateToString:currentDate];
+    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
+        success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        for (NSDictionary *dic in record) {
+            self->_sportModel = [MGDSportData SportDataWithDict:dic];
+            [self->_userSportArray addObject:self->_sportModel];
+        }
+        self->_userSportArray = [[self->_userSportArray reverseObjectEnumerator] allObjects];
+        NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_userSportArray];
+        [user setObject:arrayData forKey:@"SportList"];
+        [user synchronize];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.sportTableView reloadData];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"报错信息%@", error);
         if (error.code == -1001) {
             self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

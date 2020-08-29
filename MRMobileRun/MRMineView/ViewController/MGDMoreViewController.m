@@ -217,6 +217,13 @@ static int page = 1;
     [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
     self.recordTableView.mj_header = _header;
     self.recordTableView.estimatedRowHeight = 0;
+    
+    if (@available(iOS 11.0, *)) {
+        _header.stateLabel.textColor = MGDTextColor1;
+        _footer.stateLabel.textColor = MGDTextColor1;
+        } else {
+               // Fallback on earlier versions
+    }
 }
 
 - (void)loadMoreData {

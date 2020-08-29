@@ -10,12 +10,6 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"km"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"min"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cal"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportList"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportMoreList"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }
