@@ -302,7 +302,6 @@ UITableViewDataSource
     _dismissOnSelected = YES;
     _dismissOnTouchOutside = YES;
     _fontSize = 15;
-    _textColor = [UIColor blackColor];
     _offset = 0.0;
     _relyRect = CGRectZero;
     _point = CGPointZero;
@@ -312,6 +311,7 @@ UITableViewDataSource
     _arrowHeight = 10.0;
     if (@available(iOS 11.0, *)) {
         self.backColor =  MGDColor1;
+        self.textColor = MGDTextColor1;
     } else {
         // Fallback on earlier versions
     }

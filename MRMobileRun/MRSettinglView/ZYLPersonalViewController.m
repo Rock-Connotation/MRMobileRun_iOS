@@ -144,7 +144,8 @@
 
 
 - (void)clickLogoutBtu{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
+    self.navigationController.navigationBar.hidden = YES;
 //    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];
 //    for (id key in dic)
 //    {
@@ -158,7 +159,13 @@
 //            NSLog(@"空%@ is %@",key,[self.userDefaults objectForKey:key]);
 //        }
 //    }
-//    [self.userDefaults synchronize];
+    [self.userDefaults synchronize];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"km"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"min"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cal"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportList"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportMoreList"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
     [MGJRouter openURL:kLoginVCPageURL
           withUserInfo:@{@"navigationVC" : self.navigationController,
                          }
@@ -245,7 +252,5 @@
     }
     return _hud;
 }
-
-
 
 @end

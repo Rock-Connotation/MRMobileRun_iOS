@@ -45,31 +45,6 @@ static bool isCache = false;
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.hidden = YES;
-    _userSportArray = [[NSMutableArray alloc] init];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    if ([user objectForKey:@"km"] != nil && [user objectForKey:@"min"] != nil && [user objectForKey:@"cal"] != nil) {
-        NSLog(@"====三大数据使用缓存数据====");
-        self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[[user objectForKey:@"km"] floatValue]];
-        self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"min"] intValue]/60];
-        self.baseView.CalLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"cal"] intValue]];
-    }else {
-        NSLog(@"三大数据使用网络请求");
-        [self getBaseInfo];
-    }
-    
-    NSData *arrayData = [user objectForKey:@"SportList"];
-    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
-    NSMutableArray *sportList = [NSMutableArray arrayWithArray:array];
-    _userSportArray = sportList;
-    if (isCache) {
-        NSLog(@"=====记录列表的缓存的数据=====");
-        [self.sportTableView reloadData];
-    }else {
-        NSLog(@"====记录列表的网络数据====");
-        [self getUserSportData];
-        isCache = true;
-    }
-    
 }
 
 
@@ -96,6 +71,32 @@ static bool isCache = false;
     [self.sportTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID];
     
     [self buildUI];
+    
+    _userSportArray = [[NSMutableArray alloc] init];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    if (([user objectForKey:@"km"] != nil && [user objectForKey:@"min"] != nil && [user objectForKey:@"cal"] != nil) && isCache) {
+        NSLog(@"====三大数据使用缓存数据====");
+        self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[[user objectForKey:@"km"] floatValue]];
+        self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"min"] intValue]/60];
+        self.baseView.CalLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"cal"] intValue]];
+    }else {
+        NSLog(@"三大数据使用网络请求");
+        [self getBaseInfo];
+        isCache = true;
+    }
+    
+    NSData *arrayData = [user objectForKey:@"SportList"];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:arrayData];
+    NSMutableArray *sportList = [NSMutableArray arrayWithArray:array];
+    _userSportArray = sportList;
+    if ([user objectForKey:@"SportList"]) {
+        NSLog(@"=====记录列表的缓存的数据=====");
+        [self.sportTableView reloadData];
+    }else {
+        NSLog(@"====记录列表的网络数据====");
+        [self getUserSportData];
+    }
+    
     if (@available(iOS 11.0, *)) {
         self.view.backgroundColor = MGDColor3;
         self.backView.backgroundColor = MGDColor3;
@@ -143,8 +144,13 @@ static bool isCache = false;
 }
 
 - (void)setUpRefresh {
-    _header.lastUpdatedTimeLabel.hidden = YES;
     _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    _header.lastUpdatedTimeLabel.hidden = YES;
+    if (@available(iOS 11.0, *)) {
+        _header.stateLabel.textColor = MGDTextColor1;
+        } else {
+               // Fallback on earlier versions
+    }
     [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
     [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
     [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
@@ -155,7 +161,7 @@ static bool isCache = false;
 - (void)loadNewData {
     [_header beginRefreshing];
     [_userSportArray removeAllObjects];
-    [self getUserSportData];
+    [self AgaingetUserSportData];
     [_header endRefreshing];
 }
 
@@ -297,13 +303,13 @@ static bool isCache = false;
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    successHud.mode = MBProgressHUDModeIndeterminate;
+    successHud.label.text = @" 正在加载中 ";
     NSDate *currentDate = [NSDate date];
     NSString *currentDateStr = [self dateToString:currentDate];
     NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    successHud.mode = MBProgressHUDModeIndeterminate;
-    successHud.label.text = @" 正在加载中 ";
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
         
@@ -324,13 +330,66 @@ static bool isCache = false;
         });
         [successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"报错信息%@", error);
         [successHud removeFromSuperview];
+        NSLog(@"报错信息%@", error);
+        if (error.code == -1001) {
+            self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self->_hud.mode = MBProgressHUDModeText;
+            self->_hud.label.text = @" 网络异常 请稍后重试 ";
+            [self->_hud hideAnimated:YES afterDelay:1.5];
+        }else {
+            self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self->_hud.mode = MBProgressHUDModeText;
+            self->_hud.label.text = @" 加载失败 ";
+            [self->_hud hideAnimated:YES afterDelay:1.5];
+        }
+    }];
+}
+
+
+- (void)AgaingetUserSportData {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDate *currentDate = [NSDate date];
+    NSString *currentDateStr = [self dateToString:currentDate];
+    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
+        success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        for (NSDictionary *dic in record) {
+            self->_sportModel = [MGDSportData SportDataWithDict:dic];
+            [self->_userSportArray addObject:self->_sportModel];
+        }
+        self->_userSportArray = [[self->_userSportArray reverseObjectEnumerator] allObjects];
+        NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_userSportArray];
+        [user setObject:arrayData forKey:@"SportList"];
+        [user synchronize];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.sportTableView reloadData];
+        });
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"报错信息%@", error);
+        if (error.code == -1001) {
+            self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self->_hud.mode = MBProgressHUDModeText;
+            self->_hud.label.text = @" 网络异常 请稍后重试 ";
+            [self->_hud hideAnimated:YES afterDelay:1.5];
+        }
         self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self->_hud.mode = MBProgressHUDModeText;
         self->_hud.label.text = @" 加载失败 ";
         [self->_hud hideAnimated:YES afterDelay:1.5];
-        isCache = false;
     }];
 }
 
