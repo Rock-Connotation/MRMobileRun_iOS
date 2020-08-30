@@ -49,6 +49,15 @@
 //柱形图柱子数组
 @property (nonatomic, strong) NSMutableArray *chartItems;
 
+@property (nonatomic, strong) CALayer *itemX;
+@property (nonatomic, strong) CALayer *itemY;
+@property (nonatomic, strong) CALayer *axisY;
+@property (nonatomic, strong) CALayer *axisX;
+@property (nonatomic, strong) CATextLayer *labelX;
+@property (nonatomic, strong) CATextLayer *labelY;
+@property (nonatomic, strong) CATextLayer *messageX;
+
+
 @end
 
 @implementation MGDColumnChartView
@@ -269,53 +278,53 @@
     CGFloat YlabMargin = 15;
     
     //X轴
-    CALayer *axisX = [self getSubLine:CGRectMake(leftMargin, topMargin + YLen, XLen , 1)];
+    _axisX = [self getSubLine:CGRectMake(leftMargin, topMargin + YLen, XLen , 1)];
     if (@available(iOS 11.0, *)) {
-        axisX.backgroundColor = MGDlineColor.CGColor;
+        _axisX.backgroundColor = MGDlineColor.CGColor;
         } else {
         // Fallback on earlier versions
     }
-    [self.chartView.layer addSublayer:axisX];
+    [self.chartView.layer addSublayer:_axisX];
     
     //Y轴
-    CALayer *axisY = [self getSubLine:CGRectMake(leftMargin, topMargin, 1, YLen)];
+    _axisY = [self getSubLine:CGRectMake(leftMargin, topMargin, 1, YLen)];
     if (@available(iOS 11.0, *)) {
-        axisY.backgroundColor = MGDlineColor.CGColor;
+        _axisY.backgroundColor = MGDlineColor.CGColor;
         } else {
         // Fallback on earlier versions
     }
-    [self.chartView.layer addSublayer:axisY];
+    [self.chartView.layer addSublayer:_axisY];
     
     for (NSInteger i = 0; i < itemCountY; i++) {
         //Y轴的灰色准线
-        CALayer *itemY = [self getSubLine:CGRectMake(0, CGRectGetMinY(axisX.frame) - itemYH * (i + 1), _ChartScrollView.contentSize.width, 1)];
-        [self.ChartScrollView.layer addSublayer:itemY];
+        _itemY = [self getSubLine:CGRectMake(0, CGRectGetMinY(_axisX.frame) - itemYH * (i + 1), _ChartScrollView.contentSize.width, 1)];
+        [self.ChartScrollView.layer addSublayer:_itemY];
         
         //Y轴文字
-        CATextLayer *labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",(long)i+1] font:8 frame:CGRectMake(YlabMargin, itemY.frame.origin.y - 11, 5, 11)];
-        [self.chartView.layer addSublayer:labelY];
+        _labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",(long)i+1] font:8 frame:CGRectMake(YlabMargin, _itemY.frame.origin.y - 11, 5, 11)];
+        [self.chartView.layer addSublayer:_labelY];
     }
     
     NSArray *showXArr = @[@"1", @"5", @"10",@"20",@"15",@"25",@"30"];
     for (NSInteger i = 0; i < itemCountX; i++) {
         //X轴的柱形
-        CALayer *itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i, 0, itemXW, CGRectGetMinY(axisX.frame))];
-        itemX.cornerRadius = 2.0;
-        [self.ChartScrollView.layer addSublayer:itemX];
+        _itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i, 0, itemXW, CGRectGetMinY(_axisX.frame))];
+        _itemX.cornerRadius = 2.0;
+        [self.ChartScrollView.layer addSublayer:_itemX];
     
         //X轴的文字
         NSString *currentIndex = [NSString stringWithFormat:@"%ld",(long)i+1];
         if ([showXArr containsObject: currentIndex]) {
-            CATextLayer *labelX = [self getXLabel:currentIndex font:8 frame:CGRectMake(itemX.frame.origin.x  + itemXW + itemXMargin, axisX.frame.origin.y + 1, 10, 11)];
+            _labelX = [self getXLabel:currentIndex font:8 frame:CGRectMake(_itemX.frame.origin.x  + itemXW + itemXMargin, _axisX.frame.origin.y + 1, 10, 11)];
             if (@available(iOS 11.0, *)) {
-                    labelX.foregroundColor = MGDtextXColor.CGColor;
+                    _labelX.foregroundColor = MGDtextXColor.CGColor;
                 } else {
                 // Fallback on earlier versions
             }
-            [self.ChartScrollView.layer addSublayer:labelX];
+            [self.ChartScrollView.layer addSublayer:_labelX];
         }
         
-        [self.chartItems addObject:itemX];
+        [self.chartItems addObject:_itemX];
     }
     
     _itemBottomY = chartSizeH - leftMargin;
@@ -324,12 +333,12 @@
     
         CATextLayer *pointZero = [self getYLabel:@"0" font:8 frame:CGRectMake(15,196,5,11)];
         
-        CATextLayer *messageX = [self getData:@"日期" font:8 frame:CGRectMake(screenWidth - 31, CGRectGetMaxY(axisX.frame) + 1,16,11)];
+        _messageX = [self getData:@"日期" font:8 frame:CGRectMake(screenWidth - 31, CGRectGetMaxY(_axisX.frame) + 1,16,11)];
         
         CATextLayer *messageY = [self getYLabel:@"千米" font:11 frame:CGRectMake(15,14,22,16)];
     
         [self.chartView.layer addSublayer:pointZero];
-        [self.chartView.layer addSublayer:messageX];
+        [self.chartView.layer addSublayer:_messageX];
         [self.chartView.layer addSublayer:messageY];
 }
 
@@ -443,6 +452,35 @@
     [self.headerBtns removeAllObjects];
     [self layoutHeaderItem];
     [self clickItemIndex:_firstIndex];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            // 执行操作
+            NSLog(@"改变了模式");
+            
+            CGFloat itemCountY = 5;
+            CGFloat itemYH = (YLen - 6) / itemCountY;
+            CGFloat YlabMargin = 15;
+            
+            _axisY.backgroundColor = MGDlineColor.CGColor;
+            _axisX.backgroundColor = MGDlineColor.CGColor;
+            _messageX.backgroundColor  = MGDColor1.CGColor;
+            _messageX.foregroundColor  = MGDtextXColor.CGColor;
+            for (NSInteger i = 0; i < 5; i++) {
+                //Y轴的灰色准线
+                _itemY = [self getSubLine:CGRectMake(0, CGRectGetMinY(_axisX.frame) - itemYH * (i + 1), _ChartScrollView.contentSize.width, 1)];
+                [self.ChartScrollView.layer addSublayer:_itemY];
+                
+                //Y轴文字
+                _labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",(long)i+1] font:8 frame:CGRectMake(YlabMargin, _itemY.frame.origin.y - 11, 5, 11)];
+                [self.chartView.layer addSublayer:_labelY];
+            }
+            _labelX.foregroundColor = MGDtextXColor.CGColor;
+        }
+    }
 }
 
 @end

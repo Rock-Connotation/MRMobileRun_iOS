@@ -116,14 +116,18 @@
                     //请求成功时发送广播
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginSuccess" object:nil];
                     NSLog(@"the data is JJ EDC Michael %@",responseObject);
-                    self->_threadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
+                    //self->_threadTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(cycleToNetWork) userInfo:nil repeats:YES];
                     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateTimer)  name:@"turnOffTimer" object:nil];
                     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer)  name:@"offTimer" object:nil];
                     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keepTimer)  name:@"keepTimer" object:nil];
                 }
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"the error is %@",error);
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoClient" object:nil];
+                if (error.code == -1001) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailTimeOut" object:nil];
+                }else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoClient" object:nil];
+                }
             }];
     }
     return dic;

@@ -337,11 +337,12 @@ static bool isCache = false;
             self->_hud.mode = MBProgressHUDModeText;
             self->_hud.label.text = @" 网络异常 请稍后重试 ";
             [self->_hud hideAnimated:YES afterDelay:1.5];
+        }else {
+            self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            self->_hud.mode = MBProgressHUDModeText;
+            self->_hud.label.text = @" 加载失败 ";
+            [self->_hud hideAnimated:YES afterDelay:1.5];
         }
-        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self->_hud.mode = MBProgressHUDModeText;
-        self->_hud.label.text = @" 加载失败 ";
-        [self->_hud hideAnimated:YES afterDelay:1.5];
     }];
 }
 
