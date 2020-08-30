@@ -4,12 +4,12 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <AFNetworking.h>
-
+#import "ZYLChangeNickname.h"
 
 @interface YYZTextViewController ()
 
 @property(nonatomic, weak)UITextView *tf;
-
+@property(nonatomic, weak) UIButton *saveBtn;
 @property(nonatomic, weak)UILabel *placeHolder;
 @end
 
@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  [self.navigationItem setTitle:@"个性签名"];
+    self.navigationController.navigationBar.translucent = NO;
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -44,7 +44,7 @@
   UIButton *saveBtn = [[UIButton alloc]initWithFrame:CGRectMake(13, 630, 350, 50)];
   //UIButton *saveBtn = [[UIButton alloc]init];
   saveBtn.backgroundColor = [UIColor darkGrayColor];
-  [saveBtn setTitle:@"保存签名" forState:UIControlStateNormal];
+
   [saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [saveBtn addTarget:self action:@selector(actionBack) forControlEvents:UIControlEventTouchUpInside];
   [saveBtn.layer setMasksToBounds:YES];
@@ -57,10 +57,9 @@
       make.bottom.equalTo(self.view).offset(-160*kRateY);
       make.height.greaterThanOrEqualTo(@(50*kRateY));
       }];
+    self.saveBtn = saveBtn;
 //输入框
     
-    NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
-    NSString *signature = [user objectForKey:@"signature"];
     unsigned int count = 0;
        Ivar *ivars = class_copyIvarList([UITextView class], &count);
        
@@ -74,7 +73,19 @@
   tf.layer.cornerRadius = 13;
   tf.layer.masksToBounds = YES;
    // [tf setFont:[UIFont systemFontOfSize:20]];
-    tf.text=signature;
+    if (self.changeNickname) {
+        [self.navigationItem setTitle:@"修改昵称"];
+       [saveBtn setTitle:@"保存昵称" forState:UIControlStateNormal];
+        NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+        NSString *signature = [user objectForKey:@"nickname"];
+        tf.text=signature;
+    } else {
+        [self.navigationItem setTitle:@"个性签名"];
+        [saveBtn setTitle:@"保存签名" forState:UIControlStateNormal];
+        NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+        NSString *signature = [user objectForKey:@"signature"];
+        tf.text=signature;
+    }
   tf.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1];
   [self.view addSubview:tf];
     self.tf=tf;
@@ -89,7 +100,11 @@
        [tf setInputAccessoryView:topView];
     
     UILabel *placeHolderLabel = [[UILabel alloc] init];
-    placeHolderLabel.text = @"请在此处写下你的个性签名";
+    if (self.changeNickname) {
+        placeHolderLabel.text = @"请在此处写下你的昵称";
+    } else {
+        placeHolderLabel.text = @"请在此处写下你的个性签名";
+    }
     placeHolderLabel.numberOfLines = 0;
     placeHolderLabel.textColor = [UIColor lightGrayColor];
     [placeHolderLabel sizeToFit];
@@ -103,58 +118,91 @@
       //make.centerX.equalTo(self.view);
   make.left.equalTo(self.view).offset(18*kRateY);
   make.right.equalTo(self.view).offset(-18*kRateY);
-  make.top.equalTo(self.view).offset(100*kRateY);
+  make.top.equalTo(self.view).offset(20*kRateY);
   make.height.greaterThanOrEqualTo(@(100*kRateY));
   }];
-    
-    NSUserDefaults *user2 = [NSUserDefaults standardUserDefaults];
-    NSString *token = [user2 objectForKey:@"token"];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager.requestSerializer setValue: token forHTTPHeaderField: @"token"];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSDictionary *param = @{@"token": token , @"signature": tf.text};
-    //NSDictionary *param = @{@"token": token, @"nickname": nickname};
-    
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/modify/signature" parameters: param constructingBodyWithBlock:nil success:nil
-          failure:^(NSURLSessionDataTask *task, NSError *error) {
-              NSLog(@"=====%@", error); // 404  500
-              //MBProgressHUD  服务器异常 请稍后重试
-          }]; 
-    
-    if (@available(iOS 13.0, *)) {
-        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
-            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
-                return [UIColor whiteColor];
-            } else { //深色模式
-                tf.textColor = [UIColor whiteColor];
-                tf.backgroundColor = [UIColor colorWithRed:75/255.0 green:76/255.0 blue:82/255.0 alpha:1];
-                saveBtn.backgroundColor = [UIColor colorWithRed:222/255.0 green:223/255.0 blue:229/255.0 alpha:1];
-                [saveBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                UIColor *color = [UIColor whiteColor];
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
-                self.navigationController.navigationBar.titleTextAttributes = dict;
-                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
-                return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
-            }
-        }];
-        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
-    }
-
+    [self changeStyle];
 }
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self changeStyle];
+}
+
+- (void)changeStyle {
+    if (@available(iOS 13.0, *)) {
+        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            self.view.backgroundColor = [UIColor whiteColor];
+            self.tf.textColor = [UIColor blackColor];
+
+            self.tf.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1];
+            self.saveBtn.backgroundColor = [UIColor darkGrayColor];
+            [self.saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            NSDictionary *dict = [NSDictionary dictionaryWithObject:UIColor.blackColor forKey:NSForegroundColorAttributeName];
+               self.navigationController.navigationBar.titleTextAttributes = dict;
+               self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        } else { //深色模式
+            self.tf.textColor = [UIColor whiteColor];
+
+            self.tf.backgroundColor = [UIColor colorWithRed:75/255.0 green:76/255.0 blue:82/255.0 alpha:1];
+            self.saveBtn.backgroundColor = [UIColor colorWithRed:222/255.0 green:223/255.0 blue:229/255.0 alpha:1];
+            [self.saveBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+            UIColor *color = [UIColor whiteColor];
+            NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
+            self.navigationController.navigationBar.titleTextAttributes = dict;
+            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+            self.view.backgroundColor = [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
+        } //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+    }
+}
+
 - (void) back {
     self.tabBarController.tabBar.hidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)actionBack{
 
-  ZYLPersonalViewController *vc1 = [[ZYLPersonalViewController alloc]init];
-
-  [self.navigationController popViewControllerAnimated:YES];
+    if (self.changeNickname) {
+        [self changeNicknameReq];
+    } else {
+        [self saveSignature];
+    }
 
   // Do any additional setup after loading the view.
 
 }
+
+- (void)changeNicknameReq
+{
+    [ZYLChangeNickname uploadChangedNickname:self.tf.text];
+}
+
+- (void)saveSignature
+{
+    NSUserDefaults *user2 = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user2 objectForKey:@"token"];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager.requestSerializer setValue: token forHTTPHeaderField: @"token"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+      NSDictionary *param = @{@"token": token , @"signature": self.tf.text};
+    //NSDictionary *param = @{@"token": token, @"nickname": nickname};
+    
+
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/modify/signature" parameters: param constructingBodyWithBlock:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSLog(@"success");
+          NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+          [user setObject:self.tf.text forKey:@"signature"];
+          [user synchronize];
+          [self.navigationController popViewControllerAnimated:YES];
+
+        }  failure:^(NSURLSessionDataTask *task, NSError *error) {
+              NSLog(@"=====%@", error); // 404  500
+              //MBProgressHUD  服务器异常 请稍后重试
+          }];
+}
+
 -(void) dismissKeyBoard{
     [self.tf resignFirstResponder];
 }
@@ -174,5 +222,7 @@
 }
 
 */
+
+
 
 @end

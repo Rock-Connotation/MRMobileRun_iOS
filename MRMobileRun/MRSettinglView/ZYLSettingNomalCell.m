@@ -48,6 +48,22 @@
         make.height.mas_equalTo(25*kRateY);
         make.width.mas_equalTo(140*kRateX);
     }];
+    
+//      if (@available(iOS 13.0, *)) {
+//        UIColor *color = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trait) {
+//      
+//            if (trait.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                return UIColor.whiteColor;
+//            } else {
+//                return COLOR_WITH_HEX(0x333739);
+//            }
+//         
+//        }];
+//          self.textLab.textColor = color;
+//      } else {
+//          self.textLab.textColor = COLOR_WITH_HEX(0x333739);
+//      }
+
 }
 
 - (void)initArrowImage{
