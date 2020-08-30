@@ -135,9 +135,9 @@
 //头像url 后面加学号.jpg
 #define kUserAvatarUrl @"https://wx.redrock.team/mobilerun/"
 //上传头像(post)
-#define kUploadAvatarUrl @"https://wx.redrock.team/mobilerun/user/upload"
+#define kUploadAvatarUrl @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/modify/avatar"
 //修改昵称（post）
-#define kNicknameUrl @"https://wx.redrock.team/mobilerun/user/info/update"
+#define kNicknameUrl @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/modify/nickname"
 //查询跑步记录(get)
 //后跟student_id和page
 #define kRunningHistoryUrl @"https://wx.redrock.team/mobilerun/user/lat_lng"
