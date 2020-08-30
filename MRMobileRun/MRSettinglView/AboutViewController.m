@@ -117,23 +117,33 @@
         make.height.equalTo(@(30*kRateY));
     }];
     
-    if (@available(iOS 13.0, *)) {
-        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
-            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
-                return [UIColor whiteColor];
+      [self changeStyle];
+    }
+
+    - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+    {
+        [super traitCollectionDidChange:previousTraitCollection];
+        [self changeStyle];
+    }
+
+    - (void)changeStyle {
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                self.view.backgroundColor = [UIColor whiteColor];
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:UIColor.blackColor forKey:NSForegroundColorAttributeName];
+                   self.navigationController.navigationBar.titleTextAttributes = dict;
+                   self.navigationController.navigationBar.tintColor = [UIColor blackColor];
             } else { //深色模式
+                
                 UIColor *color = [UIColor whiteColor];
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
                 self.navigationController.navigationBar.titleTextAttributes = dict;
                 self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
-                return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
-            }
-        }];
-        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+                self.view.backgroundColor = [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
+            } //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+        }
     }
-
-}
 - (void) back {
     self.tabBarController.tabBar.hidden = NO;
     [self.navigationController popViewControllerAnimated:YES];

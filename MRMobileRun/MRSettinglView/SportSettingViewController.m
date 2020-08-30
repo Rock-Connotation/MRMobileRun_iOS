@@ -8,6 +8,7 @@
 #import "SportSettingViewController.h"
 #import "Masonry.h"
 @interface SportSettingViewController ()
+@property(nonatomic, weak) UIButton *saveBtn;
 
 @end
 
@@ -87,26 +88,44 @@
          make.top.equalTo(self.view).offset(190*kRateY);
          make.height.equalTo(@(100*kRateY));
     }];
-    
-    if (@available(iOS 13.0, *)) {
-        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
-            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
-                return [UIColor whiteColor];
-            } else { //深色模式
-                saveBtn.backgroundColor = [UIColor colorWithRed:222/255.0 green:223/255.0 blue:229/255.0 alpha:1];
-                [saveBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-                UIColor *color = [UIColor whiteColor];
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
-                self.navigationController.navigationBar.titleTextAttributes = dict;
-                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
-                return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
-            }
-        }];
-        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
-    }
+     [self changeStyle];
 }
-- (void) back {
+
+-(void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self changeStyle];
+}
+
+- (void)changeStyle {
+    if (@available(iOS 13.0, *)) {
+        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            self.view.backgroundColor = [UIColor whiteColor];
+           // self.tf.textColor = [UIColor blackColor];
+
+           // self.tf.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1];
+            self.saveBtn.backgroundColor = [UIColor darkGrayColor];
+            [self.saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            NSDictionary *dict = [NSDictionary dictionaryWithObject:UIColor.blackColor forKey:NSForegroundColorAttributeName];
+               self.navigationController.navigationBar.titleTextAttributes = dict;
+               self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+        } else { //深色模式
+           // self.tf.textColor = [UIColor whiteColor];
+
+           // self.tf.backgroundColor = [UIColor colorWithRed:75/255.0 green:76/255.0 blue:82/255.0 alpha:1];
+            self.saveBtn.backgroundColor = [UIColor colorWithRed:222/255.0 green:223/255.0 blue:229/255.0 alpha:1];
+            [self.saveBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+            UIColor *color = [UIColor whiteColor];
+            NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
+            self.navigationController.navigationBar.titleTextAttributes = dict;
+            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+            self.view.backgroundColor = [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
+        } //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+    } //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+}
+
+- (void)back {
     self.tabBarController.tabBar.hidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }

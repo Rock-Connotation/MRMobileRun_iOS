@@ -16,15 +16,15 @@ static const NSInteger alertColor = 0x55D5E2;
 static const NSInteger normalColor = 0x64686F;
 
 @interface ZYLPhotoSelectedVIew ()
-@property UIImageView *selectWindowImageView;
-@property UIImageView *horizonalLine;
-@property UIButton *selectButton;
-@property UIButton *takePhotoButton;
-@property UIView *effectView;
-@property UIButton *cancelButton;
-@property CGFloat rateX;
-@property CGFloat rateY;
-@property UIImageView *destinationImageView;
+@property (nonatomic, strong) UIView *selectWindowImageView;
+@property (nonatomic, strong) UIImageView *horizonalLine;
+@property (nonatomic, strong)UIButton *selectButton;
+@property (nonatomic, strong) UIButton *takePhotoButton;
+@property (nonatomic, strong)UIView *effectView;
+@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, assign) CGFloat rateX;
+@property (nonatomic, assign) CGFloat rateY;
+@property (nonatomic, strong) UIImageView *destinationImageView;
 @property (nonatomic, weak) UIViewController *delegate;
 @property (nonatomic, strong) UIImageView *iconImageView;
 @end
@@ -69,12 +69,18 @@ static const NSInteger normalColor = 0x64686F;
 
 - (void)initAlertView {
     
-    UIImage *i1 = [UIImage imageNamed:@"换头像弹窗"];
-    self.selectWindowImageView = [[UIImageView alloc] initWithImage:i1];
+//    UIImage *i1 = [UIImage imageNamed:@"换头像弹窗"];
+    self.selectWindowImageView = [[UIView alloc] init];
     self.selectWindowImageView.userInteractionEnabled = YES;
+    self.selectWindowImageView.layer.cornerRadius = 12;
+    self.selectWindowImageView.layer.masksToBounds = YES;
+    self.selectWindowImageView.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.selectWindowImageView];
+
     
-    self.iconImageView = [[UIImageView alloc] initWithImage: self.iconImage];
+    self.iconImageView = [[UIImageView alloc] initWithImage: self.destinationImageView.image];
+    self.iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+
     [self.selectWindowImageView addSubview: self.iconImageView];
     
     self.selectButton = [[UIButton alloc] init];
@@ -95,7 +101,7 @@ static const NSInteger normalColor = 0x64686F;
     self.takePhotoButton.layer.masksToBounds = YES;
     self.takePhotoButton.tag = 1;
     [self.takePhotoButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
-    [self.selectWindowImageView addSubview:self.takePhotoButton];
+//    [self.selectWindowImageView addSubview:self.takePhotoButton];
     
     self.cancelButton = [[UIButton alloc] init];
     [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
@@ -110,6 +116,31 @@ static const NSInteger normalColor = 0x64686F;
     UIImage *i2 = [UIImage imageNamed:@"horizonal_line"];
     self.horizonalLine = [[UIImageView alloc] initWithImage:i2];
     [self.selectWindowImageView addSubview:self.horizonalLine];
+    
+    [self changeStyle];
+
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self changeStyle];
+}
+
+- (void)changeStyle {
+    if (@available(iOS 13.0, *)) {
+        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight || UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleUnspecified) {
+            self.selectWindowImageView.backgroundColor = [UIColor whiteColor];
+            self.selectButton.backgroundColor = UIColorFromRGB(normalColor);
+            [self.selectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [self.cancelButton setBackgroundColor:UIColorFromRGB(alertColor)];
+        } else {
+            self.selectWindowImageView.backgroundColor = UIColorFromRGB(0x696969);
+            self.selectButton.backgroundColor = UIColorFromRGB(0xe8e8e8);
+            [self.selectButton setTitleColor:UIColorFromRGB(0x4f4f4f) forState:UIControlStateNormal];
+            self.cancelButton.backgroundColor = UIColorFromRGB(0x00ffff);
+        }
+    }
 }
 
 - (void)click:(id)button {
@@ -135,9 +166,9 @@ static const NSInteger normalColor = 0x64686F;
         }
     } else if (theButton.tag == 2) {
         //取消
+      
     }
     self.hidden = YES;
-    
 }
 
 - (void)takePhoto:(UIImagePickerControllerSourceType)type {
@@ -164,38 +195,38 @@ static const NSInteger normalColor = 0x64686F;
 - (void)updateConstraints {
     
     [self.selectWindowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top).with.offset(216*self.rateY); //with is an optional semantic filler
+        make.centerY.equalTo(self).offset(-33*self.rateY); //with is an optional semantic filler
         make.centerX.equalTo(self.mas_centerX);
         make.width.equalTo(@(306*self.rateX));
-        make.height.equalTo(@(250.5*self.rateY));
+        make.height.equalTo(@(309*self.rateX));
     }];
      
     [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.selectWindowImageView.mas_top).mas_offset(10*self.rateY);
+        make.top.equalTo(self.selectWindowImageView.mas_top).mas_offset(30*self.rateX);
         make.centerX.equalTo(self.selectWindowImageView.mas_centerX);
-        make.width.equalTo(self.selectWindowImageView.mas_width).mas_offset(-100);
-        make.height.equalTo(self.selectWindowImageView.mas_width).mas_offset(-100);
+        make.width.equalTo(self.selectWindowImageView.mas_width).mas_offset(-126);
+        make.height.equalTo(self.iconImageView.mas_width);
     }];
-    self.iconImageView.layer.cornerRadius = self.iconImageView.width/2;
-    self.iconImageView.layer.masksToBounds = YES;
+    self.iconImageView.layer.cornerRadius = self.destinationImageView.image.size.width / 2.0;
+    self.iconImageView.clipsToBounds = YES;
     
     [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.iconImageView.mas_bottom).mas_offset(10*self.rateY); //with is an optional semantic filler
-        make.centerX.equalTo(self.selectWindowImageView.mas_centerX);
-        make.width.mas_equalTo(86*self.rateX);
-        make.height.equalTo(@(44*self.rateY));
+        make.top.equalTo(self.iconImageView.mas_bottom).mas_offset(30*self.rateX); //with is an optional semantic filler
+        make.centerX.equalTo(self.selectWindowImageView.mas_centerX).multipliedBy(0.5).offset(5*self.rateX);
+        make.width.mas_equalTo(130*self.rateX);
+        make.height.equalTo(@(44*self.rateX));
     }];
-    [self.takePhotoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.iconImageView.mas_bottom).mas_offset(10*self.rateY); //with is an optional semantic filler
-        make.left.equalTo(self.selectWindowImageView.mas_left).mas_offset(15);
-         make.width.mas_equalTo(86*self.rateX);
-        make.height.equalTo(@(44*self.rateY));
-    }];
+//    [self.takePhotoButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.iconImageView.mas_bottom).mas_offset(30*self.rateY); //with is an optional semantic filler
+//        make.left.equalTo(self.selectWindowImageView.mas_left).mas_offset(15);
+//         make.width.mas_equalTo(86*self.rateX);
+//        make.height.equalTo(@(44*self.rateY));
+//    }];
     [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.iconImageView.mas_bottom).mas_offset(10*self.rateY); //with is an optional semantic filler
-        make.right.equalTo(self.selectWindowImageView.mas_right).mas_offset(-15);
-        make.width.mas_equalTo(86*self.rateX);
-        make.height.equalTo(@(44*self.rateY));
+        make.top.equalTo(self.iconImageView.mas_bottom).mas_offset(30*self.rateX); //with is an optional semantic filler
+        make.centerX.equalTo(self.selectWindowImageView.mas_centerX).multipliedBy(1.5).offset(-5*self.rateX);
+        make.width.mas_equalTo(130*self.rateX);
+        make.height.equalTo(@(44*self.rateX));
     }];
 //    [self.horizonalLine mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.selectWindowImageView.mas_top).with.offset(54.5*2*self.rateY); //with is an optional semantic filler
@@ -213,8 +244,14 @@ static const NSInteger normalColor = 0x64686F;
 
 - (void)clickEffectView {
     self.hidden = YES;
-    
 }
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.iconImageView.layer.cornerRadius = CGRectGetWidth(self.selectWindowImageView.frame) / 2.0 - 63;
+}
+
 
 + (BOOL)requiresConstraintBasedLayout {
     return YES;

@@ -70,26 +70,30 @@
    // [self addSubview: self.switchCell];
 
         
-            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-            }
-            else { //深色模式
-                self.iconCell.textLab.textColor = [UIColor whiteColor];
-                self.nicknameCell.textLab.textColor = [UIColor whiteColor];
-                self.signCell.textLab.textColor = [UIColor whiteColor];
-                self.aboutCell.textLab.textColor = [UIColor whiteColor];
-                self.suggestionCell.textLab.textColor = [UIColor whiteColor];
-                self.permissionCell.textLab.textColor = [UIColor whiteColor];
-                self.switchCell.textLab.textColor = [UIColor whiteColor];
-                
-                self.signCell.iconImage.image = [UIImage imageNamed:@"setting_sign_dark"];
-                self.aboutCell.iconImage.image = [UIImage imageNamed:@"setting_about_dark"];
-                self.permissionCell.iconImage.image = [UIImage imageNamed: @"setting_authority_dark"];
-                self.suggestionCell.iconImage.image = [UIImage imageNamed:@"setting_suggestion_dark"];
-                self.iconCell.iconImage.image = [UIImage imageNamed:@"setting_icon_dark"];
-                self.nicknameCell.iconImage.image = [UIImage imageNamed:@"setting_nickname_dark"];
-                self.switchCell.iconImage.image = [UIImage imageNamed:@"setting_darkMode_dark"];
-
-            }
+    if (@available(iOS 13.0, *)) {
+        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+        }
+        else { //深色模式
+            self.iconCell.textLab.textColor = [UIColor whiteColor];
+            self.nicknameCell.textLab.textColor = [UIColor whiteColor];
+            self.signCell.textLab.textColor = [UIColor whiteColor];
+            self.aboutCell.textLab.textColor = [UIColor whiteColor];
+            self.suggestionCell.textLab.textColor = [UIColor whiteColor];
+            self.permissionCell.textLab.textColor = [UIColor whiteColor];
+            self.switchCell.textLab.textColor = [UIColor whiteColor];
+            
+            self.signCell.iconImage.image = [UIImage imageNamed:@"setting_sign_dark"];
+            self.aboutCell.iconImage.image = [UIImage imageNamed:@"setting_about_dark"];
+            self.permissionCell.iconImage.image = [UIImage imageNamed: @"setting_authority_dark"];
+            self.suggestionCell.iconImage.image = [UIImage imageNamed:@"setting_suggestion_dark"];
+            self.iconCell.iconImage.image = [UIImage imageNamed:@"setting_icon_dark"];
+            self.nicknameCell.iconImage.image = [UIImage imageNamed:@"setting_nickname_dark"];
+            self.switchCell.iconImage.image = [UIImage imageNamed:@"setting_darkMode_dark"];
+            
+        }
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)initLogoutButton{
@@ -141,6 +145,8 @@
     }
     }
 }
+
+
 
 
 /*
