@@ -43,7 +43,9 @@
     self.imgView = [[UIImageView alloc] init];
     [self.bgView addSubview:self.imgView];
     [self.imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
+//        make.center.equalTo(self);
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self).offset(-5);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     
@@ -51,7 +53,7 @@
     [self.bgView addSubview:self.titleLbl];
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.imgView);
-        make.top.equalTo(self.imgView.mas_bottom);
+        make.top.equalTo(self.imgView.mas_bottom).offset(5);
         make.size.mas_equalTo(CGSizeMake(70, 17));
     }];
     self.titleLbl.textAlignment = NSTextAlignmentCenter;
@@ -108,7 +110,7 @@
     if (_arcLayer) {
         [_arcLayer removeAllAnimations];
         [_arcLayer removeFromSuperlayer];
-        _arcLayer = nil;
+//        _arcLayer = nil;
     }
 }
 

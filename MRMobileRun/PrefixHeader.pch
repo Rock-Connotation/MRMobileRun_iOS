@@ -65,6 +65,7 @@
 #define SZHAlertViewColor  [UIColor colorNamed:@"SZHAlertViewColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 //跑步结束后提示界面的结束按钮字体颜色
 #define SZHAlertEndBtnTexteColor  [UIColor colorNamed:@"SZHAlertEndBtnTexteColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
+#define ContinueBtnTextColor [UIColor colorNamed:@"ContinueTextColor" inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil]
 
 //十六进制色值转化UIColor
 #define COLOR_WITH_HEX(hexValue) [UIColor colorWithRed:((float)((hexValue & 0xFF0000) >> 16)) / 255.0 green:((float)((hexValue & 0xFF00) >> 8)) / 255.0 blue:((float)(hexValue & 0xFF)) / 255.0 alpha:1.0f]

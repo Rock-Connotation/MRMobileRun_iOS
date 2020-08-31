@@ -10,18 +10,21 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import "LongPressView.h"
 #import "RunMainBtn.h"
+#import <SVGKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RunningMainPageView : UIView
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) UIImageView *GPSImgView;
 @property (nonatomic, strong) UIImageView *GPSSignal;
-@property (nonatomic, strong) UILabel *numberLabel;
-@property (nonatomic, strong) UILabel *milesLabel;
+//@property (nonatomic, strong) UILabel *numberLabel;
+//@property (nonatomic, strong) UILabel *milesLabel;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIView *topView;
 
-@property (nonatomic, strong) UILabel *dragLabel;
+@property (nonatomic, strong) UILabel *dragLabel; //拖拽的label
+@property (nonatomic, strong) UIImageView *dragimageView; //（PNG）
+
 @property (nonatomic, strong) UIImageView *speedImgView;
 @property (nonatomic, strong) UIImageView *timeImgView;
 @property (nonatomic, strong) UIImageView *energyImgView;
@@ -49,11 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *unlockLabel;
 
 @property (nonatomic, strong) UILabel *dragLable;
-@property (nonatomic, strong) UIImageView *dragimageView;
+
 - (void)mainRunView;
 - (void)addMapView;
 - (void)addViewOnMap;
 - (void)addViewOnBottomView;
+
 @end
 
 NS_ASSUME_NONNULL_END

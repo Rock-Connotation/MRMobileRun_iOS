@@ -12,5 +12,7 @@ pod 'AMap3DMap'
 pod 'AMapLocation'
 pod 'Bugly'
 pod 'SVGKit'
+pod 'CocoaLumberjack'
 pod 'MJExtension'
+pod 'AMapSearch'
 end

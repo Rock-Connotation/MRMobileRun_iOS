@@ -29,6 +29,7 @@
 
 @implementation ZYLRunningViewController
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
 }
 

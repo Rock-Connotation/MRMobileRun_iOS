@@ -2111,7 +2111,7 @@
 				CODE_SIGN_ENTITLEMENTS = MRMobileRun/MRMobileRun.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RT6PQ9CYD3;
+				DEVELOPMENT_TEAM = USX8LB59D7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2135,7 +2135,7 @@
 				CODE_SIGN_ENTITLEMENTS = MRMobileRun/MRMobileRun.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RT6PQ9CYD3;
+				DEVELOPMENT_TEAM = USX8LB59D7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
