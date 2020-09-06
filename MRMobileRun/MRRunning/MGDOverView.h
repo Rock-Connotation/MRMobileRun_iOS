@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MGDOverView : UIView
 //@property (nonatomic, strong) MAMapView *mapView2;
+
+//天气的图
+@property (nonatomic, strong) UIImageView *weatherImagview;
+
 //温度
 @property (nonatomic, strong) UILabel *degree;
 //地图

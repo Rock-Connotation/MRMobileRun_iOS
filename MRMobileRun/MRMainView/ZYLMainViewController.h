@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLMainViewController : MRBaseViewController
++ (id)shareAFNManager;
 
 @end
 

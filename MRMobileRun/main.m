@@ -16,6 +16,7 @@ int main(int argc, char * argv[]) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportList"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportMoreList"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }

@@ -40,6 +40,8 @@
 
 @property (nonatomic, strong) MBProgressHUD *hud;
 
+@property (nonatomic, strong) MBProgressHUD *successHud;
+
 @end
 
 @implementation MGDMoreViewController
@@ -98,6 +100,7 @@ static int page = 1;
         self.recordTableView.backgroundColor = MGDColor1;
         self.backView.backgroundColor = MGDColor1;
         self.navigationController.navigationBar.barTintColor = MGDColor1;
+        self.navigationController.navigationBar.tintColor = MGDTextColor1;
        } else {
            // Fallback on earlier versions
     }
@@ -124,7 +127,9 @@ static int page = 1;
     }else {
         NSLog(@"=====更多页面使用网络数据=====");
         [self setUpRefresh];
-        
+        _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _successHud.mode = MBProgressHUDModeIndeterminate;
+        _successHud.label.text = @" 正在加载中 ";
         [self getRecordList:^(NSMutableArray *recordList) {
             [self loadmoreDataWithPage:self->_pageNumber];
             [self setUI];
@@ -210,8 +215,8 @@ static int page = 1;
     [_footer setTitle:@"正在加载中" forState:MJRefreshStateRefreshing];
     [_footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.recordTableView.mj_footer = _footer;
-    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    _header.lastUpdatedTimeLabel.hidden = YES;
+    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadnewData)];
+    //_header.lastUpdatedTimeLabel.hidden = YES;
     [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
     [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
     [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
@@ -237,18 +242,16 @@ static int page = 1;
     [self loadmoreDataWithPage:_pageNumber];
 }
 
-- (void)loadNewData{
+- (void)loadnewData{
     [self.recordTableView.mj_header beginRefreshing];
     page = 1;
     self->_pageNumber = page;
     [self loadmoreDataWithPageRefresh:self->_pageNumber];
-    [self.recordTableView.mj_header endRefreshing];
 }
 
 - (void)loadmoreDataWithPage:(int)page {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    //manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
@@ -274,6 +277,7 @@ static int page = 1;
                 //列表数据刷新
                 [self.recordTableView reloadData];
                 [self.recordTableView layoutIfNeeded];
+                [self->_successHud removeFromSuperview];
                 //停止刷新
             });
             [self.recordTableView.mj_footer endRefreshing];
@@ -289,7 +293,6 @@ static int page = 1;
 - (void)loadmoreDataWithPageRefresh:(int)page {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    //manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
@@ -316,6 +319,7 @@ static int page = 1;
                 //列表数据刷新
                 [self.recordTableView reloadData];
                 [self.recordTableView layoutIfNeeded];
+                [self.recordTableView.mj_header endRefreshing];
                 //停止刷新
             });
             [self.recordTableView.mj_footer endRefreshing];
@@ -549,9 +553,9 @@ static int page = 1;
     NSString *currentDateStr = [self dateToString:currentDate];
     NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    successHud.mode = MBProgressHUDModeIndeterminate;
-    successHud.label.text = @" 正在加载中 ";
+//    _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    _successHud.mode = MBProgressHUDModeIndeterminate;
+//    _successHud.label.text = @" 正在加载中 ";
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -570,10 +574,9 @@ static int page = 1;
         dispatch_async(dispatch_get_main_queue(), ^{
             result(self->_recordArray);
         });
-        [successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
-        [successHud removeFromSuperview];
+        //[self->_successHud removeFromSuperview];
         self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self->_hud.mode = MBProgressHUDModeText;
         self->_hud.label.text = @" 加载失败 ";
@@ -731,4 +734,6 @@ static int page = 1;
 }
 
 @end
+
+
 

@@ -40,7 +40,9 @@
 
 @implementation MGDMineViewController
 
+//注册cell
 NSString *ID = @"Recored_cell";
+//判断是否为缓存的数据
 static bool isCache = false;
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -56,6 +58,7 @@ static bool isCache = false;
     }else {
         tabBarHeight = 49;
     }
+    
     if (kIs_iPhoneX) {
         self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
     }else {
@@ -73,6 +76,8 @@ static bool isCache = false;
     [self buildUI];
     
     _userSportArray = [[NSMutableArray alloc] init];
+    
+    //判断user是否该数据和是否是首次加载
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     if (([user objectForKey:@"km"] != nil && [user objectForKey:@"min"] != nil && [user objectForKey:@"cal"] != nil) && isCache) {
         NSLog(@"====三大数据使用缓存数据====");
@@ -105,7 +110,6 @@ static bool isCache = false;
         // Fallback on earlier versions
     }
     [self setUpRefresh];
-    
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -145,7 +149,7 @@ static bool isCache = false;
 
 - (void)setUpRefresh {
     _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    _header.lastUpdatedTimeLabel.hidden = YES;
+    //_header.lastUpdatedTimeLabel.hidden = YES;
     if (@available(iOS 11.0, *)) {
         _header.stateLabel.textColor = MGDTextColor1;
         } else {
@@ -162,7 +166,6 @@ static bool isCache = false;
     [_header beginRefreshing];
     [_userSportArray removeAllObjects];
     [self AgaingetUserSportData];
-    [_header endRefreshing];
 }
 
 
@@ -259,7 +262,6 @@ static bool isCache = false;
 //原来的三大数据的网络请求
 - (void)getBaseInfo{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //manager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     NSLog(@"%@",token);
@@ -308,7 +310,8 @@ static bool isCache = false;
     successHud.label.text = @" 正在加载中 ";
     NSDate *currentDate = [NSDate date];
     NSString *currentDateStr = [self dateToString:currentDate];
-    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    //NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSString *lastDateStr = @"2020-01-01 00:00:00";
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -346,7 +349,7 @@ static bool isCache = false;
     }];
 }
 
-
+//刷新列表后调用此方法，主要是去除HUD的显示
 - (void)AgaingetUserSportData {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
@@ -358,11 +361,12 @@ static bool isCache = false;
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
     NSDate *currentDate = [NSDate date];
     NSString *currentDateStr = [self dateToString:currentDate];
-    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    //NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSString *lastDateStr = @"2020-01-01 00:00:00";
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
@@ -378,6 +382,7 @@ static bool isCache = false;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.sportTableView reloadData];
         });
+        [self->_header endRefreshing];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"报错信息%@", error);
         if (error.code == -1001) {
@@ -402,18 +407,18 @@ static bool isCache = false;
 }
 
 //返回去年的时间
-- (NSString *) lastDateTostring:(NSDate *)date {
-     NSDate *mydate=[NSDate date];
-     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-     NSDateComponents *comps = nil;
-     comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
-     NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-     [adcomps setYear:-1];
-     [adcomps setMonth:0];
-     [adcomps setDay:0];
-     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
-     return [self dateToString:newdate];
-}
+//- (NSString *) lastDateTostring:(NSDate *)date {
+//     NSDate *mydate=[NSDate date];
+//     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+//     NSDateComponents *comps = nil;
+//     comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
+//     NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+//     [adcomps setYear:-1];
+//     [adcomps setMonth:0];
+//     [adcomps setDay:0];
+//     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
+//     return [self dateToString:newdate];
+//}
 
 //返回昨天
 - (NSString *) yesterdayTostring:(NSDate *)date {
@@ -493,5 +498,6 @@ static bool isCache = false;
 }
 
 @end
+
 
 

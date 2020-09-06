@@ -136,16 +136,17 @@
        [self.backScrollView addSubview:_dataView];
     
     //设置显示天气的图片框
-    self.weatherImageView = [[UIImageView alloc] init];
-    [self.view addSubview:self.weatherImageView];
-    [self.weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.overView.degree.mas_right).offset(8);
-        make.centerY.height.equalTo(self.overView.degree);
-        make.width.mas_equalTo(25);
-    }];
+//    self.weatherImageView = [[UIImageView alloc] init];
+//    [self.view addSubview:self.weatherImageView];
+//    [self.weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.overView.degree.mas_right).offset(8);
+//        make.centerY.height.equalTo(self.overView.degree);
+//        make.width.mas_equalTo(25);
+//    }];
     
     
     //赋值
+        //温度赋值
     if (self.temperature != nil) {
         self.overView.degree.text = [NSString stringWithFormat:@"%@°C",self.temperature];
     }
@@ -154,6 +155,18 @@
     if (self.averageStepFrequency >0 && self.averageStepFrequency < 300) {
         self.overView.paceLab.text = [NSString stringWithFormat:@"%d",self.averageStepFrequency]; //平均步频赋值
         
+    }
+        //天气框图片
+    if ([self.weather isEqualToString:@"雷阵雨"]) {
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"雷阵雨白"];
+    }else if ([self.weather isEqualToString:@"晴"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"晴白"];
+    }else if ([self.weather isEqualToString:@"雪"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"雪白"];
+    }else if ([self.weather isEqualToString:@"阴"] || [self.weather isEqualToString:@"多云"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"阴天白"];
+    }else if([self.weather isEqualToString:@"雨"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"雨白"];
     }
     _overView.timeLab.text = self.timeStr;   //跑步时间赋值
     self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
