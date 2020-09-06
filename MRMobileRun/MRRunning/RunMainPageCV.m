@@ -604,39 +604,8 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
  此处应当是直接跳转到首页，不会跳转到跑步结束页，也不会上传跑步数据，最后进行处理
  */
 - (void)shortEndRun{
-//   MRTabBarController *cv = [[MRTabBarController alloc] init];
-//    MRMainTabBarController *cv = [[MRMainTabBarController alloc] init];
-//   [self.navigationController pushViewController:cv animated:YES];
-//    self.tabBarController.tabBar.hidden = NO;
-//    [self.navigationController popToRootViewControllerAnimated:YES];
-//     self.tabBarController.selectedIndex = 0;
+
     [self.navigationController popToRootViewControllerAnimated:YES];
-   
-    
-//    MGDTabBarViewController *cv = [[MGDTabBarViewController alloc] init];
-//    self.tabBarController.tabBar.hidden = NO;
-//    [self.navigationController pushViewController:cv animated:YES];
-    
-//    MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
-//                  //属性传值
-//    overVC.distanceStr = self.mileNumberLabel.text; //跑步距离
-//    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
-//    overVC.originalStepsAry = self.originalStepsAry; //处理后的步频数组
-//    overVC.originalSpeedAry = self.originalSpeedAry; //处理后的速度数组
-//    overVC.averageSpeed = self.averageSpeed; //平均速度
-//    overVC.maxSpeed = self.maxSpeed; //最大速度
-//    overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
-//    overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
-//    overVC.timeStr = self.timeString; //时间
-//    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
-//    overVC.drawLineAry = self.drawLineArray;
-//    overVC.locationAry = self.locationArray;
-//    overVC.temperature = self.temperature; //温度
-//    overVC.weather = self.weather; //天气
-//                 self.hidesBottomBarWhenPushed = YES;
-//                 [self.navigationController pushViewController:overVC animated:YES];
-//              self.tabBarController.tabBar.hidden = YES;
-    
     //停止定时器
     [self.runTimer invalidate];
 }
