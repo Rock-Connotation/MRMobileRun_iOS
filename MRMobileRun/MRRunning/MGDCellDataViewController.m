@@ -105,6 +105,12 @@
     backGesture.delegate = self;
     [self.shareView.backView addGestureRecognizer:backGesture];
     
+    //设置地图中心
+    RunLocationModel *model3 = self.originalLocationAry.lastObject;
+    CLLocationCoordinate2D centerCL = model3.location;
+    [self.overView.mapView setCenterCoordinate:centerCL];
+    self.overView.mapView.zoomLevel = 15;
+    self.overView.mapView.userInteractionEnabled = YES;
 }
     //适配各个View的深色模式以及页面布局
 - (void)fit{
@@ -191,7 +197,7 @@
         //速度的折线图
         NSArray *array = @[@3,@4.8,@4,@3.8,@4,@4.3,@4.5,@3.7];
         SZHChart *speedChart = [[SZHChart alloc] init];
-        [speedChart initWithViewsWithBooTomCount:self.caculateSpeedAry.count/5 AndLineDataAry:self.caculateSpeedAry AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:self.originalSpeedAry.count/5 AndLineDataAry:self.originalSpeedAry AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
@@ -426,7 +432,6 @@
     {
         return ;
     }
-    [self.overView.mapView setCenterCoordinate:location.coordinate];
 }
 
 #pragma mark- 分享的五个按钮的方法

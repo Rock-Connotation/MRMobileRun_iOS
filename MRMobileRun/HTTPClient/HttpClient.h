@@ -19,6 +19,8 @@ typedef void (^PrepareExecuteBlock)(void);
 @interface HttpClient : NSObject
 + (HttpClient *)defaultClient;
 
++ (id)shareAFNManager;//单例AFN
+
 - (void)requestWithHead:(NSString *)url
                  method:(NSInteger)method
              parameters:(id)parameters

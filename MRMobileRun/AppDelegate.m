@@ -17,6 +17,7 @@
 
 //高德地图的key
 #define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
+#define NewKey @"c99a9b7d1464962d9a11a2726f83f670"
 @interface AppDelegate ()
 @property (nonatomic, strong) MGDTabBarViewController *tabBarVC;
 @end
@@ -26,7 +27,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [AMapServices sharedServices].apiKey = MAMAP_KEY; //将高德地图的key配置在代码中
+   // [AMapServices sharedServices].apiKey = MAMAP_KEY; //将高德地图的key配置在代码中
+    [AMapServices sharedServices].apiKey = NewKey;
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);

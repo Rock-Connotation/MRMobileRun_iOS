@@ -28,6 +28,8 @@
 static NSString *const cellIdentifier = @"healthCell";
 static NSString *const runCellIdentifier = @"runCell";
 
+static AFHTTPSessionManager *manager;
+
 @interface ZYLMainViewController ()<UITableViewDelegate, UITableViewDataSource>
 {
 //    NSInteger todaySteps;
@@ -93,12 +95,21 @@ static NSString *const runCellIdentifier = @"runCell";
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestData) name:@"isLoginSuccess" object:nil];
 }
 
++ (id)shareAFNManager{
+     static AFHTTPSessionManager *manager;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            manager = [AFHTTPSessionManager manager];
+        });
+        return manager;
+}
+
 - (void)requestData{
     
     /**
      是AFURLSessionManager的子类，为了便利使用HTTP请求。当一个baseURL提供时，用相对路径构造GET/POST等便利的方法来创建请求。
      */
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
@@ -156,7 +167,6 @@ static NSString *const runCellIdentifier = @"runCell";
         }else{
             
         }
-      
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error); // 404  500
         //MBProgressHUD  服务器异常 请稍后重试

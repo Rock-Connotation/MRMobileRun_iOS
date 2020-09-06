@@ -14,7 +14,11 @@
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <AFNetworking.h>
+#import <AMapSearchKit/AMapSearchKit.h>  //搜索库，为获取天气
 
+
+#import "ZYLMainViewController.h"
+#import "MGDTabBarViewController.h"
 #import "ZYLTimeStamp.h" //获取开始、结束的时间
 #import "GYYHealthManager.h" //读取健康数据，获取跑步时间段的步数来计算步频
 #import "MRTabBarController.h"
@@ -25,7 +29,7 @@
 #import "MGDDataViewController.h"
 #import "SZHAlertView.h" //跑步距离过短时结束的提示弹窗
 #import "RecordtimeString.h"
-@interface RunMainPageCV ()<MAMapViewDelegate,AMapLocationManagerDelegate,CLLocationManagerDelegate>
+@interface RunMainPageCV ()<MAMapViewDelegate,AMapLocationManagerDelegate,CLLocationManagerDelegate,AMapSearchDelegate>
 {
     CGFloat _yyy;
 }
@@ -61,7 +65,6 @@
 @property double kcal; //燃烧千卡；
 
 //关于模型
-//@property (nonatomic, strong) RunningModel *model;
 @property (nonatomic, strong) RunLocationModel *locationModel;
 
 /*
@@ -80,19 +83,21 @@
 @property (nonatomic, assign)BOOL isEndLocation; //是否是最后一次定位
 
 @property (nonatomic, assign) CGFloat signal; //信号强度
+
 //跑步结束时的AlertView
-@property (nonatomic, strong) SZHAlertView *shortAlert;
+@property (nonatomic, strong) SZHAlertView *shortAlert; //跑步距离过短时
 @property (nonatomic, strong) SZHAlertView *normalAlert;
+
+//关于实时天气
+@property (nonatomic, strong) AMapSearchAPI *search;
+@property (nonatomic, strong) NSString *temperature; //温度
+@property (nonatomic, strong) NSString *weather;  //天气
+
+//关于上传跑步数据
+@property (nonatomic, strong) NSMutableArray *pathMuteAry;
 @end
 
 @implementation RunMainPageCV
-
-- (void)viewWillAppear:(BOOL)animated{
-    
-}
-- (void)viewDidAppear:(BOOL)animated{
-//    self.sportsState = SportsStateStart;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -109,12 +114,15 @@
     self.originalSpeedAry = [NSArray array]; //原始的速度数组
     self.updateSpeedAry = [NSArray array];
     self.updateStepsAry = [NSArray array];
+    self.pathMuteAry = [NSMutableArray array];
 
     
     //跑步首页UI
     self.Mainview = [[RunningMainPageView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:self.Mainview];
     [self.Mainview mainRunView];
+    
+    [self aboutLables]; //添加显示公里数的lable
     //给拖拽的label添加手势
      UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
     [self.Mainview.dragLabel addGestureRecognizer:pan];
@@ -123,15 +131,47 @@
     self.Mainview.mapView.delegate = self; //设置地图代理
     [self initAMapLocation]; //初始化位置管理者
     
-    self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
+    self.mileNumberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
     
     [self btnFunction]; //跑步首页关于继续暂停等按钮的方法
     self.Mainview.mapView.delegate = self;
     
-    //跑步时间初始化
+    //关于天气
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
+    
+   // 跑步时间初始化
     self.runTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startTimer) userInfo:nil repeats:YES];
      self.second = self.minute = self.hour = 0;
+}
+
+//关于显示公里数的label和显示“公里”的lable
+- (void)aboutLables{
+    //显示公里数的label
+    self.mileNumberLabel = [[UILabel alloc] init];
+    self.mileNumberLabel.frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
+    [self.view addSubview:self.mileNumberLabel];
+    self.mileNumberLabel.textAlignment = NSTextAlignmentCenter;
+    self.mileNumberLabel.text = @"0.00"; //文本
+    self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+    if (@available(iOS 11.0, *)) {
+        self.mileNumberLabel.textColor = MilesColor;
+    } else {
+        // Fallback on earlier versions
+    }
     
+    //显示“公里”的label
+    self.mileTexteLable = [[UILabel alloc] init];
+    self.mileTexteLable.frame = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
+    [self.view addSubview:self.mileTexteLable];
+    self.mileTexteLable.textAlignment = NSTextAlignmentCenter;
+    self.mileTexteLable.text = @"公里";
+    self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
+    if (@available(iOS 11.0, *)) {
+        self.mileTexteLable.textColor = MilesTxetColor;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 //    //拖动label来动态改变底部bottomView的高度
@@ -142,64 +182,64 @@
                        }
         }else if (pan.state == UIGestureRecognizerStateChanged){
             //获取手势的偏移量
-
+            
             CGPoint point = [pan translationInView:self.Mainview.dragLabel];
     //        NSLog(@"%f",point.y);
             
             CGFloat y = _yyy + point.y; //手势偏移量+初始量为改变量
             if (point.y < -screenHeigth * 0.05) {
-                self.Mainview.topView.alpha = 0.6;
-                self.Mainview.dragimageView.image = [UIImage imageNamed:@"初始位置"];
-                [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                self.Mainview.topView.alpha = 0.6; //恢复原来的透明度
+                //设置draglabel里面的图片
+    self.Mainview.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
+        self.Mainview.dragimageView.image = nil;
+      //设置底部视图的高度
+        [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.bottom.equalTo(self.view);
                 make.top.equalTo(self.Mainview.mas_top).offset(screenHeigth * 0.5369);
                 }];
-                //更换numberLabel的位置和显示公里的位置
-                //公里数
-                [self.Mainview.numberLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.centerX.equalTo(self.Mainview);
-                    make.top.equalTo(self.Mainview.GPSImgView.mas_bottom).offset(screenHeigth * 0.1589);
-                    make.height.mas_equalTo(100);
-                    make.width.mas_equalTo(self.Mainview.frame.size.width);
+    //设置显示公里数的label和显示公里的lable
+                //显示公里数
+            self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+             CGRect frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.mileNumberLabel.frame = frame;
                 }];
-                self.Mainview.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-                
-            //显示公里的label
-                [self.Mainview.milesLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.Mainview.numberLabel.mas_bottom);
-                    make.centerX.equalTo(self.Mainview.numberLabel.mas_centerX);
-                    make.size.mas_equalTo(CGSizeMake(44, 30));
+                //显示公里
+                self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
+                CGRect frame2 = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.mileTexteLable.frame = frame2;
                 }];
-                self.Mainview.milesLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
-                
+                self.Mainview.mapView.showsUserLocation = NO;
             }
-                if(y > screenHeigth * 0.15) {
+            if(y > screenHeigth * 0.15) {
+                    
                        y = screenHeigth * 0.3;
                 self.Mainview.topView.alpha = 0;
+                    self.Mainview.dragimageView.backgroundColor = [UIColor clearColor];
                 self.Mainview.dragimageView.image = [UIImage imageNamed:@"底部位置"];
+                                   
                 //更新对bottomView的约束，使得它的高度变化
                 [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
                     make.left.right.bottom.equalTo(self.view);
                     make.top.equalTo(self.Mainview.mas_top).offset(screenHeigth * 0.4869 + y);
                 }];
                     //更换numberLabel的位置和显示公里的位置
-                    //显示公里的lable
-                    [self.Mainview.milesLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                        make.top.equalTo(self.Mainview.mapView).offset(screenHeigth * 0.0572);
-                        make.right.equalTo(self.Mainview.mapView.mas_right).offset(screenWidth * -0.04);
-                        make.size.mas_equalTo(CGSizeMake(36, 25));
-                    }];
-                    self.Mainview.milesLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size:18];
-                    
-                    [self.Mainview.numberLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                        make.top.equalTo(self.Mainview.milesLabel.mas_top).offset(5);
-                        make.right.equalTo(self.Mainview.milesLabel.mas_left);
-                        make.size.mas_equalTo(CGSizeMake(84, 53));
-                    }];
-                    self.Mainview.numberLabel.font = [UIFont fontWithName:@"Impact" size:44];
-                          }
-            
+    //显示公里数
+    CGRect originNumberFrame = CGRectMake(screenWidth * 0.64, screenHeigth * 0.0495, 84, 53);
+    [UIView animateWithDuration:0.5 animations:^{
+        self.mileNumberLabel.frame = originNumberFrame;
+        }];
+self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
+    //显示公里
+                     self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
+                    CGRect originFrame2 = CGRectMake(screenWidth * 0.64 + 84, screenHeigth * 0.0572, 36, 25);
+                    [UIView animateWithDuration:0.5 animations:^{
+                        self.mileTexteLable.frame = originFrame2;
+            }];
+                    self.Mainview.mapView.showsUserLocation = YES;
         }
+    }
 }
                  
 
@@ -228,18 +268,6 @@
         }
 }
 #pragma mark- 定位数据
-////疑似无用的
-//- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
-//
-//    if(!updatingLocation)
-//        return ;
-//
-//    if (userLocation.location.horizontalAccuracy < 0)
-//    {
-//        return ;
-//    }
-//}
-//
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
     self.signal = location.horizontalAccuracy;
     //根据信号强度设置信号强度的照片
@@ -255,8 +283,8 @@
       }
     //GPS信号大于0。小于80的时候进来
      if (self.signal < 80 && self.signal >0){
+        [self.Mainview.mapView setCenterCoordinate:location.coordinate];//设置地图中心
           if (self.locationArray.count == 0) {
-              
             RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
             StartPointModel.location = location.coordinate;
             StartPointModel.speed = location.speed;
@@ -272,9 +300,9 @@
             //展示配速
             int speedMinutes = (int)(1000/StartPointModel.speed)/60;
             int speedSeconds = (int)(1000/StartPointModel.speed)%60;
-            if (speedMinutes > 99) {
+              if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
                 self.Mainview.speedNumberLbl.text = @"--'--''";
-            }else{
+            }else if(speedMinutes > 0){
                 self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
             }
         }else if (self.locationArray.count != 0) {
@@ -300,14 +328,14 @@
                  [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
                  double KMeters = meters/1000;
                  self.distance = self.distance + KMeters;
-                 self.Mainview.numberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+                 self.mileNumberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
                 
                 //计算配速
                 int speedMinutes = (int)(1000/self.locationModel.speed)/60;
                 int speedSeconds = (int)(1000/self.locationModel.speed)%60;
-                if (speedMinutes > 99) {
+                if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
                     self.Mainview.speedNumberLbl.text = @"--'--''";
-                }else{
+                }else if(speedMinutes > 0){
                   self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
                 }
                 //计算燃烧千卡
@@ -331,23 +359,21 @@
             }
         }
     }
-}
-
-////疑似无用的
-//- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-//    if (self.locationArray.count == 0) {
-//        self.locationModel = [[RunLocationModel alloc] init];
-//        CLLocation *location = [locations firstObject];
-//        self.locationModel.LOCATION = location;
-//        self.locationModel.location = location.coordinate;
-//        [self.locationArray addObject:self.locationModel];
-//    }else if (self.locationArray.count != 0){
-//        RunLocationModel *currentModel = [[RunLocationModel alloc] init];
-//        currentModel.LOCATION = [locations firstObject];
-//
-//
+    
+    //获取实时天气
+    NSLog(@"逆地理编码为%@",reGeocode);
+//    if (reGeocode != nil) {
+//        AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
+//        request.city = reGeocode.city;
+//        request.type = AMapWeatherTypeLive; //天气类型为实时天气
+//        [self.search AMapWeatherSearch:request];
 //    }
-//}
+    AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
+    request.city = @"重庆";
+    request.type = AMapWeatherTypeLive; //天气类型为实时天气
+    [self.search AMapWeatherSearch:request];
+    
+}
     //计算距离
 -(CLLocationDistance )distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
         CLLocationDistance Meters = 0;
@@ -357,6 +383,19 @@
        CLLocationDistance newdistance = MAMetersBetweenMapPoints(point1,point2);
         Meters = newdistance;
         return Meters;
+}
+
+#pragma mark- 获取天气的代理回调方法
+- (void)onWeatherSearchDone:(AMapWeatherSearchRequest *)request response:(AMapWeatherSearchResponse *)response{
+    if (response.lives.count == 0) {
+        return;
+    }
+    AMapLocalWeatherLive *liveWeather = response.lives.firstObject;
+    if (liveWeather != nil) {
+        self.temperature = liveWeather.temperature;
+        self.weather = liveWeather.weather;
+        NSLog(@"获得的天气为：温度：%@，天气：%@",self.temperature,self.weather);
+    }
 }
 
 #pragma mark- 绘制定位大头针
@@ -471,6 +510,8 @@
     self.Mainview.endLongPressView.hidden = YES;
     self.Mainview.continueBtn.hidden = YES;
     self.Mainview.unlockLongPressView.hidden = NO;
+    
+    self.Mainview.dragLabel.userInteractionEnabled = NO;
 }
 
 //长按解锁按钮方法
@@ -482,6 +523,8 @@
     self.Mainview.continueBtn.hidden = YES;
     self.Mainview.lockBtn.hidden = NO;
     self.Mainview.pauseBtn.hidden = NO;
+    
+    self.Mainview.dragLabel.userInteractionEnabled = YES;
 }
 
 //长按结束按钮方法
@@ -561,29 +604,10 @@
  此处应当是直接跳转到首页，不会跳转到跑步结束页，也不会上传跑步数据，最后进行处理
  */
 - (void)shortEndRun{
-//   MRTabBarController *cv = [[MRTabBarController alloc] init];
-////    MRMainTabBarController *cv = [[MRMainTabBarController alloc] init];
-//   [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
-//   [self.navigationController pushViewController:cv animated:YES];
-////    [self.navigationController popToRootViewControllerAnimated:YES];
-    
-    MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
-                  //属性传值
-    overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
-    overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
-    overVC.originalStepsAry = self.originalStepsAry; //处理后的步频数组
-    overVC.originalSpeedAry = self.originalSpeedAry; //处理后的速度数组
-    overVC.averageSpeed = self.averageSpeed; //平均速度
-    overVC.maxSpeed = self.maxSpeed; //最大速度
-    overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
-    overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
-    overVC.timeStr = self.timeString; //时间
-    overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
-    overVC.drawLineAry = self.drawLineArray;
-    overVC.locationAry = self.locationArray;
-                 self.hidesBottomBarWhenPushed = YES;
-                 [self.navigationController pushViewController:overVC animated:YES];
-              self.tabBarController.tabBar.hidden = YES;
+
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    //停止定时器
+    [self.runTimer invalidate];
 }
 
 - (void)continueRun1{
@@ -603,7 +627,7 @@
            //跳转到下一个页面
         MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
                //属性传值
-        overVC.distanceStr = self.Mainview.numberLabel.text; //跑步距离
+        overVC.distanceStr = self.mileNumberLabel.text; //跑步距离
         overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
         overVC.originalStepsAry = self.originalStepsAry; //原始的步频数组
         overVC.originalSpeedAry = self.originalSpeedAry; //原始的的速度数组
@@ -615,10 +639,16 @@
         overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
         overVC.drawLineAry = self.drawLineArray;
         overVC.locationAry = self.locationArray;
+        overVC.temperature = self.temperature; //温度
+        overVC.weather = self.weather; //天气
+           
         self.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:overVC animated:YES];
         self.tabBarController.tabBar.hidden = YES;
        });
+    
+    //停止定时器
+    [self.runTimer invalidate];
 }
     //继续跑步
 - (void)continueRun2{
@@ -696,11 +726,16 @@
         CLLocationCoordinate2D coordinate = model.location;
         double latitude = coordinate.latitude;
         double lontitude = coordinate.longitude;
-        NSString *location = [NSString stringWithFormat:@"%f,%f",latitude,lontitude];
-        [muteAry addObject:location];
+//        NSString *location = [NSString stringWithFormat:@"%f,%f",latitude,lontitude];
+//        [muteAry addObject:location];
+        NSString *lat = [NSString stringWithFormat:@"%f",latitude];
+        NSString *lon = [NSString stringWithFormat:@"%f",lontitude];
+        [muteAry addObject:lat];
+        [muteAry addObject:lon];
     }
     path = muteAry;
-    [paramDic setValue:path forKey:@"path"]; //跑步沿途路径
+    [self.pathMuteAry addObject:path];
+    [paramDic setValue:self.pathMuteAry forKey:@"path"]; //跑步沿途路径
     
     //跑步时间必须小于23时59分
     if (self.duration < 1440) {
@@ -730,15 +765,16 @@
     NSLog(@"上传的日期为%@",self.finishDate);
     
     
-    if (self.updateSpeedAry.count == 0) {
+    if (self.updateStepsAry.count == 0) {
         NSMutableArray *muteAry2 = [NSMutableArray array];
         NSString *string = [NSString stringWithFormat:@"%d",0];
         NSString *string2 = [NSString stringWithFormat:@"%d",1];
         NSMutableArray *muteary = [NSMutableArray array];
-        [muteary addObject:string];
         [muteary addObject:string2];
+        [muteary addObject:string];
         NSArray *array = muteary;
         [muteAry2 addObject:array];
+        
         self.updateStepsAry = muteAry2;
         [paramDic setValue:self.updateStepsAry forKey:@"stepFrequency"]; //上传的步频数组
     }else{
@@ -780,5 +816,9 @@
 }
 - (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
     [locationManager requestAlwaysAuthorization];
+}
+
+- (void)dealloc{
+    NSLog(@"跑步首页控制器已经被销毁了！");
 }
 @end

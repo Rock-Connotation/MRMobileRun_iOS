@@ -335,6 +335,15 @@
     _date.text = @"10月23日";
     //测试时间
     _currentTime.text = @"20:36";
+    
+    //天气的图片框
+    self.weatherImagview = [[UIImageView alloc] init];
+    [self addSubview:self.weatherImagview];
+    [self.weatherImagview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.degree.mas_right).offset(8);
+        make.centerY.height.equalTo(self.degree);
+        make.width.mas_equalTo(25);
+    }];
 }
 //网络请求 ，从网络上获取用户的头像、昵称
 

@@ -212,9 +212,8 @@
                 
                 [pointAry addObject:currentValue];
                 NSLog(@"元素个数为%lu",(unsigned long)pointAry.count);
-            }
-           
         }
+    }
 }
 
    

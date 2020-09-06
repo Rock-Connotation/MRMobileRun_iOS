@@ -13,6 +13,7 @@
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <Photos/Photos.h>
+#import <AMapSearchKit/AMapSearchKit.h>  //搜索库，为获取天气
 
 #import "ZYLMainViewController.h" //首页
 #import "ZYLRunningViewController.h"
@@ -25,7 +26,7 @@
 #import "SZHWaveChart.h"//步频的波浪图
 #import "MGDTabBarViewController.h"
 
-@interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
+@interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,AMapSearchDelegate>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
@@ -37,16 +38,19 @@
 @property (nonatomic, strong) MAPointAnnotation *beginAnnotataion;
 @property (nonatomic, strong) MAPointAnnotation *endAnnotataion;
 
+
 @property __block UIImage *shareImage;
 @end
 
 @implementation MGDDataViewController
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
     self.tabBarController.hidesBottomBarWhenPushed = YES;
     self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
      self.tabBarController.hidesBottomBarWhenPushed = NO;
 }
 
@@ -74,10 +78,16 @@
    //绘制始终位置大头针
     [self initBeginAndEndAnnotations];
     
+    
     // 给分享界面添加手势
     UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
     backGesture.delegate = self;
     [self.shareView.backView addGestureRecognizer:backGesture];
+    
+    //设置地图中心点
+    RunLocationModel *model3 = self.locationAry.lastObject;
+    CLLocationCoordinate2D centerCoordinate = model3.location;
+    [self.overView.mapView setCenterCoordinate:centerCoordinate ];
 }
     //适配各个View的深色模式以及页面布局
 - (void)fit{
@@ -125,12 +135,38 @@
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];
     
+    //设置显示天气的图片框
+//    self.weatherImageView = [[UIImageView alloc] init];
+//    [self.view addSubview:self.weatherImageView];
+//    [self.weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.overView.degree.mas_right).offset(8);
+//        make.centerY.height.equalTo(self.overView.degree);
+//        make.width.mas_equalTo(25);
+//    }];
+    
     
     //赋值
+        //温度赋值
+    if (self.temperature != nil) {
+        self.overView.degree.text = [NSString stringWithFormat:@"%@°C",self.temperature];
+    }
     self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
     self.overView.speedLab.text = self.speedStr; //配速赋值
     if (self.averageStepFrequency >0 && self.averageStepFrequency < 300) {
         self.overView.paceLab.text = [NSString stringWithFormat:@"%d",self.averageStepFrequency]; //平均步频赋值
+        
+    }
+        //天气框图片
+    if ([self.weather isEqualToString:@"雷阵雨"]) {
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"雷阵雨白"];
+    }else if ([self.weather isEqualToString:@"晴"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"晴白"];
+    }else if ([self.weather isEqualToString:@"雪"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"雪白"];
+    }else if ([self.weather isEqualToString:@"阴"] || [self.weather isEqualToString:@"多云"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"阴天白"];
+    }else if([self.weather isEqualToString:@"雨"]){
+        self.overView.weatherImagview.image = [UIImage imageNamed:@"雨白"];
     }
     _overView.timeLab.text = self.timeStr;   //跑步时间赋值
     self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
@@ -155,6 +191,8 @@
 //        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
         SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
         [paceWaveChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.cacultedStepsAry AndYMaxNumber:250];
+//        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
+        
         [self.dataView.paceBackView addSubview:paceWaveChart];
         [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.paceBackView);
@@ -212,7 +250,8 @@
     [self shareAction];
     
    // 分享界面的地图截图
-    CGRect inRect = self.overView.mapView.frame;
+//    CGRect inRect = self.overView.mapView.frame;
+    CGRect inRect = self.shareView.frame;
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
        self.shareImage = resultImage;
@@ -368,12 +407,15 @@
        }
 }
 
+//持续定位
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
      CGFloat signal = location.horizontalAccuracy;
     if (signal < 0)
     {
         return ;
     }
+
+    NSLog(@"逆地理编码为%@",reGeocode.citycode);
     [self.overView.mapView setCenterCoordinate:location.coordinate];
 }
 

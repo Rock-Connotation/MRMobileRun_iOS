@@ -35,18 +35,18 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+    self.delegate = self;
+          self.tabBar = [[MGDTabBar alloc] init];
+          [self.tabBar.centerBtn addTarget:self action:@selector(buttonAction) forControlEvents:UIControlEventTouchUpInside];
+          //设置背景颜色透明
+          self.tabBar.translucent = YES;
+          //利用KVC,将自定义tabBar,赋给系统tabBar
+          [self setValue:self.tabBar forKeyPath:@"tabBar"];
+          [self addChildViewControllers];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.delegate = self;
-    self.tabBar = [[MGDTabBar alloc] init];
-    [self.tabBar.centerBtn addTarget:self action:@selector(buttonAction) forControlEvents:UIControlEventTouchUpInside];
-    //设置背景颜色透明
-    self.tabBar.translucent = YES;
-    //利用KVC,将自定义tabBar,赋给系统tabBar
-    [self setValue:self.tabBar forKeyPath:@"tabBar"];
-    [self addChildViewControllers];
 }
 
 //添加子控制器

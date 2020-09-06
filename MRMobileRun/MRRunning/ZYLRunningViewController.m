@@ -29,7 +29,11 @@
 
 @implementation ZYLRunningViewController
 - (void)viewWillAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = YES;
+    [super viewWillAppear:YES];
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    if ([viewControllers indexOfObject:self]) {
+        self.tabBarController.selectedIndex = 0;
+    }
 }
 
 - (void)viewDidLoad {
