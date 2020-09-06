@@ -23,8 +23,8 @@ PODS:
   - AMap3DMap (7.6.0):
     - AMapFoundation (~> 1.6.3)
   - AMapFoundation (1.6.4)
-  - AMapLocation (2.6.5):
-    - AMapFoundation (~> 1.6.3)
+  - AMapLocation (2.6.7):
+    - AMapFoundation (~> 1.6.4)
   - AMapSearch (7.6.0):
     - AMapFoundation (~> 1.6.3)
   - Bugly (2.5.71)
@@ -86,7 +86,7 @@ SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   AMap3DMap: fddccc76459c63e955f637812c8ba5e1e6024277
   AMapFoundation: 3638198dfa40be54648570c3520edefad288286b
-  AMapLocation: c566d448285cd502c1e313063d9e2460bd4d7100
+  AMapLocation: a46c30d9930d0f3a3bd21139d8f845d10ac3f01d
   AMapSearch: ea3151e626c91b1ef99ec0ec72afdbdb577e16b2
   Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94

@@ -38,7 +38,6 @@
 @property (nonatomic, strong) MAPointAnnotation *beginAnnotataion;
 @property (nonatomic, strong) MAPointAnnotation *endAnnotataion;
 
-@property (nonatomic, strong) AMapSearchAPI *search;
 
 @property __block UIImage *shareImage;
 @end
@@ -79,30 +78,6 @@
    //绘制始终位置大头针
     [self initBeginAndEndAnnotations];
     
-    //设置天气
-    self.search = [[AMapSearchAPI alloc] init];
-    self.search.delegate = self;
-    //单次定位，并获得天气数据
-    [self.ALocationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
-        if (error)
-        {
-            NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
-            
-            if (error.code == AMapLocationErrorLocateFailed)
-            {
-                return;
-            }
-        }
-        if (regeocode) {
-            //查询天气
-            AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
-            request.city = regeocode.citycode; //设置城市码
-            request.type = AMapWeatherTypeLive; //获取实时天气
-            [self.search AMapWeatherSearch:request];
-        }
-    }];
-    
-//    AMapLocalWeatherLive
     
     // 给分享界面添加手势
     UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
@@ -160,12 +135,25 @@
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];
     
+    //设置显示天气的图片框
+    self.weatherImageView = [[UIImageView alloc] init];
+    [self.view addSubview:self.weatherImageView];
+    [self.weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.overView.degree.mas_right).offset(8);
+        make.centerY.height.equalTo(self.overView.degree);
+        make.width.mas_equalTo(25);
+    }];
+    
     
     //赋值
+    if (self.temperature != nil) {
+        self.overView.degree.text = [NSString stringWithFormat:@"%@°C",self.temperature];
+    }
     self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
     self.overView.speedLab.text = self.speedStr; //配速赋值
     if (self.averageStepFrequency >0 && self.averageStepFrequency < 300) {
         self.overView.paceLab.text = [NSString stringWithFormat:@"%d",self.averageStepFrequency]; //平均步频赋值
+        
     }
     _overView.timeLab.text = self.timeStr;   //跑步时间赋值
     self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
@@ -190,6 +178,8 @@
 //        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
         SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
         [paceWaveChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.cacultedStepsAry AndYMaxNumber:250];
+//        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
+        
         [self.dataView.paceBackView addSubview:paceWaveChart];
         [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.paceBackView);
@@ -391,18 +381,6 @@
          return nil;
 }
 
-#pragma mark- 天气回调方法
-//解析天气回调数据
-- (void)onWeatherSearchDone:(AMapWeatherSearchRequest *)request response:(AMapWeatherSearchResponse *)response
-{
-    NSLog(@"返回的天气jaso为%@",response);
-}
-//如果回调失败
-- (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
-{
-    NSLog(@"天气回调失败为Error: %@", error);
-}
-
 #pragma mark- 定位回调方法
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
      CGFloat signal = userLocation.location.horizontalAccuracy;
@@ -416,17 +394,17 @@
        }
 }
 
-//持续定位，不用
-//- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
-//     CGFloat signal = location.horizontalAccuracy;
-//    if (signal < 0)
-//    {
-//        return ;
-//    }
-//
-//    NSLog(@"逆地理编码为%@",reGeocode.citycode);
-//    [self.overView.mapView setCenterCoordinate:location.coordinate];
-//}
+//持续定位
+- (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
+     CGFloat signal = location.horizontalAccuracy;
+    if (signal < 0)
+    {
+        return ;
+    }
+
+    NSLog(@"逆地理编码为%@",reGeocode.citycode);
+    [self.overView.mapView setCenterCoordinate:location.coordinate];
+}
 
 #pragma mark- 分享的五个按钮的方法
 - (void)shareAction{

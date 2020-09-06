@@ -47,6 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic ,strong) MGDShareView *shareView;
 
+//关于天气
+@property (nonatomic, strong) NSString *temperature;
+@property (nonatomic, strong) NSString *weather;
+@property (nonatomic, strong) UIImageView *weatherImageView; //显示天气图片的图片框
 @end
 
 NS_ASSUME_NONNULL_END
