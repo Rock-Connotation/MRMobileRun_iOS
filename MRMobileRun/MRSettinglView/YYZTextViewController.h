@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YYZTextViewController : UIViewController
 
+@property (nonatomic, assign) BOOL changeNickname; //是否是修改昵称
+
 @end
 
 NS_ASSUME_NONNULL_END

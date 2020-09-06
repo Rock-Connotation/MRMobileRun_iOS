@@ -54,6 +54,7 @@
         _personalSign.textColor = [UIColor colorWithRed:160/255.0 green:160/255.0 blue:160/255.0 alpha:1.0];
         _personalSign.numberOfLines = 0;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfo) name:@"isLoginSuccess" object:nil];
         [self userInfo];
     }
     return self;
@@ -68,6 +69,7 @@
     self.userName.text = nickName;
     self.personalSign.text = signature;
 }
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];

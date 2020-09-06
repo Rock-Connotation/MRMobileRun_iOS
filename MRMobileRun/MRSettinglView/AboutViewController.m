@@ -13,10 +13,31 @@
 
 @implementation AboutViewController
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"关于约跑"];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];    
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [backBtn setImage:[UIImage imageNamed:@"返回箭头4"] forState:UIControlStateNormal];
+    [backBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 5)];
+    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = backItem;
     
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(125, 170, 130, 130)];
     imageView.image = [UIImage imageNamed:@"约跑"];
@@ -96,22 +117,38 @@
         make.height.equalTo(@(30*kRateY));
     }];
     
-    if (@available(iOS 13.0, *)) {
-        UIColor * rightColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
-            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
-                return [UIColor whiteColor];
-            } else { //深色模式
-                UIColor *color = [UIColor whiteColor];
-                NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
-                self.navigationController.navigationBar.titleTextAttributes = dict;
-                
-                return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
-            }
-        }];
-        self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+      [self changeStyle];
     }
 
+    - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+    {
+        [super traitCollectionDidChange:previousTraitCollection];
+        [self changeStyle];
+    }
+
+    - (void)changeStyle {
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                self.view.backgroundColor = [UIColor whiteColor];
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:UIColor.blackColor forKey:NSForegroundColorAttributeName];
+                   self.navigationController.navigationBar.titleTextAttributes = dict;
+                   self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+            } else { //深色模式
+                
+                UIColor *color = [UIColor whiteColor];
+                NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
+                self.navigationController.navigationBar.titleTextAttributes = dict;
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+                self.view.backgroundColor = [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
+            } //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
+        }
+    }
+- (void) back {
+    self.tabBarController.tabBar.hidden = NO;
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (void)actionAlert1{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"已是最新版本,无需更新"message:@""preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];

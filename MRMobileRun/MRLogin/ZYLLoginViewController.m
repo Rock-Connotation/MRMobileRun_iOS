@@ -39,6 +39,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailErrorData:)  name:@"isLoginFailErrorData" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailNoData:)  name:@"isLoginFailNoData" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailTimeOut:)  name:@"isLoginFailTimeOut" object:nil];
 }
 
 - (void)loginFailNoClient:(NSNotification*)notification{
@@ -64,6 +66,14 @@
     [self.loginView.loginBtn setEnabled:YES];
     self.loginProgress.mode = MBProgressHUDModeText;
     self.loginProgress.label.text = @" 账号密码为空 ";
+    [self.loginProgress hideAnimated:YES afterDelay:2.0];
+}
+
+- (void)loginFailTimeOut:(NSNotification*)notification{
+    self.loginProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.loginView.loginBtn setEnabled:YES];
+    self.loginProgress.mode = MBProgressHUDModeText;
+    self.loginProgress.label.text = @" 连接超时 请检查网络 ";
     [self.loginProgress hideAnimated:YES afterDelay:2.0];
 }
 

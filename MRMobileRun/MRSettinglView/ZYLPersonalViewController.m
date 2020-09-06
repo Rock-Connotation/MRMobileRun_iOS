@@ -78,6 +78,9 @@
 //    NSData *imageData = [[NSData alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myAvatar:)  name:@"getAvatarSuccess" object: nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myNickname:)  name:@"getNicknameSuccess" object: nil];
+    
+    
     UIButton *textBtn = [UIButton buttonWithType:UIButtonTypeCustom];
        textBtn.frame = CGRectMake(0, 210*kRateY, screenWidth, 70*kRateY);
        textBtn.backgroundColor = [UIColor clearColor];
@@ -107,7 +110,7 @@
                 return [UIColor whiteColor];
             } else { //深色模式
                 self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor]};
-                
+
                 return [UIColor colorWithRed:60/255.0 green:63/255.0 blue:67/255.0 alpha:1];
             }
         }];
@@ -115,6 +118,12 @@
         self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
     }
     
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self->_bkgView YYZdarkChange];
 }
 
 - (void)actionText{
@@ -129,10 +138,20 @@
     SportSettingViewController *vc1 =[[SportSettingViewController alloc]init];
     [self.navigationController pushViewController:vc1 animated:YES];
 }
+
 - (void)actionComment{
-    YYZCommentViewController *vc1 =[[YYZCommentViewController alloc]init];
-    [self.navigationController pushViewController:vc1 animated:YES];
+    //YYZCommentViewController *vc1 =[[YYZCommentViewController alloc]init];
+    //[self.navigationController pushViewController:vc1 animated:YES];
+    NSString *qq_number = @"983292781";
+    NSString* urlStr = [NSString stringWithFormat:@"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=%@&key=%@&card_type=group&source=external", qq_number, @"44a6e01f2dab126f87ecd2ec7b7e66ae259b30535fd0c2c25776271e8c0ac08f"];
+    NSURL* url = [NSURL URLWithString:urlStr];
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
+
+
+
 - (void)clickLogoutBtu{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
 //    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];
@@ -168,48 +187,53 @@
     self.imageView.image = [UIImage imageWithData: [defaults objectForKey:@"myAvatar"]];
     ZYLPhotoSelectedVIew *selectView = [ZYLPhotoSelectedVIew selectViewWithDestinationImageView: self.imageView delegate:self];
     selectView.iconImage = self.imageView.image;
-    [self.view addSubview:selectView];
+
+    [UIApplication.sharedApplication.keyWindow addSubview:selectView];
+}
+
+- (void)myNickname:(NSNotification *)notification
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    self.bkgView.nicknameCell.nicknameTextFiled.text = [user objectForKey:@"nickname"];
+    self.nicknameDic = [[NSMutableDictionary alloc]init];
+    [self.nicknameDic setObject:self.bkgView.nicknameCell.nicknameTextFiled.text forKey:@"nickname"];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)getAvatar:(NSNotification*)notification{
     NSLog(@"\n\n\n\n获取成功\n\n\n\n");
-    NSData *imageData = UIImageJPEGRepresentation(self.imageView.image, 1);
-//    //        将图片存储在本地
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:imageData forKey: @"myAvatar"];
-    [defaults synchronize];
-    [self.bkgView.iconCell.iconButton setImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
-
-
+//    NSData *imageData = UIImageJPEGRepresentation(self.imageView.image, 1);
+////    //        将图片存储在本地
+//    [self.bkgView.iconCell.iconButton setImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
     [ZYLUploadAvatar UpdateAvatarWithImage:self.imageView.image];
 }
 
+
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"修改昵称" message:@"请在下方文本框内输入新的昵称" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-
-    }];
-
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [cancelAction setValue:[UIColor blackColor] forKey:@"titleTextColor"];
-
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UITextField *nickName = alertController.textFields.firstObject;
-        if (![nickName.text isEqualToString:@""]) {
-            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-            [user setObject:nickName.text forKey:@"nickname"];
-            self.bkgView.nicknameCell.nicknameTextFiled.text = nickName.text;
-            self.nicknameDic = [[NSMutableDictionary alloc]init];
-            [self.nicknameDic setObject:self.bkgView.nicknameCell.nicknameTextFiled.text forKey:@"nickname"];
-            [ZYLChangeNickname uploadChangedNickname:nickName.text];
-        }
-    }];
-
-    [okAction setValue:[UIColor blackColor] forKey:@"titleTextColor"];
-    [alertController addAction:cancelAction];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    YYZTextViewController *vc1 =[[YYZTextViewController alloc]init];
+    vc1.changeNickname = YES;
+     [self.navigationController pushViewController:vc1 animated:YES];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"修改昵称" message:@"请在下方文本框内输入新的昵称" preferredStyle:UIAlertControllerStyleAlert];
+//    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+//
+//    }];
+//
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//    [cancelAction setValue:[UIColor blackColor] forKey:@"titleTextColor"];
+//
+//    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        UITextField *nickName = alertController.textFields.firstObject;
+//        if (![nickName.text isEqualToString:@""]) {
+//
+//            [ZYLChangeNickname uploadChangedNickname:nickName.text];
+//        }
+//    }];
+//
+//    [okAction setValue:[UIColor blackColor] forKey:@"titleTextColor"];
+//    [alertController addAction:cancelAction];
+//    [alertController addAction:okAction];
+//    [self presentViewController:alertController animated:YES completion:nil];
 
     return NO;
 }
@@ -222,6 +246,7 @@
         [_bkgView.iconCell.iconButton addTarget: self action:@selector(clickAvatarBtu) forControlEvents:UIControlEventTouchUpInside];
         [_bkgView.logoutBtn addTarget:self action:@selector(clickLogoutBtu) forControlEvents:UIControlEventTouchUpInside];
         _bkgView.nicknameCell.nicknameTextFiled.text = [_userDefaults objectForKey:@"nickname"];
+        [_bkgView.iconCell.iconButton setImage:[UIImage imageWithData: [_userDefaults objectForKey:@"myAvatar"]] forState:UIControlStateNormal];
         _bkgView.nicknameCell.nicknameTextFiled.delegate = self;
         _bkgView.nicknameCell.nicknameTextFiled.returnKeyType = UIReturnKeyDone;
     }
