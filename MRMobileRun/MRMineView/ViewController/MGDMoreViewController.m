@@ -277,7 +277,6 @@ static int page = 1;
                 //列表数据刷新
                 [self.recordTableView reloadData];
                 [self.recordTableView layoutIfNeeded];
-                [self->_successHud removeFromSuperview];
                 //停止刷新
             });
             [self.recordTableView.mj_footer endRefreshing];
@@ -285,6 +284,7 @@ static int page = 1;
             //改变状态
             self->_footer.state = MJRefreshStateNoMoreData;
         }
+        [self->_successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
     }];
@@ -553,9 +553,6 @@ static int page = 1;
     NSString *currentDateStr = [self dateToString:currentDate];
     NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-//    _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    _successHud.mode = MBProgressHUDModeIndeterminate;
-//    _successHud.label.text = @" 正在加载中 ";
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -574,9 +571,10 @@ static int page = 1;
         dispatch_async(dispatch_get_main_queue(), ^{
             result(self->_recordArray);
         });
+        
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
-        //[self->_successHud removeFromSuperview];
+        [self->_successHud removeFromSuperview];
         self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self->_hud.mode = MBProgressHUDModeText;
         self->_hud.label.text = @" 加载失败 ";
@@ -734,6 +732,5 @@ static int page = 1;
 }
 
 @end
-
 
 
