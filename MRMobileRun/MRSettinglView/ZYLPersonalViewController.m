@@ -168,6 +168,14 @@
 //        }
 //    }
 //    [self.userDefaults synchronize];
+    //退出的时候清除数据
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"km"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"min"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cal"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportList"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportMoreList"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [MGJRouter openURL:kLoginVCPageURL
           withUserInfo:@{@"navigationVC" : self.navigationController,
                          }

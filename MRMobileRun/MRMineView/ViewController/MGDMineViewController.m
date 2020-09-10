@@ -22,6 +22,7 @@
 #import "MGDCellDataViewController.h"
 #import <MJRefresh.h>
 #import "MBProgressHUD.h"
+#import "HttpClient.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
@@ -44,6 +45,8 @@
 NSString *ID = @"Recored_cell";
 //判断是否为缓存的数据
 static bool isCache = false;
+//单例的AFN
+static AFHTTPSessionManager *manager;
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.hidden = YES;
@@ -64,10 +67,10 @@ static bool isCache = false;
     }else {
       self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,265, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
     }
+    //去除分割线
     self.sportTableView.separatorStyle = NO;
     self.sportTableView.delegate = self;
     self.sportTableView.dataSource = self;
-    //self.sportTableView.bounces = YES;
      self.sportTableView.scrollEnabled =YES;
     [self.view addSubview:self.sportTableView];
     
@@ -261,7 +264,7 @@ static bool isCache = false;
 
 //原来的三大数据的网络请求
 - (void)getBaseInfo{
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     NSLog(@"%@",token);
@@ -297,7 +300,7 @@ static bool isCache = false;
 
 //获取近五次的运动记录（只显示五次）
 - (void)getUserSportData {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
@@ -306,8 +309,10 @@ static bool isCache = false;
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
     MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    successHud.mode = MBProgressHUDModeIndeterminate;
-    successHud.label.text = @" 正在加载中 ";
+    successHud.mode = MBProgressHUDModeText;
+    successHud.animationType = MBProgressHUDAnimationZoomOut;
+    successHud.label.text = @" 正在加载中... ";
+    [successHud setOffset:CGPointMake(0, 25)];
     NSDate *currentDate = [NSDate date];
     NSString *currentDateStr = [self dateToString:currentDate];
     //NSString *lastDateStr = [self lastDateTostring:currentDate];
@@ -351,7 +356,7 @@ static bool isCache = false;
 
 //刷新列表后调用此方法，主要是去除HUD的显示
 - (void)AgaingetUserSportData {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
@@ -497,7 +502,10 @@ static bool isCache = false;
     }
 }
 
+
+
 @end
+
 
 
 

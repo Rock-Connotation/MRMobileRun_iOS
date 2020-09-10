@@ -29,16 +29,22 @@
 @implementation SZHChart
 //初始化视图以及一些属性的封装
 - (void)initWithViewsWithBooTomCount:(unsigned long )bottomCout AndLineDataAry:(NSArray *)lineDataAry AndYMaxNumber:(double )YmaxNumber{
+    //对一些数据的初始化
     self.spaceY = screenHeight *0.0449;
     self.spaceX = screenWidth * 0.0933;
     self.lineColor = [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0];
     self.lineWidth = 6;
     self.lineColor = [UIColor redColor];
-    self.bottomXCount = bottomCout - 1;
+    self.bottomXCount = 0;          //初始的X轴lable的个数为0
+    NSLog(@"传进来的速度数组为%@",lineDataAry);
+//    self.bottomXCount = bottomCout - 1;
+    if (bottomCout - 1 == 0 || bottomCout -1 < 6) {
+        self.bottomXCount = 6;
+    }else{
+        self.bottomXCount = bottomCout - 1;
+    }
     self.lineDataAry = lineDataAry;
     self.YmaxNumber = YmaxNumber;
-//    self.colorArr = [NSArray arrayWithObjects:(id)[[[UIColor redColor] colorWithAlphaComponent:0.4] CGColor],(id)[[[UIColor whiteColor] colorWithAlphaComponent:0.1] CGColor], nil];
-    
     
     //x轴单位、y轴文本、x轴文本的字体颜色
     self.textColor = [UIColor colorWithRed:136/255.0 green:136/255.0 blue:136/255.0 alpha:1.0];
@@ -47,9 +53,9 @@
     //显示图形的ScroolView
     self.chartScroll = [[UIScrollView alloc] init];
     self.chartScroll.bounces = NO; //不回弹
-    self.chartScroll.showsHorizontalScrollIndicator = YES;     //不显示X轴的小滑条
+    self.chartScroll.showsHorizontalScrollIndicator = NO;     //不显示X轴的小滑条
     self.chartScroll.backgroundColor = [UIColor clearColor];
-    self.chartScroll.contentSize = CGSizeMake( self.bottomXCount * (screenWidth * 0.1333 + 1) , self.chartScroll.bounds.size.height); //self.bottomXCount * (screenWidth * 0.1333)
+    self.chartScroll.contentSize = CGSizeMake( self.bottomXCount * (screenWidth * 0.1333 + 1) , self.chartScroll.bounds.size.height); //
     [self addSubview:self.chartScroll];
     [self.chartScroll mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.equalTo(self.topYlabel.mas_right).offset(-10);
@@ -99,8 +105,9 @@
     [self drawLineChart];
     
 }
-
-//渲染折线图
+/**
+ 渲染折线图
+ */
 - (void)drawLineChart{
     
     NSMutableArray *muteableAry = [NSMutableArray array]; //用来存储左边label的数组
@@ -126,7 +133,7 @@
         if (i == 5) {
             CGFloat maxY = CGRectGetMaxY(line.frame);
             self.maxY = maxY;
-            NSLog(@"--------------%d",self.maxY);
+//            NSLog(@"--------------%d",self.maxY);
         }
         [self.chartScroll.layer addSublayer:line];
         [muteableAry addObject:leftLbl];

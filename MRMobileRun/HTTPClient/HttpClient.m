@@ -36,7 +36,7 @@ static AFHTTPSessionManager *manager;
                progress:(void (^)(NSProgress * progress))progress
                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                 failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
 //    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
 //    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     // 以json格式向服务器发送请求
@@ -87,7 +87,7 @@ static AFHTTPSessionManager *manager;
                progress:(void (^)(NSProgress * progress))progress
                 success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                 failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure{
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     for (int i = 0; i < head.count; i++) {
         [manager.requestSerializer setValue:head.allValues[i]  forHTTPHeaderField:head.allKeys[i]];
     }

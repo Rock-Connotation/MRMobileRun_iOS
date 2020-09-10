@@ -167,6 +167,8 @@
 		B8D9639B24E9B33D0035CF1C /* SZHWaveChart.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639024E9B33B0035CF1C /* SZHWaveChart.m */; };
 		B8D9639C24E9B33D0035CF1C /* MGDButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639124E9B33C0035CF1C /* MGDButtonsView.m */; };
 		B8D9639D24E9B33D0035CF1C /* MGDShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639324E9B33D0035CF1C /* MGDShareView.m */; };
+		B8EA9A1C2508EDD9009290FE /* style_extra.data in Resources */ = {isa = PBXBuildFile; fileRef = B8EA9A1A2508EDD8009290FE /* style_extra.data */; };
+		B8EA9A1D2508EDD9009290FE /* style.data in Resources */ = {isa = PBXBuildFile; fileRef = B8EA9A1B2508EDD9009290FE /* style.data */; };
 		B8FE2AF624EBA434009DC23D /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AD824EBA434009DC23D /* YBRectConst.m */; };
 		B8FE2AF724EBA434009DC23D /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */; };
 		B8FE2AF824EBA434009DC23D /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2ADB24EBA434009DC23D /* YBPopupMenu.m */; };
@@ -536,6 +538,8 @@
 		B8D9639224E9B33C0035CF1C /* MGDOverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGDOverView.h; sourceTree = "<group>"; };
 		B8D9639324E9B33D0035CF1C /* MGDShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGDShareView.m; sourceTree = "<group>"; };
 		B8D9639E24E9B4360035CF1C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		B8EA9A1A2508EDD8009290FE /* style_extra.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = style_extra.data; sourceTree = "<group>"; };
+		B8EA9A1B2508EDD9009290FE /* style.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = style.data; sourceTree = "<group>"; };
 		B8FE2AD724EBA434009DC23D /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
 		B8FE2AD824EBA434009DC23D /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
 		B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
@@ -1292,6 +1296,8 @@
 		B80EA16F24EA762400915445 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				B8EA9A1A2508EDD8009290FE /* style_extra.data */,
+				B8EA9A1B2508EDD9009290FE /* style.data */,
 			);
 			name = resource;
 			sourceTree = "<group>";
@@ -1319,6 +1325,8 @@
 		B8D9637F24E9B3190035CF1C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B8D9638524E9B3350035CF1C /* RunningMainPageView.h */,
+				B8D9638024E9B3320035CF1C /* RunningMainPageView.m */,
 				B8D9638924E9B3370035CF1C /* LongPressView.h */,
 				B8D9638324E9B3340035CF1C /* LongPressView.m */,
 				B8D9638824E9B3370035CF1C /* MGDButtonsView.h */,
@@ -1331,8 +1339,6 @@
 				B8D9639324E9B33D0035CF1C /* MGDShareView.m */,
 				B8D9638C24E9B3390035CF1C /* RunMainBtn.h */,
 				B8D9638E24E9B33A0035CF1C /* RunMainBtn.m */,
-				B8D9638524E9B3350035CF1C /* RunningMainPageView.h */,
-				B8D9638024E9B3320035CF1C /* RunningMainPageView.m */,
 				B8D9638B24E9B3380035CF1C /* SZHAlertView.h */,
 				B8D9638124E9B3330035CF1C /* SZHAlertView.m */,
 				B8D9638624E9B3360035CF1C /* SZHChart.h */,
@@ -1696,11 +1702,13 @@
 				2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */,
 				CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */,
 				1A16B9A224EED4E700EAD884 /* YYZTextViewController.xib in Resources */,
+				B8EA9A1C2508EDD9009290FE /* style_extra.data in Resources */,
 				B8D9633924E9B2CD0035CF1C /* Impact.ttf in Resources */,
 				2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */,
 				1A16B99824EED4CB00EAD884 /* SportSettingViewController.xib in Resources */,
 				1A16B9A024EED4E700EAD884 /* YYZTextView.xib in Resources */,
 				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
+				B8EA9A1D2508EDD9009290FE /* style.data in Resources */,
 				18D838D224F4AAEF0074D7F4 /* Assets.xcassets in Resources */,
 				2F0E8153225F30A400D5E511 /* XIGView.xib in Resources */,
 			);
