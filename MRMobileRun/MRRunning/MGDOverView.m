@@ -168,14 +168,14 @@
         [_date mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
             make.left.mas_equalTo(self.backView.mas_left).mas_offset(266);
-            make.width.equalTo(@54);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-55);
             make.height.equalTo(@17);
         }];
         
         [_currentTime mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
             make.left.mas_equalTo(self.date.mas_right).mas_offset(5);
-            make.width.equalTo(@35);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
             make.height.equalTo(@17);
         }];
         
@@ -199,6 +199,20 @@
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
             make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-66);
+        }];
+        
+        [_date mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(266);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-55);
+            make.height.equalTo(@17);
+        }];
+        
+        [_currentTime mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
+            make.left.mas_equalTo(self.date.mas_right).mas_offset(5);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
+            make.height.equalTo(@17);
         }];
     }
     
@@ -240,8 +254,8 @@
     
     [_speed mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.speedLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(24);
-        make.width.equalTo(@62);
+        make.left.mas_equalTo(self.speedLab.mas_left).mas_offset(9);
+        make.right.mas_equalTo(self.speedLab.mas_right).mas_offset(-7);
         make.height.equalTo(@24);
     }];
     
@@ -254,8 +268,8 @@
     
     [_pace mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.paceLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(125);
-        make.width.equalTo(@36);
+        make.left.mas_equalTo(self.paceLab.mas_left).mas_offset(21);
+        make.right.mas_equalTo(self.paceLab.mas_right).mas_offset(-21);
         make.height.equalTo(@24);
     }];
     
@@ -268,8 +282,8 @@
     
     [_time mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.timeLab.mas_bottom).mas_offset(4);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-125);
-        make.width.equalTo(@36);
+        make.left.mas_equalTo(self.timeLab.mas_left).mas_offset(21);
+        make.right.mas_equalTo(self.timeLab.mas_right).mas_offset(-21);
         make.height.equalTo(@24);
     }];
     
@@ -282,8 +296,8 @@
     
     [_cal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.timeLab.mas_bottom).mas_offset(4);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-36);
-        make.width.equalTo(@36);
+        make.left.mas_equalTo(self.calLab.mas_left).mas_offset(21);
+        make.right.mas_equalTo(self.calLab.mas_right).mas_offset(-21);
         make.height.equalTo(@24);
     }];
     
@@ -309,13 +323,7 @@
             r.image = [UIImage imageNamed:@"userAnnotation"];
             [self.mapView updateUserLocationRepresentation:r];
             self.mapView.userInteractionEnabled = NO;
-    //自定义地图
-    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-         MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-         options.styleData = data;
-     [self.mapView setCustomMapStyleOptions:options];
-     [self.mapView setCustomMapStyleEnabled:YES];
+    
     
     //测试温度
     _degree.text = @"23°C";
@@ -351,8 +359,7 @@
         make.width.mas_equalTo(25);
     }];
 }
-//网络请求 ，从网络上获取用户的头像、昵称
-
+//获取用户的头像、昵称
 - (void)getUserInfo {
     NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
     NSString *nickName = [user objectForKey:@"nickname"];
@@ -363,3 +370,4 @@
 
 
 @end
+

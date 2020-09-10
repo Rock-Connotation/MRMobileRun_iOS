@@ -22,7 +22,6 @@
 #import "MGDCellDataViewController.h"
 #import <MJRefresh.h>
 #import "MBProgressHUD.h"
-#import "HttpClient.h"
 
 #define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
 
@@ -30,31 +29,30 @@
 @interface MGDMineViewController () <UITableViewDataSource,UITableViewDelegate> {
     MJRefreshNormalHeader *_header;
 }
-@property (nonatomic, strong) MGDUserData *currentModel;
-@property (nonatomic, strong) MGDSportData *sportModel;
-@property (nonatomic, strong) NSUserDefaults *user;
-@property (nonatomic, strong) NSMutableArray *userSportArray;
-@property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) MGDUserData *currentModel; //三大数据的模型
+@property (nonatomic, strong) MGDSportData *sportModel; //运动列表数据的模型
+@property (nonatomic, strong) NSMutableArray *userSportArray; //装运动列表的模型的数组
+@property (nonatomic, strong) MBProgressHUD *hud; //失败时的HUD
+@property (nonatomic, strong) MBProgressHUD *successHud;  //首次使用网络请求加载数据时的HUD
 
 
 @end
 
 @implementation MGDMineViewController
 
-//注册cell
 NSString *ID = @"Recored_cell";
-//判断是否为缓存的数据
-static bool isCache = false;
-//单例的AFN
-static AFHTTPSessionManager *manager;
+static bool isConnected = false; //是否连接了网络
+static AFHTTPSessionManager *manager; //单例的AFN
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBar.hidden = YES;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //设置tabBar的高度
     CGFloat tabBarHeight;
     if (kIs_iPhoneX) {
         tabBarHeight = 83;
@@ -62,6 +60,7 @@ static AFHTTPSessionManager *manager;
         tabBarHeight = 49;
     }
     
+    //UITableView的设置
     if (kIs_iPhoneX) {
         self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
     }else {
@@ -78,19 +77,31 @@ static AFHTTPSessionManager *manager;
     
     [self buildUI];
     
+    //加载数据的操作
     _userSportArray = [[NSMutableArray alloc] init];
     
-    //判断user是否该数据和是否是首次加载
+    /**
+     三大数据：
+     如果是第一次登陆该账号，则请求网络数据，并且写入缓存
+     之后首先读取缓存并展示，同时请求数据，并写入缓存，用于下一次的展示
+     列表数据：
+     此处如果是首次登陆该账号，则使用网络数据
+     如果不是，则首先读取缓存的数据
+     如果是第一次打开此程序，然后判断当前网络的状况，如果有网络，则自动刷新，没有网络则不刷新
+     之后再跳转到此页面只读取缓存数据
+    */
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    if (([user objectForKey:@"km"] != nil && [user objectForKey:@"min"] != nil && [user objectForKey:@"cal"] != nil) && isCache) {
+    if (!([user objectForKey:@"km"] && [user objectForKey:@"min"] && [user objectForKey:@"cal"]) || [user boolForKey:@"MineIsCache"]) {
+        NSLog(@"三大数据使用网络请求");
+        [self getBaseInfo];
+        [user setBool:YES forKey:@"MineIsCache"];
+        [user synchronize];
+    }else {
         NSLog(@"====三大数据使用缓存数据====");
         self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[[user objectForKey:@"km"] floatValue]];
         self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"min"] intValue]/60];
         self.baseView.CalLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"cal"] intValue]];
-    }else {
-        NSLog(@"三大数据使用网络请求");
-        [self getBaseInfo];
-        isCache = true;
+        [self refreshBaseDataCache];
     }
     
     NSData *arrayData = [user objectForKey:@"SportList"];
@@ -99,12 +110,27 @@ static AFHTTPSessionManager *manager;
     _userSportArray = sportList;
     if ([user objectForKey:@"SportList"]) {
         NSLog(@"=====记录列表的缓存的数据=====");
-        [self.sportTableView reloadData];
+        [self setUpRefresh];
+        if ([user boolForKey:@"MineIsFirst"]) {
+                [self checkNetWorkTrans];
+            }
+        [user setBool:NO forKey:@"MineIsFirst"];
+        [user synchronize];
     }else {
         NSLog(@"====记录列表的网络数据====");
+        if ([user boolForKey:@"MineIsFirst"]) {
+            _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            _successHud.mode = MBProgressHUDModeText;
+            _successHud.animationType = MBProgressHUDAnimationZoomOut;
+            _successHud.label.text = @" 正在加载中... ";
+            [_successHud setOffset:CGPointMake(0, 25)];
+        }
         [self getUserSportData];
+        [user setBool:NO forKey:@"MineIsFirst"];
+        [user synchronize];
     }
     
+    //深色模式的适配
     if (@available(iOS 11.0, *)) {
         self.view.backgroundColor = MGDColor3;
         self.backView.backgroundColor = MGDColor3;
@@ -168,7 +194,7 @@ static AFHTTPSessionManager *manager;
 - (void)loadNewData {
     [_header beginRefreshing];
     [_userSportArray removeAllObjects];
-    [self AgaingetUserSportData];
+    [self getUserSportData];
 }
 
 
@@ -216,10 +242,7 @@ static AFHTTPSessionManager *manager;
     detailDataVC.stepFrequencyArray = [self DataViewArray:model.StepFrequencyArray];
     //速度数组，用于画图
     detailDataVC.speedArray = [self DataViewArray:model.SpeedArray];
-    
-    NSLog(@"步频数组----%@",detailDataVC.stepFrequencyArray);
-    NSLog(@"路径数组----%@",detailDataVC.speedArray);
-    //路径数组，不用你那个locationAry就没问题,自己模仿下上面的写法
+    //路径数组，用于绘制轨迹
     detailDataVC.locationAry = [self DataViewArray:model.pathArray];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
@@ -267,7 +290,6 @@ static AFHTTPSessionManager *manager;
     manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
-    NSLog(@"%@",token);
     // 响应
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
@@ -291,6 +313,33 @@ static AFHTTPSessionManager *manager;
     }];
 }
 
+- (void)refreshBaseDataCache {
+    manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    // 响应
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]]; //设置接收内容的格式
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+
+    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getTotalData" parameters:nil
+        success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        self->_currentModel = [MGDUserData DataWithDict:dict];
+        [user setObject:self->_currentModel.distance forKey:@"km"];
+        [user setObject:self->_currentModel.duration forKey:@"min"];
+        [user setObject:self->_currentModel.consume forKey:@"cal"];
+        [user synchronize];
+        NSLog(@"写入新的缓存");
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error); // 404  500
+        //MBProgressHUD  服务器异常 请稍后重试
+    }];
+}
+
 //展示跑步总距离的数据
 - (void)reloadBaseData:(MGDUserData *)model {
     self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]];
@@ -308,11 +357,6 @@ static AFHTTPSessionManager *manager;
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    MBProgressHUD *successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    successHud.mode = MBProgressHUDModeText;
-    successHud.animationType = MBProgressHUDAnimationZoomOut;
-    successHud.label.text = @" 正在加载中... ";
-    [successHud setOffset:CGPointMake(0, 25)];
     NSDate *currentDate = [NSDate date];
     NSString *currentDateStr = [self dateToString:currentDate];
     //NSString *lastDateStr = [self lastDateTostring:currentDate];
@@ -325,6 +369,7 @@ static AFHTTPSessionManager *manager;
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
         record = dict[@"record_list"];
+        [self->_userSportArray removeAllObjects];
         for (NSDictionary *dic in record) {
             self->_sportModel = [MGDSportData SportDataWithDict:dic];
             [self->_userSportArray addObject:self->_sportModel];
@@ -336,9 +381,10 @@ static AFHTTPSessionManager *manager;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.sportTableView reloadData];
         });
-        [successHud removeFromSuperview];
+        [self.sportTableView.mj_header endRefreshing];
+        [self->_successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [successHud removeFromSuperview];
+        [self->_successHud removeFromSuperview];
         NSLog(@"报错信息%@", error);
         if (error.code == -1001) {
             self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -354,55 +400,6 @@ static AFHTTPSessionManager *manager;
     }];
 }
 
-//刷新列表后调用此方法，主要是去除HUD的显示
-- (void)AgaingetUserSportData {
-    manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *token = [user objectForKey:@"token"];
-    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
-    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
-    [manager setResponseSerializer:responseSerializer];
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDate *currentDate = [NSDate date];
-    NSString *currentDateStr = [self dateToString:currentDate];
-    //NSString *lastDateStr = [self lastDateTostring:currentDate];
-    NSString *lastDateStr = @"2020-01-01 00:00:00";
-    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-
-        NSDictionary *dict = [[NSDictionary alloc] init];
-        dict = responseObject[@"data"];
-        NSArray *record = [[NSArray alloc] init];
-        record = dict[@"record_list"];
-        for (NSDictionary *dic in record) {
-            self->_sportModel = [MGDSportData SportDataWithDict:dic];
-            [self->_userSportArray addObject:self->_sportModel];
-        }
-        self->_userSportArray = [[self->_userSportArray reverseObjectEnumerator] allObjects];
-        NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_userSportArray];
-        [user setObject:arrayData forKey:@"SportList"];
-        [user synchronize];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.sportTableView reloadData];
-        });
-        [self->_header endRefreshing];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"报错信息%@", error);
-        if (error.code == -1001) {
-            self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            self->_hud.mode = MBProgressHUDModeText;
-            self->_hud.label.text = @" 网络异常 请稍后重试 ";
-            [self->_hud hideAnimated:YES afterDelay:1.5];
-        }
-        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self->_hud.mode = MBProgressHUDModeText;
-        self->_hud.label.text = @" 加载失败 ";
-        [self->_hud hideAnimated:YES afterDelay:1.5];
-    }];
-}
-
 //返回当前的时间
 - (NSString *) dateToString:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
@@ -410,20 +407,6 @@ static AFHTTPSessionManager *manager;
     NSString *dateStr = [dateFormatter stringFromDate:date];
     return dateStr;
 }
-
-//返回去年的时间
-//- (NSString *) lastDateTostring:(NSDate *)date {
-//     NSDate *mydate=[NSDate date];
-//     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-//     NSDateComponents *comps = nil;
-//     comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
-//     NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-//     [adcomps setYear:-1];
-//     [adcomps setMonth:0];
-//     [adcomps setDay:0];
-//     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
-//     return [self dateToString:newdate];
-//}
 
 //返回昨天
 - (NSString *) yesterdayTostring:(NSDate *)date {
@@ -500,6 +483,40 @@ static AFHTTPSessionManager *manager;
         [test addObject:s];
         return [test copy];
     }
+}
+
+//判断当前网络连接的情况，如果此时有网络，且是第一次打开该程序，则自动刷新，否则不刷新
+- (void)checkNetWorkTrans {
+    AFNetworkReachabilityManager *managerAF = [AFNetworkReachabilityManager sharedManager];
+    [managerAF startMonitoring];
+    [managerAF setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:
+                isConnected = true;
+                if (isConnected) {
+                    [self loadNewData];
+                }
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                isConnected = true;
+                if (isConnected) {
+                    [self loadNewData];
+                }
+                NSLog(@"使用WIFI");
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                isConnected = true;
+                if (isConnected) {
+                    [self loadNewData];
+                }
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                isConnected = false;
+                NSLog(@"没有连接网络");
+                break;
+        }
+    }];
+    [managerAF startMonitoring];
 }
 
 

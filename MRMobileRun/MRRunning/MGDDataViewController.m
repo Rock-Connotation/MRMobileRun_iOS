@@ -232,11 +232,12 @@
     
    // 分享界面的地图截图
 //    CGRect inRect = self.overView.mapView.frame;
-    CGRect inRect = self.shareView.frame;
+
+    CGRect inRect = self.shareView.popView.frame;
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
        self.shareImage = resultImage;
-    self.shareView.shotImage.image = self.shareImage;
+       self.shareView.shotImage.image = self.shareImage;
     }];
 }
 
