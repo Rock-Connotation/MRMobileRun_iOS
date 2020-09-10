@@ -41,6 +41,8 @@
 @property (nonatomic, strong) NSArray *caculateSpeedAry; //处理后的速度数组
 @property (nonatomic, strong) NSArray *caculateStepsAry; //处理后的步频数组
 @property (nonatomic, strong) NSArray *originalLocationAry; //原始的位置数组
+
+@property double maxSpeedLatest;
 @property __block UIImage *shareImage;
 @end
 
@@ -63,7 +65,7 @@
     self.caculateSpeedAry = [NSArray array];
     self.caculateStepsAry = [NSArray array];
     self.originalLocationAry = [NSArray array];
-    
+    self.maxSpeedLatest = 0;
     
     self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
     self.overView.speedLab.text = self.speedStr; //配速赋值
@@ -158,7 +160,7 @@
 - (void)addTwoCharts{
     //处理步频的数组
     NSMutableArray *stepsMuteAry = [NSMutableArray array];
-    for (int i = 0; i < self.originalStepsAry.count; i += 5) {
+    for (int i = 0; i < self.originalStepsAry.count; i += 4) {
         NSString *stepStr = self.originalStepsAry[i];
         [stepsMuteAry addObject:stepStr];
     }
@@ -186,18 +188,23 @@
     
     //处理画速度的折线图
     NSMutableArray *speedMuteAry = [NSMutableArray array];
-    for (int i = 0; i < self.originalSpeedAry.count; i += 32) {
+    for (int i = 0; i < self.originalSpeedAry.count; i += 64) {
         NSString *speedStr = self.originalSpeedAry[i];
+        double speed = [speedStr doubleValue];
+        if (self.maxSpeedLatest < speed) {
+            self.maxSpeedLatest = speed;
+        }
         [speedMuteAry addObject:speedStr];
     }
     self.caculateSpeedAry = speedMuteAry;
+    NSLog(@"处理后的速度数组中最大的数值为%f",self.maxSpeedLatest);
     NSLog(@"处理后的速度数组为%@",self.caculateSpeedAry);
     
     if (self.caculateSpeedAry.count != 0) {
         //速度的折线图
         NSArray *array = @[@3,@4.8,@4,@3.8,@4,@4.3,@4.5,@3.7];
         SZHChart *speedChart = [[SZHChart alloc] init];
-        [speedChart initWithViewsWithBooTomCount:self.originalSpeedAry.count/5 AndLineDataAry:self.originalSpeedAry AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:self.caculateSpeedAry.count/5 AndLineDataAry:self.caculateSpeedAry AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);

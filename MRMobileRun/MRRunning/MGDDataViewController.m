@@ -58,14 +58,11 @@
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES animated:YES];//隐藏导航栏
     
-    
     [self fit];
     self.overView.mapView.delegate = self;
     self.overView.mapView.showsUserLocation = NO;
     self.overView.mapView.userInteractionEnabled = YES;
     [self initLocationManager];
-    
-    
 /*
 绘制轨迹
     */
@@ -77,7 +74,6 @@
    
    //绘制始终位置大头针
     [self initBeginAndEndAnnotations];
-    
     
     // 给分享界面添加手势
     UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
@@ -177,14 +173,6 @@
 
 //添加两个图表
 - (void)addTwoCharts{
-    //处理步频的数组
-    NSMutableArray *stepsMuteAry = [NSMutableArray array];
-    for (int i = 0; i < self.originStepsAry.count; i += 5) {
-        NSString *stepStr = self.originStepsAry[i];
-        [stepsMuteAry addObject:stepStr];
-    }
-    self.caculatedSpeedAry = stepsMuteAry;
-    
     //画步频的波浪图
     if (self.cacultedStepsAry.count != 0) {
         //步频的波浪图
@@ -207,14 +195,7 @@
     }
     
     //处理画速度的折线图
-    NSMutableArray *speedMuteAry = [NSMutableArray array];
-    for (int i = 0; i < self.locationAry.count; i += 32) {
-        RunLocationModel *Model = self.locationAry[i];
-        double speed = Model.speed;
-        NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
-        [speedMuteAry addObject:speedStr];
-    }
-    self.caculatedSpeedAry = speedMuteAry;
+  
     
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图

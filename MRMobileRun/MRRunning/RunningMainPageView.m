@@ -24,10 +24,7 @@
     [self addViewOnMap];
     [self addViewOnBottomView];
 //    [self addViewOnTopView];
-    
-    
-   
-    
+
 }
 
 //添加地图视图
@@ -63,13 +60,12 @@
 //    r.image = [UIImage imageNamed:@"userAnnotation"];
     [self.mapView updateUserLocationRepresentation:r];
 //    //  自定义地图样式
-//       NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-//       NSData *data = [NSData dataWithContentsOfFile:path];
-//        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-//        options.styleData = data;
-//    [self.mapView setCustomMapStyleOptions:options];
-//    [self.mapView setCustomMapStyleEnabled:YES];
-//    UIAlertController
+       NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+       NSData *data = [NSData dataWithContentsOfFile:path];
+        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+        options.styleData = data;
+    [self.mapView setCustomMapStyleOptions:options];
+    [self.mapView setCustomMapStyleEnabled:YES];
     //
 }
 
@@ -326,7 +322,7 @@
     self.endLongPressView.bgView.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
     
         //设置titlelabel
-    self.endLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
+    self.endLongPressView.titleLbl.textColor = [UIColor whiteColor];
     self.endLongPressView.titleLbl.text = @"长按结束";
         //图片框的图片
     self.endLongPressView.imgView.image = [UIImage imageNamed:@"endBtnImage"];
@@ -349,6 +345,7 @@
         //图片
     self.continueBtn.logoImg.image = [UIImage imageNamed:@"continueBtnImage"];
     self.continueBtn.descLbl.text = @"继续";
+    self.continueBtn.descLbl.textColor = [UIColor whiteColor];
     
     self.continueBtn.backgroundColor = [UIColor colorWithRed:85/255.0 green:213/255.0 blue:226/255.0 alpha:1.0];
     self.continueBtn.layer.cornerRadius = 45;
@@ -393,13 +390,13 @@
     
     self.dragimageView = [[UIImageView alloc] init];
     self.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
-    self.dragimageView.layer.cornerRadius = 4;
+    self.dragimageView.layer.cornerRadius = 3;
     [self.dragLabel addSubview:self.dragimageView];
 //    self.dragimageView.image = [UIImage imageNamed:@"初始位置"];
     [self.dragimageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.dragLabel);
-        make.height.mas_equalTo(10);
-        make.width.mas_equalTo(screenWidth * 0.2);
+        make.height.mas_equalTo(7);
+        make.width.mas_equalTo(screenWidth * 0.072);
     }];
 }
 

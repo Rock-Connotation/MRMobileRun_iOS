@@ -1,23 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "阴天白.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
       "filename" : "阴黑.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "阴天白-1.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "阴天白.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "阴黑-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "阴黑-1.png",
+      "filename" : "阴天白-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "阴天白-2.png",
+      "filename" : "阴黑-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "阴黑-2.png",
+      "filename" : "阴天白-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

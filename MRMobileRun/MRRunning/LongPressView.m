@@ -53,7 +53,7 @@
     [self.bgView addSubview:self.titleLbl];
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.imgView);
-        make.top.equalTo(self.imgView.mas_bottom).offset(5);
+        make.top.equalTo(self.imgView.mas_bottom);
         make.size.mas_equalTo(CGSizeMake(70, 17));
     }];
     self.titleLbl.textAlignment = NSTextAlignmentCenter;

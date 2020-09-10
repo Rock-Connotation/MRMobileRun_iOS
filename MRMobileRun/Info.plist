@@ -2,20 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>mqqapi</string>
-	</array>
-	<key>CFBundleIconName</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string>This app is not allowed to query for scheme mqqapi</string>
-	<key>CFBundleSignature</key>
-	<string>This app is not allowed to query for scheme mqqapi</string>
-	<key>LS</key>
-	<string></string>
-	<key>NSHumanReadableCopyright</key>
-	<string>This app is not allowed to query for scheme mqqapi</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +10,10 @@
 	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFile</key>
+	<string>This app is not allowed to query for scheme mqqapi</string>
+	<key>CFBundleIconName</key>
+	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -34,10 +24,18 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>This app is not allowed to query for scheme mqqapi</string>
 	<key>CFBundleVersion</key>
 	<string>1.5</string>
+	<key>LS</key>
+	<string></string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mqqapi</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -53,6 +51,8 @@
 	<string>重邮约跑需要您的同意，才能访问健康更新，给您带来更好的服务</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>重邮约跑需要您的同意，才能访问健康更新，给您带来更好的服务</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>This app is not allowed to query for scheme mqqapi</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDeion</key>
 	<string>VUP需要您的允许才能持续定位，并记录您的轨迹。</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

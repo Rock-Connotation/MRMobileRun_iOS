@@ -309,7 +309,13 @@
             r.image = [UIImage imageNamed:@"userAnnotation"];
             [self.mapView updateUserLocationRepresentation:r];
             self.mapView.userInteractionEnabled = NO;
-    
+    //自定义地图
+    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+        NSData *data = [NSData dataWithContentsOfFile:path];
+         MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+         options.styleData = data;
+     [self.mapView setCustomMapStyleOptions:options];
+     [self.mapView setCustomMapStyleEnabled:YES];
     
     //测试温度
     _degree.text = @"23°C";
