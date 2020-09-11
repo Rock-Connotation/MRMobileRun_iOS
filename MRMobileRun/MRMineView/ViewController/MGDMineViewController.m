@@ -91,13 +91,13 @@ static AFHTTPSessionManager *manager; //单例的AFN
      之后再跳转到此页面只读取缓存数据
     */
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    if (!([user objectForKey:@"km"] && [user objectForKey:@"min"] && [user objectForKey:@"cal"]) || [user boolForKey:@"MineIsCache"]) {
-        NSLog(@"三大数据使用网络请求");
+    if (!([user objectForKey:@"km"] && [user objectForKey:@"min"] && [user objectForKey:@"cal"]) || ![user boolForKey:@"MineIsCache"]) {
+        NSLog(@"==三大数据使用网络请求==");
         [self getBaseInfo];
         [user setBool:YES forKey:@"MineIsCache"];
         [user synchronize];
     }else {
-        NSLog(@"====三大数据使用缓存数据====");
+        NSLog(@"==三大数据使用缓存数据==");
         self.baseView.Kmlab.text = [NSString stringWithFormat:@"%.2f",[[user objectForKey:@"km"] floatValue]];
         self.baseView.MinLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"min"] intValue]/60];
         self.baseView.CalLab.text = [NSString stringWithFormat:@"%d",[[user objectForKey:@"cal"] intValue]];
@@ -109,15 +109,15 @@ static AFHTTPSessionManager *manager; //单例的AFN
     NSMutableArray *sportList = [NSMutableArray arrayWithArray:array];
     _userSportArray = sportList;
     if ([user objectForKey:@"SportList"]) {
-        NSLog(@"=====记录列表的缓存的数据=====");
+        NSLog(@"==记录列表的缓存的数据==");
         [self setUpRefresh];
         if ([user boolForKey:@"MineIsFirst"]) {
-                [self checkNetWorkTrans];
-            }
-        [user setBool:NO forKey:@"MineIsFirst"];
-        [user synchronize];
+            [self checkNetWorkTrans];
+            [user setBool:NO forKey:@"MineIsFirst"];
+            [user synchronize];
+        }
     }else {
-        NSLog(@"====记录列表的网络数据====");
+        NSLog(@"==记录列表的网络数据==");
         if ([user boolForKey:@"MineIsFirst"]) {
             _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             _successHud.mode = MBProgressHUDModeText;

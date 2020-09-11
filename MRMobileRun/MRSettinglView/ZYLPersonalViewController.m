@@ -177,6 +177,8 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MoreIsCache"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MoreIsFirst"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MineIsCache"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MineIsFirst"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [MGJRouter openURL:kLoginVCPageURL
           withUserInfo:@{@"navigationVC" : self.navigationController,

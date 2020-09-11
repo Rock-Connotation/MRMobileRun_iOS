@@ -90,9 +90,9 @@ static AFHTTPSessionManager *manager; //单例的AFN
     
     //UI布局
     if (kIs_iPhoneX) {
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 370, screenWidth, screenHeigth - 370) style:UITableViewStylePlain];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 361, screenWidth, screenHeigth - 361) style:UITableViewStylePlain];
     }else {
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 348, screenWidth, screenHeigth -348) style:UITableViewStylePlain];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 339, screenWidth, screenHeigth - 339) style:UITableViewStylePlain];
     }
     
     //UITableView的一些设置
@@ -136,7 +136,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
      如果是第一次打开此程序，然后判断当前网络的状况，如果有网络，则自动刷新，没有网络则不刷新
      之后再跳转到此页面只读取缓存数据
      */
-    if (([user objectForKey:@"SportMoreList"] && [user objectForKey:@"CellData"]) || [user boolForKey:@"MoreIsCache"]) {
+   if (([user objectForKey:@"SportMoreList"] && [user objectForKey:@"CellData"]) || [user boolForKey:@"MoreIsCache"]) {
         NSLog(@"=====使用缓存数据=====");
         [self setUpRefresh];
         [self getCache:^(NSMutableArray *recordList) {
