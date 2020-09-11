@@ -168,14 +168,14 @@
         [_date mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
             make.left.mas_equalTo(self.backView.mas_left).mas_offset(266);
-            make.width.equalTo(@54);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-55);
             make.height.equalTo(@17);
         }];
         
         [_currentTime mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
             make.left.mas_equalTo(self.date.mas_right).mas_offset(5);
-            make.width.equalTo(@35);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
             make.height.equalTo(@17);
         }];
         
@@ -200,6 +200,20 @@
             make.right.mas_equalTo(self.mas_right);
             make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-66);
         }];
+        
+        [_date mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(266);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-55);
+            make.height.equalTo(@17);
+        }];
+        
+        [_currentTime mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(14);
+            make.left.mas_equalTo(self.date.mas_right).mas_offset(5);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
+            make.height.equalTo(@17);
+        }];
     }
     
     [_userIcon mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -211,10 +225,9 @@
     
     [_userName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.backView.mas_top).mas_offset(42);
-        make.bottom.equalTo(self.userIcon.mas_bottom);
         make.left.mas_equalTo(self.userIcon.mas_right).mas_offset(14);
         make.width.equalTo(@127);
-//        make.height.equalTo(@22);
+        make.height.equalTo(@22);
     }];
     
     [_kmLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -233,57 +246,60 @@
     
     [_speedLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(15);
-        make.width.equalTo(@78);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.04);
+        make.width.mas_equalTo(screenWidth * 0.208);
         make.height.equalTo(@29);
     }];
     
     [_speed mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.speedLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(24);
-        make.width.equalTo(@62);
+        make.left.mas_equalTo(self.speedLab.mas_left).mas_offset(9);
+        make.right.mas_equalTo(self.speedLab.mas_right).mas_offset(-7);
         make.height.equalTo(@24);
     }];
     
     [_paceLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(104);
-        make.width.equalTo(@78);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.2773);
+//        make.width.equalTo(@78);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-(screenWidth * 0.5147));
         make.height.equalTo(@29);
     }];
     
     [_pace mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.paceLab.mas_bottom).mas_offset(4);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(125);
-        make.width.equalTo(@36);
+        make.left.mas_equalTo(self.paceLab.mas_left).mas_offset(21);
+        make.right.mas_equalTo(self.paceLab.mas_right).mas_offset(-21);
         make.height.equalTo(@24);
     }];
     
     [_timeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-104);
-        make.width.equalTo(@90); //78
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.5147);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-(screenWidth * 0.2773));
+//        make.width.equalTo(@90); //78
         make.height.equalTo(@29);
     }];
     
     [_time mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.timeLab.mas_bottom).mas_offset(4);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-125);
-        make.width.equalTo(@36);
+        make.left.mas_equalTo(self.timeLab.mas_left).mas_offset(21);
+        make.right.mas_equalTo(self.timeLab.mas_right).mas_offset(-21);
         make.height.equalTo(@24);
     }];
     
     [_calLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.userIcon.mas_bottom).mas_offset(25);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
-        make.width.equalTo(@78);
+        make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.752);
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-(screenWidth * 0.04));
+//        make.width.equalTo(@78);
         make.height.equalTo(@29);
     }];
     
     [_cal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.timeLab.mas_bottom).mas_offset(4);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-36);
-        make.width.equalTo(@36);
+        make.left.mas_equalTo(self.calLab.mas_left).mas_offset(21);
+        make.right.mas_equalTo(self.calLab.mas_right).mas_offset(-21);
         make.height.equalTo(@24);
     }];
     
@@ -293,55 +309,24 @@
 - (void)test {
    
     //设置地图相关属性
-       self.mapView.zoomLevel = 18;
+    self.mapView.zoomLevel = 18;
     self.mapView.mapType = MAMapTypeStandard; //设置地图的样式
-       self.mapView.showsUserLocation = NO; //不显示小蓝点
-       self.mapView.userTrackingMode = MAUserTrackingModeFollow;
-       self.mapView.pausesLocationUpdatesAutomatically = NO;
-       self.mapView.showsCompass = NO;
-       self.mapView.showsScale = NO;
+   self.mapView.showsUserLocation = NO; //不显示小蓝点
+   self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+   self.mapView.pausesLocationUpdatesAutomatically = NO;
+   self.mapView.showsCompass = NO;
+   self.mapView.showsScale = NO;
 //       self.mapView.userInteractionEnabled = YES;  //是否禁止地图与用户的交互
-       [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
-       self.mapView.distanceFilter = 10;
-    //自定义用户小蓝点，不让其显示精度圈
-        MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
-            r.showsAccuracyRing = NO;//不显示精度圈
-            r.image = [UIImage imageNamed:@"userAnnotation"];
-            [self.mapView updateUserLocationRepresentation:r];
-            self.mapView.userInteractionEnabled = NO;
-    //自定义地图
-    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-         MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-         options.styleData = data;
-     [self.mapView setCustomMapStyleOptions:options];
-     [self.mapView setCustomMapStyleEnabled:YES];
-    
-    //测试温度
-    _degree.text = @"23°C";
-//    //测试头像
-//    _userIcon.image = [UIImage imageNamed:@"avatar"];
-//    //测试用户名
-//    _userName.text = @"你的寒王";
-    
+   [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
+   self.mapView.distanceFilter = 10;
+//自定义用户小蓝点，不让其显示精度圈
+    MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
+    r.showsAccuracyRing = NO;//不显示精度圈
+    r.image = [UIImage imageNamed:@"userAnnotation"];
+    [self.mapView updateUserLocationRepresentation:r];
+    self.mapView.userInteractionEnabled = NO;
     [self getUserInfo];
-//    [self getUserData];
-    
-    //测试公里数
-    _kmLab.text = @"37.26";
-    //测试配速
-    _speedLab.text = @"3'55''";
-    //测试步频
-    _paceLab.text = @"132";
-    //测试时间
-    _timeLab.text = @"6:16";
-    //测试千卡
-    _calLab.text = @"131";
-    //测试日期
-    _date.text = @"10月23日";
-    //测试时间
-    _currentTime.text = @"20:36";
-    
+
     //天气的图片框
     self.weatherImagview = [[UIImageView alloc] init];
     [self addSubview:self.weatherImagview];
@@ -351,8 +336,7 @@
         make.width.mas_equalTo(25);
     }];
 }
-//网络请求 ，从网络上获取用户的头像、昵称
-
+//获取用户的头像、昵称
 - (void)getUserInfo {
     NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
     NSString *nickName = [user objectForKey:@"nickname"];
@@ -363,3 +347,4 @@
 
 
 @end
+

@@ -10,13 +10,9 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"km"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"min"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cal"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportList"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportMoreList"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MoreIsFirst"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MineIsFirst"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }

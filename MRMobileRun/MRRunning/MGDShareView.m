@@ -9,6 +9,8 @@
 #import <SVGKit.h>
 #import <Masonry.h>
 
+#define SHAWDOWCOLOR [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.1]
+#define CANCELCOLOR [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1]
 @interface MGDShareView()
 
 
@@ -103,16 +105,24 @@
         
         //弹出的View
         _popView = [[UIView alloc] init];
+        
+        _popView.layer.cornerRadius = 12;
+        _popView.layer.shadowColor = SHAWDOWCOLOR.CGColor;
+        _popView.layer.shadowOffset = CGSizeMake(0,2);
         _popView.layer.shadowOpacity = 1;
         _popView.layer.shadowRadius = 6;
-        _popView.layer.shadowOffset = CGSizeMake(0, 2);
         [self showView];
         [self.backView addSubview:_popView];
         
         //截图
         _shotImage = [[UIImageView alloc] init];
         _shotImage.backgroundColor = [UIColor clearColor];
-        //_shotImage.image = [UIImage imageNamed:@"约跑icon-1"];
+        _shotImage.layer.cornerRadius = 12;
+        _shotImage.layer.shadowColor = SHAWDOWCOLOR.CGColor;
+        _shotImage.layer.shadowOffset = CGSizeMake(0,2);
+        _shotImage.layer.shadowOpacity = 1;
+        _shotImage.layer.shadowRadius = 6;
+        _shotImage.layer.masksToBounds = YES;
         [self.popView addSubview:_shotImage];
         
         //两个小的UIImageview
@@ -136,6 +146,7 @@
         _cancelBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
         _cancelBtn.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 16];
+        _cancelBtn.tintColor = CANCELCOLOR;
         [self.backView addSubview:_cancelBtn];
         
         if (@available(iOS 11.0, *)) {

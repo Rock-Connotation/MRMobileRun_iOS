@@ -464,6 +464,7 @@
             CGFloat itemCountY = 5;
             CGFloat itemYH = (YLen - 6) / itemCountY;
             CGFloat YlabMargin = 15;
+            CGFloat itemCountX = 31;
             
             _axisY.backgroundColor = MGDlineColor.CGColor;
             _axisX.backgroundColor = MGDlineColor.CGColor;
@@ -478,7 +479,9 @@
                 _labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",(long)i+1] font:8 frame:CGRectMake(YlabMargin, _itemY.frame.origin.y - 11, 5, 11)];
                 [self.chartView.layer addSublayer:_labelY];
             }
-            _labelX.foregroundColor = MGDtextXColor.CGColor;
+            for (NSInteger i = 0; i < itemCountX; i++) {
+                _labelX.foregroundColor = MGDtextXColor.CGColor;
+            }
         }
     }
 }

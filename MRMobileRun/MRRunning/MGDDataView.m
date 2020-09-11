@@ -89,9 +89,6 @@
         } else {
                    // Fallback on earlier versions
         }
-        
-        [self test];
-        
     }
     return self;
 }
@@ -135,9 +132,9 @@
     }];
     
     [_speedLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.speed.mas_bottom);
         make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(145);
         make.right.mas_equalTo(self.speedBackView.mas_right).mas_offset(-140);
-        make.width.equalTo(@90);
         make.height.equalTo(@34);
     }];
     
@@ -178,11 +175,6 @@
         make.height.equalTo(@16);
     }];
 
-}
-
-- (void)test {
-    _paceLab.text = @"193";
-    _speedLab.text = @"5.42";
 }
 
 @end
