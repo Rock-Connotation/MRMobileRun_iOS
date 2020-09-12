@@ -59,14 +59,32 @@
     r.showsAccuracyRing = NO;//不显示精度圈
 //    r.image = [UIImage imageNamed:@"userAnnotation"];
     [self.mapView updateUserLocationRepresentation:r];
-//    //  自定义地图样式
-       NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-       NSData *data = [NSData dataWithContentsOfFile:path];
-        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-        options.styleData = data;
-    [self.mapView setCustomMapStyleOptions:options];
-    [self.mapView setCustomMapStyleEnabled:YES];
-    //
+    
+    //监听是否是深色模式，并根据模式设置自定义地图样式
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        if (mode == UIUserInterfaceStyleDark) {
+            NSLog(@"深色模式");
+            
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                  NSData *data = [NSData dataWithContentsOfFile:path];
+                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                   options.styleData = data;
+               [self.mapView setCustomMapStyleOptions:options];
+               [self.mapView setCustomMapStyleEnabled:YES];
+        } else if (mode == UIUserInterfaceStyleLight) {
+            NSLog(@"浅色模式");
+            
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+               NSData *data = [NSData dataWithContentsOfFile:path];
+                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+        } else {
+            NSLog(@"未知模式");
+        }
+    }
 }
 
 //在地图上添加控件

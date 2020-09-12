@@ -29,7 +29,7 @@
 #import "MGDDataViewController.h"
 #import "SZHAlertView.h" //跑步距离过短时结束的提示弹窗
 #import "RecordtimeString.h"
-@interface RunMainPageCV ()<MAMapViewDelegate,AMapLocationManagerDelegate,CLLocationManagerDelegate,AMapSearchDelegate>
+@interface RunMainPageCV ()<MAMapViewDelegate,AMapLocationManagerDelegate,CLLocationManagerDelegate,AMapSearchDelegate,UITraitEnvironment>
 {
     CGFloat _yyy;
 }
@@ -905,6 +905,38 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     [locationManager requestAlwaysAuthorization];
 }
 
+//监听系统的颜色模式来配置地图的白天、深色模式下的自定义样式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange: previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
+            if (@available(iOS 13.0, *)) {
+              UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+                if (mode == UIUserInterfaceStyleDark) {
+                    NSLog(@"深色模式");
+                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                          NSData *data = [NSData dataWithContentsOfFile:path];
+                           MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                           options.styleData = data;
+                    [self.Mainview.mapView setCustomMapStyleOptions:options];
+                    [self.Mainview.mapView setCustomMapStyleEnabled:YES];
+                } else if (mode == UIUserInterfaceStyleLight) {
+                    NSLog(@"浅色模式");
+                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+                       NSData *data = [NSData dataWithContentsOfFile:path];
+                        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                        options.styleData = data;
+                    [self.Mainview.mapView setCustomMapStyleOptions:options];
+                    [self.Mainview.mapView setCustomMapStyleEnabled:YES];
+                } else {
+                    NSLog(@"未知模式");
+                }
+            }
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+}
 - (void)dealloc{
     NSLog(@"跑步首页控制器已经被销毁了！");
 }

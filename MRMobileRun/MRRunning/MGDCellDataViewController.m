@@ -26,7 +26,7 @@
 #import "ZYLMainViewController.h"
 #import "MRTabBarController.h"
 
-@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
+@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,UITraitEnvironment>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
@@ -113,7 +113,10 @@
     [self.overView.mapView setCenterCoordinate:centerCL];
     self.overView.mapView.zoomLevel = 15;
     self.overView.mapView.userInteractionEnabled = YES;
+    
+    
 }
+
     //适配各个View的深色模式以及页面布局
 - (void)fit{
     //适配深色模式
@@ -471,5 +474,39 @@
 }
 - (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
     [locationManager requestAlwaysAuthorization];
+}
+
+//监听系统的颜色模式来配置地图的白天、深色模式下的自定义样式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange: previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
+            if (@available(iOS 13.0, *)) {
+              UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+                if (mode == UIUserInterfaceStyleDark) {
+                    NSLog(@"深色模式");
+                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                          NSData *data = [NSData dataWithContentsOfFile:path];
+                           MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                           options.styleData = data;
+                    [self.overView.mapView setCustomMapStyleOptions:options];
+                    [self.overView.mapView setCustomMapStyleEnabled:YES];
+                } else if (mode == UIUserInterfaceStyleLight) {
+                    NSLog(@"浅色模式");
+                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+                       NSData *data = [NSData dataWithContentsOfFile:path];
+                        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                        options.styleData = data;
+                    [self.overView.mapView setCustomMapStyleOptions:options];
+                    [self.overView.mapView setCustomMapStyleEnabled:YES];
+                } else {
+                    NSLog(@"未知模式");
+                }
+            }
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    
 }
 @end

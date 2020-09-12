@@ -13,6 +13,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+API_AVAILABLE(ios(12.0))
+API_AVAILABLE(ios(12.0))
 @interface MGDOverView : UIView
 //@property (nonatomic, strong) MAMapView *mapView2;
 
@@ -54,6 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 //时间
 @property (nonatomic, strong) UILabel *currentTime;
 
+@property (nonatomic, readonly) UITraitCollection *traitCollection;
+
+@property (nonatomic, assign) UIUserInterfaceStyle mode;
 
 @end
 
