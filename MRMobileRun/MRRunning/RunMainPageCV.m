@@ -37,8 +37,8 @@
 
 //关于时间
 @property (nonatomic, strong) NSTimer *runTimer;
-@property (nonatomic, strong) NSString *beginTime;  //开始的时间（系统时间）
-@property (nonatomic, strong) NSString *endTime;    //结束时间（系统时间）
+@property (nonatomic, strong) NSDate *beginTime;  //开始的时间（系统时间）
+@property (nonatomic, strong) NSDate *endTime;    //结束时间（系统时间）
 @property (nonatomic, strong) NSString *timeString; //跑步的时间（经历过格式转换后的）
 @property (nonatomic) int hour;
 @property (nonatomic) int minute;
@@ -47,7 +47,7 @@
 //数组
     //关于步频
 @property (nonatomic, strong) NSMutableArray *stepsAry; //每分钟的步数
-@property (nonatomic, strong) NSArray *originalStepsAry; //原始的步频数组
+//@property (nonatomic, strong) NSArray *originalStepsAry; //原始的步频数组
 @property (nonatomic, strong) NSArray *updateStepsAry; //上传的步频数组
 @property int averageStepFrequency; //平均步频
 @property int maxStepFrequency; //最大步频
@@ -57,7 +57,7 @@
 
     //关于速度
 @property (nonatomic, strong) NSMutableArray *speedAry; //速度的数组
-@property (nonatomic, strong) NSArray *originalSpeedAry;//原始的速度数组
+//@property (nonatomic, strong) NSArray *originalSpeedAry;//原始的速度数组
 @property (nonatomic, strong) NSArray *updateSpeedAry; //上传的速度数组
 @property double averageSpeed; //平均速度
 @property double maxSpeed; //最大速度
@@ -111,14 +111,11 @@
     //关于一些初始化设置
     self.locationArray = [NSMutableArray array];
     self.drawLineArray = [NSMutableArray array];
-    self.beginTime = [ZYLTimeStamp getTimeStamp]; //跑步开始的时间
     self.distance = 0;
     self.kcal = 0;
     self.mintesAry = [NSMutableArray array];
     self.stepsAry = [NSMutableArray array];
     self.speedAry = [NSMutableArray array];
-    self.originalStepsAry = [NSArray array];
-    self.originalSpeedAry = [NSArray array]; //原始的速度数组
     self.updateSpeedAry = [NSArray array];
     self.updateStepsAry = [NSArray array];
     self.pathMuteAry = [NSMutableArray array];
@@ -140,8 +137,6 @@
     self.Mainview.mapView.delegate = self; //设置地图代理
     [self initAMapLocation]; //初始化位置管理者
     
-    self.mileNumberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
-    
     [self btnFunction]; //跑步首页关于继续暂停等按钮的方法
     self.Mainview.mapView.delegate = self;
     
@@ -150,6 +145,10 @@
     self.search.delegate = self;
     
    // 跑步时间初始化
+        //得到最初的开始时间
+    NSDate *date = [NSDate date];
+    self.beginTime = date;
+    NSLog(@"第一次开始的时间是===%@",date);
     self.runTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startTimer) userInfo:nil repeats:YES];
      self.second = self.minute = self.hour = 0;
 }
@@ -278,7 +277,124 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
         
         }
 }
-#pragma mark- 定位数据
+
+#pragma mark- ---------------------------------地图的代理方法------------------------------------
+    //设置地图的自动转向以及用户小蓝点的自动转向
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
+//    self.signal = userLocation.location.horizontalAccuracy;
+//        //根据信号强度设置信号强度的照片
+//        if (self.signal < 20 ) {
+//              //信号强
+//              self.Mainview.GPSSignal.image = [UIImage imageNamed:@"信号三格"];
+//          }else if(self.signal < 70){
+//              //信号中等
+//              self.Mainview.GPSSignal.image = [UIImage imageNamed:@"信号二格"];
+//          }else{
+//              //信号差
+//              self.Mainview.GPSSignal.image = [UIImage imageNamed:@"信号一格"];
+//          }
+//        //GPS信号大于0。小于80的时候进来
+//         if (userLocation.location.horizontalAccuracy < 80 && userLocation.location.horizontalAccuracy > 0){
+//             //设置地图中心为当前的经纬度
+//             [self.Mainview.mapView setCenterCoordinate:userLocation.location.coordinate];
+//             //最开始的一个定位点
+//              if (self.locationArray.count == 0) {
+//                RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
+//                  StartPointModel.location = userLocation.location.coordinate;
+//                  StartPointModel.speed = userLocation.location.speed;
+//                  StartPointModel.time = userLocation.location.timestamp;
+//                [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
+//                [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
+//
+//                  //收集速度
+//                  double speed = userLocation.location.speed;
+//                  NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+//                  [self.speedAry addObject:speedStr];
+//
+//                //展示配速
+//                int speedMinutes = (int)(1000/StartPointModel.speed)/60;
+//                int speedSeconds = (int)(1000/StartPointModel.speed)%60;
+//                  if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
+//                    self.Mainview.speedNumberLbl.text = @"--'--''";
+//                }else if(speedMinutes > 0){
+//                    self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
+//                }
+//                  //位置数组不为空，开始后续的定位点
+//            }else if (self.locationArray.count != 0) {
+//                    RunLocationModel *LastlocationModel = self.locationArray.lastObject;
+//                //当前定位的位置信息model
+//                RunLocationModel *currentModel = [[RunLocationModel alloc] init];
+//                currentModel.location = userLocation.location.coordinate;
+//                currentModel.time = userLocation.location.timestamp;
+//                currentModel.speed = userLocation.location.speed;
+//                //收集速度
+//                double speed = userLocation.location.speed;
+//                NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+//                [self.speedAry addObject:speedStr];
+//
+//                double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
+//                //过滤偏移
+//                if (currentModel.speed < 13) {
+//                     self.locationModel = currentModel;
+//                     [self.locationArray addObject:self.locationModel]; //向位置数组里添加跑步过程中每次定位的定位点
+//                     double KMeters = meters/1000;
+//                     self.distance = self.distance + KMeters;
+//                     self.mileNumberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+//
+//                    //计算配速
+//                    int speedMinutes = (int)(1000/self.locationModel.speed)/60;
+//                    int speedSeconds = (int)(1000/self.locationModel.speed)%60;
+//                    if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
+//                        self.Mainview.speedNumberLbl.text = @"--'--''";
+//                    }else if(speedMinutes > 0){
+//                      self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
+//                    }
+//                    //计算燃烧千卡
+//                    self.kcal = 60 * self.distance * 1.036;
+//                    self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%0.1f",self.kcal];
+//                           }
+//
+//    #pragma mark- 绘制轨迹
+//                //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
+//                if (meters >= 5) {
+//                    RunLocationModel *lineLastPointLocation = [self.drawLineArray lastObject];
+//                    //开始绘制轨迹
+//                    CLLocationCoordinate2D linePoints[2];
+//                    linePoints[0] = lineLastPointLocation.location;
+//                    linePoints[1] = self.locationModel.location;
+//                    //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
+//                    MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
+//                    [self.Mainview.mapView addOverlay:lineSection];
+//                    [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
+//                    NSLog(@"绘制轨迹的数组内的元素个数为%lu-----位置数组内的元素个数为%lu",(unsigned long)self.drawLineArray.count,(unsigned long)self.locationArray.count);
+//                }
+//            }
+//        }
+//
+//        //获取实时天气
+////        NSLog(@"逆地理编码为%@",reGeocode);
+//    //    if (reGeocode != nil) {
+//    //        AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
+//    //        request.city = reGeocode.city;
+//    //        request.type = AMapWeatherTypeLive; //天气类型为实时天气
+//    //        [self.search AMapWeatherSearch:request];
+//    //    }
+//        AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
+//        request.city = @"重庆";
+//        request.type = AMapWeatherTypeLive; //天气类型为实时天气
+//        [self.search AMapWeatherSearch:request];
+    
+    //设置用户小蓝点的自动转向
+    if (!updatingLocation) {
+         MAAnnotationView *userLocationView = [mapView viewForAnnotation:mapView.userLocation];
+         [UIView animateWithDuration:0.1 animations:^{
+            double degree = userLocation.heading.trueHeading - self.Mainview.mapView.rotationDegree;
+            userLocationView.imageView.transform = CGAffineTransformMakeRotation(degree * M_PI / 180.f );
+        }];
+    }
+}
+
+//定位数据
 - (void)amapLocationManager:(AMapLocationManager *)manager didUpdateLocation:(CLLocation *)location reGeocode:(AMapLocationReGeocode *)reGeocode{
     self.signal = location.horizontalAccuracy;
     //根据信号强度设置信号强度的照片
@@ -294,20 +410,23 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
       }
     //GPS信号大于0。小于80的时候进来
      if (self.signal < 80 && self.signal >0){
-        [self.Mainview.mapView setCenterCoordinate:location.coordinate];//设置地图中心
+         //设置地图中心为当前的经纬度
+        [self.Mainview.mapView setCenterCoordinate:location.coordinate];
+         //最开始的一个定位点
           if (self.locationArray.count == 0) {
             RunLocationModel *StartPointModel = [[RunLocationModel alloc] init];
             StartPointModel.location = location.coordinate;
             StartPointModel.speed = location.speed;
             StartPointModel.time = location.timestamp;
-              //收集速度
-              self.maxSpeed = location.speed;
-              double speed = location.speed;
-              NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
-              [self.speedAry addObject:speedStr];
-              
             [self.locationArray addObject:StartPointModel];//向位置数组里面添加第一个定位点
             [self.drawLineArray addObject:StartPointModel];//向绘制轨迹点的数组里添加第一个定位点
+
+              //收集速度
+              double speed = location.speed;
+              NSLog(@"速度为%f",speed);
+              NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+              [self.speedAry addObject:speedStr];
+              NSLog(@"第一次添加速度%@",self.speedAry);
             //展示配速
             int speedMinutes = (int)(1000/StartPointModel.speed)/60;
             int speedSeconds = (int)(1000/StartPointModel.speed)%60;
@@ -316,6 +435,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
             }else if(speedMinutes > 0){
                 self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
             }
+              //位置数组不为空，开始后续的定位点
         }else if (self.locationArray.count != 0) {
                 RunLocationModel *LastlocationModel = self.locationArray.lastObject;
             //当前定位的位置信息model
@@ -323,15 +443,16 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
             currentModel.location = location.coordinate;
             currentModel.time = location.timestamp;
             currentModel.speed = location.speed;
-            //比较此处定位点的速度是否比最大速度大，是的话将其赋值给最大速度
-            if (self.maxSpeed < currentModel.speed) {
-                self.maxSpeed = currentModel.speed;
-            }
-            //收集速度
-            double speed = location.speed;
-            NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
-            [self.speedAry addObject:speedStr];
             
+            //收集速度,每半分钟采集一次
+            NSLog(@"%d",self.second);
+            if (self.second % 30 == 0) {
+                double speed = location.speed;
+                NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+                [self.speedAry addObject:speedStr];
+            }
+            NSLog(@"速度数组内的数目为%lu",(unsigned long)self.speedAry.count);
+
             double meters = [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
             //过滤偏移
             if (currentModel.speed < 13) {
@@ -340,7 +461,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                  double KMeters = meters/1000;
                  self.distance = self.distance + KMeters;
                  self.mileNumberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
-                
+
                 //计算配速
                 int speedMinutes = (int)(1000/self.locationModel.speed)/60;
                 int speedSeconds = (int)(1000/self.locationModel.speed)%60;
@@ -353,7 +474,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                 self.kcal = 60 * self.distance * 1.036;
                 self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%0.1f",self.kcal];
                        }
-            
+
 #pragma mark- 绘制轨迹
             //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
             if (meters >= 5) {
@@ -370,9 +491,9 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
             }
         }
     }
-    
+
     //获取实时天气
-    NSLog(@"逆地理编码为%@",reGeocode);
+//    NSLog(@"逆地理编码为%@",reGeocode);
 //    if (reGeocode != nil) {
 //        AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
 //        request.city = reGeocode.city;
@@ -383,9 +504,10 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     request.city = @"重庆";
     request.type = AMapWeatherTypeLive; //天气类型为实时天气
     [self.search AMapWeatherSearch:request];
-    
+
 }
-    //计算距离
+
+//计算距离
 -(CLLocationDistance )distanceWithLocation:(RunLocationModel *)lastModel andLastButOneModel:(RunLocationModel *)lastButOneModel{
         CLLocationDistance Meters = 0;
     MAMapPoint point1 = MAMapPointForCoordinate(lastModel.location);
@@ -436,6 +558,14 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
   }
     return nil;
 }
+
+#pragma mark- 关于后台定位需要调用的代理方法
+- (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
+    [locationManager requestAlwaysAuthorization];
+}
+- (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
+    [locationManager requestAlwaysAuthorization];
+}
     
 #pragma mark- 关于时间
 //跑步时间开始
@@ -452,9 +582,12 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     self.timeString = timeString;
     //如果有一分钟了执行一下操作来获取步频
     if (self.second%60 == 0) {
-        self.endTime = [ZYLTimeStamp getTimeStamp];
+        NSDate *date = [NSDate date];
+        self.endTime = date;
+        NSLog(@"第一次以及后面很多次结束的时间为%@",self.endTime);
         [self caculatePace]; //获取这一分钟内的步数
         self.beginTime = self.endTime;
+        NSLog(@"后续开始时间为%@",self.beginTime);
     }
     
 }
@@ -544,7 +677,6 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     self.duration = self.second; //总时间
     
     //设置上传的速度数组
-    self.originalSpeedAry = self.speedAry; //原始的速度数组
     NSMutableArray *mueArySpeed2 = [NSMutableArray array];
     for (int i = 0; i < self.speedAry.count; i++) {
        
@@ -566,27 +698,24 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     }
     NSArray *updateSpeedAry = mueArySpeed2;
     self.updateSpeedAry = updateSpeedAry;
-    NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
     NSLog(@"上传的的速度数组为%@",self.updateSpeedAry);
     
-    //设置上传的步频数组
-    if (self.stepsAry != nil) {
-        self.originalStepsAry = self.stepsAry; //原始的步频数组
-        NSMutableArray *muteStepsArray = [NSMutableArray array];
-        for (int i = 0; i < self.stepsAry.count; i++) {
-            int steps = [self.stepsAry[i] intValue];
-            NSString *string1 = [[NSNumber numberWithInt:steps] stringValue];
-            NSString *string2 = [NSString stringWithFormat:@"%d",i+1];
-            NSMutableArray *mutearray = [NSMutableArray array];
-            [mutearray addObject:string1];
-            [mutearray addObject:string2];
-            NSArray *array = mutearray;
-            [muteStepsArray addObject:array];
-        }
-        self.updateStepsAry = muteStepsArray;
-    }
+     //设置上传的步频数组
+       if (self.stepsAry != nil) {
+           NSMutableArray *muteStepsArray = [NSMutableArray array];
+           for (int i = 0; i < self.stepsAry.count; i++) {
+               int steps = [self.stepsAry[i] intValue];
+               NSString *string1 = [[NSNumber numberWithInt:steps] stringValue];
+               NSString *string2 = [NSString stringWithFormat:@"%d",i+1];
+               NSMutableArray *mutearray = [NSMutableArray array];
+               [mutearray addObject:string1];
+               [mutearray addObject:string2];
+               NSArray *array = mutearray;
+               [muteStepsArray addObject:array];
+           }
+           self.updateStepsAry = muteStepsArray;
+       }
     
-    NSLog(@"原始的步频数组为%@",self.originalStepsAry);
     [self averageSpeedAndSteps];           //找出平均速度和平均步频
     //为跑步结束页的图表处理步频和速度数组并且找出处理后的最大数组和最大步频
     [self caculateSpeedAndStpesArray];
@@ -685,25 +814,16 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 #pragma mark-步频和配速
 //步频
 - (void)caculatePace{
-    GYYHealthManager *healthManager = [GYYHealthManager shareInstance];
+   GYYHealthManager *healthManager = [GYYHealthManager shareInstance];
     [healthManager authorizeHealthKit:^(BOOL success, NSError * _Nonnull error){
         __weak typeof(self) weakSelf = self;   //block里避免循环引用，要用__weak 弱引用self    避免循环引用
         __block NSString *steps;   //不是属性的基本类型，要用__block修饰
         //异步去读取跑步时的步数
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [healthManager getStepCountFromBeginTime:[ZYLTimeStamp getDateFromTimeStamp:self.beginTime] ToEndTime:[ZYLTimeStamp getDateFromTimeStamp:self.endTime] completion:^(double stepValue, NSError * _Nonnull error) {
-                //找出最大的步频
-                if (stepValue != 0) {
-                                    //找出最大的步频
-                    if (weakSelf.stepsAry.count == 0) {
-                        self.maxStepFrequency = (int)stepValue;
-                    }else if(weakSelf.stepsAry.count != 0){
-                            if (self.maxStepFrequency < (int)stepValue) {
-                            self.maxStepFrequency = (int)stepValue;
-                        }
-                    }
-                }
+            [healthManager getStepCountFromBeginTime:self.beginTime ToEndTime:self.endTime completion:^(double stepValue, NSError * _Nonnull error) {
+                
                 steps = [[NSNumber numberWithDouble:stepValue] stringValue];
+                
             }];
             //回到主线程
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -717,25 +837,21 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 
 //找出平均步频和平均速度
 - (void)averageSpeedAndSteps{
-    //平均速度
-    double totleSpeed = 0;
-    for (int i = 0; i < self.originalSpeedAry.count; i++) {
-        NSString *speedStr = self.originalSpeedAry[i];
-        double speed = [speedStr doubleValue];
-        totleSpeed = speed + totleSpeed;
-    }
-    self.averageSpeed = totleSpeed/self.originalSpeedAry.count;
-    NSLog(@"此次跑步的平均速度为%f",self.averageSpeed);
+     //平均速度
+        self.averageSpeed = 0; //对平均速度进行初始赋值
+        self.averageSpeed = (self.distance * 1000)/self.second;
+    //    NSLog(@"此次跑步的平均速度为%f",self.averageSpeed);
     
     //平均步频
+    self.averageStepFrequency = 0; //对平均步频进行初始赋值
     if (!self.stepsAry) {
         int totleSteps = 0;
-        for (int i = 0; i < self.originalStepsAry.count; i++) {
-            NSString *stepsStr = self.originalStepsAry[i];
+        for (int i = 0; i < self.stepsAry.count; i++) {
+            NSString *stepsStr = self.stepsAry[i];
             int steps = [stepsStr intValue];
             totleSteps = totleSteps + steps;
         }
-        self.averageStepFrequency = totleSteps/self.originalStepsAry.count;
+        self.averageStepFrequency = totleSteps/self.stepsAry.count;
     }
 }
 
@@ -744,38 +860,44 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     //处理步频的数组并找出处理后的最大步频
     self.maxStepLast = 0;
     NSMutableArray *stepsMuteAry = [NSMutableArray array];
-    for (int i = 0; i < self.stepsAry.count; i += 5) {
-        NSString *stepStr = self.stepsAry[i];
-        [stepsMuteAry addObject:stepStr];
-        //找出最处理后的数组中最大的步频
-        double step = [stepStr doubleValue];
-        if (self.maxStepLast < step) {
-            self.maxStepLast = step;
+    if (self.stepsAry != nil) {
+            //五分钟一个点
+         for (int i = 0; i < self.stepsAry.count; i += 5) {
+             // 0 0 0 0 0 0/ 0 0 0 0 0
+               NSString *stepStr = self.stepsAry[i];
+               [stepsMuteAry addObject:stepStr];
+               //找出最处理后的数组中最大的步频
+               double step = [stepStr doubleValue];
+               if (self.maxStepLast < step) {
+                   self.maxStepLast = step;
+               }
+           }
+           self.cacultedStepsAry = stepsMuteAry;
+        if (self.cacultedStepsAry.count != 0) {
+        NSLog(@"处理后的步频数组为%@,处理后最大的步频为%f",self.cacultedStepsAry,self.maxStepLast);
         }
     }
-    self.cacultedStepsAry = stepsMuteAry;
-    if (self.cacultedStepsAry.count != 0) {
-        NSLog(@"处理后的步频数组为%@,处理后最大的步频为%f",self.cacultedStepsAry,self.maxStepLast);
-    }
+    
     
     //处理速度的数组并找出处理后的最大速度
     self.maxSpeedLast = 0;
-    NSMutableArray *speedMuteAry = [NSMutableArray array];
-      for (int i = 0; i < self.locationArray.count; i += 32) {
-          RunLocationModel *Model = self.locationArray[i];
-          double speed = Model.speed;
-          NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
-          [speedMuteAry addObject:speedStr];
-          
-          //找出处理后的数组里最大的速度
-          if (self.maxSpeedLast < speed) {
-              self.maxSpeedLast = speed;
-          }
-      }
-      self.caculatedSpeedAry = speedMuteAry;
-    if (self.caculatedSpeedAry.count != 0) {
-        NSLog(@"处理后的速度数组为%@,处理后最大的速度为%f",self.caculatedSpeedAry,self.maxSpeedLast);
+    if (self.speedAry != nil) {
+        NSMutableArray *speedMuteAry = [NSMutableArray array];
+            //两分半记录一个点
+        for (int i = 0; i < self.speedAry.count; i += 5) {
+            RunLocationModel *Model = self.locationArray[i];
+            double speed = Model.speed;
+            NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+            [speedMuteAry addObject:speedStr];
+            //找出处理后的数组里最大的速度
+            if (self.maxSpeedLast < speed) {
+                self.maxSpeedLast = speed;
+                }
+            }
+            self.caculatedSpeedAry = speedMuteAry;
+            NSLog(@"处理后的速度数组为%@,处理后最大的速度为%f",self.caculatedSpeedAry,self.maxSpeedLast);
     }
+    
 }
 
 #pragma mark- 网络请求上传跑步数据
@@ -895,14 +1017,6 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
         NSLog(@"上传数据失败，上传的参数为");
         NSLog(@"%@",error);
     }];
-}
-
-#pragma mark- 关于后台定位需要调用的代理方法
-- (void)amapLocationManager:(AMapLocationManager *)manager doRequireLocationAuth:(CLLocationManager *)locationManager{
-    [locationManager requestAlwaysAuthorization];
-}
-- (void)mapViewRequireLocationAuth:(CLLocationManager *)locationManager{
-    [locationManager requestAlwaysAuthorization];
 }
 
 //监听系统的颜色模式来配置地图的白天、深色模式下的自定义样式
