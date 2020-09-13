@@ -111,72 +111,75 @@
 - (void)setFrame {
         [_dayLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView.mas_top);
-            make.right.mas_equalTo(self.cellView.mas_left).mas_offset(-11);
-            make.width.equalTo(@55);
-            make.height.equalTo(@24);
+            make.right.mas_equalTo(self.cellView.mas_left).mas_offset(-screenWidth * 0.0293);
+            make.left.mas_equalTo(self.mas_left).mas_offset(screenWidth * 0.022);
+            make.height.mas_equalTo(screenHeigth * 0.036);
         }];
         
         [_timeLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.dayLab.mas_bottom).mas_offset(-1);
             make.right.mas_equalTo(self.dayLab);
-            make.width.equalTo(@30);
+            make.left.mas_equalTo(self.mas_left).mas_offset(screenWidth * 0.0773);
             make.height.equalTo(@14);
         }];
         
         [_cellView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView.mas_top);
-            make.left.mas_equalTo(self.contentView.mas_left).mas_offset(80);
+            make.left.mas_equalTo(self.contentView.mas_left).mas_offset(screenWidth * 0.2133);
             make.right.mas_equalTo(self.contentView.mas_right);
-            make.height.equalTo(@60);
+            make.height.mas_equalTo(screenHeigth * 0.09);
         }];
+    
+        CGFloat w = screenWidth * 0.7867;
+        CGFloat h = screenHeigth * 0.09;
         
         [_kmLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(13);
-            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(7);
-            make.width.equalTo(@70);
-            make.height.equalTo(@18);
+            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(h * 0.2167);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.0237);
+            make.width.mas_equalTo(w * 0.2373);
+            make.height.mas_equalTo(h * 0.3);
         }];
         
         [_kmUnit mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(32);
-            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(23);
-            make.width.equalTo(@36);
-            make.height.equalTo(@14);
+            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(h * 0.5333);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.078);
+            make.width.mas_equalTo(w * 0.122);
+            make.height.mas_equalTo(h * 0.2333);
         }];
         
         [_minLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(13);
-            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(99);
-            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-126);
-            make.height.equalTo(@18);
+            make.top.mas_equalTo(self.kmLab);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.3356);
+            make.width.mas_equalTo(self.kmLab);
+            make.height.mas_equalTo(self.kmLab);
         }];
         
         [_minUnit mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(32);
-            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(115);
-            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-144);
-            make.height.equalTo(@14);
+            make.top.mas_equalTo(self.kmUnit);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.3898);
+            make.width.mas_equalTo(self.kmUnit);
+            make.height.mas_equalTo(self.kmUnit);
         }];
         
         [_calLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(13);
-            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-34);
-            make.width.equalTo(@70);
-            make.height.equalTo(@18);
+            make.top.mas_equalTo(self.kmLab);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.6475);
+            make.width.mas_equalTo(self.kmLab);
+            make.height.mas_equalTo(self.kmLab);
         }];
         
         [_calUnit mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(32);
-            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-51);
-            make.width.equalTo(@36);
-            make.height.equalTo(@14);
+            make.top.mas_equalTo(self.kmUnit);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.7051);
+            make.width.mas_equalTo(self.kmUnit);
+            make.height.mas_equalTo(self.kmUnit);
         }];
         
         [_arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(23);
-            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-17);
-            make.width.equalTo(@14.14);
-            make.height.equalTo(@14.14);
+            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(h * 0.3833);
+            make.bottom.mas_equalTo(self.cellView.mas_bottom).mas_offset(-h * 0.3833);
+            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-w * 0.0576);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.8949);
         }];
 }
 

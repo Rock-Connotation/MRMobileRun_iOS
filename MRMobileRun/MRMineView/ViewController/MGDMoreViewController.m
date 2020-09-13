@@ -92,7 +92,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     if (kIs_iPhoneX) {
         _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 361, screenWidth, screenHeigth - 361) style:UITableViewStylePlain];
     }else {
-        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 339, screenWidth, screenHeigth - 339) style:UITableViewStylePlain];
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 341, screenWidth, screenHeigth - 341) style:UITableViewStylePlain];
     }
     
     //UITableView的一些设置
@@ -116,6 +116,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     //加载数据的操作
     _recordArray = [[NSMutableArray alloc] init];
     _cellListArray = [[NSMutableArray alloc] init];
+    _tmpArray = [[NSMutableArray alloc] init];
     
     //获取缓存中的数据
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -145,9 +146,9 @@ static AFHTTPSessionManager *manager; //单例的AFN
         }];
         if ([user boolForKey:@"MoreIsFirst"]) {
             [self checkNetWorkTrans];
+            [user setBool:NO forKey:@"MoreIsFirst"];
+            [user synchronize];
         }
-        [user setBool:NO forKey:@"MoreIsFirst"];
-        [user synchronize];
     }else {
         NSLog(@"=====使用网络数据=====");
         [self setUpRefresh];
@@ -155,7 +156,13 @@ static AFHTTPSessionManager *manager; //单例的AFN
         _successHud.animationType = MBProgressHUDAnimationZoomOut;
         _successHud.mode = MBProgressHUDModeText;
         _successHud.label.text = @" 正在加载中... ";
-        [_successHud setOffset:CGPointMake(0, 25)];
+        CGFloat margin = 0;
+        if (kIs_iPhoneX) {
+            margin = 361+20 - self.view.center.y;
+        }else {
+            margin = 361+20 - self.view.center.y;
+        }
+        [_successHud setOffset:CGPointMake(0, margin)];
         [self getRecordList:^(NSMutableArray *recordList) {
             [self loadmoreDataWithPage:self->_pageNumber];
             [self setUI];
@@ -209,7 +216,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 344, screenWidth, 1)];
     }else {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 348)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 258)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 228)];
         _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 322, screenWidth, 1)];
     }
 
@@ -339,7 +346,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"12"};
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"5"};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -388,7 +395,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"12"};
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"5"};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -514,8 +521,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
  点击年份来查询柱形图，从年初到年尾的全部数据，没有网络时提醒无网络连接
  */
 - (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index {
-
-    [self.tmpArray removeAllObjects];
     NSString *year = _selectArr[index];
     NSLog(@"这是当前的年份----%@",year);
     NSDate *mydate=[NSDate date];
@@ -536,6 +541,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     NSLog(@"%@",param);
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self.tmpArray removeAllObjects];
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
@@ -545,9 +551,10 @@ static AFHTTPSessionManager *manager; //单例的AFN
             [self->_tmpArray addObject:self.userDataModel];
         }
         self->_tmpArray =  [[self->_tmpArray reverseObjectEnumerator] allObjects];
-            dispatch_async(dispatch_get_main_queue(), ^{
-            [self makeListData:self->_tmpArray];
-        });
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [self makeListData:self->_tmpArray];
+        NSLog(@"刷新年份数据");
+    });
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@",error);
         self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -564,7 +571,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 #pragma mark- 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return  78;
+    return  screenHeigth * 0.117;
 }
 
 #pragma mark- 数据源方法
@@ -649,6 +656,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
  通过缓存获取柱形图的数据
  */
 - (void)getCache:(void(^)(NSMutableArray *recordList))result {
+    [self.chartArr removeAllObjects];
     [self makeListData:self->_recordArray];
         //通过block把值传出来
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -702,10 +710,10 @@ static AFHTTPSessionManager *manager; //单例的AFN
 //秒数转换成时分秒
 -(NSString *)getMMSSFromSS:(NSString *)totalTime{
     NSInteger seconds = [totalTime integerValue];
-    NSString *str_hour = [NSString stringWithFormat:@"%02ld",(long)seconds/3600];
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    NSString *str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
     NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+    NSString *str_minute_without0 = [str_minute stringByReplacingOccurrencesOfString:@"0" withString:@""];
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute_without0,str_second];
     return format_time;
 }
 

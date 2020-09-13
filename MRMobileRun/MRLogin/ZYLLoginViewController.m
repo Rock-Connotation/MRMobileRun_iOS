@@ -62,6 +62,7 @@
 }
 
 - (void)loginFailNoData:(NSNotification*)notification{
+    //[self.waitProgress removeFromSuperview];
     self.loginProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.loginView.loginBtn setEnabled:YES];
     self.loginProgress.mode = MBProgressHUDModeText;
@@ -95,7 +96,7 @@
 
     [self.loginModel postRequestWithStudentID:self.loginView.usernameField.text   andPassword:self.loginView.passwordField.text];
     //传入登录的数据
-    if (!([self.loginView.usernameField.text length] != 0 || [self.loginView.passwordField.text length] != 0)) {
+    if (!([self.loginView.usernameField.text length] != 0 && [self.loginView.passwordField.text length] != 0)) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"isLoginFailNoData" object:nil];
     }
     else {
