@@ -62,7 +62,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     
     //UITableView的设置
     if (kIs_iPhoneX) {
-        self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
+        self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,290, screenWidth, screenHeigth) style:UITableViewStylePlain];
     }else {
       self.sportTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0,265, screenWidth, screenHeigth - tabBarHeight) style:UITableViewStylePlain];
     }
@@ -91,7 +91,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
      之后再跳转到此页面只读取缓存数据
     */
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    if (!([user objectForKey:@"km"] && [user objectForKey:@"min"] && [user objectForKey:@"cal"]) || ![user boolForKey:@"MineIsCache"]) {
+    if (!([user objectForKey:@"km"] && [user objectForKey:@"min"] && [user objectForKey:@"cal"]) && ![user boolForKey:@"MineIsCache"]) {
         NSLog(@"==三大数据使用网络请求==");
         [self getBaseInfo];
         [user setBool:YES forKey:@"MineIsCache"];
@@ -201,7 +201,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 #pragma mark- 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return  78;
+    return  screenHeigth * 0.117;
 }
 
 #pragma mark- 数据源方法
@@ -384,6 +384,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
         [self.sportTableView.mj_header endRefreshing];
         [self->_successHud removeFromSuperview];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self.sportTableView.mj_header endRefreshing];
         [self->_successHud removeFromSuperview];
         NSLog(@"报错信息%@", error);
         if (error.code == -1001) {
@@ -441,10 +442,10 @@ static AFHTTPSessionManager *manager; //单例的AFN
 //秒数转换成时分秒
 -(NSString *)getMMSSFromSS:(NSString *)totalTime{
     NSInteger seconds = [totalTime integerValue];
-    NSString *str_hour = [NSString stringWithFormat:@"%02ld",(long)seconds/3600];
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    NSString *str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
     NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+    NSString *str_minute_without0 = [str_minute stringByReplacingOccurrencesOfString:@"0" withString:@""];
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute_without0,str_second];
     return format_time;
 }
 
@@ -516,7 +517,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
                 break;
         }
     }];
-    [managerAF startMonitoring];
 }
 
 

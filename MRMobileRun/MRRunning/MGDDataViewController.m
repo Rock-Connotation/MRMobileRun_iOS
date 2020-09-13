@@ -108,7 +108,7 @@
            
             _twoBtnView = [[MGDButtonsView alloc] initWithFrame:CGRectMake(0, screenHeigth - 66, screenWidth, 66)];
            
-           _dataView = [[MGDDataView alloc] initWithFrame:CGRectMake(0, screenHeigth - 66 + 10, screenWidth, 710 + 35)];
+           _dataView = [[MGDDataView alloc] initWithFrame:CGRectMake(0, screenHeigth - 66 + 50, screenWidth, 710 + 35)];
 
        }
        
@@ -116,7 +116,11 @@
        [_twoBtnView.overBtn addTarget:self action:@selector(backRootCV) forControlEvents:UIControlEventTouchUpInside];
        [_twoBtnView.shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
        [self.view addSubview:_twoBtnView];
-       _backScrollView.contentSize = CGSizeMake(screenWidth, 1432 + 35 + 40);
+       if (kIs_iPhoneX) {
+           _backScrollView.contentSize = CGSizeMake(screenWidth, 1432 + 100);
+       }else {
+           _backScrollView.contentSize = CGSizeMake(screenWidth, screenHeigth + 667);
+       }
        [self.view addSubview:_backScrollView];
        
        //地图下，统计图上的View，配速、时间、燃烧千卡等label的数据

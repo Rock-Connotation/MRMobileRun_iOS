@@ -149,10 +149,10 @@
 
 - (void)setFrame {
     _yearLabel.frame = CGRectMake(screenWidth - 69, 5, 48, 21);
-    _headerView.frame = CGRectMake(0, 0, screenWidth - 218, 30);
+    _headerView.frame = CGRectMake(0, 0,screenWidth * 0.4187, 30);
     _chartView.frame = CGRectMake(0, 30, screenWidth, 228);
     _ChartScrollView.frame = CGRectMake(leftMargin + 1, 0, XLen, 228);
-    _ChartScrollView.contentSize = CGSizeMake(510, _ChartScrollView.frame.size.height);
+    _ChartScrollView.contentSize = CGSizeMake(screenWidth * 0.6875 * 1.80, _ChartScrollView.frame.size.height);
 }
 
 
