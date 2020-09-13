@@ -36,7 +36,6 @@
         UIImageView *CalImage = [[UIImageView alloc] init];
         self.calImage = CalImage;
         [self.backView addSubview:CalImage];
-        //测试用数据
         _calImage.image = [UIImage imageNamed:@"千卡"];
         _calImage.contentMode =  UIViewContentModeScaleAspectFit;
         
@@ -44,23 +43,21 @@
         self.Kmlab = KmLab;
         [self.backView addSubview:KmLab];
         _Kmlab.textAlignment = NSTextAlignmentCenter;
-        _Kmlab.numberOfLines = 0;
-        //字体不同，需要修改
+        //_Kmlab.numberOfLines = 0;
         _Kmlab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *MinLab = [[UILabel alloc] init];
         self.MinLab = MinLab;
         [self.backView addSubview:MinLab];
         _MinLab.textAlignment = NSTextAlignmentCenter;
-        _MinLab.numberOfLines = 0;
-        //字体不同，需要修改
+        //_MinLab.numberOfLines = 0;
         _MinLab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
         UILabel *CalLab = [[UILabel alloc] init];
         self.CalLab = CalLab;
-        [self addSubview:CalLab];
+        [self.backView addSubview:CalLab];
         _CalLab.textAlignment = NSTextAlignmentCenter;
-        _CalLab.numberOfLines = 0;
+        //_CalLab.numberOfLines = 0;
         //字体不同，需要修改
         _CalLab.font =  [UIFont fontWithName:@"Impact" size: 24];
         
@@ -70,7 +67,7 @@
         _kilometre.text = @"公里";
         _kilometre.textAlignment = NSTextAlignmentCenter;
         _kilometre.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 16];
-        _kilometre.numberOfLines = 0;
+        //_kilometre.numberOfLines = 0;
         _kilometre.textColor = UNITTEXTCOLOR;
         
         UILabel *minus = [[UILabel alloc] init];
@@ -79,7 +76,7 @@
         _minus.text = @"分";
         _minus.textAlignment = NSTextAlignmentCenter;
         _minus.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 16];
-        _minus.numberOfLines = 0;
+        //_minus.numberOfLines = 0;
         _minus.textColor = UNITTEXTCOLOR;
         
         UILabel *calories = [[UILabel alloc] init];
@@ -88,7 +85,7 @@
         _calories.text = @"千卡";
         _calories.textAlignment = NSTextAlignmentCenter;
         _calories.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 16];
-        _calories.numberOfLines = 0;
+        //_calories.numberOfLines = 0;
         _calories.textColor = UNITTEXTCOLOR;
         
         
@@ -106,75 +103,148 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(screenHeigth * 0.1441);
-        make.width.mas_equalTo(screenWidth);
-        make.top.mas_equalTo(self.mas_top);
-        make.left.mas_equalTo(self.mas_left);
-    }];
+    if (kIs_iPhoneX) {
+        [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.1441);
+            make.width.mas_equalTo(screenWidth);
+            make.top.mas_equalTo(self.mas_top);
+            make.left.mas_equalTo(self.mas_left);
+        }];
+            
+        [_KmImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.0493);
+            make.width.mas_equalTo(screenWidth * 0.1067);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.1467);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0197);
+        }];
+            
+        [_Kmlab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.0345);
+            make.width.mas_equalTo(screenWidth * 0.24);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0603);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.0773);
+        }];
         
-    [_KmImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@40);
-        make.width.equalTo(@40);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(55);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
-    }];
-        
-    [_Kmlab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@28);
-        make.width.equalTo(@90);
-        make.top.lessThanOrEqualTo(self.backView.mas_top).mas_offset(49);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(29);
-    }];
-    
-    [_kilometre mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@18);
-        make.width.equalTo(@36);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(57);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
-    }];
+        [_kilometre mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(screenWidth * 0.096);
+            make.height.mas_equalTo(screenHeigth * 0.0222);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.152);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0936);
+        }];
 
-    [_MinImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@40);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(167);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-168);
-    }];
+        [_MinImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.KmImage);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.4453);
+            make.top.mas_equalTo(self.KmImage);
+            make.width.mas_equalTo(self.KmImage);
+        }];
+            
+        [_MinLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.Kmlab);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.3813);
+            make.top.mas_equalTo(self.Kmlab);
+            make.width.mas_equalTo(self.Kmlab);
+        }];
         
-    [_MinLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@28);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(143);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(49);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-142);
-    }];
-    
-    [_minus mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@18);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(170);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-169);
-    }];
-    
-    [_calImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@40);
-        make.width.equalTo(@40);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-56);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(16);
-    }];
+        [_minus mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.kilometre);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.4533);
+            make.top.mas_equalTo(self.kilometre);
+            make.width.mas_equalTo(self.kilometre);
+        }];
         
-    [_CalLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@28);
-        make.width.equalTo(@90);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(49);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-31);
-    }];
+        [_calImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.KmImage);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.744);
+            make.top.mas_equalTo(self.KmImage);
+            make.width.mas_equalTo(self.KmImage);
+        }];
+            
+        [_CalLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.Kmlab);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.6773);
+            make.top.mas_equalTo(self.Kmlab);
+            make.width.mas_equalTo(self.Kmlab);
+        }];
 
-    [_calories mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@18);
-        make.width.equalTo(@36);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(76);
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-58);
-    }];
+        [_calories mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.kilometre);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.7493);
+            make.top.mas_equalTo(self.kilometre);
+            make.width.mas_equalTo(self.kilometre);
+        }];
+    }else {
+        [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.1754);
+            make.width.mas_equalTo(screenWidth);
+            make.top.mas_equalTo(self.mas_top);
+            make.left.mas_equalTo(self.mas_left);
+        }];
+            
+        [_KmImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.0493);
+            make.width.mas_equalTo(screenWidth * 0.1067);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.1467);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0197);
+        }];
+            
+        [_Kmlab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(screenHeigth * 0.042);
+            make.width.mas_equalTo(screenWidth * 0.24);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0735);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.0773);
+        }];
+        
+        [_kilometre mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(screenWidth * 0.108);
+            make.height.mas_equalTo(screenHeigth * 0.027);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.152);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.1139);
+        }];
+
+        [_MinImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.KmImage);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.4453);
+            make.top.mas_equalTo(self.KmImage);
+            make.width.mas_equalTo(self.KmImage);
+        }];
+            
+        [_MinLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.Kmlab);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.3813);
+            make.top.mas_equalTo(self.Kmlab);
+            make.width.mas_equalTo(self.Kmlab);
+        }];
+        
+        [_minus mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.kilometre);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.4533);
+            make.top.mas_equalTo(self.kilometre);
+            make.width.mas_equalTo(self.kilometre);
+        }];
+        
+       [_calImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.KmImage);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.744);
+            make.top.mas_equalTo(self.KmImage);
+            make.width.mas_equalTo(self.KmImage);
+        }];
+            
+        [_CalLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.Kmlab);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.6773);
+            make.top.mas_equalTo(self.Kmlab);
+            make.width.mas_equalTo(self.Kmlab);
+        }];
+
+        [_calories mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.kilometre);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.7493);
+            make.top.mas_equalTo(self.kilometre);
+            make.width.mas_equalTo(self.kilometre);
+        }];
+    }
+    
         
 }
 

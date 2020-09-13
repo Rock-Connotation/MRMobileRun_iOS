@@ -59,12 +59,12 @@
             make.top.mas_equalTo(self.mas_top);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.mas_equalTo(screenHeigth * 0.2619);
+            make.height.mas_equalTo(screenHeigth * 0.262);
         }];
         
     }
     [_overBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(10);
+        make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.015);
         make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.048);
         make.width.mas_equalTo(screenWidth * 0.4373);
         make.height.equalTo(@44);

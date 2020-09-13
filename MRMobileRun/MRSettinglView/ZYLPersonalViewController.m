@@ -153,33 +153,7 @@
 
 
 - (void)clickLogoutBtu{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideTabBar" object:nil];
-//    NSDictionary *dic = [self.userDefaults dictionaryRepresentation];
-//    for (id key in dic)
-//    {
-//        if ([key isEqual:@"studentID"] || [key isEqual:@"password"] ||  [key isEqual:@"nickname"] || [key isEqual:@"class_id"] || [key isEqual:@"token"])
-//        {
-//            NSLog(@"非空%@ is %@",key,[self.userDefaults objectForKey:key]);
-//            [self.userDefaults removeObjectForKey:key];
-//        }
-//        else
-//        {
-//            NSLog(@"空%@ is %@",key,[self.userDefaults objectForKey:key]);
-//        }
-//    }
-//    [self.userDefaults synchronize];
-    //退出的时候清除数据
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"km"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"min"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cal"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportList"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SportMoreList"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"CellData"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MoreIsCache"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MoreIsFirst"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MineIsCache"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MineIsFirst"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self clearAllUserDefaultsData];
     [MGJRouter openURL:kLoginVCPageURL
           withUserInfo:@{@"navigationVC" : self.navigationController,
                          }
@@ -201,6 +175,15 @@
     selectView.iconImage = self.imageView.image;
 
     [UIApplication.sharedApplication.keyWindow addSubview:selectView];
+}
+
+- (void)clearAllUserDefaultsData {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dic = [userDefaults dictionaryRepresentation];
+    for (id  key in dic) {
+        [userDefaults removeObjectForKey:key];
+    }
+    [userDefaults synchronize];
 }
 
 - (void)myNickname:(NSNotification *)notification

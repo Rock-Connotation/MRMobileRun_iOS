@@ -78,25 +78,48 @@
 }
 
 - (void)setMiddleFrame {
-    [_dotView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@8);
-        make.height.equalTo(@8);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(8);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(15);
-    }];
-    
-    [_recordLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.backView.mas_top);
-        make.left.mas_equalTo(self.backView.mas_left).mas_offset(31);
-        make.width.equalTo(@72);
-        make.height.equalTo(@22);
-    }];
-    
-    [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-15);
-        make.top.mas_equalTo(self.backView.mas_top).mas_offset(4);
-        make.width.equalTo(@71);
-        make.height.mas_equalTo(_backView);
-    }];
+    if (kIs_iPhoneX) {
+        [_dotView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(screenWidth * 0.0213);
+            make.height.mas_equalTo(screenHeigth * 0.0099);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0099);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.04);
+        }];
+        
+        [_recordLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backView.mas_top);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.0827);
+            make.width.mas_equalTo(screenWidth * 0.192);
+            make.height.mas_equalTo(screenHeigth * 0.0271);
+        }];
+        
+        [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.824);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.0049);
+            make.width.mas_equalTo(screenWidth * 0.136);
+            make.height.mas_equalTo(screenHeigth * 0.029);
+        }];
+    }else {
+        [_dotView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(screenWidth * 0.0213);
+            make.height.mas_equalTo(screenHeigth * 0.012);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.012);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.04);
+        }];
+        
+        [_recordLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backView.mas_top);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.0827);
+            make.width.mas_equalTo(screenWidth * 0.212);
+            make.height.mas_equalTo(screenHeigth * 0.033);
+        }];
+        
+        [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.824);
+            make.top.mas_equalTo(self.backView.mas_top).mas_offset(screenHeigth * 0.006);
+            make.width.mas_equalTo(screenWidth * 0.166);
+            make.height.mas_equalTo(screenHeigth * 0.0255);
+        }];
+    }
 }
 @end
