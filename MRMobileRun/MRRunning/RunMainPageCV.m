@@ -256,12 +256,13 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 #pragma mark- 加载位置管理者
 - (void)initAMapLocation{
     _locationManager = [[AMapLocationManager alloc] init];
-                _locationManager.delegate = self;
-                _locationManager.distanceFilter = 5;//设置移动精度(单位:米)
-                _locationManager.locationTimeout = 3;//定位时间
-                _locationManager.allowsBackgroundLocationUpdates = YES;//开启后台定位
-                [_locationManager startUpdatingLocation];
-                [_locationManager setLocatingWithReGeocode:YES];
+    _locationManager.delegate = self;
+    _locationManager.distanceFilter = 5;//设置移动精度(单位:米)
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest]; //设置期望定位精度
+    _locationManager.locationTimeout = 3;//定位时间
+    _locationManager.allowsBackgroundLocationUpdates = YES;//开启后台定位
+    [_locationManager startUpdatingLocation];
+    [_locationManager setLocatingWithReGeocode:YES];
 }
 //CLLocationManager
 - (void)initlocation{
@@ -424,9 +425,13 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
               //收集速度
               double speed = location.speed;
               NSLog(@"速度为%f",speed);
-              NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
-              [self.speedAry addObject:speedStr];
-              NSLog(@"第一次添加速度%@",self.speedAry);
+              //进行速度逻辑判断，速度大于0小于9.97m/s才是正常跑步速度
+              if (speed >= 0 && speed < 9.97) {
+                  NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+                  [self.speedAry addObject:speedStr];
+                  NSLog(@"第一次添加速度%@",self.speedAry);
+              }
+             
             //展示配速
             int speedMinutes = (int)(1000/StartPointModel.speed)/60;
             int speedSeconds = (int)(1000/StartPointModel.speed)%60;
@@ -448,8 +453,10 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
             NSLog(@"%d",self.second);
             if (self.second % 30 == 0) {
                 double speed = location.speed;
-                NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
-                [self.speedAry addObject:speedStr];
+                if (speed >=0 && speed < 9.97) {
+                    NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+                    [self.speedAry addObject:speedStr];
+                }
             }
             NSLog(@"速度数组内的数目为%lu",(unsigned long)self.speedAry.count);
 
@@ -786,10 +793,10 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
         overVC.caculatedSpeedAry = self.caculatedSpeedAry;//为绘制速度图处理的数组
         overVC.cacultedStepsAry = self.cacultedStepsAry; //为绘制步频图处理的数组
            
-        overVC.averageSpeed = self.averageStepFrequency; //平均速度
-        overVC.maxSpeed = self.maxSpeed; //最大速度
+        overVC.averageSpeed = self.averageSpeed; //平均速度
+        overVC.maxSpeedLastest = self.maxSpeedLast; //最大速度
         overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
-        overVC.maxStepFrequency = self.maxStepFrequency; //最大步频
+        overVC.maxStepFrequencyLastest = self.maxStepLast; //最大步频
            
         overVC.timeStr = self.timeString; //时间
         overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
