@@ -72,7 +72,7 @@
     
     [self.dataLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(27);
+        make.top.mas_equalTo(22);
     }];
     
     [self.redBarView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -69,10 +69,23 @@ static NSString *const rankCellIdentifier = @"rankCell";
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",@"text/xml",nil]]; //设置接收内容的格式
+    // 缓存位置
+       NSString *path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+       // 生成路径
+       NSString *pathLast = [NSString stringWithFormat:@"/Caches/MRMoblieRun/%lu.plist", (unsigned long)[@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/rank" hash]];
+       NSString *PathName = [path stringByAppendingString:pathLast];
+       
+       // 判断本地是否缓存过，为了减少用户等待，如果缓存过先展示本地的，请求成功之后再刷新
+       if ([[NSFileManager defaultManager] fileExistsAtPath:PathName]) {
+           id result = [NSMutableDictionary dictionaryWithContentsOfFile:PathName];
+           //直接在这里刷新UI
+           
+           
+       }
     [manager setResponseSerializer:responseSerializer];
     
     //HUD  加载菊花
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     NSString *studentid = [[NSUserDefaults standardUserDefaults] objectForKey:@"studentID"];
     NSDictionary *param = @{@"studentid" : studentid,
@@ -81,7 +94,10 @@ static NSString *const rankCellIdentifier = @"rankCell";
                             @"type" : @(self.isFaculty),
                             @"subtype" : @(self.rankType)};
     [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/rank" parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
-        [hud hideAnimated:YES];
+//        [hud hideAnimated:YES];
+        //  本地数据库存一下
+        [responseObject writeToFile:PathName atomically:YES];
+        // 刷新UI
         
         if (self->currentPage == 1) {
             [self.dataArr removeAllObjects];
@@ -107,7 +123,7 @@ static NSString *const rankCellIdentifier = @"rankCell";
         }
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [hud hideAnimated:YES];
+//        [hud hideAnimated:YES];
         
         [self.tableView.mj_footer endRefreshing];
         [self.tableView.mj_header endRefreshing];
