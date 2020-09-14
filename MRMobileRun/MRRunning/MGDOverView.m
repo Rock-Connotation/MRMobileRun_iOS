@@ -309,6 +309,30 @@
     [self.mapView updateUserLocationRepresentation:r];
     self.mapView.userInteractionEnabled = NO;
     [self getUserInfo];
+    
+    //判断当前的系统模式，并设定地图的自定义样式
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        if (mode == UIUserInterfaceStyleDark) {
+            NSLog(@"深色模式");
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+            NSData *data = [NSData dataWithContentsOfFile:path];
+            MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+            options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+        } else if (mode == UIUserInterfaceStyleLight) {
+            NSLog(@"浅色模式");
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+            NSData *data = [NSData dataWithContentsOfFile:path];
+            MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                        options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+        } else {
+            NSLog(@"未知模式");
+        }
+    }
 
     //天气的图片框
     self.weatherImagview = [[UIImageView alloc] init];

@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+API_AVAILABLE(ios(12.0))
 @interface MGDCellDataViewController : UIViewController
 
 @property (nonatomic, strong) NSString *distanceStr; //距离
@@ -28,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSArray *locationAry; //毛国栋页面采集到的所有位置数据
 
-@property (nonatomic, strong) NSArray *speedArray; //速度数组
-@property (nonatomic, strong) NSArray *stepFrequencyArray; //步频数组
+@property (nonatomic, strong) NSArray *speedArray; //毛国栋页面得到的网络速度数据
+@property (nonatomic, strong) NSArray *stepFrequencyArray; //毛国栋页面得到的网络步频数据
 
 
 @property (nonatomic ,strong) UIScrollView *backScrollView;

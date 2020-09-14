@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImageView *pauseImgView;
 @property (nonatomic, strong) UIImageView *continueImgView;
 @property (nonatomic, strong) UIImageView *endImgView;
+//锁屏按钮的imageView
+@property (nonatomic, strong) UIImageView *lockImageView;
 @property (nonatomic, strong) UILabel *pauseLabel;
 @property (nonatomic, strong) UILabel *continueLabel;
 @property (nonatomic, strong) UILabel *endLabel;

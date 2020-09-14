@@ -26,7 +26,7 @@
 #import "SZHWaveChart.h"//步频的波浪图
 #import "MGDTabBarViewController.h"
 
-@interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,AMapSearchDelegate>
+@interface MGDDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,AMapSearchDelegate,UITraitEnvironment>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
@@ -124,7 +124,11 @@
        [self.view addSubview:_backScrollView];
        
        //地图下，统计图上的View，配速、时间、燃烧千卡等label的数据
-       _overView = [[MGDOverView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth)];
+    if (@available(iOS 12.0, *)) {
+        _overView = [[MGDOverView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeigth)];
+    } else {
+        // Fallback on earlier versions
+    }
        [self.backScrollView addSubview:_overView];
        self.overView.mapView.delegate = self;
        /*
@@ -135,14 +139,6 @@
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];
     
-    //设置显示天气的图片框
-//    self.weatherImageView = [[UIImageView alloc] init];
-//    [self.view addSubview:self.weatherImageView];
-//    [self.weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.overView.degree.mas_right).offset(8);
-//        make.centerY.height.equalTo(self.overView.degree);
-//        make.width.mas_equalTo(25);
-//    }];
     
     
     //赋值
@@ -170,8 +166,8 @@
     }
     _overView.timeLab.text = self.timeStr;   //跑步时间赋值
     self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
-    self.dataView.paceLab.text = [NSString stringWithFormat:@"%d",self.maxStepFrequency];   //最大步频
-    self.dataView.speedLab.text = [NSString stringWithFormat:@"%.02f",self.maxSpeed]; //最大速度
+    self.dataView.paceLab.text = [NSString stringWithFormat:@"%d",self.maxStepFrequencyLastest];   //最大步频
+    self.dataView.speedLab.text = [NSString stringWithFormat:@"%.02f",self.maxSpeedLastest]; //最大速度
     
 }
 
@@ -200,11 +196,11 @@
     
     //处理画速度的折线图
   
-    
+    NSLog(@"在跑步结束页绘制的速度数组为%@",self.caculatedSpeedAry);
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图
         SZHChart *speedChart = [[SZHChart alloc] init];
-        [speedChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:self.caculatedSpeedAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
@@ -439,4 +435,37 @@
     [locationManager requestAlwaysAuthorization];
 }
 
+//监听系统的颜色模式来配置地图的白天、深色模式下的自定义样式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+        [super traitCollectionDidChange: previousTraitCollection];
+        if (@available(iOS 13.0, *)) {
+            if([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
+                if (@available(iOS 13.0, *)) {
+                  UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+                    if (mode == UIUserInterfaceStyleDark) {
+                        NSLog(@"深色模式");
+                        NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                              NSData *data = [NSData dataWithContentsOfFile:path];
+                               MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                               options.styleData = data;
+                        [self.overView.mapView setCustomMapStyleOptions:options];
+                        [self.overView.mapView setCustomMapStyleEnabled:YES];
+                    } else if (mode == UIUserInterfaceStyleLight) {
+                        NSLog(@"浅色模式");
+                        NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+                           NSData *data = [NSData dataWithContentsOfFile:path];
+                            MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                            options.styleData = data;
+                        [self.overView.mapView setCustomMapStyleOptions:options];
+                        [self.overView.mapView setCustomMapStyleEnabled:YES];
+                    } else {
+                        NSLog(@"未知模式");
+                    }
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+    }
 @end

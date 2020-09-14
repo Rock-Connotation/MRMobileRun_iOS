@@ -38,7 +38,12 @@
     self.bottomXCount = 0;          //初始的X轴lable的个数为0
     NSLog(@"传进来的速度数组为%@",lineDataAry);
 //    self.bottomXCount = bottomCout - 1;
-    if (bottomCout - 1 == 0 || bottomCout -1 < 6) {
+//    if ((bottomCout - 1 == 0 && bottomCout - 1 > 0) || (bottomCout - 1) < 6) {
+//        self.bottomXCount = 6;
+//    }else{
+//        self.bottomXCount = (bottomCout - 1)/2;
+//    }
+    if (bottomCout - 1 < 6) {
         self.bottomXCount = 6;
     }else{
         self.bottomXCount = bottomCout - 1;
@@ -171,14 +176,20 @@
             NSNumber * tempNum = self.lineDataAry[i];
             CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
     //               NSLog(@"%f",ratio);
-            CGFloat Y = (6 * _spaceY ) * ratio; //关键点的竖直位置
+            CGFloat Y = 0;
+//            if (tempNum.floatValue < 2) {
+//               Y = ((6 * _spaceY ) * ratio)/2; //关键点的竖直位置
+//            }else{
+                Y = (6 * _spaceY ) * ratio; //关键点的竖直位置
+//            }
+          
     //        NSLog(@"%f",Y)
             //关键点的横向位置;
             CGFloat X = 0;
              if (i == 0) {
                 X = 0;
                        }else{
-                X = (8 + i*_spaceX + (i-1)*15)/5;
+                X = (8 + i*_spaceX + (i-1)*15)/2;
                        }
             
             //绘制折线
@@ -191,7 +202,7 @@
                 NSValue *lastValue = pointAry.lastObject;
                 CGPoint lastPoint = [lastValue CGPointValue];
                 //现在的坐标点
-                NSValue *currentValue = [NSValue valueWithCGPoint:CGPointMake(X, _spaceY * 6 - Y + _spaceY)];
+                NSValue *currentValue = [NSValue valueWithCGPoint:CGPointMake(X, _spaceY * 6 - Y + _spaceY )];
                 CGPoint currentpoint = [currentValue CGPointValue];
                 //设置两个控制点
                 CGFloat controlX = (lastPoint.x + currentpoint.x)/2;
@@ -204,8 +215,9 @@
                 linePath.lineCapStyle = kCGLineCapRound;
                 linePath.lineJoinStyle = kCGLineJoinMiter;
                 linePath.lineWidth = 6;
-                [linePath moveToPoint:lastPoint];
+//                [linePath moveToPoint:lastPoint];
                 [linePath addCurveToPoint:currentpoint controlPoint1:controlPoint1 controlPoint2:controlPoint2];
+                [linePath addLineToPoint:currentpoint];
 
                 CAShapeLayer *lineLayer = [CAShapeLayer layer];
                                   lineLayer.path = linePath.CGPath;

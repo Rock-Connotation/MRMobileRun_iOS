@@ -169,6 +169,16 @@
 		B8D9639D24E9B33D0035CF1C /* MGDShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D9639324E9B33D0035CF1C /* MGDShareView.m */; };
 		B8EA9A1C2508EDD9009290FE /* style_extra.data in Resources */ = {isa = PBXBuildFile; fileRef = B8EA9A1A2508EDD8009290FE /* style_extra.data */; };
 		B8EA9A1D2508EDD9009290FE /* style.data in Resources */ = {isa = PBXBuildFile; fileRef = B8EA9A1B2508EDD9009290FE /* style.data */; };
+		B8FA9FB6250BABDB009457AF /* style2.data in Resources */ = {isa = PBXBuildFile; fileRef = B8FA9FB5250BABDB009457AF /* style2.data */; };
+		B8FA9FB8250BABE3009457AF /* style_extra2.data in Resources */ = {isa = PBXBuildFile; fileRef = B8FA9FB7250BABE3009457AF /* style_extra2.data */; };
+		B8FAA01D250F9027009457AF /* 结束白.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA01C250F9027009457AF /* 结束白.svg */; };
+		B8FAA020250F979D009457AF /* UIImage+SVGTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FAA01E250F979C009457AF /* UIImage+SVGTool.m */; };
+		B8FAA022250F99EA009457AF /* 继续白.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA021250F99EA009457AF /* 继续白.svg */; };
+		B8FAA024250F9B44009457AF /* 暂停白.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA023250F9B44009457AF /* 暂停白.svg */; };
+		B8FAA026250F9B4F009457AF /* 暂停黑.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA025250F9B4F009457AF /* 暂停黑.svg */; };
+		B8FAA028250F9F9C009457AF /* 锁定白.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA027250F9F9C009457AF /* 锁定白.svg */; };
+		B8FAA02A250F9FA4009457AF /* 锁定黑.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA029250F9FA4009457AF /* 锁定黑.svg */; };
+		B8FAA02C250FA3E2009457AF /* 锁定灰.svg in Resources */ = {isa = PBXBuildFile; fileRef = B8FAA02B250FA3E2009457AF /* 锁定灰.svg */; };
 		B8FE2AF624EBA434009DC23D /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AD824EBA434009DC23D /* YBRectConst.m */; };
 		B8FE2AF724EBA434009DC23D /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */; };
 		B8FE2AF824EBA434009DC23D /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B8FE2ADB24EBA434009DC23D /* YBPopupMenu.m */; };
@@ -540,6 +550,17 @@
 		B8D9639E24E9B4360035CF1C /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		B8EA9A1A2508EDD8009290FE /* style_extra.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = style_extra.data; sourceTree = "<group>"; };
 		B8EA9A1B2508EDD9009290FE /* style.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = style.data; sourceTree = "<group>"; };
+		B8FA9FB5250BABDB009457AF /* style2.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = style2.data; sourceTree = "<group>"; };
+		B8FA9FB7250BABE3009457AF /* style_extra2.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = style_extra2.data; sourceTree = "<group>"; };
+		B8FAA01C250F9027009457AF /* 结束白.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "结束白.svg"; sourceTree = "<group>"; };
+		B8FAA01E250F979C009457AF /* UIImage+SVGTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SVGTool.m"; sourceTree = "<group>"; };
+		B8FAA01F250F979D009457AF /* UIImage+SVGTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SVGTool.h"; sourceTree = "<group>"; };
+		B8FAA021250F99EA009457AF /* 继续白.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "继续白.svg"; sourceTree = "<group>"; };
+		B8FAA023250F9B44009457AF /* 暂停白.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "暂停白.svg"; sourceTree = "<group>"; };
+		B8FAA025250F9B4F009457AF /* 暂停黑.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "暂停黑.svg"; sourceTree = "<group>"; };
+		B8FAA027250F9F9C009457AF /* 锁定白.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "锁定白.svg"; sourceTree = "<group>"; };
+		B8FAA029250F9FA4009457AF /* 锁定黑.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "锁定黑.svg"; sourceTree = "<group>"; };
+		B8FAA02B250FA3E2009457AF /* 锁定灰.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "锁定灰.svg"; sourceTree = "<group>"; };
 		B8FE2AD724EBA434009DC23D /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
 		B8FE2AD824EBA434009DC23D /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
 		B8FE2AD924EBA434009DC23D /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
@@ -1298,6 +1319,15 @@
 			children = (
 				B8EA9A1A2508EDD8009290FE /* style_extra.data */,
 				B8EA9A1B2508EDD9009290FE /* style.data */,
+				B8FA9FB5250BABDB009457AF /* style2.data */,
+				B8FA9FB7250BABE3009457AF /* style_extra2.data */,
+				B8FAA01C250F9027009457AF /* 结束白.svg */,
+				B8FAA021250F99EA009457AF /* 继续白.svg */,
+				B8FAA023250F9B44009457AF /* 暂停白.svg */,
+				B8FAA025250F9B4F009457AF /* 暂停黑.svg */,
+				B8FAA027250F9F9C009457AF /* 锁定白.svg */,
+				B8FAA029250F9FA4009457AF /* 锁定黑.svg */,
+				B8FAA02B250FA3E2009457AF /* 锁定灰.svg */,
 			);
 			name = resource;
 			sourceTree = "<group>";
@@ -1316,6 +1346,8 @@
 		B8ACCD9824D4330600D9F0D4 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				B8FAA01F250F979D009457AF /* UIImage+SVGTool.h */,
+				B8FAA01E250F979C009457AF /* UIImage+SVGTool.m */,
 				B8ACCD9924D4331B00D9F0D4 /* MASmoothPathTool.h */,
 				B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */,
 			);
@@ -1701,16 +1733,25 @@
 				2F0E814E225F309B00D5E511 /* XIGInviteTableViewCell.xib in Resources */,
 				2F36BD022240CF4B00C1D8FC /* WeProgressCircle.xib in Resources */,
 				CE0CC189222E205B001283EA /* LaunchScreen.storyboard in Resources */,
+				B8FA9FB6250BABDB009457AF /* style2.data in Resources */,
 				1A16B9A224EED4E700EAD884 /* YYZTextViewController.xib in Resources */,
+				B8FAA028250F9F9C009457AF /* 锁定白.svg in Resources */,
+				B8FAA022250F99EA009457AF /* 继续白.svg in Resources */,
 				B8EA9A1C2508EDD9009290FE /* style_extra.data in Resources */,
+				B8FAA01D250F9027009457AF /* 结束白.svg in Resources */,
 				B8D9633924E9B2CD0035CF1C /* Impact.ttf in Resources */,
 				2F0E8144225F309B00D5E511 /* XIGClassTableViewCell.xib in Resources */,
 				1A16B99824EED4CB00EAD884 /* SportSettingViewController.xib in Resources */,
+				B8FAA02A250F9FA4009457AF /* 锁定黑.svg in Resources */,
 				1A16B9A024EED4E700EAD884 /* YYZTextView.xib in Resources */,
 				2F36BD032240CF4B00C1D8FC /* WeProgressCircle.png in Resources */,
 				B8EA9A1D2508EDD9009290FE /* style.data in Resources */,
 				18D838D224F4AAEF0074D7F4 /* Assets.xcassets in Resources */,
+				B8FAA026250F9B4F009457AF /* 暂停黑.svg in Resources */,
 				2F0E8153225F30A400D5E511 /* XIGView.xib in Resources */,
+				B8FAA024250F9B44009457AF /* 暂停白.svg in Resources */,
+				B8FA9FB8250BABE3009457AF /* style_extra2.data in Resources */,
+				B8FAA02C250FA3E2009457AF /* 锁定灰.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1809,6 +1850,7 @@
 				E3F60FDA24F13049001F42B1 /* GYYRankChildViewController.m in Sources */,
 				2F5A1B7822465B1D0014B249 /* ZYLTitleLabel.m in Sources */,
 				2F0E818D22608C3F00D5E511 /* ZYLNicknameTextField.m in Sources */,
+				B8FAA020250F979D009457AF /* UIImage+SVGTool.m in Sources */,
 				E3F60FF324F14CE8001F42B1 /* TYTabPagerBarLayout.m in Sources */,
 				18CD285F24C5B1B70093D396 /* MRTabBarView.m in Sources */,
 				E34D9E2224E981A800906BAD /* GYYRankHeaderMainView.m in Sources */,
