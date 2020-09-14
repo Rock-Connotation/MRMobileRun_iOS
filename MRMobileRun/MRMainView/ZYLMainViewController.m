@@ -431,10 +431,21 @@ static AFHTTPSessionManager *manager;
 #pragma mark ======== Getter =========
 - (UILabel *)navLab{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-      NSString *nickname = [user objectForKey:@"nickname"];
-    NSString *Labname = [NSString stringWithFormat:@"上午好，%@",nickname];
+    NSString *nickname= [user objectForKey:@"nickname"];
+    NSString *Labname;
     if (!_navLab) {
         _navLab = [[UILabel alloc] init];
+       
+        NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+           [formatter setDateFormat:@"HH"];
+                  NSString *str = [formatter stringFromDate:[NSDate date]];
+                  int time = [str intValue];
+        if(time>=/* DISABLES CODE */ (12)||time <= 24){
+                      Labname = [NSString stringWithFormat:@"上午好，%@",nickname];
+                  }
+                  else{
+                      Labname = [NSString stringWithFormat:@"下午好，%@",nickname];
+                  }
         _navLab.text = Labname;
         _navLab.textColor = COLOR_WITH_HEX(0xA0A0A0);
         _navLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
@@ -511,7 +522,7 @@ static AFHTTPSessionManager *manager;
         @"title" : @"已爬阶梯",
         @"todayData" : @"0",
         @"todayTitle" : @"今日阶梯",
-        @"unit" : @"阶",
+        @"unit" : @"层",
         @"yesterdayData" : @"0",
         @"yesterdayTitle" : @"昨日阶梯"
         }];
