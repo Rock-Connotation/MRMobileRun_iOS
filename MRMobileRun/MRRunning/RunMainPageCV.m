@@ -17,6 +17,10 @@
 #import <AMapSearchKit/AMapSearchKit.h>  //搜索库，为获取天气
 
 
+#import "SVGKit.h"
+#import "SVGKImage.h"
+#import "SVGKParser.h"
+#import "UIImage+SVGTool.h"
 #import "ZYLMainViewController.h"
 #import "MGDTabBarViewController.h"
 #import "ZYLTimeStamp.h" //获取开始、结束的时间
@@ -1035,20 +1039,38 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
               UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
                 if (mode == UIUserInterfaceStyleDark) {
                     NSLog(@"深色模式");
+                    //设置深色模式下的自定义地图样式
                     NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
                           NSData *data = [NSData dataWithContentsOfFile:path];
                            MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
                            options.styleData = data;
                     [self.Mainview.mapView setCustomMapStyleOptions:options];
                     [self.Mainview.mapView setCustomMapStyleEnabled:YES];
+                    //设置深色模式下的svg格式的图片
+                        //暂停按钮
+                    self.Mainview.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停黑.svg" size:CGSizeMake(30, 30)];
+                        //解锁按钮
+                    self.Mainview.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(30, 30)];
+                        //锁屏按钮
+                    self.Mainview.lockImageView.image = [UIImage svgImgNamed:@"锁定灰.svg" size:CGSizeMake(25, 25)];
+                    
                 } else if (mode == UIUserInterfaceStyleLight) {
                     NSLog(@"浅色模式");
+                    //设置浅色模式下的自定义地图样式
                     NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
                        NSData *data = [NSData dataWithContentsOfFile:path];
                         MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
                         options.styleData = data;
                     [self.Mainview.mapView setCustomMapStyleOptions:options];
                     [self.Mainview.mapView setCustomMapStyleEnabled:YES];
+                    
+                    //设置浅色模式下的svg格式的图片
+                        //暂停按钮
+                    self.Mainview.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停白.svg" size:CGSizeMake(30, 30)];
+                        //解锁按钮
+                    self.Mainview.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定白.svg" size:CGSizeMake(30, 30)];
+                        //锁屏按钮
+                    self.Mainview.lockImageView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(25, 25)];
                 } else {
                     NSLog(@"未知模式");
                 }
