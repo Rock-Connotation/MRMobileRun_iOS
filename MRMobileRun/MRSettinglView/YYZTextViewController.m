@@ -6,7 +6,7 @@
 #import <AFNetworking.h>
 #import "ZYLChangeNickname.h"
 
-@interface YYZTextViewController ()
+@interface YYZTextViewController () <UIGestureRecognizerDelegate>
 
 @property(nonatomic, weak)UITextView *tf;
 @property(nonatomic, weak) UIButton *saveBtn;
@@ -23,14 +23,26 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+        //设置右滑返回的手势
+    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+    //handleNavigationTransition:为系统私有API,即系统自带侧滑手势的回调方法，在自己的手势上直接用它的回调方法
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+    panGesture.delegate = self; //设置手势代理，拦截手势触发
+    [self.view addGestureRecognizer:panGesture];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
+}
+
+- (void)handleNavigationTransition:(id)sender
+{
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+
 }
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-    self.navigationController.navigationBar.translucent = NO;
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
        self.navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -118,7 +130,7 @@
       //make.centerX.equalTo(self.view);
   make.left.equalTo(self.view).offset(18*kRateY);
   make.right.equalTo(self.view).offset(-18*kRateY);
-  make.top.equalTo(self.view).offset(20*kRateY);
+  make.top.equalTo(self.mas_topLayoutGuideBottom).offset(20*kRateY);
   make.height.greaterThanOrEqualTo(@(100*kRateY));
   }];
     [self changeStyle];
@@ -157,6 +169,15 @@
         } //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
     }
 }
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (self.navigationController.viewControllers.count <= 1) {
+        return NO;
+    }
+    return YES;
+}
+
 
 - (void) back {
     self.tabBarController.tabBar.hidden = NO;

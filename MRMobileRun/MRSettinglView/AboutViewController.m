@@ -7,7 +7,7 @@
 
 #import "AboutViewController.h"
 #import "Masonry.h"
-@interface AboutViewController ()
+@interface AboutViewController () <UIGestureRecognizerDelegate>
 
 @end
 
@@ -22,9 +22,29 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+    //handleNavigationTransition:为系统私有API,即系统自带侧滑手势的回调方法，在自己的手势上直接用它的回调方法
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+    panGesture.delegate = self; //设置手势代理，拦截手势触发
+    [self.view addGestureRecognizer:panGesture];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (self.navigationController.viewControllers.count <= 1) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)handleNavigationTransition:(id)sender
+{
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES; //禁止系统自带的滑动手势
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

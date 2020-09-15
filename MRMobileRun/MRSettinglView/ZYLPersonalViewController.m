@@ -55,13 +55,17 @@
     }
     [self->_bkgView YYZdarkChange];
 
+
+
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [self->_bkgView YYZdarkChange];
 
+
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [self->_bkgView YYZdarkChange];
+
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self->_bkgView YYZdarkChange];
@@ -117,8 +121,15 @@
         [self->_bkgView YYZdarkChange];
         self.view.backgroundColor = rightColor; //根据当前模式(光明\暗黑)-展示相应颜色 关键是这一句
     }
+
     
 }
+
+- (void)handleNavigationTransition:(id)sender
+{
+    
+}
+
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {

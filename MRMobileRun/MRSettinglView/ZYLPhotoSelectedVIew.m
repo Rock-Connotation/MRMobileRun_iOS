@@ -135,10 +135,10 @@ static const NSInteger normalColor = 0x64686F;
             [self.selectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [self.cancelButton setBackgroundColor:UIColorFromRGB(alertColor)];
         } else {
-            self.selectWindowImageView.backgroundColor = UIColorFromRGB(0x696969);
-            self.selectButton.backgroundColor = UIColorFromRGB(0xe8e8e8);
-            [self.selectButton setTitleColor:UIColorFromRGB(0x4f4f4f) forState:UIControlStateNormal];
-            self.cancelButton.backgroundColor = UIColorFromRGB(0x00ffff);
+            self.selectWindowImageView.backgroundColor = UIColorFromRGB(0x4a4d52);
+            self.selectButton.backgroundColor = UIColorFromRGB(0xdce0e6);
+            [self.selectButton setTitleColor:UIColorFromRGB(0x333739) forState:UIControlStateNormal];
+            self.cancelButton.backgroundColor = UIColorFromRGB(0x55d5e2);
         }
     }
 }
