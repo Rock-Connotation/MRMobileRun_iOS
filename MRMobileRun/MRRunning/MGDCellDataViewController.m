@@ -26,7 +26,7 @@
 #import "ZYLMainViewController.h"
 #import "MRTabBarController.h"
 
-@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,UITraitEnvironment>
+@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
@@ -36,15 +36,13 @@
 @property (nonatomic, strong) MAPointAnnotation *beginAnnotataion;
 @property (nonatomic, strong) MAPointAnnotation *endAnnotataion;
 
-@property (nonatomic, strong) NSArray *originalSpeedAry; //可用的原始速度数组
-@property (nonatomic, strong) NSArray *originalStepsAry; //可用的原始步频数组
-@property (nonatomic, strong) NSArray *caculateSpeedAry; //经丢弃点处理后的速度数组
-@property (nonatomic, strong) NSArray *caculateStepsAry; //经丢弃点处理后的步频数组
-@property int maxStepFrequenceLatest; //经丢弃处理后的步频数组里最大的速度
-@property double maxSpeedLatest;  //经丢弃处理后的速度数组里最大的速度
+@property (nonatomic, strong) NSArray *originalSpeedAry; //原始的速度数组
+@property (nonatomic, strong) NSArray *originalStepsAry; //原始的步频数组
+@property (nonatomic, strong) NSArray *caculateSpeedAry; //处理后的速度数组
+@property (nonatomic, strong) NSArray *caculateStepsAry; //处理后的步频数组
 @property (nonatomic, strong) NSArray *originalLocationAry; //原始的位置数组
 
-@property long int totelMinutes; //总的跑步时间分钟数
+@property double maxSpeedLatest;
 @property __block UIImage *shareImage;
 @end
 
@@ -61,13 +59,12 @@
     [self fit];
     [self initLocationManager];
     
-   //关于一些初始化
+    //关于一些初始化
     self.originalSpeedAry = [NSArray array];
     self.originalStepsAry = [NSArray array];
     self.caculateSpeedAry = [NSArray array];
     self.caculateStepsAry = [NSArray array];
     self.originalLocationAry = [NSArray array];
-    self.origTracePoints = [NSArray array];
     self.maxSpeedLatest = 0;
     
     self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
@@ -78,16 +75,16 @@
     self.overView.date.text = self.date; //日期
     self.overView.currentTime.text = self.time; //时间
     self.overView.degree.text = self.degree; //温度
-//    self.dataView.paceLab.text = self.MaxStepFrequency; //最大步频赋值
+    self.dataView.speedLab.text = self.MaxSpeed; //最大速度
+    self.dataView.paceLab.text = self.MaxStepFrequency; //最大步频
     
     self.overView.mapView.delegate = self; //设置地图代理
     
-    [self initLocationManager]; //初始化位置管理者
     /**
      处理速度、步频、位置数组
      */
     [self separateString];
-    [self discardPointsProcess]; //将速度、步频进行丢弃点处理
+    
     /*
     步频、速度两个图表
     */
@@ -116,10 +113,7 @@
     [self.overView.mapView setCenterCoordinate:centerCL];
     self.overView.mapView.zoomLevel = 15;
     self.overView.mapView.userInteractionEnabled = YES;
-    
-    
 }
-
     //适配各个View的深色模式以及页面布局
 - (void)fit{
     //适配深色模式
@@ -151,10 +145,11 @@
        [_twoBtnView.overBtn addTarget:self action:@selector(Back) forControlEvents:UIControlEventTouchUpInside];
        [_twoBtnView.shareBtn addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
        [self.view addSubview:_twoBtnView];
+        
     if (kIs_iPhoneX) {
-        _backScrollView.contentSize = CGSizeMake(screenWidth, 1432 + 100);
+        _backScrollView.contentSize = CGSizeMake(screenWidth, screenHeigth + 610);
     }else {
-        _backScrollView.contentSize = CGSizeMake(screenWidth, screenHeigth + 667);
+        _backScrollView.contentSize = CGSizeMake(screenWidth, screenHeigth + 699);
     }
        [self.view addSubview:_backScrollView];
        
@@ -166,114 +161,16 @@
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];}
 
-//处理从毛国栋传过来的位置、步频、速度数组，将其变为可用的原始数组
-- (void)separateString{
-    //速度数组
-       NSMutableArray *muteSpeedAry = [NSMutableArray array];
-    if (self.speedArray != nil) {
-         for (int i = 0; i < self.speedArray.count; i++) {
-             NSString *string = self.speedArray[i];
-             NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-             NSString *string2 = array[1];
-             double speed = [string2 doubleValue];
-                  //逻辑处理，当速度大于等于0且小于9.97m/s才加入原始可用的速度数组
-             if (speed >= 0 && speed < 9.97) {
-                 [muteSpeedAry addObject:string2];
-             }
-         }
-        self.originalSpeedAry = muteSpeedAry;
-        NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
-    }
-      
-    
-    //步频数组
-    NSMutableArray *muteStepsAry = [NSMutableArray array];
-    if (self.stepFrequencyArray != nil) {
-        for (int i = 0; i < self.stepFrequencyArray.count; i++) {
-            NSString *string = self.stepFrequencyArray[i];
-            NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-            NSString *string2 = array[1];
-            [muteStepsAry addObject:string2];
-        }
-        self.originalStepsAry = muteStepsAry;
-        NSLog(@"原始的步频数组为%@",self.originalStepsAry);
-    }
-    
-    
-    //位置数组
-    NSMutableArray *muteLocationAry = [NSMutableArray array];
-    for (int i = 0; i < self.locationAry.count; i++) {
-        NSString *string = self.locationAry[i];
-        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-        double lat = [array[0] doubleValue];
-        double lon = [array[1] doubleValue];
-        RunLocationModel *model = [[RunLocationModel alloc] init];
-        model.location = CLLocationCoordinate2DMake(lat, lon);
-        [muteLocationAry addObject:model];
-    }
-    self.originalLocationAry = muteLocationAry;
-    
-//    NSLog(@"网络得来的的位置数组为%@",self.locationAry);
-//    NSLog(@"经处理后后原始可用的位置数组为%@",self.originalLocationAry);
-}
-
-//将可用的速度、步频原始数组进行丢弃点处理
-- (void)discardPointsProcess{
-    //步频数组的丢弃点处理
-        //初始化处理
-    self.maxStepFrequenceLatest = 0;
-    self.totelMinutes = 0;
-    
-    NSMutableArray *stepsMuteAry = [NSMutableArray array];
-    self.totelMinutes = self.originalStepsAry.count; //获取总的跑步时间数
-    NSLog(@"跑步的总时间数为%ld",self.totelMinutes);
-    if (self.originalStepsAry.count != 0) {
-         //五分钟画一个点
-           for (int i = 0; i < self.originalStepsAry.count; i += 4) {
-               NSString *stepStr = self.originalStepsAry[i];
-               [stepsMuteAry addObject:stepStr];
-               //在步频丢弃点数组内得到最高的步频并赋值
-               int stepFrequence = [stepStr intValue];
-               if (self.maxStepFrequenceLatest < stepFrequence) {
-                   self.maxStepFrequenceLatest = stepFrequence;
-               }
-           }
-           self.caculateStepsAry = stepsMuteAry;
-        self.dataView.paceLab.text = [[NSNumber numberWithInt:self.maxStepFrequenceLatest] stringValue]; //最大步频赋值
-        NSLog(@"处理后的步频数组为%@",self.caculateStepsAry);
-    }
-    
-    
-    
-    //原始可用的速度数组的丢弃点处理
-    self.maxSpeedLatest = 0;
-    if (self.originalSpeedAry.count != 0) {
-        NSMutableArray *speedMuteAry = [NSMutableArray array];
-        //得到大概每分钟打多少个点
-        long int space = 0;
-        if (self.totelMinutes >= 0) {
-            space = self.originalSpeedAry.count/self.totelMinutes;
-        }
-//        NSLog(@"跑步的总时间数为%ld",space);
-        //大概每隔两分半在统计图上画一个点
-        for (int i = 0; i < self.originalSpeedAry.count; i += 4 ) {
-            NSString *speedStr = self.originalSpeedAry[i];
-            [speedMuteAry addObject:speedStr];
-            //得到丢弃处理后的速度数组内的最大速度
-            double speed = [speedStr doubleValue];
-            if (self.maxSpeedLatest < speed) {
-                self.maxSpeedLatest = speed;
-            }
-        }
-        self.caculateSpeedAry = speedMuteAry;
-        self.dataView.speedLab.text = [NSString stringWithFormat:@"%0.2f",self.maxSpeedLatest];; //最大速度
-//        NSLog(@"处理后的速度数组中最大的数值为%f",self.maxSpeedLatest);
-        NSLog(@"处理后的速度数组为%@",self.caculateSpeedAry);
-    }
-}
-
 //添加两个图表
 - (void)addTwoCharts{
+    //处理步频的数组
+    NSMutableArray *stepsMuteAry = [NSMutableArray array];
+    for (int i = 0; i < self.originalStepsAry.count; i += 4) {
+        NSString *stepStr = self.originalStepsAry[i];
+        [stepsMuteAry addObject:stepStr];
+    }
+    self.caculateStepsAry = stepsMuteAry;
+    NSLog(@"处理后的步频数组为%@",self.caculateStepsAry);
     
     //画步频的波浪图
     if (self.caculateStepsAry.count != 0) {
@@ -281,7 +178,6 @@
         NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
         SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
         [paceWaveChart initWithViewsWithBooTomCount:self.caculateStepsAry.count AndLineDataAry:self.caculateStepsAry AndYMaxNumber:250];
-//        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
         [self.dataView.paceBackView addSubview:paceWaveChart];
         [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.paceBackView);
@@ -295,13 +191,25 @@
         }
     }
     
-    NSLog(@"原始可用的速度数组个数为%lu",(unsigned long)self.caculateSpeedAry.count);
+    //处理画速度的折线图
+    NSMutableArray *speedMuteAry = [NSMutableArray array];
+    for (int i = 0; i < self.originalSpeedAry.count; i += 64) {
+        NSString *speedStr = self.originalSpeedAry[i];
+        double speed = [speedStr doubleValue];
+        if (self.maxSpeedLatest < speed) {
+            self.maxSpeedLatest = speed;
+        }
+        [speedMuteAry addObject:speedStr];
+    }
+    self.caculateSpeedAry = speedMuteAry;
+    NSLog(@"处理后的速度数组中最大的数值为%f",self.maxSpeedLatest);
+    NSLog(@"处理后的速度数组为%@",self.caculateSpeedAry);
+    
     if (self.caculateSpeedAry.count != 0) {
         //速度的折线图
         NSArray *array = @[@3,@4.8,@4,@3.8,@4,@4.3,@4.5,@3.7];
         SZHChart *speedChart = [[SZHChart alloc] init];
         [speedChart initWithViewsWithBooTomCount:self.caculateSpeedAry.count/5 AndLineDataAry:self.caculateSpeedAry AndYMaxNumber:6];
-//        [speedChart initWithViewsWithBooTomCount:array.count AndLineDataAry:array AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
@@ -334,6 +242,48 @@
        self.shareImage = resultImage;
     self.shareView.shotImage.image = self.shareImage;
     }];
+    UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
+    self.shareView.QRImage.userInteractionEnabled = YES;
+    [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
+}
+
+//暂时未放二维码
+- (void)qrCodeLongPress:(UILongPressGestureRecognizer *)longPress {
+    //创建上下文context
+    CIContext *context = [[CIContext alloc] init];
+    //创建探测器
+    CIDetector *QRCodeDetector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:context options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
+    //识别图片，获取特征
+    CIImage *imgCI = [[CIImage alloc] initWithImage:self.shareView.QRImage.image];
+    NSArray *features = [QRCodeDetector featuresInImage:imgCI];
+    
+    //判断是否识别到二维码
+    if (features.count > 0) {
+     
+        //有二维码
+        CIQRCodeFeature *qrcodeFeature = (CIQRCodeFeature *)features[0];
+        
+        __weak typeof(self) weakSelf = self;
+        UIAlertController *sheet = [UIAlertController alertControllerWithTitle:@"" message:@"识别内容" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *dicern = [UIAlertAction actionWithTitle:@"识别图中二维码" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            
+            UIViewController *resultVC = [[UIViewController alloc] init];
+            [weakSelf.navigationController pushViewController:resultVC animated:YES];
+            
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [sheet addAction:dicern];
+        [sheet addAction:cancel];
+        [self presentViewController:sheet animated:YES completion:nil];
+        
+    }else{
+     
+        //没有二维码，这只是一张普通的图片
+        NSLog(@"|没有二维码，这只是一张普通的图片|");
+    }
+
 }
 
 - (void)backevent:(UIGestureRecognizer *)sender {
@@ -347,7 +297,45 @@
     }];
 }
 
-
+//处理从毛国栋传过来的位置、步频、速度数组
+- (void)separateString{
+    //速度数组
+       NSMutableArray *muteSpeedAry = [NSMutableArray array];
+       for (int i = 0; i < self.speedArray.count; i++) {
+           NSString *string = self.speedArray[i];
+           NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
+           NSString *string2 = array[1];
+           [muteSpeedAry addObject:string2];
+       }
+       self.originalSpeedAry = muteSpeedAry;
+    NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
+    
+    //步频数组
+    NSMutableArray *muteStepsAry = [NSMutableArray array];
+    for (int i = 0; i < self.stepFrequencyArray.count; i++) {
+        NSString *string = self.stepFrequencyArray[i];
+        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
+        NSString *string2 = array[1];
+        [muteStepsAry addObject:string2];
+    }
+    self.originalStepsAry = muteStepsAry;
+    NSLog(@"原始的步频数组为%@",self.originalStepsAry);
+    
+//    //位置数组
+    NSMutableArray *muteLocationAry = [NSMutableArray array];
+    for (int i = 0; i < self.locationAry.count; i++) {
+        NSString *string = self.locationAry[i];
+        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
+        double lat = [array[0] doubleValue];
+        double lon = [array[1] doubleValue];
+        RunLocationModel *model = [[RunLocationModel alloc] init];
+        model.location = CLLocationCoordinate2DMake(lat, lon);
+        [muteLocationAry addObject:model];
+    }
+    self.originalLocationAry = muteLocationAry;
+    
+    NSLog(@"未处理的位置数组为%@",self.locationAry);
+}
 
 #pragma mark- 位置管理者
 - (void)initLocationManager{
@@ -532,37 +520,11 @@
     [locationManager requestAlwaysAuthorization];
 }
 
-//监听系统的颜色模式来配置地图的白天、深色模式下的自定义样式
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [super traitCollectionDidChange: previousTraitCollection];
-    if (@available(iOS 13.0, *)) {
-        if([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
-            if (@available(iOS 13.0, *)) {
-              UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-                if (mode == UIUserInterfaceStyleDark) {
-                    NSLog(@"深色模式");
-                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-                          NSData *data = [NSData dataWithContentsOfFile:path];
-                           MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                           options.styleData = data;
-                    [self.overView.mapView setCustomMapStyleOptions:options];
-                    [self.overView.mapView setCustomMapStyleEnabled:YES];
-                } else if (mode == UIUserInterfaceStyleLight) {
-                    NSLog(@"浅色模式");
-                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
-                       NSData *data = [NSData dataWithContentsOfFile:path];
-                        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                        options.styleData = data;
-                    [self.overView.mapView setCustomMapStyleOptions:options];
-                    [self.overView.mapView setCustomMapStyleEnabled:YES];
-                } else {
-                    NSLog(@"未知模式");
-                }
-            }
-        }
-    } else {
-        // Fallback on earlier versions
+
+
+- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (!error) {
+        NSLog(@"保存成功");
     }
-    
 }
 @end

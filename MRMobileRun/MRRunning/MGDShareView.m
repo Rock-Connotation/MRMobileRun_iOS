@@ -135,6 +135,7 @@
         _QRImage.backgroundColor = [UIColor lightGrayColor];
         _QRImage.layer.cornerRadius = 6;
         [self.popView addSubview:_QRImage];
+        //实现长按识别二维码，无二维码，未实现
         
         _shareLab = [[UILabel alloc] init];
         _shareLab.textAlignment = NSTextAlignmentLeft;
@@ -167,45 +168,45 @@
     [super layoutSubviews];
     if (kIs_iPhoneX) {
         [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.mas_top).mas_offset(67);
+            make.top.mas_equalTo(self.mas_top).mas_offset(screenHeigth * 0.0825);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.mas_equalTo(screenHeigth - 67);
+            make.bottom.mas_equalTo(self.mas_bottom);
         }];
         
         [_popView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.backView.mas_top).mas_offset(67);
+            make.top.mas_equalTo(self.backView.mas_top);
             make.left.mas_equalTo(self.mas_left).mas_offset(15);
             make.right.mas_equalTo(self.mas_right).mas_offset(-15);
-            make.height.mas_equalTo(566);
+            make.height.mas_equalTo(screenHeigth * 0.697);
         }];
         
         [_shotImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.popView.mas_top);
             make.left.mas_equalTo(self.popView.mas_left);
             make.right.mas_equalTo(self.popView.mas_right);
-            make.height.equalTo(@489);
+            make.height.mas_equalTo(screenHeigth * 0.6022);
         }];
         
         [_logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(11);
-            make.left.mas_equalTo(self.popView.mas_left).mas_offset(12);
-            make.height.equalTo(@54);
-            make.width.equalTo(@54);
+            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0135);
+            make.left.mas_equalTo(self.popView.mas_left).mas_offset(screenWidth * 0.0347);
+            make.height.mas_equalTo(screenHeigth * 0.0666);
+            make.width.mas_equalTo(screenWidth * 0.1565);
         }];
         
         [_QRImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(10);
-            make.right.mas_equalTo(self.popView.mas_right).mas_offset(-15);
-            make.width.equalTo(@54);
-            make.height.equalTo(@54);
+            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0123);
+            make.right.mas_equalTo(self.popView.mas_right).mas_offset(-screenWidth * 0.0434);
+            make.width.mas_equalTo(self.logoImage);
+            make.height.mas_equalTo(self.logoImage);
         }];
         
         [_shareLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(23);
-            make.left.mas_equalTo(self.logoImage.mas_right).mas_offset(15);
-            make.width.equalTo(@125);
-            make.height.equalTo(@34);
+            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0283);
+            make.left.mas_equalTo(self.logoImage.mas_right).mas_offset(screenWidth * 0.04);
+            make.width.mas_equalTo(screenWidth * 0.3623);
+            make.height.mas_equalTo(screenHeigth * 0.0418);
         }];
         _shareLab.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
         
@@ -213,57 +214,58 @@
             make.bottom.mas_equalTo(self.cancelBtn.mas_top);
             make.left.mas_equalTo(self.backView.mas_left);
             make.right.mas_equalTo(self.backView.mas_right);
-            make.height.equalTo(@129);
+            make.height.mas_equalTo(screenHeigth * 0.1588);
         }];
         
         [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.mas_equalTo(self.mas_bottom);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@80);
+            make.height.mas_equalTo(screenHeigth * 0.0986);
         }];
         
     }else {
         [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.mas_top).mas_offset(40);
+            make.top.mas_equalTo(self.mas_top).mas_offset(screenHeigth * 0.0599);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.mas_equalTo(screenHeigth - 40);
+            make.bottom.mas_equalTo(self.mas_bottom);
         }];
         
         [_popView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top);
-            make.left.mas_equalTo(self.mas_left).mas_offset(41);
-            make.right.mas_equalTo(self.mas_right).mas_offset(-42);
-            make.height.mas_equalTo(480);
+            make.left.mas_equalTo(self.backView.mas_left).mas_offset(screenWidth * 0.1093);
+            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-screenWidth * 0.1146);
+            make.height.mas_equalTo(screenHeigth * 0.7196);
         }];
         
         [_shotImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.backView.mas_top);
+            make.top.mas_equalTo(self.popView.mas_top);
             make.left.mas_equalTo(self.popView.mas_left);
             make.right.mas_equalTo(self.popView.mas_right);
-            make.height.equalTo(@415);
+            make.height.mas_equalTo(screenHeigth * 0.5842);
         }];
         
+        
         [_logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(9);
-            make.left.mas_equalTo(self.backView.mas_left).mas_offset(51);
-            make.height.equalTo(@46);
-            make.width.equalTo(@46);
+            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0134);
+            make.left.mas_equalTo(self.popView.mas_left).mas_offset(screenWidth * 0.0266);
+            make.height.mas_equalTo(screenHeigth * 0.0958);
+            make.width.mas_equalTo(screenWidth * 0.158);
         }];
         
         [_QRImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(8);
-            make.right.mas_equalTo(self.backView.mas_right).mas_offset(-54);
-            make.width.equalTo(@46);
-            make.height.equalTo(@46);
+            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0119);
+            make.right.mas_equalTo(self.popView.mas_right).mas_offset(-screenWidth * 0.0293);
+            make.height.mas_equalTo(screenHeigth * 0.0958);
+            make.width.mas_equalTo(screenWidth * 0.158);
         }];
         
         [_shareLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(20);
-            make.left.mas_equalTo(self.logoImage.mas_right).mas_offset(12);
-            make.width.equalTo(@135);
-            make.height.equalTo(@28);
+            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0299);
+            make.left.mas_equalTo(self.logoImage.mas_right).mas_offset(screenWidth * 0.0319);
+            make.width.mas_equalTo(screenWidth * 0.4639);
+            make.height.mas_equalTo(screenHeigth * 0.0583);
         }];
         _shareLab.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 10];
         
@@ -271,14 +273,14 @@
             make.bottom.mas_equalTo(self.cancelBtn.mas_top);
             make.left.mas_equalTo(self.backView.mas_left);
             make.right.mas_equalTo(self.backView.mas_right);
-            make.height.equalTo(@162);
+            make.height.mas_equalTo(screenHeigth * 0.2428);
         }];
         
         [_cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.mas_equalTo(self.mas_bottom);
             make.left.mas_equalTo(self.mas_left);
             make.right.mas_equalTo(self.mas_right);
-            make.height.equalTo(@46);
+            make.height.mas_equalTo(screenHeigth * 0.069);
         }];
     }
 }
@@ -307,4 +309,6 @@
 }
 
 
+
 @end
+

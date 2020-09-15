@@ -710,10 +710,14 @@ static AFHTTPSessionManager *manager; //单例的AFN
 //秒数转换成时分秒
 -(NSString *)getMMSSFromSS:(NSString *)totalTime{
     NSInteger seconds = [totalTime integerValue];
-    NSString *str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
+    NSString *str_minute = [[NSString alloc] init];
     NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *str_minute_without0 = [str_minute stringByReplacingOccurrencesOfString:@"0" withString:@""];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute_without0,str_second];
+    if (seconds >= 6000) {
+        str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
+    }else {
+        str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    }
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
     return format_time;
 }
 
@@ -823,7 +827,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
 //判断当前网络连接的情况，如果此时有网络，且是第一次打开该程序，则自动刷新，否则不刷新
 - (void)checkNetWorkTrans {
     AFNetworkReachabilityManager *managerAF = [AFNetworkReachabilityManager sharedManager];
-    [managerAF startMonitoring];
     [managerAF setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
@@ -855,3 +858,4 @@ static AFHTTPSessionManager *manager; //单例的AFN
 }
 
 @end
+
