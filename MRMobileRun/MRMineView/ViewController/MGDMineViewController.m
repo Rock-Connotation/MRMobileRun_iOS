@@ -324,7 +324,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
 
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getTotalData" parameters:nil
+    [manager POST:TotalDataUrl parameters:nil
         success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
@@ -362,7 +362,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     //NSString *lastDateStr = [self lastDateTostring:currentDate];
     NSString *lastDateStr = @"2020-01-01 00:00:00";
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
+    [manager POST:AllSportRecordUrl parameters:param
         success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *dict = [[NSDictionary alloc] init];

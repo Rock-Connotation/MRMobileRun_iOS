@@ -150,7 +150,12 @@
 
 //上传跑步数据
 #define HandUpRunData @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/sportRecord"
-
+//获取三大数据
+#define TotalDataUrl @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getTotalData"
+//获取所有运动记录
+#define AllSportRecordUrl @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord"
+//获取一定数量的运动记录
+#define SportListUrl @"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList"
 
 #define kSearchInfoUrl @"http://111.230.169.17:8080/mobilerun/invite/searchinfo"
 #define cancelTheInvite @"http://111.230.169.17:8080/mobilerun/invite/cancel"
