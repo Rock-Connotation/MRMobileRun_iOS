@@ -26,7 +26,7 @@
 #import "ZYLMainViewController.h"
 #import "MRTabBarController.h"
 
-@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
+@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,UITraitEnvironment>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点

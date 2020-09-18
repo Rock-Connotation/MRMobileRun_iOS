@@ -140,6 +140,7 @@
         }
         //数据测试
         [self test];
+//        [self ChangeMap];
     }
     return self;
 }
@@ -444,6 +445,33 @@
     self.userName.text = nickName;
 }
 
+////判断系统环境不同时的自定义地图样式
+//- (void)ChangeMap{
+//    if (@available(iOS 13.0, *)) {
+//      UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+//        if (mode == UIUserInterfaceStyleDark) {
+//            NSLog(@"深色模式");
+//            //设置深色模式下的自定义地图样式
+//            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+//                  NSData *data = [NSData dataWithContentsOfFile:path];
+//                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+//                   options.styleData = data;
+//            [self.mapView setCustomMapStyleOptions:options];
+//            [self.mapView setCustomMapStyleEnabled:YES];
+//        } else if (mode == UIUserInterfaceStyleLight) {
+//            NSLog(@"浅色模式");
+//            //设置浅色模式下的自定义地图样式
+//            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+//               NSData *data = [NSData dataWithContentsOfFile:path];
+//                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+//                options.styleData = data;
+//            [self.mapView setCustomMapStyleOptions:options];
+//            [self.mapView setCustomMapStyleEnabled:YES];
+//        } else {
+//            NSLog(@"未知模式");
+//        }
+//    }
+//}
 
 @end
 
