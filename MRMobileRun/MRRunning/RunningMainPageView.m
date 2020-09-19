@@ -47,13 +47,15 @@
             make.bottom.equalTo(self);
         }];
     //设置地图相关属性
-    self.mapView.zoomLevel = 18;
-    self.mapView.showsUserLocation = NO; //不显示用户小蓝点
+    self.mapView.zoomLevel = 16;
+    self.mapView.maxZoomLevel = 18;
+    self.mapView.desiredAccuracy = kCLLocationAccuracyBest;
+    self.mapView.distanceFilter = 1.0f;
+    self.mapView.showsUserLocation = YES;//显示用户小蓝点
     self.mapView.rotateEnabled = NO; //不旋转
-    
     self.mapView.pausesLocationUpdatesAutomatically = NO;
-    self.mapView.showsCompass = NO;
-    self.mapView.showsScale = NO;
+    self.mapView.showsCompass = NO; //不显示罗盘
+    self.mapView.showsScale = NO; //不显示比例尺
     self.mapView.userInteractionEnabled = YES;
     [self.mapView setAllowsBackgroundLocationUpdates:YES];//打开后台定位
     self.mapView.customizeUserLocationAccuracyCircleRepresentation = YES;
@@ -61,34 +63,10 @@
     //自定义用户位置小蓝点
     MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
     r.showsAccuracyRing = NO;//不显示精度圈
+    r.showsHeadingIndicator = YES;
 //    r.image = [UIImage imageNamed:@"userAnnotation"];
     [self.mapView updateUserLocationRepresentation:r];
     
-    //监听是否是深色模式，并根据模式设置自定义地图样式
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        if (mode == UIUserInterfaceStyleDark) {
-            NSLog(@"深色模式");
-            
-            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-                  NSData *data = [NSData dataWithContentsOfFile:path];
-                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                   options.styleData = data;
-               [self.mapView setCustomMapStyleOptions:options];
-               [self.mapView setCustomMapStyleEnabled:YES];
-        } else if (mode == UIUserInterfaceStyleLight) {
-            NSLog(@"浅色模式");
-            
-            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
-               NSData *data = [NSData dataWithContentsOfFile:path];
-                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                options.styleData = data;
-            [self.mapView setCustomMapStyleOptions:options];
-            [self.mapView setCustomMapStyleEnabled:YES];
-        } else {
-            NSLog(@"未知模式");
-        }
-    }
 }
 
 //在地图上添加控件
