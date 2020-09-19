@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 //开始计步
 - (void)startWithStep;
+
+- (void)end; //暂停计步
+- (void)continueSteps; //继续计步
+
 @end
 
 NS_ASSUME_NONNULL_END

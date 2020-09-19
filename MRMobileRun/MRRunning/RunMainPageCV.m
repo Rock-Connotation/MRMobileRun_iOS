@@ -23,6 +23,7 @@
 #import "UIImage+SVGTool.h"
 #import "ZYLMainViewController.h"
 #import "MGDTabBarViewController.h"
+#import "StepManager.h" //获取步数
 #import "ZYLTimeStamp.h" //获取开始、结束的时间
 #import "GYYHealthManager.h" //读取健康数据，获取跑步时间段的步数来计算步频
 #import "MRTabBarController.h"
@@ -54,7 +55,8 @@
 @property (nonatomic, strong) NSArray *updateStepsAry; //上传的步频数组
 @property int averageStepFrequency; //平均步频
 @property int maxStepFrequency; //最大步频
-@property (nonatomic, strong) NSMutableArray *mintesAry; //跑步过程中的分钟数的数组
+//@property (nonatomic, strong) NSMutableArray *mintesAry; //跑步过程中的分钟数的数组
+@property NSInteger everyMinuteSteps; //每分钟的步数
 //此跑步页经过处理后，要给跑步完成界面绘图的步频数组
 @property (nonatomic, strong) NSArray *cacultedStepsAry;
 
@@ -115,9 +117,11 @@
     self.drawLineArray = [NSMutableArray array];
     self.distance = 0;
     self.kcal = 0;
-    self.mintesAry = [NSMutableArray array];
+//    self.mintesAry = [NSMutableArray array];
+    //原始的步频、速度数组
     self.stepsAry = [NSMutableArray array];
     self.speedAry = [NSMutableArray array];
+    //上传的步频、速度数组
     self.updateSpeedAry = [NSArray array];
     self.updateStepsAry = [NSArray array];
     self.pathMuteAry = [NSMutableArray array];
@@ -130,18 +134,17 @@
     [self.view addSubview:self.Mainview];
     [self.Mainview mainRunView];
     
-    //关于地图的设置
     self.Mainview.mapView.delegate = self; //设置地图代理
     
     [self initAMapLocation]; //初始化位置管理者
+    
+    [[StepManager sharedManager] startWithStep]; //开始计步
     
     [self aboutLables]; //添加显示公里数的lable
     //给拖拽的label添加手势
      UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
     [self.Mainview.dragLabel addGestureRecognizer:pan];
     self.Mainview.dragLabel.userInteractionEnabled = YES;
-    
-    
     
     [self btnFunction]; //跑步首页关于继续暂停等按钮的方法
     
@@ -513,14 +516,11 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     self.timeString = timeString;
     //如果有一分钟了执行一下操作来获取步频
     if (self.second%60 == 0) {
-        NSDate *date = [NSDate date];
-        self.endTime = date;
-        NSLog(@"第一次以及后面很多次结束的时间为%@",self.endTime);
-        [self caculatePace]; //获取这一分钟内的步数
-        self.beginTime = self.endTime;
-        NSLog(@"后续开始时间为%@",self.beginTime);
+        self.everyMinuteSteps = [StepManager sharedManager].step;
+        NSString *everyMinuteStepsStr = [NSString stringWithFormat:@"%ld",(long)self.everyMinuteSteps];
+        [self.stepsAry addObject:everyMinuteStepsStr];
+        [StepManager sharedManager].step = 0;//每分钟记录后，当前步数归0，然后重新记录
     }
-    
 }
 
 #pragma mark- 按钮的方法
@@ -545,11 +545,9 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 
 //点击暂停按钮的方法
 - (void)pauseMethod{
-    //计时器暂停
-    [self.runTimer setFireDate:[NSDate distantFuture]];
-    //定位暂停
-    [self.locationManager stopUpdatingLocation];
-    
+    [self.runTimer setFireDate:[NSDate distantFuture]];//计时器暂停
+    [self.locationManager stopUpdatingLocation];//定位暂停
+    [[StepManager sharedManager] end]; //暂停计步
     //按钮的变化
     self.Mainview.pauseBtn.hidden = YES;
     self.Mainview.lockBtn.hidden = YES;
@@ -565,6 +563,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     [self.runTimer setFireDate:[NSDate distantPast]];
     //定位继续
     [self.locationManager startUpdatingLocation];
+    [[StepManager sharedManager] continueSteps]; //继续计步
     
     //按钮的变换
     self.Mainview.unlockLongPressView.hidden = YES;
@@ -747,27 +746,27 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 }
 
 #pragma mark-步频和配速
-//步频
+//计算步频（已经取消）
 - (void)caculatePace{
-   GYYHealthManager *healthManager = [GYYHealthManager shareInstance];
-    [healthManager authorizeHealthKit:^(BOOL success, NSError * _Nonnull error){
-        __weak typeof(self) weakSelf = self;   //block里避免循环引用，要用__weak 弱引用self    避免循环引用
-        __block NSString *steps;   //不是属性的基本类型，要用__block修饰
-        //异步去读取跑步时的步数
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [healthManager getStepCountFromBeginTime:self.beginTime ToEndTime:self.endTime completion:^(double stepValue, NSError * _Nonnull error) {
-                
-                steps = [[NSNumber numberWithDouble:stepValue] stringValue];
-                
-            }];
-            //回到主线程
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (steps!= nil) {
-                    [weakSelf.stepsAry addObject:steps];
-                }
-            });
-        });
-    }];
+//   GYYHealthManager *healthManager = [GYYHealthManager shareInstance];
+//    [healthManager authorizeHealthKit:^(BOOL success, NSError * _Nonnull error){
+//        __weak typeof(self) weakSelf = self;   //block里避免循环引用，要用__weak 弱引用self    避免循环引用
+//        __block NSString *steps;   //不是属性的基本类型，要用__block修饰
+//        //异步去读取跑步时的步数
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            [healthManager getStepCountFromBeginTime:self.beginTime ToEndTime:self.endTime completion:^(double stepValue, NSError * _Nonnull error) {
+//
+//                steps = [[NSNumber numberWithDouble:stepValue] stringValue];
+//
+//            }];
+//            //回到主线程
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                if (steps!= nil) {
+//                    [weakSelf.stepsAry addObject:steps];
+//                }
+//            });
+//        });
+//    }];
 }
 
 //找出平均步频和平均速度
