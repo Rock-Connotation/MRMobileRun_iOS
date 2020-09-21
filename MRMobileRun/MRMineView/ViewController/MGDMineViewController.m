@@ -51,7 +51,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     //设置tabBar的高度
     CGFloat tabBarHeight;
     if (kIs_iPhoneX) {
@@ -196,7 +195,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [_userSportArray removeAllObjects];
     [self getUserSportData];
 }
-
 
 
 #pragma mark- 代理方法

@@ -35,37 +35,40 @@
         CGFloat gap = (screenWidth - 52 - 250) / 4;
         for (int i = 1;i <= 5; i++) {
             //View
-            UIView *view = [[UIView alloc] init];
-//            view.backgroundColor = [UIColor redColor];
-            [self.bottomView addSubview:view];
+            _btnbackView = [[UIView alloc] init];
+            _btnbackView.backgroundColor = [UIColor clearColor];
+            [self.bottomView addSubview:_btnbackView];
              CGFloat x = 26 + (gap + 50) * (i-1);
             //View布局
-                       if (kIs_iPhoneX) {
-                           [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                               make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(50); //(64)
-                               make.left.mas_equalTo(self.mas_left).mas_offset(x);
-                               make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-18);
-                               make.width.equalTo(@50);
-                           }];
-                       }else {
-                           [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                               make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(90); //(69)
-                               make.left.mas_equalTo(self.mas_left).mas_offset(x);
-                               make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-15);
-                               make.width.equalTo(@50);
-                           }];
-                       }
+            if (kIs_iPhoneX) {
+                [_btnbackView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(50); //(64)
+                    make.left.mas_equalTo(self.mas_left).mas_offset(x);
+                    make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-18);
+                    make.width.equalTo(@50);
+                }];
+            }else {
+                [_btnbackView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.mas_equalTo(self.popView.mas_bottom).mas_offset(screenHeigth * 0.1069); //(69)
+                    make.left.mas_equalTo(self.mas_left).mas_offset(x);
+                    make.bottom.mas_equalTo(self.cancelBtn.mas_top).mas_offset(-15);
+                    make.width.equalTo(@50);
+            }];
+        }
             
             //Button
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"分享%d",i]] forState:UIControlStateNormal];
-            [view addSubview:btn];
+            [btn setBackgroundColor:[UIColor cyanColor]];
+            [_btnbackView addSubview:btn];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(30, 30));
-                make.centerX.top.equalTo(view);
+                make.top.mas_equalTo(self.btnbackView.mas_top);
+                make.left.mas_equalTo(self.btnbackView.mas_left).mas_offset(screenWidth * 0.0267);
+                make.width.mas_equalTo(30);
+                make.height.mas_equalTo(30);
             }];
             //为btn添加标记，等待在controller里为button添加逻辑操作
-             btn.tag = i;
+            btn.tag = i;
             [btnAry addObject:btn];
             
             //Lable
@@ -74,10 +77,10 @@
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont fontWithName:@"PingFangSC-Regular" size: 12];
             label.textColor = [UIColor colorWithRed:136/255.0 green:141/255.0 blue:151/255.0 alpha:1.0];
-            [view addSubview:label];
+            [_btnbackView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(50, 17));
-                make.centerX.bottom.equalTo(view);
+                make.centerX.bottom.equalTo(_btnbackView);
             }];
            //设置五个label的内容
             switch (label.tag) {
@@ -101,6 +104,7 @@
             }
         }
         self.bootomBtns = btnAry; //将循环创建的btn保存下来等待在coontrller里面进行逻辑操作
+        
         
         
         //弹出的View
@@ -127,8 +131,11 @@
         
         //两个小的UIImageview
         _logoImage = [[UIImageView alloc] init];
-        _logoImage.backgroundColor = [UIColor lightGrayColor];
+        _logoImage.backgroundColor = [UIColor clearColor];
         _logoImage.layer.cornerRadius = 6;
+        _logoImage.contentMode = UIViewContentModeScaleAspectFill;
+        _logoImage.clipsToBounds = YES;
+        _logoImage.image = [UIImage imageNamed:@"约跑"];
         [self.popView addSubview:_logoImage];
         
         _QRImage = [[UIImageView alloc] init];

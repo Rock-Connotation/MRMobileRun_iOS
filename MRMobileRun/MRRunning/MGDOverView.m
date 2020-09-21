@@ -440,7 +440,7 @@
     NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
     NSString *nickName = [user objectForKey:@"nickname"];
     NSString *imageUrl = [user objectForKey:@"avatar_url"];
-    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"logo头像"] options:SDWebImageRefreshCached];
     self.userName.text = nickName;
 }
 
