@@ -55,7 +55,6 @@
 @property (nonatomic, strong) NSArray *updateStepsAry; //上传的步频数组
 @property int averageStepFrequency; //平均步频
 @property int maxStepFrequency; //最大步频
-//@property (nonatomic, strong) NSMutableArray *mintesAry; //跑步过程中的分钟数的数组
 @property NSInteger everyMinuteSteps; //每分钟的步数
 //此跑步页经过处理后，要给跑步完成界面绘图的步频数组
 @property (nonatomic, strong) NSArray *cacultedStepsAry;
@@ -366,36 +365,22 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                     [self.speedAry addObject:speedStr];
                 }
             }
-//            NSLog(@"速度数组内的数目为%lu",(unsigned long)self.speedAry.count);
-            //计算距离
-            [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
-                //计算配速
-                int speedMinutes = (int)(1000/currentModel.speed)/60;
-                int speedSeconds = (int)(1000/currentModel.speed)%60;
-                if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
-                    self.Mainview.speedNumberLbl.text = @"--'--''";
-                }else if(speedMinutes > 0){
-                  self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
-                
+            //计算配速
+            int speedMinutes = (int)(1000/currentModel.speed)/60;
+            int speedSeconds = (int)(1000/currentModel.speed)%60;
+            if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
+                self.Mainview.speedNumberLbl.text = @"--'--''";
+            }else if(speedMinutes > 0){
+                self.Mainview.speedNumberLbl.text = [NSString stringWithFormat:@"%d'%d''",speedMinutes,speedSeconds];
                 //计算燃烧千卡
                 self.kcal = 60 * self.distance * 1.036;
                 self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%0.1f",self.kcal];
-                       }
-
-#pragma mark- 绘制轨迹
-//            //为了美化移动的轨迹，移动的位置超过10米，才添加进绘制轨迹的的数组
-//                RunLocationModel *lineLastPointLocation = [self.drawLineArray lastObject];
-//                //开始绘制轨迹
-//                CLLocationCoordinate2D linePoints[2];
-//                linePoints[0] = lineLastPointLocation.location;
-//                linePoints[1] = self.locationModel.location;
-//                //调用addOverlay方法后回进入 renderForOverlay 方法，完成对轨迹的绘制
-//                MAPolyline *lineSection  = [MAPolyline polylineWithCoordinates:linePoints count:2];
-//                [self.Mainview.mapView addOverlay:lineSection];
-//                [self.drawLineArray addObject:self.locationModel]; //为绘制轨迹的位置数组添加新的元素
-//                NSLog(@"绘制轨迹的数组内的元素个数为%lu-----位置数组内的元素个数为%lu",(unsigned long)self.drawLineArray.count,(unsigned long)self.locationArray.count);
+            }
+//            NSLog(@"速度数组内的数目为%lu",(unsigned long)self.speedAry.count);
+            //计算距离
+            [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
         }
-    }
+     }
 
     //获取实时天气
 //    NSLog(@"逆地理编码为%@",reGeocode);
@@ -606,21 +591,13 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     self.mileage = self.distance; //总路程
     self.duration = self.second; //总时间
     
-    //设置上传的速度数组
+    //设置上传的速度数组 (要求数组包裹数组)
     NSMutableArray *mueArySpeed2 = [NSMutableArray array];
     for (int i = 0; i < self.speedAry.count; i++) {
-       
         double speed = [self.speedAry[i] floatValue];
         NSNumber *n1 = [NSNumber numberWithDouble:speed];
         NSNumber *n2 = [NSNumber numberWithInt:i+1];
-//        NSString *string =  [NSString stringWithFormat:@"%0.2f",speed];
-//        NSString *string2 = [NSString stringWithFormat:@"%d",i+1];
-//        float array1[2];
-//        array1[0] = speed;
-//        array1[1] = i;
         NSMutableArray *muteArySpeed = [NSMutableArray array];
-//        [muteArySpeed addObject:string];
-//        [muteArySpeed addObject:string2];
         [muteArySpeed addObject:n1];
         [muteArySpeed addObject:n2];
         NSArray *array = muteArySpeed;
@@ -630,7 +607,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     self.updateSpeedAry = updateSpeedAry;
     NSLog(@"上传的的速度数组为%@",self.updateSpeedAry);
     
-     //设置上传的步频数组
+     //设置上传的步频数组 //要求是数组包裹数组
        if (self.stepsAry != nil) {
            NSMutableArray *muteStepsArray = [NSMutableArray array];
            for (int i = 0; i < self.stepsAry.count; i++) {
@@ -818,7 +795,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     if (self.speedAry != nil) {
         NSMutableArray *speedMuteAry = [NSMutableArray array];
             //两分半记录一个点
-        for (int i = 0; i < self.speedAry.count; i += 5) {
+        for (int i = 0; i < self.speedAry.count; i +=5) {
             RunLocationModel *Model = self.locationArray[i];
             double speed = Model.speed;
             NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
@@ -828,6 +805,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                 self.maxSpeedLast = speed;
                 }
             }
+        
             self.caculatedSpeedAry = speedMuteAry;
             NSLog(@"处理后的速度数组为%@,处理后最大的速度为%f",self.caculatedSpeedAry,self.maxSpeedLast);
     }
@@ -841,32 +819,18 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     NSMutableDictionary *paramDic = [NSMutableDictionary new];
     
     //获取跑步路径数据
-//    NSMutableArray *muteAry = [NSMutableArray array];
-//    NSArray *path = [NSArray array];
     for (int i = 0; i < self.locationArray.count; i++ ) {
         RunLocationModel *model = self.locationArray[i];
         CLLocationCoordinate2D coordinate = model.location;
-//        double latitude = coordinate.latitude;
-//        double lontitude = coordinate.longitude;
         double latitude = coordinate.latitude;
         double lontitude = coordinate.longitude;
-//        NSString *location = [NSString stringWithFormat:@"%f,%f",latitude,lontitude];
-//        [muteAry addObject:location];
         NSMutableArray *sectionPath = [NSMutableArray array];
         NSNumber *lati = [NSNumber numberWithDouble:latitude];
         NSNumber *lonti = [NSNumber numberWithDouble:lontitude];
         [sectionPath addObject:lati];
         [sectionPath addObject:lonti];
-//            path = sectionPath;
         [self.pathMuteAry addObject:sectionPath];
-//        [self.pathMuteAry addObject:sectionPath];
-//        NSString *lat = [NSString stringWithFormat:@"%f",latitude];
-//        NSString *lon = [NSString stringWithFormat:@"%f",lontitude];
-//        [muteAry addObject:lat];
-//        [muteAry addObject:lon];
     }
-//    path = muteAry;
-//    [self.pathMuteAry addObject:path];
     [paramDic setValue:self.pathMuteAry forKey:@"path"]; //跑步沿途路径
     
     //跑步时间必须小于23时59分
@@ -941,14 +905,19 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     [responseSerializer setRemovesKeysWithNullValues:YES];  //去除空值
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]]; //设置接收内容的格式
     [manager setResponseSerializer:responseSerializer];
+    
+    //发送json格式数据
+       manager.requestSerializer = [AFJSONRequestSerializer serializer];
     //将token添加进请求头
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-
-    [manager POST:HandUpRunData parameters:paramDic success:^(NSURLSessionDataTask *task, id responseObject) {
+   
+//    manager.responseSerializer = [AFJSONResponseSerializer serializer]
+    NSDate *data = [NSJSONSerialization dataWithJSONObject:paramDic options:NSJSONWritingPrettyPrinted error:nil];
+    [manager POST:HandUpRunData parameters:data success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"-----------上传数据成功，得到的结果为%@",responseObject);
         NSLog(@"---------···上传的数据为%@",paramDic);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"上传数据失败，上传的参数为");
+        NSLog(@"上传数据失败，上传的参数为%@",data);
         NSLog(@"%@",error);
     }];
 }

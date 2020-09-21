@@ -68,7 +68,6 @@
     */
     //初始化原始数据数组和处理后的数组
     self.origTracePoints = [NSArray array];
-    self.smoothedTracePoints = [NSArray array];
     [self loadTrancePoints];
     [self initSmoothedTrace];
    
@@ -197,10 +196,12 @@
     //处理画速度的折线图
   
     NSLog(@"在跑步结束页绘制的速度数组为%@",self.caculatedSpeedAry);
+//    NSArray *array = @[@5,@3,@4.3,@3.2,@3.8,@5.2];
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图
         SZHChart *speedChart = [[SZHChart alloc] init];
-        [speedChart initWithViewsWithBooTomCount:self.caculatedSpeedAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:(int)self.caculatedSpeedAry.count AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+//    [speedChart initWithViewsWithBooTomCount:array.count AndLineDataAry:array AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
