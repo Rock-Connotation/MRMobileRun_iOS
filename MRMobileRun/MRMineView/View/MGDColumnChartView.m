@@ -316,11 +316,6 @@
         NSString *currentIndex = [NSString stringWithFormat:@"%ld",(long)i+1];
         if ([showXArr containsObject: currentIndex]) {
             _labelX = [self getXLabel:currentIndex font:8 frame:CGRectMake(_itemX.frame.origin.x  + itemXW + itemXMargin, _axisX.frame.origin.y + 1, 10, 11)];
-            if (@available(iOS 11.0, *)) {
-                    _labelX.foregroundColor = MGDtextXColor.CGColor;
-                } else {
-                // Fallback on earlier versions
-            }
             [self.ChartScrollView.layer addSublayer:_labelX];
         }
         
@@ -364,7 +359,7 @@
     label.alignmentMode = @"center";
     label.contentsScale = 3;
     if (@available(iOS 11.0, *)) {
-            label.foregroundColor = MGDtextXColor.CGColor;
+            label.foregroundColor = YLABELCOLOR.CGColor;
         } else {
                // Fallback on earlier versions
     }
@@ -464,7 +459,6 @@
             CGFloat itemCountY = 5;
             CGFloat itemYH = (YLen - 6) / itemCountY;
             CGFloat YlabMargin = 15;
-            CGFloat itemCountX = 31;
             
             _axisY.backgroundColor = MGDlineColor.CGColor;
             _axisX.backgroundColor = MGDlineColor.CGColor;
@@ -478,9 +472,6 @@
                 //Y轴文字
                 _labelY = [self getYLabel:[NSString stringWithFormat:@"%ld",(long)i+1] font:8 frame:CGRectMake(YlabMargin, _itemY.frame.origin.y - 11, 5, 11)];
                 [self.chartView.layer addSublayer:_labelY];
-            }
-            for (NSInteger i = 0; i < itemCountX; i++) {
-                _labelX.foregroundColor = MGDtextXColor.CGColor;
             }
         }
     }

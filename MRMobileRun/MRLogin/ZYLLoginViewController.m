@@ -89,6 +89,10 @@
     NSLog(@"登陆成功");
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+
 #pragma mark - click event
 
 - (void)clickLoginButton{
