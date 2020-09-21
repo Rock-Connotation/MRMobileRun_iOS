@@ -113,7 +113,29 @@
     [self.overView.mapView setCenterCoordinate:centerCL];
     self.overView.mapView.zoomLevel = 15;
     self.overView.mapView.userInteractionEnabled = YES;
+    
+    //设置右滑返回的手势
+    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+    panGesture.delegate = self; //设置手势代理，拦截手势触发
+    [self.view addGestureRecognizer:panGesture];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
+       
 }
+
+- (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
+    NSLog(@"右滑返回"); //自定义滑动手势
+}
+
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    // 当当前控制器是根控制器时，不可以侧滑返回，所以不能使其触发手势
+    if(self.navigationController.childViewControllers.count == 1) {
+        return NO;
+    }
+    return YES;
+}
+
     //适配各个View的深色模式以及页面布局
 - (void)fit{
     //适配深色模式
@@ -159,7 +181,32 @@
        self.overView.mapView.delegate = self;
        
         //绘制统计图的View
-       [self.backScrollView addSubview:_dataView];}
+       [self.backScrollView addSubview:_dataView];
+    
+    //更改地图的样式
+    if (@available(iOS 13.0, *)) {
+      UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        if (mode == UIUserInterfaceStyleDark) {
+            NSLog(@"深色模式");
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                  NSData *data = [NSData dataWithContentsOfFile:path];
+                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                   options.styleData = data;
+            [self.overView.mapView setCustomMapStyleOptions:options];
+            [self.overView.mapView setCustomMapStyleEnabled:YES];
+        } else if (mode == UIUserInterfaceStyleLight) {
+            NSLog(@"浅色模式");
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+               NSData *data = [NSData dataWithContentsOfFile:path];
+                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                options.styleData = data;
+            [self.overView.mapView setCustomMapStyleOptions:options];
+            [self.overView.mapView setCustomMapStyleEnabled:YES];
+        } else {
+            NSLog(@"未知模式");
+        }
+    }
+}
 
 //添加两个图表
 - (void)addTwoCharts{
@@ -225,8 +272,6 @@
 }
 
 - (void)Back{
-   // [self.navigationController ];
-    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -272,8 +317,8 @@
             
         }];
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
         }];
+        
         [sheet addAction:dicern];
         [sheet addAction:cancel];
         [self presentViewController:sheet animated:YES completion:nil];
@@ -286,9 +331,9 @@
 
 }
 
-- (void)backevent:(UIGestureRecognizer *)sender {
-    NSLog(@"1111");
-}
+//- (void)backevent:(UIGestureRecognizer *)sender {
+//    NSLog(@"手势");
+//}
 
 
 - (void)back {
@@ -479,6 +524,41 @@
     [locationManager requestAlwaysAuthorization];
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange: previousTraitCollection];
+    if (@available(iOS 13.0, *)) {
+        if([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]){
+            if (@available(iOS 13.0, *)) {
+              UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+                if (mode == UIUserInterfaceStyleDark) {
+                    NSLog(@"深色模式");
+                    //设置深色模式下的自定义地图样式
+                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                          NSData *data = [NSData dataWithContentsOfFile:path];
+                           MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                           options.styleData = data;
+                    [self.overView.mapView setCustomMapStyleOptions:options];
+                    [self.overView.mapView setCustomMapStyleEnabled:YES];
+                    
+                } else if (mode == UIUserInterfaceStyleLight) {
+                    NSLog(@"浅色模式");
+                    //设置浅色模式下的自定义地图样式
+                    NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+                       NSData *data = [NSData dataWithContentsOfFile:path];
+                        MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                        options.styleData = data;
+                    [self.overView.mapView setCustomMapStyleOptions:options];
+                    [self.overView.mapView setCustomMapStyleEnabled:YES];
+                    
+                } else {
+                    NSLog(@"未知模式");
+                }
+            }
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+}
 
 
 - (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
