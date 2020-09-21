@@ -440,7 +440,7 @@ static AFHTTPSessionManager *manager;
            [formatter setDateFormat:@"HH"];
                   NSString *str = [formatter stringFromDate:[NSDate date]];
                   int time = [str intValue];
-        if(time>=/* DISABLES CODE */ (12)||time <= 24){
+                  if(time<=12 && time >=0){
                       Labname = [NSString stringWithFormat:@"上午好，%@",nickname];
                   }
                   else{
