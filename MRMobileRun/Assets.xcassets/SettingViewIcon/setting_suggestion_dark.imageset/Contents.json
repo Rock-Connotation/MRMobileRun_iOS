@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "5.png",
+      "filename" : "资源 4.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "资源 3@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "资源 2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
