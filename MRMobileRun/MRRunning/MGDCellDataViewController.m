@@ -14,6 +14,7 @@
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <Photos/Photos.h>
+#import "UIImageView+WebCache.h"
 
 #import "RunLocationModel.h"
 #import "SZHWaveChart.h" //步频折线图
@@ -126,6 +127,11 @@
 - (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
     NSLog(@"右滑返回"); //自定义滑动手势
 }
+
+- (void)backevent:(UITapGestureRecognizer *)tap {
+    NSLog(@"返回");
+}
+
 
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -285,8 +291,21 @@
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
        self.shareImage = resultImage;
-    self.shareView.shotImage.image = self.shareImage;
+       self.shareView.shotImage.image = self.shareImage;
     }];
+    self->_shareDataView = [[MGDShareDataView alloc] init];
+    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
+    self.shareDataView.userName.text = self.userNmaeStr;
+    self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
+    self.shareDataView.speedLab.text = self.speedStr; //配速赋值
+    self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
+    self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
+    self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
+    self.shareDataView.date.text = self.date; //日期
+    self.shareDataView.currentTime.text = self.time; //时间
+    self.shareDataView.speedLab.text = self.MaxSpeed; //最大速度
+    self.shareDataView.paceLab.text = self.MaxStepFrequency; //最大步频
+    [self.shareView.dataView addSubview:_shareDataView];
     UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
     self.shareView.QRImage.userInteractionEnabled = YES;
     [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
@@ -608,3 +627,4 @@
     }
 }
 @end
+

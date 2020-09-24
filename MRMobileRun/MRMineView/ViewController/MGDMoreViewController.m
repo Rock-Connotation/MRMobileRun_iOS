@@ -582,6 +582,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 //转到杨诚的界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     MGDSportData *model = _cellListArray[indexPath.row];
 
     MGDCellDataViewController *detailDataVC = [[MGDCellDataViewController alloc] init];
@@ -614,6 +615,8 @@ static AFHTTPSessionManager *manager; //单例的AFN
     
     //路径数组，用于绘制轨迹
     detailDataVC.locationAry = [self DataViewArray:model.pathArray];
+    detailDataVC.userIconStr = [user objectForKey:@"avatar_url"];
+    detailDataVC.userNmaeStr = [user objectForKey:@"nickname"];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 

@@ -10,12 +10,15 @@
 #import "MGDDataView.h"
 #import "MGDButtonsView.h"
 #import "MGDShareView.h"
+#import "MGDShareDataView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(ios(12.0))
 @interface MGDCellDataViewController : UIViewController
 
+@property (nonatomic, strong) NSString *userIconStr;
+@property (nonatomic, strong) NSString *userNmaeStr;
 @property (nonatomic, strong) NSString *distanceStr; //距离
 @property (nonatomic, strong) NSString *speedStr; //配速
 @property (nonatomic, strong) NSString *stepFrequencyStr; //步频
@@ -42,6 +45,8 @@ API_AVAILABLE(ios(12.0))
 @property (nonatomic ,strong) MGDButtonsView *twoBtnView;
 
 @property (nonatomic ,strong) MGDShareView *shareView;
+
+@property (nonatomic ,strong) MGDShareDataView *shareDataView;
 
 @end
 

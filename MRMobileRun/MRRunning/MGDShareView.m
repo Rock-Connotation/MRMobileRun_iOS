@@ -11,6 +11,7 @@
 
 #define SHAWDOWCOLOR [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.1]
 #define CANCELCOLOR [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1]
+#define UNITCOLOR [UIColor colorWithRed:178/255.0 green:178/255.0 blue:178/255.0 alpha:1.0]
 @interface MGDShareView()
 
 
@@ -59,7 +60,7 @@
             //Button
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"分享%d",i]] forState:UIControlStateNormal];
-            [btn setBackgroundColor:[UIColor cyanColor]];
+            [btn setBackgroundColor:[UIColor clearColor]];
             [_btnbackView addSubview:btn];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.btnbackView.mas_top);
@@ -118,7 +119,7 @@
         [self showView];
         [self.backView addSubview:_popView];
         
-        //截图
+        //地图
         _shotImage = [[UIImageView alloc] init];
         _shotImage.backgroundColor = [UIColor clearColor];
         _shotImage.layer.cornerRadius = 12;
@@ -128,6 +129,11 @@
         _shotImage.layer.shadowRadius = 6;
         _shotImage.layer.masksToBounds = YES;
         [self.popView addSubview:_shotImage];
+        
+        //信息
+        _dataView = [[UIView alloc] init];
+        _dataView.backgroundColor = [UIColor clearColor];
+        [self.popView addSubview:_dataView];
         
         //两个小的UIImageview
         _logoImage = [[UIImageView alloc] init];
@@ -183,8 +189,8 @@
         
         [_popView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.backView.mas_top);
-            make.left.mas_equalTo(self.mas_left).mas_offset(15);
-            make.right.mas_equalTo(self.mas_right).mas_offset(-15);
+            make.left.mas_equalTo(self.mas_left).mas_offset(screenWidth * 0.04);
+            make.right.mas_equalTo(self.mas_right).mas_offset(-screenWidth * 0.04);
             make.height.mas_equalTo(screenHeigth * 0.697);
         }];
         
@@ -192,25 +198,32 @@
             make.top.mas_equalTo(self.popView.mas_top);
             make.left.mas_equalTo(self.popView.mas_left);
             make.right.mas_equalTo(self.popView.mas_right);
-            make.height.mas_equalTo(screenHeigth * 0.6022);
+            make.height.mas_equalTo(screenHeigth * 0.3965);
+        }];
+        
+        [_dataView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.shotImage.mas_bottom);
+            make.left.mas_equalTo(self.popView.mas_left);
+            make.right.mas_equalTo(self.popView.mas_right);
+            make.bottom.mas_equalTo(self.popView.mas_bottom).mas_offset(-screenHeigth * 0.0948);
         }];
         
         [_logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0135);
+            make.top.mas_equalTo(self.dataView.mas_bottom).mas_offset(screenHeigth * 0.0135);
             make.left.mas_equalTo(self.popView.mas_left).mas_offset(screenWidth * 0.0347);
             make.height.mas_equalTo(screenHeigth * 0.0666);
             make.width.mas_equalTo(screenWidth * 0.1565);
         }];
         
         [_QRImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0123);
+            make.top.mas_equalTo(self.dataView.mas_bottom).mas_offset(screenHeigth * 0.0123);
             make.right.mas_equalTo(self.popView.mas_right).mas_offset(-screenWidth * 0.0434);
             make.width.mas_equalTo(self.logoImage);
             make.height.mas_equalTo(self.logoImage);
         }];
         
         [_shareLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0283);
+            make.top.mas_equalTo(self.dataView.mas_bottom).mas_offset(screenHeigth * 0.0283);
             make.left.mas_equalTo(self.logoImage.mas_right).mas_offset(screenWidth * 0.04);
             make.width.mas_equalTo(screenWidth * 0.3623);
             make.height.mas_equalTo(screenHeigth * 0.0418);
@@ -250,26 +263,32 @@
             make.top.mas_equalTo(self.popView.mas_top);
             make.left.mas_equalTo(self.popView.mas_left);
             make.right.mas_equalTo(self.popView.mas_right);
-            make.height.mas_equalTo(screenHeigth * 0.5842);
+            make.height.mas_equalTo(screenHeigth * 0.4092);
         }];
         
+        [_dataView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.shotImage.mas_bottom);
+            make.left.mas_equalTo(self.popView.mas_left);
+            make.right.mas_equalTo(self.popView.mas_right);
+            make.bottom.mas_equalTo(self.popView.mas_bottom).mas_offset(-screenHeigth * 0.0974);
+        }];
         
         [_logoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0134);
+            make.top.mas_equalTo(self.dataView.mas_bottom).mas_offset(screenHeigth * 0.0134);
             make.left.mas_equalTo(self.popView.mas_left).mas_offset(screenWidth * 0.0266);
-            make.height.mas_equalTo(screenHeigth * 0.0958);
-            make.width.mas_equalTo(screenWidth * 0.158);
+            make.bottom.mas_equalTo(_QRImage);
+            make.right.mas_equalTo(self.popView.mas_right).mas_offset(-screenWidth * 0.6266);
         }];
         
         [_QRImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0119);
+            make.top.mas_equalTo(self.dataView.mas_bottom).mas_offset(screenHeigth * 0.0119);
             make.right.mas_equalTo(self.popView.mas_right).mas_offset(-screenWidth * 0.0293);
-            make.height.mas_equalTo(screenHeigth * 0.0958);
-            make.width.mas_equalTo(screenWidth * 0.158);
+            make.bottom.mas_equalTo(self.popView.mas_bottom).mas_offset(-screenHeigth * 0.0164);
+            make.left.mas_equalTo(self.popView.mas_left).mas_offset(screenWidth * 0.6239);
         }];
         
         [_shareLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom).mas_offset(screenHeigth * 0.0299);
+            make.top.mas_equalTo(self.dataView.mas_bottom).mas_offset(screenHeigth * 0.0299);
             make.left.mas_equalTo(self.logoImage.mas_right).mas_offset(screenWidth * 0.0319);
             make.width.mas_equalTo(screenWidth * 0.4639);
             make.height.mas_equalTo(screenHeigth * 0.0583);
@@ -316,6 +335,6 @@
 }
 
 
-
 @end
+
 

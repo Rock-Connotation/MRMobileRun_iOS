@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		184DE3CD251C442D00CFB058 /* MGDShareDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184DE3CC251C442D00CFB058 /* MGDShareDataView.m */; };
 		185510C824F02405009D5026 /* MGDTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 185510C724F02405009D5026 /* MGDTabBar.m */; };
 		185510CB24F0241E009D5026 /* MGDTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185510CA24F0241E009D5026 /* MGDTabBarViewController.m */; };
 		187C812D24D037B30040A78E /* MGDShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C812C24D037B30040A78E /* MGDShareModel.m */; };
@@ -240,6 +241,8 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		184DE3CB251C442D00CFB058 /* MGDShareDataView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDShareDataView.h; sourceTree = "<group>"; };
+		184DE3CC251C442D00CFB058 /* MGDShareDataView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDShareDataView.m; sourceTree = "<group>"; };
 		185510C624F02405009D5026 /* MGDTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTabBar.h; sourceTree = "<group>"; };
 		185510C724F02405009D5026 /* MGDTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDTabBar.m; sourceTree = "<group>"; };
 		185510C924F0241E009D5026 /* MGDTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTabBarViewController.h; sourceTree = "<group>"; };
@@ -1377,6 +1380,8 @@
 				B8D9638724E9B3360035CF1C /* SZHChart.m */,
 				B8D9638424E9B3350035CF1C /* SZHWaveChart.h */,
 				B8D9639024E9B33B0035CF1C /* SZHWaveChart.m */,
+				184DE3CB251C442D00CFB058 /* MGDShareDataView.h */,
+				184DE3CC251C442D00CFB058 /* MGDShareDataView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1977,6 +1982,7 @@
 				E3F60FF224F14CE8001F42B1 /* TYTabPagerBar.m in Sources */,
 				E3F60FF424F14CE8001F42B1 /* TYTabPagerBarCell.m in Sources */,
 				B8FE2B0124EBA434009DC23D /* MGDSportTableViewCell.m in Sources */,
+				184DE3CD251C442D00CFB058 /* MGDShareDataView.m in Sources */,
 				2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
 				B8D9633B24E9B2CD0035CF1C /* MGDCellDataViewController.m in Sources */,
