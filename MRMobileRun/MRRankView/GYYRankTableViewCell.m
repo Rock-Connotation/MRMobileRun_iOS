@@ -96,8 +96,8 @@
    
     NSString *targetStr = [NSString stringWithFormat:@"%@%@", _rankModel.DistanceValue, _rankModel.Unit];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:targetStr];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:18] range:[targetStr rangeOfString:_rankModel.DistanceValue]];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:[targetStr rangeOfString:_rankModel.Unit]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Semibold" size:18] range:[targetStr rangeOfString:_rankModel.DistanceValue]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Semibold" size:12] range:[targetStr rangeOfString:_rankModel.Unit]];
     _distanceLab.attributedText = attributedString;
     
     if ([_rankModel.Rank integerValue] <= 3) {

@@ -89,9 +89,6 @@
         } else {
                    // Fallback on earlier versions
         }
-        
-        [self test];
-        
     }
     return self;
 }
@@ -102,9 +99,8 @@
         make.top.mas_equalTo(self.mas_top);
         make.left.mas_equalTo(self.mas_left);
         make.right.mas_equalTo(self.mas_right);
-        make.height.equalTo(@699);
+        make.height.mas_equalTo(@610);
     }];
-    
     
     [_paceBackView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.backView.mas_top);
@@ -114,15 +110,22 @@
     }];
     
     [_speedBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.paceBackView.mas_bottom).offset(50);
+        make.top.mas_equalTo(self.paceBackView.mas_bottom).mas_offset(50);
         make.left.mas_equalTo(self.mas_left);
         make.right.mas_equalTo(self.mas_right);
-        make.height.equalTo(@308);
+        make.height.equalTo(@310);
     }];
     
     [_speedDotView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.speedBackView.mas_top).mas_offset(7);
         make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(15);
+        make.width.equalTo(@8);
+        make.height.equalTo(@8);
+    }];
+    
+    [_paceDotView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.paceBackView.mas_top).mas_offset(7);
+        make.left.mas_equalTo(self.paceBackView.mas_left).mas_offset(15);
         make.width.equalTo(@8);
         make.height.equalTo(@8);
     }];
@@ -134,29 +137,6 @@
         make.height.equalTo(@22);
     }];
     
-    [_speedLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(145);
-        make.right.mas_equalTo(self.speedBackView.mas_right).mas_offset(-140);
-        make.width.equalTo(@90);
-        make.height.equalTo(@34);
-    }];
-    
-    [_descSpeed mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.speedLab.mas_bottom);
-        make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(166);
-        make.right.mas_equalTo(self.speedBackView.mas_right).mas_offset(-165);
-        make.height.equalTo(@16);
-    }];
-    
-    
-    
-    [_paceDotView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.paceBackView.mas_top).mas_offset(7);
-        make.left.mas_equalTo(self.paceBackView.mas_left).mas_offset(15);
-        make.width.equalTo(@8);
-        make.height.equalTo(@8);
-    }];
-    
     [_pace mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.paceBackView.mas_top);
         make.left.mas_equalTo(self.paceBackView.mas_left).mas_offset(29);
@@ -164,25 +144,34 @@
         make.height.equalTo(@22);
     }];
     
+    [_speedLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.speed.mas_bottom);
+        make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(screenWidth * 0.3813);
+        make.right.mas_equalTo(self.speedBackView.mas_right).mas_offset(-screenWidth * 0.3786);
+        make.height.equalTo(@34);
+    }];
+    
     [_paceLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.pace.mas_bottom);
-        make.left.mas_equalTo(self.paceBackView.mas_left).mas_offset(143);
-        make.right.mas_equalTo(self.paceBackView.mas_right).mas_offset(-142);
+        make.left.mas_equalTo(self.paceBackView.mas_left).mas_offset(screenWidth * 0.3866);
+        make.right.mas_equalTo(self.paceBackView.mas_right).mas_offset(-screenWidth * 0.3733);
         make.height.equalTo(@34);
+    }];
+    
+    [_descSpeed mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.speedLab.mas_bottom);
+        make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(screenWidth * 0.4026);
+        make.right.mas_equalTo(self.speedBackView.mas_right).mas_offset(-screenWidth * 0.40);
+        make.height.equalTo(@16);
     }];
     
     [_descPace mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.paceLab.mas_bottom);
-        make.left.mas_equalTo(self.paceBackView.mas_left).mas_offset(166);
-        make.right.mas_equalTo(self.paceBackView.mas_right).mas_offset(-165);
+        make.left.mas_equalTo(self.speedBackView.mas_left).mas_offset(screenWidth * 0.4026);
+        make.right.mas_equalTo(self.speedBackView.mas_right).mas_offset(-screenWidth * 0.40);
         make.height.equalTo(@16);
     }];
 
-}
-
-- (void)test {
-    _paceLab.text = @"193";
-    _speedLab.text = @"5.42";
 }
 
 @end

@@ -84,6 +84,12 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(28);
     }];
+    if (@available(iOS 11.0, *)) {
+        self.passwordField.textColor = [UIColor blackColor];
+        self.usernameField.textColor = [UIColor blackColor];
+        } else {
+               // Fallback on earlier versions
+    }
 }
 
 - (void)initNoticeLabel{

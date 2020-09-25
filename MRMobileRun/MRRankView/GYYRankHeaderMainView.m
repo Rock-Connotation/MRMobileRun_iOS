@@ -65,7 +65,7 @@
     [self addSubview:tipLab];
     tipLab.text = @"排名";
     tipLab.textColor = COLOR_WITH_HEX(0xB2B2B2);
-    tipLab.font = [UIFont systemFontOfSize:10];
+    tipLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size:10];
     [tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.rankLab);
         make.bottom.mas_equalTo(-21);
@@ -109,8 +109,8 @@
     }
     NSString *targetStr = [NSString stringWithFormat:@"%@%@", _rankModel.DistanceValue, unit];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:targetStr];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:26] range:[targetStr rangeOfString:_rankModel.DistanceValue]];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:18] range:[targetStr rangeOfString:unit]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Semibold" size:26] range:[targetStr rangeOfString:_rankModel.DistanceValue]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFangSC-Semibold" size:18] range:[targetStr rangeOfString:unit]];
     _distanceLab.attributedText = attributedString;
     _rankLab.text = [NSString stringWithFormat:@"%@", _rankModel.Rank];
 }
@@ -119,7 +119,7 @@
     if (!_rankLab) {
         _rankLab = [[UILabel alloc] init];
         _rankLab.textColor = COLOR_WITH_HEX(0xF06272);
-        _rankLab.font = [UIFont boldSystemFontOfSize:25];
+        _rankLab.font =[UIFont fontWithName:@"PingFangSC-Medium" size:25];
     }
     return _rankLab;
 }
@@ -150,7 +150,7 @@
             _nameLab.textColor = COLOR_WITH_HEX(0x333739);
             // Fallback on earlier versions
         }
-        _nameLab.font = [UIFont boldSystemFontOfSize:16];
+        _nameLab.font = [UIFont fontWithName:@"PingFangSC-Medium" size:16];
     }
     return _nameLab;
 }

@@ -15,14 +15,16 @@
 #import <AFNetworking.h>
 #import "MGDSportData.h"
 #import "MGDCellDataViewController.h"
+#import "MBProgressHUD.h"
 
-#define BACKGROUNDCOLOR [UIColor colorWithRed:252/255.0 green:252/255.0 blue:252/255.0 alpha:1.0]
-#define DIVIDERCOLOR [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0]
 
-@interface MGDMoreViewController ()<UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate,UIGestureRecognizerDelegate> {
+
+//此处遵守自定义的MGDColumnChartView的协议，用于切换年份的操作
+@interface MGDMoreViewController () <UITableViewDelegate,UITableViewDataSource,MGDColumnChartViewDelegate,YBPopupMenuDelegate,UIGestureRecognizerDelegate> {
     BOOL _isShowSec;
     NSArray *_selectArr;
     MJRefreshBackNormalFooter *_footer;
+    MJRefreshNormalHeader *_header;
 }
 
 //用于展示页面第一次加载出来时的柱形图数据模型的数组
@@ -35,6 +37,10 @@
 @property (nonatomic, strong) MGDSportData *userDataModel;
 //柱形图数组
 @property (nonatomic, strong) NSMutableArray *chartArr;
+//加载数据失败时的hud
+@property (nonatomic, strong) MBProgressHUD *hud;
+//首次使用网络请求加载数据时的hud
+@property (nonatomic, strong) MBProgressHUD *successHud;
 
 @end
 
@@ -48,149 +54,300 @@
     return _chartArr;
 }
 
+
 NSString *ID1 = @"Sport_cell";
+static int page = 1;
+static bool isConnected = false;
+static AFHTTPSessionManager *manager; //单例的AFN
 
 -(void)viewWillAppear:(BOOL)animated {
-    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
 }
+
+
 -(void)viewWillDisappear:(BOOL)animated {
-    self.tabBarController.hidesBottomBarWhenPushed = NO;
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     self.navigationController.navigationBar.translucent = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
-    //设置返回按钮的颜色
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.title = @"运动记录";
+    
+    //自定义的返回按钮
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [backBtn setImage:[UIImage imageNamed:@"返回箭头4"] forState:UIControlStateNormal];
     [backBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 5)];
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backItem;
-    _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, -15, screenWidth, screenHeigth + 15) style:UITableViewStylePlain];
-    [self scrollViewDidScroll:_recordTableView];
-    _recordTableView.separatorStyle = NO;
+    
+    //UI布局
+    if (kIs_iPhoneX) {
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 361, screenWidth, screenHeigth - 361) style:UITableViewStylePlain];
+    }else {
+        _recordTableView = [[MGDSportTableView alloc] initWithFrame:CGRectMake(0, 341, screenWidth, screenHeigth - 341) style:UITableViewStylePlain];
+    }
+    
+    //UITableView的一些设置
+    _recordTableView.separatorStyle = NO; //取消分割线
     _recordTableView.delegate = self;
     _recordTableView.dataSource = self;
     [self.view addSubview:_recordTableView];
     [_recordTableView registerClass:[MGDSportTableViewCell class] forCellReuseIdentifier:ID1];
+    
+    //深色模式颜色的适配
     if (@available(iOS 11.0, *)) {
-        self.backView.backgroundColor = MGDColor3;
+        self.view.backgroundColor = MGDColor3;
+        self.recordTableView.backgroundColor = MGDColor1;
+        self.backView.backgroundColor = MGDColor1;
         self.navigationController.navigationBar.barTintColor = MGDColor1;
+        self.navigationController.navigationBar.tintColor = MGDTextColor1;
        } else {
            // Fallback on earlier versions
     }
+    
+    //加载数据的操作
     _recordArray = [[NSMutableArray alloc] init];
-    _tmpArray = [[NSMutableArray alloc] init];
     _cellListArray = [[NSMutableArray alloc] init];
-    [self.recordTableView reloadData];
-    [self getRecordList:^(NSMutableArray *recordList) {
-        [self loadmoreDataWithPage:self->_pageNumber];
-        [self setUI];
-    }];
+    _tmpArray = [[NSMutableArray alloc] init];
     
-    //设置右滑返回
+    //获取缓存中的数据
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    
+    NSData *ColumnData = [user objectForKey:@"SportMoreList"]; //柱形图的数据
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:ColumnData];
+    NSMutableArray *ColumnArray = [NSMutableArray arrayWithArray:array];
+    
+    NSData *cellarrayData = [user objectForKey:@"CellData"]; //跑步列表的数据
+    NSArray *cellarray = [NSKeyedUnarchiver unarchiveObjectWithData:cellarrayData];
+    NSMutableArray *listArray = [NSMutableArray arrayWithArray:cellarray];
+    _recordArray = ColumnArray;
+    _cellListArray = listArray;
+    
+    /**
+     此处如果是首次登陆该账号，则使用网络数据
+     如果不是，则首先读取缓存的数据
+     如果是第一次打开此程序，然后判断当前网络的状况，如果有网络，则自动刷新，没有网络则不刷新
+     之后再跳转到此页面只读取缓存数据
+     */
+   if (([user objectForKey:@"SportMoreList"] && [user objectForKey:@"CellData"]) || [user boolForKey:@"MoreIsCache"]) {
+        NSLog(@"=====使用缓存数据=====");
+        [self setUpRefresh];
+        [self getCache:^(NSMutableArray *recordList) {
+            [self loadmoreDataWithPageWithCache];
+            [self setUI];
+        }];
+        if ([user boolForKey:@"MoreIsFirst"]) {
+            [self checkNetWorkTrans];
+            [user setBool:NO forKey:@"MoreIsFirst"];
+            [user synchronize];
+        }
+    }else {
+        NSLog(@"=====使用网络数据=====");
+        [self setUpRefresh];
+        _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _successHud.animationType = MBProgressHUDAnimationZoomOut;
+        _successHud.mode = MBProgressHUDModeText;
+        _successHud.label.text = @" 正在加载中... ";
+        CGFloat margin = 0;
+        if (kIs_iPhoneX) {
+            margin = 361+20 - self.view.center.y;
+        }else {
+            margin = 361+20 - self.view.center.y;
+        }
+        [_successHud setOffset:CGPointMake(0, margin)];
+        [self getRecordList:^(NSMutableArray *recordList) {
+            [self loadmoreDataWithPage:self->_pageNumber];
+            [self setUI];
+        }];
+        [user setBool:YES forKey:@"MoreIsCache"];
+        [user setBool:NO forKey:@"MoreIsFirst"];
+        [user synchronize];
+    }
+    
+    //设置右滑返回的手势
     id target = self.navigationController.interactivePopGestureRecognizer.delegate;
-    //handleNavigationTransition:为系统私有API,即系统自带侧滑手势的回调方法，我们在自己的手势上直接用它的回调方法
+    //handleNavigationTransition:为系统私有API,即系统自带侧滑手势的回调方法，在自己的手势上直接用它的回调方法
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-    panGesture.delegate = self; // 设置手势代理，拦截手势触发
+    panGesture.delegate = self; //设置手势代理，拦截手势触发
     [self.view addGestureRecognizer:panGesture];
-    // 一定要禁止系统自带的滑动手势
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
     
-    //UITableView返回时contentOffset还在原来的位置
+    //关闭预估高度的效果
     self.recordTableView.estimatedRowHeight = 0;
     self.recordTableView.estimatedSectionHeaderHeight = 0;
     self.recordTableView.estimatedSectionFooterHeight = 0;
 }
 
 
+- (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan
+{
+    NSLog(@"右滑返回"); //自定义滑动手势
+}
+
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     // 当当前控制器是根控制器时，不可以侧滑返回，所以不能使其触发手势
-    if(self.navigationController.childViewControllers.count == 1)
-    {
+    if(self.navigationController.childViewControllers.count == 1) {
         return NO;
     }
     return YES;
 }
 
-
+//返回上一个控制器
 - (void) back {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"showTabBar" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
+//进行UI的布局
 - (void)setUI {
+     CGFloat navigationBarAndStatusBarHeight = self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height;
     if (kIs_iPhoneX) {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 370)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 102, screenWidth, 228)];
-        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 360, screenWidth, 1)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 228)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 344, screenWidth, 1)];
     }else {
         _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 348)];
-        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, 80, screenWidth, 258)];
-        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 338, screenWidth, 1)];
+        _columnChartView = [[MGDColumnChartView alloc] initWithFrame:CGRectMake(0, navigationBarAndStatusBarHeight, screenWidth, 228)];
+        _divider = [[UIView alloc] initWithFrame:CGRectMake(0, 322, screenWidth, 1)];
     }
 
+    //设置年份
     NSDate *date =[NSDate date];
     _columnChartView.yearName = [self dateToYear:date];
     _columnChartView.delegate = self;
+    [self.view addSubview:_backView];
     [self.backView addSubview:_columnChartView];
-    //UITableView的头视图是柱形图
-    self.recordTableView.tableHeaderView = self.backView;
-
+    
+    //深色模式的适配
     if (@available(iOS 11.0, *)) {
         self.divider.backgroundColor = MGDdividerColor;
         self.recordTableView.backgroundColor = MGDColor3;
     } else {
         // Fallback on earlier versions
     }
-    [self.backView addSubview:_divider];
     
-    [self setUpRefresh];
+    [self.view addSubview:_divider];
     _isShowSec = false;
     _selectArr = [self columnYearLabelYear];
 }
 
+//设置关于列表刷新的相关文字
 - (void)setUpRefresh {
+    //上滑加载的设置
     _footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     [_footer setTitle:@"上滑加载更多" forState:MJRefreshStateIdle];
     [_footer setTitle:@"上滑加载更多" forState:MJRefreshStatePulling];
     [_footer setTitle:@"正在加载中" forState:MJRefreshStateRefreshing];
     [_footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.recordTableView.mj_footer = _footer;
+    
+    //下拉刷新的设置
+    _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadnewData)];
+    [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
+    [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
+    [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+    self.recordTableView.mj_header = _header;
     self.recordTableView.estimatedRowHeight = 0;
-}
-
-- (void)loadMoreData {
-    [self.recordTableView.mj_footer beginRefreshing];
-    if (_footer.state == MJRefreshStateNoMoreData) {
-        [_footer endRefreshingWithNoMoreData];
+    
+    //刷新字体的深色模式适配
+    if (@available(iOS 11.0, *)) {
+        _header.stateLabel.textColor = MGDTextColor1;
+        _footer.stateLabel.textColor = MGDTextColor1;
+        } else {
+               // Fallback on earlier versions
     }
-    //上滑时count++进行查询
-    _pageNumber++;
-    [self loadmoreDataWithPage:_pageNumber];
 }
 
-- (void)loadmoreDataWithPage:(int)page {
+/**
+ 首次登陆此账号时的网络请求，获取柱形图的数据，同时写入缓存，并且在block中请求列表的数据
+ */
+- (void)getRecordList:(void(^)(NSMutableArray *recordList))result {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"15"};
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getSportRecordList" parameters:param
+    NSDate *currentDate = [NSDate date];
+    NSString *currentDateStr = [self dateToString:currentDate];
+    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
+    [manager POST:AllSportRecordUrl parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        for (NSDictionary *dic in record) {
+            self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+            [self->_recordArray addObject:self.userDataModel];
+        }
+        NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_recordArray];
+        [user setObject:arrayData forKey:@"SportMoreList"];
+        [user synchronize];
+        [self makeListData:self->_recordArray];
+        //通过block把值传出来
+        dispatch_async(dispatch_get_main_queue(), ^{
+            result(self->_recordArray);
+        });
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+        [self->_successHud removeFromSuperview];
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 加载失败 ";
+        [self->_hud hideAnimated:YES afterDelay:1.5];
+    }];
+}
+
+/**
+ 上滑加载时，调用此方法，加载新的数据
+ */
+- (void) loadMoreData {
+    [self.recordTableView.mj_footer beginRefreshing];
+    if (_footer.state == MJRefreshStateNoMoreData) {
+        [_footer endRefreshingWithNoMoreData];
+    }
+    //上滑时count++进行查询
+    page++;
+    _pageNumber = page;
+    [self loadmoreDataWithPage:_pageNumber];
+}
+
+/**
+ 下拉刷新时，清除之前的数据，重新加载新的数据
+ */
+- (void) loadnewData {
+    [self.recordTableView.mj_header beginRefreshing];
+    page = 1;
+    self->_pageNumber = page;
+    [self loadmoreDataWithPageRefresh:self->_pageNumber];
+}
+
+/**
+加载新的数据，同时写入缓存，没有数据时则设置footer的状态，没有网络时提示加载失败
+ */
+- (void)loadmoreDataWithPage:(int)page {
+    manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"5"};
+    [manager POST:SportListUrl parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
@@ -202,20 +359,94 @@ NSString *ID1 = @"Sport_cell";
                 self->_userDataModel = [MGDSportData SportDataWithDict:dic];
                 [self->_cellListArray addObject:self.userDataModel];
             }
+            [self cleanZeroData:self->_cellListArray];
+            NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
+            [user setObject:arrayData forKey:@"CellData"];
+            [user synchronize];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.recordTableView reloadData]; //列表数据刷新
+                [self.recordTableView layoutIfNeeded]; //停止刷新
+            });
+            [self.recordTableView.mj_footer endRefreshing];
+        }else {
+            self->_footer.state = MJRefreshStateNoMoreData; //改变状态
+        }
+            [self->_successHud removeFromSuperview]; //移除加载中的successHud
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"=====%@", error);
+        [self.recordTableView.mj_footer endRefreshing];
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.animationType = MBProgressHUDAnimationZoomOut;
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 加载失败 ";
+        [self->_hud setOffset:CGPointMake(0, 25)];
+        [self->_hud hideAnimated:YES afterDelay:1.2];
+    }];
+}
+
+/**
+ 刷新新的数据后，清除之前的数据，加载新的数据，并且写入缓存,没有网络时提示刷新失败
+ */
+- (void)loadmoreDataWithPageRefresh:(int)page {
+    manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *token = [user objectForKey:@"token"];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
+    [manager setResponseSerializer:responseSerializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
+    NSDictionary *param = @{@"page":[NSString stringWithFormat:@"%d",_pageNumber],@"count":@"5"};
+    [manager POST:SportListUrl parameters:param
+          success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = responseObject[@"data"];
+        NSArray *record = [[NSArray alloc] init];
+        record = dict[@"record_list"];
+        [self->_cellListArray removeAllObjects];
+        //还有数据时继续查询，没有数据了改变状态为没有数据
+        if (record.count > 0) {
+            for (NSDictionary *dic in record) {
+                self->_userDataModel = [MGDSportData SportDataWithDict:dic];
+                [self->_cellListArray addObject:self.userDataModel];
+            }
+            [self cleanZeroData:self->_cellListArray];
+            NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
+            [user setObject:arrayData forKey:@"CellData"];
+            [user synchronize];
             dispatch_async(dispatch_get_main_queue(), ^{
                 //列表数据刷新
                 [self.recordTableView reloadData];
                 [self.recordTableView layoutIfNeeded];
-                //停止刷新
+                [self.recordTableView.mj_header endRefreshing];  //停止刷新
             });
-            [self.recordTableView.mj_footer endRefreshing];
         }else {
-            //改变状态
-            self->_footer.state = MJRefreshStateNoMoreData;
+            self->_footer.state = MJRefreshStateNoMoreData;  //改变状态
         }
+        [self.recordTableView.mj_header endRefreshing];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
+        [self.recordTableView.mj_header endRefreshing];
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.animationType = MBProgressHUDAnimationZoomOut;
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 刷新失败 ";
+        [self->_hud setOffset:CGPointMake(0, 25)];
+        [self->_hud hideAnimated:YES afterDelay:1.2];
     }];
+}
+
+/**
+ 通过缓存读取数据
+ */
+- (void)loadmoreDataWithPageWithCache{
+    [self setUpRefresh];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //列表数据刷新
+        [self.recordTableView reloadData];
+        [self.recordTableView layoutIfNeeded];
+        //停止刷新
+    });
+    [self.recordTableView.mj_footer endRefreshing];
 }
 
 - (void)changeYearClick:(MGDColumnChartView *)chartView sender:(UIButton *)sender
@@ -223,7 +454,7 @@ NSString *ID1 = @"Sport_cell";
     [self showYearSelect:sender];
 }
 
-//判断月份
+//判断月份并且截取月份，设置当月为"本月"
 - (NSArray *)columnChartTitleArrayYear:(NSString *)year {
     NSDate *date =[NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -250,7 +481,7 @@ NSString *ID1 = @"Sport_cell";
     }
 }
 
-//获取年份
+//获取当前的年份，并且设置列表的年份为 上一年，本年，下一年
 - (NSArray *)columnYearLabelYear {
     NSMutableArray *yearArray = [NSMutableArray new];
     NSDate *date =[NSDate date];
@@ -263,37 +494,33 @@ NSString *ID1 = @"Sport_cell";
     return [yearArray copy];
 }
 
-//柱形图的数据，无数据设为0
+//获取柱形图的数据，无数据设为0
 - (NSArray *)columnChartNumberArrayFor:(NSString *)itemName index:(NSInteger)index year:(NSString *)year {
     NSMutableArray *arr = [NSMutableArray array];
     NSDictionary *dic = self.chartArr[index];
-    
     for (NSInteger i = 0; i < 31; i++) {
         NSString* point = [NSString stringWithFormat:@"%ld", (long)i];
         if (point.length == 1) {
             point = [NSString stringWithFormat:@"0%@", point];
         }
-
         NSString *num = dic[point];
         if (num) {
             [arr addObject:num];
-
         }else {
             [arr addObject:@"0"];
         }
     }
-
     return arr;
 }
 
 - (void)showYearSelect:(UIButton *)sender {
-    [YBPopupMenu showRelyOnView:sender titles:_selectArr icons:@[@"", @"", @"", @"", @""] menuWidth:180 delegate:self];
+    [YBPopupMenu showRelyOnView:sender titles:_selectArr icons:@[@"", @"", @""] menuWidth:180 delegate:self];
 }
 
-//点击年份，查询不同的年份
+/**
+ 点击年份来查询柱形图，从年初到年尾的全部数据，没有网络时提醒无网络连接
+ */
 - (void)ybPopupMenu:(YBPopupMenu *)ybPopupMenu didSelectedAtIndex:(NSInteger)index {
-
-    [self.tmpArray removeAllObjects];
     NSString *year = _selectArr[index];
     NSLog(@"这是当前的年份----%@",year);
     NSDate *mydate=[NSDate date];
@@ -301,7 +528,7 @@ NSString *ID1 = @"Sport_cell";
     if ([year isEqualToString:currentYear]) {
          NSLog(@"%@-------%@",year,currentYear);
     }
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager = [AFHTTPSessionManager manager];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
@@ -312,8 +539,9 @@ NSString *ID1 = @"Sport_cell";
     NSString *lastDateStr = [year stringByAppendingFormat:@"-01-01 00:00:00"];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
     NSLog(@"%@",param);
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
+    [manager POST:SportListUrl parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self.tmpArray removeAllObjects];
         NSDictionary *dict = [[NSDictionary alloc] init];
         dict = responseObject[@"data"];
         NSArray *record = [[NSArray alloc] init];
@@ -323,30 +551,27 @@ NSString *ID1 = @"Sport_cell";
             [self->_tmpArray addObject:self.userDataModel];
         }
         self->_tmpArray =  [[self->_tmpArray reverseObjectEnumerator] allObjects];
-            dispatch_async(dispatch_get_main_queue(), ^{
-            [self makeListData:self->_tmpArray];
-        });
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [self makeListData:self->_tmpArray];
+        NSLog(@"刷新年份数据");
+    });
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"=====%@", error);
+        NSLog(@"%@",error);
+        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        self->_hud.animationType = MBProgressHUDAnimationZoomOut;
+        self->_hud.mode = MBProgressHUDModeText;
+        self->_hud.label.text = @" 无网络连接 ";
+        [self->_hud setOffset:CGPointMake(0, 25)];
+        [self->_hud hideAnimated:YES afterDelay:1.2];
     }];
     self.columnChartView.yearName = year;
     [self.columnChartView reloadData];
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == _recordTableView) {
-        CGFloat offY = scrollView.contentOffset.y;
-        if (offY < 0) {
-            scrollView.contentOffset = CGPointZero;
-        }
-    }
-}
-
-
 #pragma mark- 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return  78;
+    return  screenHeigth * 0.117;
 }
 
 #pragma mark- 数据源方法
@@ -386,9 +611,9 @@ NSString *ID1 = @"Sport_cell";
     
     //速度数组，用于画图
     detailDataVC.speedArray = [self DataViewArray:model.SpeedArray];
-    NSLog(@"步频数组----%@",detailDataVC.stepFrequencyArray);
-    NSLog(@"路径数组----%@",detailDataVC.speedArray);
-
+    
+    //路径数组，用于绘制轨迹
+    detailDataVC.locationAry = [self DataViewArray:model.pathArray];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 
@@ -398,10 +623,10 @@ NSString *ID1 = @"Sport_cell";
     MGDSportTableViewCell* cell = nil;
     cell.backgroundColor = [UIColor clearColor];
     cell = [tableView dequeueReusableCellWithIdentifier:ID1];
-
     if (_recordArray != nil && ![_recordArray isKindOfClass:[NSNull class]] && _recordArray.count != 0) {
         MGDSportData *model = _cellListArray[indexPath.row];
         NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
+        //获取当前时间来判断，如果是昨天或者今天的数据则显示为文字，否则显示为日期
         NSDate *currentDate = [NSDate date];
         NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
         NSString *lastDay = [[self yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
@@ -412,6 +637,7 @@ NSString *ID1 = @"Sport_cell";
         }else {
             cell.dayLab.text = date;
         }
+        //展示cell上的数据
         NSString *time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
         cell.timeLab.text = time;
         cell.kmLab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]/1000];
@@ -425,38 +651,16 @@ NSString *ID1 = @"Sport_cell";
 }
 
 
-//网络请求
-- (void)getRecordList:(void(^)(NSMutableArray *recordList))result {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *token = [user objectForKey:@"token"];
-    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
-    responseSerializer.acceptableContentTypes =  [manager.responseSerializer.acceptableContentTypes setByAddingObjectsFromSet:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", @"text/plain",@"application/atom+xml",@"application/xml",nil]];
-    [manager setResponseSerializer:responseSerializer];
-    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
-    NSDate *currentDate = [NSDate date];
-    NSString *currentDateStr = [self dateToString:currentDate];
-    NSString *lastDateStr = [self lastDateTostring:currentDate];
-    NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
-    [manager POST:@"https://cyxbsmobile.redrock.team/wxapi/mobile-run/getAllSportRecord" parameters:param
-          success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *dict = [[NSDictionary alloc] init];
-        dict = responseObject[@"data"];
-        NSArray *record = [[NSArray alloc] init];
-        record = dict[@"record_list"];
-        for (NSDictionary *dic in record) {
-            self->_userDataModel = [MGDSportData SportDataWithDict:dic];
-            [self->_recordArray addObject:self.userDataModel];
-        }
-        [self makeListData:self->_recordArray];
+/**
+ 通过缓存获取柱形图的数据
+ */
+- (void)getCache:(void(^)(NSMutableArray *recordList))result {
+    [self.chartArr removeAllObjects];
+    [self makeListData:self->_recordArray];
         //通过block把值传出来
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
             result(self->_recordArray);
-              });
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"=====%@", error);
-    }];
+        });
 }
 
 //返回当前的时间（网络请求时返回的字典内容）
@@ -505,10 +709,14 @@ NSString *ID1 = @"Sport_cell";
 //秒数转换成时分秒
 -(NSString *)getMMSSFromSS:(NSString *)totalTime{
     NSInteger seconds = [totalTime integerValue];
-    NSString *str_hour = [NSString stringWithFormat:@"%02ld",(long)seconds/3600];
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    NSString *str_minute = [[NSString alloc] init];
     NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+    if (seconds >= 6000) {
+        str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
+    }else {
+        str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
+    }
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
     return format_time;
 }
 
@@ -551,6 +759,9 @@ NSString *ID1 = @"Sport_cell";
     return speed;
 }
 
+/**
+ 用于展示柱形图的柱子，从月份获取到天，累加每一天的数据，没有数据设置为0
+ */
 - (void)makeListData:(NSArray *)array {
     NSInteger count = 12;
     NSMutableArray *dataArr = [NSMutableArray array];
@@ -585,6 +796,7 @@ NSString *ID1 = @"Sport_cell";
     [self.columnChartView reloadData];
 }
 
+//拆去获取到的杨诚所需的数组的中括号
 - (NSArray *)DataViewArray:(NSArray *)dataArr {
     NSString *CLASS = [NSString stringWithFormat:@"%@",[dataArr class]];
     if ([CLASS isEqualToString:@"__NSSingleObjectArrayI"]) {
@@ -597,6 +809,51 @@ NSString *ID1 = @"Sport_cell";
         [test addObject:s];
         return [test copy];
     }
+}
+
+//解决杨诚上传的空数组的BUG，如果时间戳为0的话，去除该数据
+- (NSMutableArray *)cleanZeroData:(NSMutableArray *)array {
+   NSArray * TempArray = [NSArray arrayWithArray:array];
+    for (MGDSportData *model in TempArray) {
+        NSString *date = [NSString stringWithFormat:@"%@",model.FinishDate];
+        if ([date isEqualToString:@"0"]) {
+            [array removeObject:model];
+        }
+    }
+    return array;
+}
+
+//判断当前网络连接的情况，如果此时有网络，且是第一次打开该程序，则自动刷新，否则不刷新
+- (void)checkNetWorkTrans {
+    AFNetworkReachabilityManager *managerAF = [AFNetworkReachabilityManager sharedManager];
+    [managerAF setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:
+                isConnected = true;
+                if (isConnected) {
+                    [self loadnewData];
+                }
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                isConnected = true;
+                if (isConnected) {
+                    [self loadnewData];
+                }
+                NSLog(@"使用WIFI");
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                isConnected = true;
+                if (isConnected) {
+                    [self loadnewData];
+                }
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                isConnected = false;
+                NSLog(@"没有连接网络");
+                break;
+        }
+    }];
+    [managerAF startMonitoring];
 }
 
 @end

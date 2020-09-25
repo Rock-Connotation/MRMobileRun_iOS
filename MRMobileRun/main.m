@@ -10,6 +10,9 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MoreIsFirst"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MineIsFirst"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }

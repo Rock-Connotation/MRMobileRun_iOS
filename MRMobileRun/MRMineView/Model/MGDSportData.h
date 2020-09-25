@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MGDSportData : NSObject
+@interface MGDSportData : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString *distance;
 
@@ -45,4 +45,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

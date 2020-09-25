@@ -36,7 +36,13 @@
     self.lineColor = [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0];
     self.lineWidth = 6;
     self.lineColor = [UIColor redColor];
-    self.bottomXCount = bottomCout - 1;
+    //对底部X轴的lable的数目赋值
+    self.bottomXCount = 0;
+    if (bottomCout < 6) {
+        self.bottomXCount = 6;
+    }else{
+         self.bottomXCount = bottomCout - 1;
+    }
     self.lineDataAry = lineDataAry;
     self.YmaxNumber = YmaxNumber;
     self.colorArr = [NSArray arrayWithObjects:(id)[[[UIColor redColor] colorWithAlphaComponent:0.4] CGColor],(id)[[[UIColor whiteColor] colorWithAlphaComponent:0.1] CGColor], nil];

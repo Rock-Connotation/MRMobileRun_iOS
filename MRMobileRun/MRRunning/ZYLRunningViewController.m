@@ -29,8 +29,12 @@
 
 @implementation ZYLRunningViewController
 - (void)viewWillAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+    [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = YES;
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    if ([viewControllers indexOfObject:self]) {
+        self.tabBarController.selectedIndex = 0;
+    }
 }
 
 - (void)viewDidLoad {
@@ -120,7 +124,7 @@ if (!timer) {
     //切换到Go图片，并且跳转到基础界面
     [timer invalidate];
     self.NumberLabel.text = @"Go";
-     [[NSNotificationCenter defaultCenter]postNotificationName:@"hideTabBar" object:nil];
+     self.tabBarController.tabBar.hidden = YES;
         RunMainPageCV *cv = [[RunMainPageCV alloc] init];
         [self.navigationController pushViewController:cv animated:YES];
        

@@ -8,6 +8,7 @@
 
 #import "HttpClient.h"
 @implementation HttpClient
+static AFHTTPSessionManager *manager;
 
 + (HttpClient *)defaultClient
 {
@@ -19,6 +20,14 @@
     return instance;
 }
 
++ (id)shareAFNManager{
+     static AFHTTPSessionManager *manager;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            manager = [AFHTTPSessionManager manager];
+        });
+        return manager;
+}
 
 - (void)requestWithPath:(NSString *)url
                  method:(NSInteger)method

@@ -17,7 +17,11 @@
         UITableView *sportTableView = [[UITableView alloc] init];
         self.sportTableView = sportTableView;
         [self addSubview:sportTableView];
-        self.sportTableView.backgroundColor = [UIColor redColor];
+        if (@available(iOS 11.0, *)) {
+            self.backgroundColor = MGDColor3;
+           } else {
+               // Fallback on earlier versions
+        }
     }
     return self;
 }

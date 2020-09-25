@@ -24,8 +24,9 @@
         }
         [self addSubview:AlertView];
         [AlertView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.mas_left).offset(screenWidth * 0.0906);
-            make.top.equalTo(self.mas_top).offset(screenHeigth * 0.335);
+//            make.left.equalTo(self.mas_left).offset(screenWidth * 0.0906);
+//            make.top.equalTo(self.mas_top).offset(screenHeigth * 0.335);
+            make.center.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(306, 200));
         }];
         AlertView.layer.cornerRadius = 16;
@@ -106,7 +107,7 @@
             make.centerX.equalTo(self);
             make.width.mas_equalTo(216);
             make.top.equalTo(AlertView.mas_top).offset(47);
-            make.bottom.equalTo(self.endBtn.mas_top);
+//            make.bottom.equalTo(self.endBtn.mas_top);
                        }];
         self.messageLbl.numberOfLines = 0;
         self.messageLbl.textAlignment = NSTextAlignmentCenter;

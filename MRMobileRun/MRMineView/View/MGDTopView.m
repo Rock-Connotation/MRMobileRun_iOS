@@ -8,7 +8,6 @@
 #import "MGDTopView.h"
 #import <Masonry.h>
 #import "UIImageView+WebCache.h"
-#define BACGROUNDCOLOR [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
 #define SHAWDOWCOLOR [UIColor colorWithRed:136/255.0 green:154/255.0 blue:181/255.0 alpha:0.05]
 
 @implementation MGDTopView
@@ -23,8 +22,6 @@
         } else {
             // Fallback on earlier versions
         }
-        //self.topView.backgroundColor = BACGROUNDCOLOR;
-        self.topView.layer.cornerRadius = 50;
         self.topView.layer.shadowColor = SHAWDOWCOLOR.CGColor;
         self.topView.layer.shadowOffset = CGSizeMake(0,3);
         self.topView.layer.shadowOpacity = 1;
@@ -57,6 +54,7 @@
         _personalSign.textColor = [UIColor colorWithRed:160/255.0 green:160/255.0 blue:160/255.0 alpha:1.0];
         _personalSign.numberOfLines = 0;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfo) name:@"isLoginSuccess" object:nil];
         [self userInfo];
     }
     return self;
@@ -71,6 +69,7 @@
     self.userName.text = nickName;
     self.personalSign.text = signature;
 }
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];

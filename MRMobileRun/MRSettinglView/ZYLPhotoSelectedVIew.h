@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZYLPhotoSelectedVIew : UIView <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-@property (nonatomic, weak) UIImage *iconImage;
+@property (nonatomic, strong) UIImage *iconImage;
 
 + (instancetype)selectViewWithDestinationImageView:(UIImageView *)imageView delegate:(UIViewController *)delegate;
 

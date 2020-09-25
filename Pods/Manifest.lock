@@ -20,10 +20,12 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AMap3DMap (7.5.0):
+  - AMap3DMap (7.6.0):
     - AMapFoundation (~> 1.6.3)
-  - AMapFoundation (1.6.3)
-  - AMapLocation (2.6.5):
+  - AMapFoundation (1.6.4)
+  - AMapLocation (2.6.7):
+    - AMapFoundation (~> 1.6.4)
+  - AMapSearch (7.6.0):
     - AMapFoundation (~> 1.6.3)
   - Bugly (2.5.71)
   - CocoaLumberjack (3.6.2):
@@ -48,7 +50,9 @@ DEPENDENCIES:
   - AFNetworking (= 2.5.4)
   - AMap3DMap
   - AMapLocation
+  - AMapSearch
   - Bugly
+  - CocoaLumberjack
   - JZLocationConverter
   - Masonry (= 1.1.0)
   - MBProgressHUD (= 1.1.0)
@@ -65,6 +69,7 @@ SPEC REPOS:
     - AMap3DMap
     - AMapFoundation
     - AMapLocation
+    - AMapSearch
     - Bugly
     - CocoaLumberjack
     - JZLocationConverter
@@ -79,9 +84,10 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  AMap3DMap: fc7c911f5cf079d544ad7faec256c9554cbbb202
-  AMapFoundation: 9ed923193b357ebb30a073e9fe255d3c24054d5a
-  AMapLocation: c566d448285cd502c1e313063d9e2460bd4d7100
+  AMap3DMap: fddccc76459c63e955f637812c8ba5e1e6024277
+  AMapFoundation: 3638198dfa40be54648570c3520edefad288286b
+  AMapLocation: a46c30d9930d0f3a3bd21139d8f845d10ac3f01d
+  AMapSearch: ea3151e626c91b1ef99ec0ec72afdbdb577e16b2
   Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
   JZLocationConverter: 3d816bee6484aed9c155a6045a02ce444833e2f0
@@ -94,6 +100,6 @@ SPEC CHECKSUMS:
   SVGKit: 652cdf7bef8bec8564d04a8511d3ab50c7595fac
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 6e332d620a91d1d9075fd7e5fa1df1322ef2a8eb
+PODFILE CHECKSUM: 7e2aaef8d8d5a36b6bb8375f7f1c2632239f61e3
 
 COCOAPODS: 1.9.3

@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+API_AVAILABLE(ios(12.0))
 @interface MGDDataViewController : UIViewController
 
 @property (nonatomic, strong) NSString *distanceStr;
@@ -27,10 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSArray *caculatedSpeedAry; //首页中处理后的速度数组
 @property (nonatomic, strong) NSArray *cacultedStepsAry; //首页中的处理后步频数组
+
 @property int averageStepFrequency; //平均步频
-@property int maxStepFrequency; //最大步频
+@property int maxStepFrequencyLastest; //最大步频
 @property double averageSpeed; //平均速度
-@property double maxSpeed; //最大速度
+@property double maxSpeedLastest; //最大速度
 
 @property (nonatomic, strong) NSArray *originStepsAry; //原始的获取到的步频数组；
 
@@ -44,6 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic ,strong) MGDShareView *shareView;
 
+//关于天气
+@property (nonatomic, strong) NSString *temperature;
+@property (nonatomic, strong) NSString *weather;
+//@property (nonatomic, strong) UIImageView *weatherImageView; //显示天气图片的图片框
 @end
 
 NS_ASSUME_NONNULL_END

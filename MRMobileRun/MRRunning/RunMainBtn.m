@@ -13,7 +13,8 @@
         self.logoImg = [[UIImageView alloc] init];
         [self addSubview:self.logoImg];
         [self.logoImg mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
+            make.centerX.equalTo(self);
+            make.centerY.equalTo(self).offset(-5);
             make.size.mas_equalTo(CGSizeMake(30, 30));
         }];
         

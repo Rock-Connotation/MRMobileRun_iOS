@@ -11,6 +11,11 @@
 #import <MapKit/MapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <Masonry.h>
+#import <SVGKit.h>
+#import "SVGKit.h"
+#import "SVGKImage.h"
+#import "SVGKParser.h"
+#import "UIImage+SVGTool.h"
 //屏幕的宽和高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHight [UIScreen mainScreen].bounds.size.height
@@ -22,11 +27,47 @@
     [self addMapView];
     [self addViewOnMap];
     [self addViewOnBottomView];
-    [self addViewOnTopView];
-    
-    
-   
-    
+//    [self addViewOnTopView];
+    if (@available(iOS 13.0, *)) {
+      UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        if (mode == UIUserInterfaceStyleDark) {
+            NSLog(@"深色模式");
+            //设置深色模式下的自定义地图样式
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                  NSData *data = [NSData dataWithContentsOfFile:path];
+                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                   options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+            //设置深色模式下的svg格式的图片
+                //暂停按钮
+            self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停黑.svg" size:CGSizeMake(30, 30)];
+                //解锁按钮
+            self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(30, 30)];
+                //锁屏按钮
+            self.lockImageView.image = [UIImage svgImgNamed:@"锁定灰.svg" size:CGSizeMake(25, 25)];
+            
+        } else if (mode == UIUserInterfaceStyleLight) {
+            NSLog(@"浅色模式");
+            //设置浅色模式下的自定义地图样式
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+               NSData *data = [NSData dataWithContentsOfFile:path];
+                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+            
+            //设置浅色模式下的svg格式的图片
+                //暂停按钮
+            self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停白.svg" size:CGSizeMake(30, 30)];
+                //解锁按钮
+            self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定白.svg" size:CGSizeMake(30, 30)];
+                //锁屏按钮
+            self.lockImageView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(25, 25)];
+        } else {
+            NSLog(@"未知模式");
+        }
+    }
 }
 
 //添加地图视图
@@ -46,7 +87,9 @@
         }];
     //设置地图相关属性
     self.mapView.zoomLevel = 18;
-    self.mapView.showsUserLocation = YES;
+    self.mapView.showsUserLocation = NO; //不显示用户小蓝点
+    self.mapView.rotateEnabled = NO; //不旋转
+    
     self.mapView.pausesLocationUpdatesAutomatically = NO;
     self.mapView.showsCompass = NO;
     self.mapView.showsScale = NO;
@@ -59,8 +102,32 @@
     r.showsAccuracyRing = NO;//不显示精度圈
 //    r.image = [UIImage imageNamed:@"userAnnotation"];
     [self.mapView updateUserLocationRepresentation:r];
-//    UIAlertController
-    //
+    
+    //监听是否是深色模式，并根据模式设置自定义地图样式
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        if (mode == UIUserInterfaceStyleDark) {
+            NSLog(@"深色模式");
+            
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                  NSData *data = [NSData dataWithContentsOfFile:path];
+                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                   options.styleData = data;
+               [self.mapView setCustomMapStyleOptions:options];
+               [self.mapView setCustomMapStyleEnabled:YES];
+        } else if (mode == UIUserInterfaceStyleLight) {
+            NSLog(@"浅色模式");
+            
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+               NSData *data = [NSData dataWithContentsOfFile:path];
+                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+        } else {
+            NSLog(@"未知模式");
+        }
+    }
 }
 
 //在地图上添加控件
@@ -266,12 +333,13 @@
     [self.lockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.speedImgView);
         make.top.equalTo(self.speedLbl.mas_bottom).offset(kScreenHight * 0.0843);
-        make.size.mas_equalTo(CGSizeMake(24, 26));
+        make.size.mas_equalTo(CGSizeMake(25, 25));
     }];
     //图片
-    UIImageView *lockImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"smallLockImage"]];
-    [self.lockBtn addSubview:lockImageView];
-    [lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//    UIImageView *lockImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"smallLockImage"]];
+    self.lockImageView = [[UIImageView alloc] init];
+    [self.lockBtn addSubview:self.lockImageView];
+    [self.lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.lockBtn);
     }];
 
@@ -293,9 +361,15 @@
         // Fallback on earlier versions
     }
     //图片
-    self.pauseBtn.logoImg.image = [UIImage imageNamed:@"pauseBtnImage"];
+//    self.pauseBtn.logoImg.image = [UIImage imageNamed:@"pauseBtnImage"];
+    self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停白.svg" size:CGSizeMake(30, 30)];
     
     self.pauseBtn.descLbl.text = @"暂停";
+    if (@available(iOS 11.0, *)) {
+        self.pauseBtn.descLbl.textColor = ContinueBtnTextColor;
+    } else {
+        // Fallback on earlier versions
+    }
     self.pauseBtn.hidden = NO;
     
     
@@ -311,10 +385,14 @@
     self.endLongPressView.bgView.backgroundColor = [UIColor colorWithRed:255/255.0 green:92/255.0 blue:119/255.0 alpha:1.0];
     
         //设置titlelabel
-    self.endLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
+    self.endLongPressView.titleLbl.textColor = [UIColor whiteColor];
     self.endLongPressView.titleLbl.text = @"长按结束";
         //图片框的图片
-    self.endLongPressView.imgView.image = [UIImage imageNamed:@"endBtnImage"];
+//    self.endLongPressView.imgView.image = [UIImage imageNamed:@"endBtnImage"];
+    self.endLongPressView.imgView.image = [UIImage svgImgNamed:@"结束白.svg" size:CGSizeMake(30, 30)];
+//    SVGKImage *endWhite = [SVGKImage imageNamed:@"结束白"];
+//    self.endLongPressView.imgview.image = endWhite;
+//    self.endLongPressView.imgview.backgroundColor = [UIColor darkGrayColor];
     
     self.endLongPressView.layer.cornerRadius = 51;
     self.endLongPressView.layer.masksToBounds = YES;
@@ -332,8 +410,10 @@
         make.size.mas_equalTo(CGSizeMake(90, 90));
     }];
         //图片
-    self.continueBtn.logoImg.image = [UIImage imageNamed:@"continueBtnImage"];
+//    self.continueBtn.logoImg.image = [UIImage imageNamed:@"continueBtnImage"];
+    self.continueBtn.logoImg.image = [UIImage svgImgNamed:@"继续白" size:CGSizeMake(30, 30)];
     self.continueBtn.descLbl.text = @"继续";
+    self.continueBtn.descLbl.textColor = [UIColor whiteColor];
     
     self.continueBtn.backgroundColor = [UIColor colorWithRed:85/255.0 green:213/255.0 blue:226/255.0 alpha:1.0];
     self.continueBtn.layer.cornerRadius = 45;
@@ -348,14 +428,18 @@
         make.center.equalTo(self.pauseBtn);
         make.size.mas_equalTo(CGSizeMake(102, 102));
     }];
-    
+        
       self.unlockLongPressView.titleLbl.text = @"长按解锁";
+    if (@available(iOS 11.0, *)) {
+        self.unlockLongPressView.titleLbl.textColor = ContinueBtnTextColor;
+    } else {
+        // Fallback on earlier versions
+    }
     
     self.unlockLongPressView.bgView.backgroundColor = self.pauseBtn.backgroundColor;
-    self.unlockLongPressView.titleLbl.textColor = self.pauseLabel.textColor;
     
     //图片
-    self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
+//    self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
     self.unlockLongPressView.layer.cornerRadius = 51;
     self.unlockLongPressView.layer.masksToBounds = YES;
   
@@ -373,54 +457,19 @@
     }];
     
     self.dragimageView = [[UIImageView alloc] init];
+    self.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
+    self.dragimageView.layer.cornerRadius = 3;
     [self.dragLabel addSubview:self.dragimageView];
-//    self.dragimageView.backgroundColor = [UIColor greenColor];
-    self.dragimageView.image = [UIImage imageNamed:@"初始位置"];
+//    self.dragimageView.image = [UIImage imageNamed:@"初始位置"];
     [self.dragimageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.dragLabel);
-        make.height.mas_equalTo(15);
-        make.width.mas_equalTo(screenWidth * 0.2666);
+        make.height.mas_equalTo(7);
+        make.width.mas_equalTo(screenWidth * 0.072);
     }];
 }
 
 //在顶部视图上添加控件
-- (void)addViewOnTopView{
-        //中心显示跑了多少公里数字的label
-        self.numberLabel = [[UILabel alloc] init];
-        [self addSubview:self.numberLabel];
-        [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.mas_centerX);
-            make.top.equalTo(self.GPSImgView.mas_bottom).offset(kScreenHight * 0.1589);
-            make.height.mas_equalTo(100);
-            make.width.mas_equalTo(self.frame.size.width);
-        }];
-        self.numberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-    if (@available(iOS 11.0, *)) {
-        self.numberLabel.textColor = MilesColor;
-    } else {
-        // Fallback on earlier versions
-    }
-        self.numberLabel.textAlignment = NSTextAlignmentCenter;
-        self.numberLabel.text = @"4.26";
-        
-        //显示“公里”的label
-        self.milesLabel = [[UILabel alloc] init];
-        [self addSubview:self.milesLabel];
-        [self.milesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.numberLabel.mas_bottom);
-            make.centerX.equalTo(self.numberLabel.mas_centerX);
-            make.size.mas_equalTo(CGSizeMake(44, 30));
-        }];
-        self.milesLabel.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
-    if (@available(iOS 11.0, *)) {
-        self.milesLabel.textColor = MilesTxetColor;
-    } else {
-        // Fallback on earlier versions
-    }
-        self.milesLabel.textAlignment = NSTextAlignmentCenter;
-        self.milesLabel.text = @"公里";
 
-}
 
 
 @end
