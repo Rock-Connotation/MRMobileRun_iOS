@@ -6,6 +6,7 @@
 //
 
 #import "MGDTopView.h"
+#import "ZYLAvatarRequest.h"
 #import <Masonry.h>
 #import "UIImageView+WebCache.h"
 #define SHAWDOWCOLOR [UIColor colorWithRed:136/255.0 green:154/255.0 blue:181/255.0 alpha:0.05]
@@ -53,8 +54,6 @@
         _personalSign.font =  [UIFont fontWithName:@"PingFangSC-Regular" size: 13];
         _personalSign.textColor = [UIColor colorWithRed:160/255.0 green:160/255.0 blue:160/255.0 alpha:1.0];
         _personalSign.numberOfLines = 0;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfo) name:@"isLoginSuccess" object:nil];
         [self userInfo];
     }
     return self;
@@ -65,7 +64,7 @@
     NSString *nickName = [user objectForKey:@"nickname"];
     NSString *imageUrl = [user objectForKey:@"avatar_url"];
     NSString *signature = [user objectForKey:@"signature"];
-    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"logo头像"] options:SDWebImageRefreshCached];
     self.userName.text = nickName;
     self.personalSign.text = signature;
 }

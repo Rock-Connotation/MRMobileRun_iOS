@@ -51,7 +51,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     //设置tabBar的高度
     CGFloat tabBarHeight;
     if (kIs_iPhoneX) {
@@ -198,7 +197,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
 }
 
 
-
 #pragma mark- 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return  screenHeigth * 0.117;
@@ -215,6 +213,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 //转到杨诚的界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     MGDSportData *model = _userSportArray[indexPath.row];
     
     MGDCellDataViewController *detailDataVC = [[MGDCellDataViewController alloc] init];
@@ -244,6 +243,8 @@ static AFHTTPSessionManager *manager; //单例的AFN
     detailDataVC.speedArray = [self DataViewArray:model.SpeedArray];
     //路径数组，用于绘制轨迹
     detailDataVC.locationAry = [self DataViewArray:model.pathArray];
+    detailDataVC.userIconStr = [user objectForKey:@"avatar_url"];
+    detailDataVC.userNmaeStr = [user objectForKey:@"nickname"];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 

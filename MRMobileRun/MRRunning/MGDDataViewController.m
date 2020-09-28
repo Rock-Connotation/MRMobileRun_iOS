@@ -240,6 +240,17 @@
        self.shareImage = resultImage;
        self.shareView.shotImage.image = self.shareImage;
     }];
+    self->_shareDataView = [[MGDShareDataView alloc] init];
+    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
+    self.shareDataView.userName.text = self.userNmaeStr;
+    self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
+    self.shareDataView.speedLab.text = self.speedStr; //配速赋值
+    self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
+    self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
+    self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
+    self.shareDataView.date.text = self.date; //日期
+    self.shareDataView.currentTime.text = self.time; //时间
+    [self.shareView.dataView addSubview:_shareDataView];
 }
 
 - (void)backevent:(UIGestureRecognizer *)sender {

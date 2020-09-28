@@ -41,7 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIView *bottomView;
 
+@property (nonatomic, strong) UIView *btnbackView;
+
+@property (nonatomic, strong) UIView *dataView;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

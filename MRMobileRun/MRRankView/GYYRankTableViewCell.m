@@ -85,7 +85,7 @@
     
     // 对图片的网络请求进行封装，对请求的图片进行缓存，如果没有请求过，进行网络请求，如果请求过，从缓存取值。 url = @"http:xxxxxxx/xxxxx/xxx.png"   转换成哈希值，存在哈希结构里。
     NSURL *url = [NSURL URLWithString:_rankModel.AvatarUrl];  //把字符串 转化为 NSUrl
-//    [_headImg sd_setImageWithURL:url];
+    [_headImg sd_setImageWithURL:url];
     //plaeceholder 占位图
     [_headImg sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"logo头像"]];
     _nameLab.text = _rankModel.Nickname;
