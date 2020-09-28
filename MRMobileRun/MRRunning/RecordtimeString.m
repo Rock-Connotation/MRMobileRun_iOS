@@ -47,4 +47,15 @@
     
     return timeString;
 }
++ (NSString *)getMinutesTimeStringWithSeconds:(int)second{
+    NSString *str_minute = [[NSString alloc] init];
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)second%60];
+//    if (second >= 6000) {
+//        str_minute = [NSString stringWithFormat:@"%03ld",(long)(second%3600)/60];
+//    }else {
+        str_minute = [NSString stringWithFormat:@"%02ld",(long)(second%3600)/60];
+//    }
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
+    return format_time;
+}
 @end

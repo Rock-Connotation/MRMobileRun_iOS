@@ -215,9 +215,9 @@
                 linePath.lineCapStyle = kCGLineCapRound;
                 linePath.lineJoinStyle = kCGLineJoinMiter;
                 linePath.lineWidth = 6;
-//                [linePath moveToPoint:lastPoint];
+                [linePath moveToPoint:lastPoint];
                 [linePath addCurveToPoint:currentpoint controlPoint1:controlPoint1 controlPoint2:controlPoint2];
-                [linePath addLineToPoint:currentpoint];
+//                [linePath addLineToPoint:currentpoint];
 
                 CAShapeLayer *lineLayer = [CAShapeLayer layer];
                                   lineLayer.path = linePath.CGPath;

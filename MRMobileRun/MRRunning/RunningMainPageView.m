@@ -86,7 +86,7 @@
             make.bottom.equalTo(self);
         }];
     //设置地图相关属性
-    self.mapView.zoomLevel = 18;
+    self.mapView.zoomLevel = 17;
     self.mapView.showsUserLocation = NO; //不显示用户小蓝点
     self.mapView.rotateEnabled = NO; //不旋转
     
@@ -177,6 +177,7 @@
               make.size.mas_equalTo(CGSizeMake(28, 28));
           }];
       self.GPSImgView.backgroundColor = [UIColor clearColor];
+//    self.GPSImgView.backgroundColor = [UIColor redColor];
 //      self.GPSImgView.alpha = 0.05;
       self.GPSImgView.image = [UIImage imageNamed:@"GPS"];
     
@@ -186,7 +187,7 @@
     [self.GPSSignal mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.GPSImgView.mas_right).offset(screenWidth * 0.0213);
         make.centerY.equalTo(_GPSImgView);
-        make.size.mas_equalTo(CGSizeMake(34, 18));
+        make.size.mas_equalTo(CGSizeMake(34, 15));
     }];
     self.GPSSignal.backgroundColor = [UIColor clearColor];
 }
@@ -221,7 +222,7 @@
         // Fallback on earlier versions
     }
     self.speedNumberLbl.textAlignment = NSTextAlignmentCenter;
-    self.speedNumberLbl.text = @"3'55''";
+    self.speedNumberLbl.text = @"--'--''";
     
     //显示“配速”的label
     self.speedLbl = [[UILabel alloc] init];
@@ -260,7 +261,7 @@
     self.timeNumberLbl.font = self.speedNumberLbl.font;
     self.timeNumberLbl.textColor = self.speedNumberLbl.textColor;
     self.timeNumberLbl.textAlignment = self.speedNumberLbl.textAlignment;
-    self.timeNumberLbl.text = @"00:00:00";
+    self.timeNumberLbl.text = @"00:00";
     
         //显示“时间”的label
     self.timeLbl = [[UILabel alloc] init];

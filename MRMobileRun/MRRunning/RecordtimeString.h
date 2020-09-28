@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RecordtimeString : NSObject
 + (NSString *)getTimeStringWithSeconds:(int )second;
++ (NSString *)getMinutesTimeStringWithSeconds:(int )second;
 @end
 
 NS_ASSUME_NONNULL_END
