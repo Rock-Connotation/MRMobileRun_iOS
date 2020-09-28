@@ -310,7 +310,10 @@
         //X轴的柱形
         _itemX = [self getLayer:COLUMNCHARTCOLOR frame:CGRectMake( 9 + (itemXMargin + itemXW) * i, 0, itemXW, CGRectGetMinY(_axisX.frame))];
         _itemX.cornerRadius = 2.0;
+        //使柱形图始终保持在层级中的最上层
+        _itemX.zPosition = 2;
         [self.ChartScrollView.layer addSublayer:_itemX];
+        
     
         //X轴的文字
         NSString *currentIndex = [NSString stringWithFormat:@"%ld",(long)i+1];

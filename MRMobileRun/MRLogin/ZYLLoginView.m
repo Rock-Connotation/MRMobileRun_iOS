@@ -94,17 +94,17 @@
 
 - (void)initNoticeLabel{
     self.noticeLab = [[UILabel alloc] init];
-    self.noticeLab.numberOfLines = 1;
+    self.noticeLab.numberOfLines = 0;
     self.noticeLab.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
     self.noticeLab.textColor = COLOR_WITH_HEX(0xB9BCBE);
-    self.noticeLab.text = @"身份证号中X为大写";
+    self.noticeLab.text = @"身份证号中X为大写\n2020届以前密码为身份证后六位\n2020届密码为统一验证码后六位";
     self.noticeLab.textAlignment = NSTextAlignmentLeft;
     [self addSubview: self.noticeLab];
     [self.noticeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.passwordIcon.mas_bottom).mas_offset(12);
         make.left.equalTo(self.passwordIcon.mas_right).mas_offset(24);
-        make.width.mas_equalTo(110);
-        make.height.mas_equalTo(14);
+        make.width.mas_equalTo(250);
+        make.height.mas_equalTo(64);
     }];
 }
 
