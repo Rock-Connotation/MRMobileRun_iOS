@@ -27,10 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 //获取步数
 - (void)getStepCountIsToday:(BOOL)isToday completion:(void(^)(double value, NSError *error))completion;
-/**
- * 跑步页面获取步数来计算步频
- */
-- (void)getStepCountFromBeginTime:(NSDate *)begin ToEndTime:(NSDate *)end completion:(void(^)(double stepValue, NSError *error))completion;
 
 
 //获取阶梯数

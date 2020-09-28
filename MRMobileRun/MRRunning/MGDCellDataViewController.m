@@ -26,9 +26,9 @@
 #import "ZYLMainViewController.h"
 #import "MRTabBarController.h"
 
-@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate>
+@interface MGDCellDataViewController () <UIGestureRecognizerDelegate,MAMapViewDelegate,AMapLocationManagerDelegate,UITraitEnvironment>
 @property (nonatomic, strong) AMapLocationManager *ALocationManager;
-@property (nonatomic, strong) NSArray<MALonLatPoint*> *origTracePoints;     //原始轨迹测绘坐标点
+@property (nonatomic, strong) NSArray *origTracePoints;     //原始轨迹测绘坐标点
 @property (nonatomic, strong) NSArray<MALonLatPoint*> *smoothedTracePoints; //平滑处理用的轨迹数组点
 @property (nonatomic, strong) MAPolyline *smoothedTrace;
 
@@ -81,46 +81,45 @@
     self.overView.mapView.delegate = self; //设置地图代理
     
     /**
-     处理速度、步频、位置数组
-     */
-    [self separateString];
-    
+         处理速度、步频、位置数组
+         */
+        [self separateString];
+        
+        /*
+        步频、速度两个图表
+        */
+        [self addTwoCharts];
+        
     /*
-    步频、速度两个图表
-    */
-    [self addTwoCharts];
-    
-/*
-绘制轨迹
-    */
-    //初始化原始数据数组和处理后的数组
-    self.origTracePoints = [NSArray array];
-    self.smoothedTracePoints = [NSArray array];
-    [self loadTrancePoints];
-//    [self initSmoothedTrace];
-    
-    //绘制始终位置大头针
-    [self initBeginAndEndAnnotations];
-    
-    // 给分享界面添加手势
-    UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
-    backGesture.delegate = self;
-    [self.shareView.backView addGestureRecognizer:backGesture];
-    
-    //设置地图中心
-    RunLocationModel *model3 = self.originalLocationAry.lastObject;
-    CLLocationCoordinate2D centerCL = model3.location;
-    [self.overView.mapView setCenterCoordinate:centerCL];
-    self.overView.mapView.zoomLevel = 15;
-    self.overView.mapView.userInteractionEnabled = YES;
-    
-    //设置右滑返回的手势
-    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-    panGesture.delegate = self; //设置手势代理，拦截手势触发
-    [self.view addGestureRecognizer:panGesture];
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
-       
+    绘制轨迹
+        */
+        //初始化原始数据数组和处理后的数组
+        self.origTracePoints = [NSArray array];
+    //    self.smoothedTracePoints = [NSArray array];
+        [self loadTrancePoints];
+    //    [self initSmoothedTrace];
+        
+        //绘制始终位置大头针
+        [self initBeginAndEndAnnotations];
+        
+        // 给分享界面添加手势
+        UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
+        backGesture.delegate = self;
+        [self.shareView.backView addGestureRecognizer:backGesture];
+        
+        //设置地图中心
+        RunLocationModel *model3 = self.originalLocationAry.lastObject;
+        CLLocationCoordinate2D centerCL = model3.location;
+        [self.overView.mapView setCenterCoordinate:centerCL];
+        self.overView.mapView.zoomLevel = 15;
+        self.overView.mapView.userInteractionEnabled = YES;
+        
+        //设置右滑返回的手势
+        id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+        panGesture.delegate = self; //设置手势代理，拦截手势触发
+        [self.view addGestureRecognizer:panGesture];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
 }
 
 - (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
@@ -345,14 +344,14 @@
 //处理从毛国栋传过来的位置、步频、速度数组
 - (void)separateString{
     //速度数组
-       NSMutableArray *muteSpeedAry = [NSMutableArray array];
-       for (int i = 0; i < self.speedArray.count; i++) {
-           NSString *string = self.speedArray[i];
-           NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-           NSString *string2 = array[1];
-           [muteSpeedAry addObject:string2];
-       }
-       self.originalSpeedAry = muteSpeedAry;
+    NSMutableArray *muteSpeedAry = [NSMutableArray array];
+    for (int i = 0; i < self.speedArray.count; i++) {
+        NSString *string = self.speedArray[i];
+        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
+        NSString *string2 = array[1];
+        [muteSpeedAry addObject:string2];
+    }
+    self.originalSpeedAry = muteSpeedAry;
     NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
     
     //步频数组
@@ -366,7 +365,7 @@
     self.originalStepsAry = muteStepsAry;
     NSLog(@"原始的步频数组为%@",self.originalStepsAry);
     
-//    //位置数组
+    //    //位置数组
     NSMutableArray *muteLocationAry = [NSMutableArray array];
     for (int i = 0; i < self.locationAry.count; i++) {
         NSString *string = self.locationAry[i];
@@ -393,65 +392,24 @@
     [self.ALocationManager startUpdatingLocation];
     
     // 延迟执行取消定位操作
-        __weak typeof(self) weakSelf = self;
-       dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
-       dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-           [weakSelf.ALocationManager stopUpdatingLocation];
-       });
+    __weak typeof(self) weakSelf = self;
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [weakSelf.ALocationManager stopUpdatingLocation];
+    });
     
 }
 
 #pragma mark- 轨迹相关
  //因为CLLocationCoordinate2D为只读属性，无法用可变数组直接addobject储存，所以需要以下转化
 - (void)loadTrancePoints{
-        //位置数组
+       CLLocationCoordinate2D lineCoordinates[self.originalLocationAry.count];
         for (int i = 0; i < self.originalLocationAry.count; i++) {
-            if (i == self.locationAry.count - 1) {
-                break;
-            }else{
-                RunLocationModel *model1 = self.originalLocationAry[i];
-                CLLocationCoordinate2D coordinate1 = model1.location;
-
-                RunLocationModel *model2 = self.originalLocationAry[i+1];
-                CLLocationCoordinate2D coordinate2 = model2.location;
-                CLLocationCoordinate2D temp[2];
-                temp[0] = coordinate1;
-                temp[1] = coordinate2;
-//                NSLog(@"画轨迹的经纬度为%@",temp);
-                NSLog(@"画轨迹的经纬度数组1为%f,%f",coordinate1.latitude,coordinate1.longitude);
-                NSLog(@"画轨迹的经纬度数组2为%f,%f",coordinate2.latitude,coordinate2.longitude);
-                self.smoothedTrace = [MAPolyline polylineWithCoordinates:temp count:2];
-                [self.overView.mapView addOverlay:self.smoothedTrace];
-            }
+            RunLocationModel *model = self.originalLocationAry[i];
+            lineCoordinates[i] = model.location;
         }
-}
-
-//处理、绘制轨迹线
-- (void)initSmoothedTrace{
-    MASmoothPathTool *tool = [[MASmoothPathTool alloc] init];
-    tool.intensity = 3;
-    tool.threshHold = 0.3;
-    tool.noiseThreshhold = 10;
-    self.smoothedTracePoints = [tool pathOptimize:self.origTracePoints];
-
-    CLLocationCoordinate2D *pCoords = malloc(sizeof(CLLocationCoordinate2D) * self.smoothedTracePoints.count);
-    if(!pCoords) {
-        return;
-    }
-
-    for(int i = 0; i < self.smoothedTracePoints.count; ++i) {
-        MALonLatPoint *p = [self.smoothedTracePoints objectAtIndex:i];
-        CLLocationCoordinate2D *pCur = pCoords + i;
-        pCur->latitude = p.lat;
-        pCur->longitude = p.lon;
-    }
-
-    self.smoothedTrace = [MAPolyline polylineWithCoordinates:pCoords count:self.smoothedTracePoints.count];
-    [self.overView.mapView addOverlay:self.smoothedTrace];
-    if(pCoords) {
-        free(pCoords);
-    }
-     
+        self.smoothedTrace = [MAPolyline polylineWithCoordinates:lineCoordinates count:self.originalLocationAry.count];
+        [self.overView.mapView addOverlay:self.smoothedTrace];
 }
 
 //自定义轨迹线
@@ -468,14 +426,14 @@
 #pragma mark- 大头针
  //设置开始，结束位置的大头针
 - (void)initBeginAndEndAnnotations{
-        //开始地点
-        MAPointAnnotation *beginAnnotation = [[MAPointAnnotation alloc] init];
+    //开始地点
+    MAPointAnnotation *beginAnnotation = [[MAPointAnnotation alloc] init];
     RunLocationModel *beginModel = self.originalLocationAry.firstObject;
     beginAnnotation.coordinate = beginModel.location;
     self.beginAnnotataion = beginAnnotation;
     [self.overView.mapView addAnnotation:self.beginAnnotataion];
-        
-        //结束地点
+    
+    //结束地点
     MAPointAnnotation *endAnnotation = [[MAPointAnnotation alloc] init];
     RunLocationModel *endModel = self.originalLocationAry.lastObject;
     endAnnotation.coordinate = endModel.location;
@@ -483,6 +441,7 @@
     [self.overView.mapView addAnnotation:self.endAnnotataion];
 }
 
+ //设置开始、结束位置大头针的样式
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
   if ([annotation isKindOfClass:[MAPointAnnotation class]]){
       if (annotation == self.beginAnnotataion) {
@@ -496,7 +455,7 @@
           annotationView.canShowCallout= NO;       //设置气泡可以弹出，默认为NO
           annotationView.draggable = NO;            //设置不可被拖动
           return annotationView;
-      }else{
+      }else if(annotation == self.endAnnotataion){
         static NSString *end = @"end";
           MAPinAnnotationView*annotationView = (MAPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:end];
           if (annotationView == nil){
