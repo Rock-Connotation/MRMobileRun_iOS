@@ -14,7 +14,6 @@
 #import <Masonry.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <Photos/Photos.h>
-#import "UIImageView+WebCache.h"
 
 #import "RunLocationModel.h"
 #import "SZHWaveChart.h" //步频折线图
@@ -82,56 +81,50 @@
     self.overView.mapView.delegate = self; //设置地图代理
     
     /**
-     处理速度、步频、位置数组
-     */
-    [self separateString];
-    
+         处理速度、步频、位置数组
+         */
+        [self separateString];
+        
+        /*
+        步频、速度两个图表
+        */
+        [self addTwoCharts];
+        
     /*
-    步频、速度两个图表
-    */
-    [self addTwoCharts];
-    
-/*
-绘制轨迹
-    */
-    //初始化原始数据数组和处理后的数组
-    self.origTracePoints = [NSArray array];
-//    self.smoothedTracePoints = [NSArray array];
-    [self loadTrancePoints];
-//    [self initSmoothedTrace];
-    
-    //绘制始终位置大头针
-    [self initBeginAndEndAnnotations];
-    
-    // 给分享界面添加手势
-    UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
-    backGesture.delegate = self;
-    [self.shareView.backView addGestureRecognizer:backGesture];
-    
-    //设置地图中心
-    RunLocationModel *model3 = self.originalLocationAry.lastObject;
-    CLLocationCoordinate2D centerCL = model3.location;
-    [self.overView.mapView setCenterCoordinate:centerCL];
-    self.overView.mapView.zoomLevel = 15;
-    self.overView.mapView.userInteractionEnabled = YES;
-    
-    //设置右滑返回的手势
-    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-    panGesture.delegate = self; //设置手势代理，拦截手势触发
-    [self.view addGestureRecognizer:panGesture];
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
-       
+    绘制轨迹
+        */
+        //初始化原始数据数组和处理后的数组
+        self.origTracePoints = [NSArray array];
+    //    self.smoothedTracePoints = [NSArray array];
+        [self loadTrancePoints];
+    //    [self initSmoothedTrace];
+        
+        //绘制始终位置大头针
+        [self initBeginAndEndAnnotations];
+        
+        // 给分享界面添加手势
+        UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
+        backGesture.delegate = self;
+        [self.shareView.backView addGestureRecognizer:backGesture];
+        
+        //设置地图中心
+        RunLocationModel *model3 = self.originalLocationAry.lastObject;
+        CLLocationCoordinate2D centerCL = model3.location;
+        [self.overView.mapView setCenterCoordinate:centerCL];
+        self.overView.mapView.zoomLevel = 15;
+        self.overView.mapView.userInteractionEnabled = YES;
+        
+        //设置右滑返回的手势
+        id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+        panGesture.delegate = self; //设置手势代理，拦截手势触发
+        [self.view addGestureRecognizer:panGesture];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
 }
 
 - (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
     NSLog(@"右滑返回"); //自定义滑动手势
 }
-
-- (void)backevent:(UITapGestureRecognizer *)tap {
-    NSLog(@"返回");
-}
-
 
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -291,21 +284,8 @@
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
        self.shareImage = resultImage;
-       self.shareView.shotImage.image = self.shareImage;
+    self.shareView.shotImage.image = self.shareImage;
     }];
-    self->_shareDataView = [[MGDShareDataView alloc] init];
-    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
-    self.shareDataView.userName.text = self.userNmaeStr;
-    self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
-    self.shareDataView.speedLab.text = self.speedStr; //配速赋值
-    self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
-    self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
-    self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
-    self.shareDataView.date.text = self.date; //日期
-    self.shareDataView.currentTime.text = self.time; //时间
-    self.shareDataView.speedLab.text = self.MaxSpeed; //最大速度
-    self.shareDataView.paceLab.text = self.MaxStepFrequency; //最大步频
-    [self.shareView.dataView addSubview:_shareDataView];
     UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
     self.shareView.QRImage.userInteractionEnabled = YES;
     [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
@@ -364,14 +344,14 @@
 //处理从毛国栋传过来的位置、步频、速度数组
 - (void)separateString{
     //速度数组
-       NSMutableArray *muteSpeedAry = [NSMutableArray array];
-       for (int i = 0; i < self.speedArray.count; i++) {
-           NSString *string = self.speedArray[i];
-           NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-           NSString *string2 = array[1];
-           [muteSpeedAry addObject:string2];
-       }
-       self.originalSpeedAry = muteSpeedAry;
+    NSMutableArray *muteSpeedAry = [NSMutableArray array];
+    for (int i = 0; i < self.speedArray.count; i++) {
+        NSString *string = self.speedArray[i];
+        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
+        NSString *string2 = array[1];
+        [muteSpeedAry addObject:string2];
+    }
+    self.originalSpeedAry = muteSpeedAry;
     NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
     
     //步频数组
@@ -385,7 +365,7 @@
     self.originalStepsAry = muteStepsAry;
     NSLog(@"原始的步频数组为%@",self.originalStepsAry);
     
-//    //位置数组
+    //    //位置数组
     NSMutableArray *muteLocationAry = [NSMutableArray array];
     for (int i = 0; i < self.locationAry.count; i++) {
         NSString *string = self.locationAry[i];
@@ -412,24 +392,24 @@
     [self.ALocationManager startUpdatingLocation];
     
     // 延迟执行取消定位操作
-        __weak typeof(self) weakSelf = self;
-       dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
-       dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-           [weakSelf.ALocationManager stopUpdatingLocation];
-       });
+    __weak typeof(self) weakSelf = self;
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [weakSelf.ALocationManager stopUpdatingLocation];
+    });
     
 }
 
 #pragma mark- 轨迹相关
  //因为CLLocationCoordinate2D为只读属性，无法用可变数组直接addobject储存，所以需要以下转化
 - (void)loadTrancePoints{
-    CLLocationCoordinate2D lineCoordinates[self.originalLocationAry.count];
-    for (int i = 0; i < self.originalLocationAry.count; i++) {
-        RunLocationModel *model = self.originalLocationAry[i];
-        lineCoordinates[i] = model.location;
-    }
-    self.smoothedTrace = [MAPolyline polylineWithCoordinates:lineCoordinates count:self.originalLocationAry.count];
-    [self.overView.mapView addOverlay:self.smoothedTrace];
+       CLLocationCoordinate2D lineCoordinates[self.originalLocationAry.count];
+        for (int i = 0; i < self.originalLocationAry.count; i++) {
+            RunLocationModel *model = self.originalLocationAry[i];
+            lineCoordinates[i] = model.location;
+        }
+        self.smoothedTrace = [MAPolyline polylineWithCoordinates:lineCoordinates count:self.originalLocationAry.count];
+        [self.overView.mapView addOverlay:self.smoothedTrace];
 }
 
 //自定义轨迹线
@@ -437,7 +417,7 @@
     if ([overlay isKindOfClass:[MAPolyline class]]) {
               MAPolylineRenderer *polyLineRender = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
               polyLineRender.lineWidth = 8;
-        polyLineRender.strokeColor = [UIColor colorWithRed:129/255.0 green:233/255.0 blue:255/255.0 alpha:1]; //折线颜色
+              polyLineRender.strokeColor = [UIColor colorWithRed:123/255.0 green:183/255.0 blue:196/255.0 alpha:1.0]; //折线颜色
          return polyLineRender;
         }
           return nil;
@@ -446,21 +426,22 @@
 #pragma mark- 大头针
  //设置开始，结束位置的大头针
 - (void)initBeginAndEndAnnotations{
-        //开始地点
-        MAPointAnnotation *beginAnnotation = [[MAPointAnnotation alloc] init];
+    //开始地点
+    MAPointAnnotation *beginAnnotation = [[MAPointAnnotation alloc] init];
     RunLocationModel *beginModel = self.originalLocationAry.firstObject;
     beginAnnotation.coordinate = beginModel.location;
     self.beginAnnotataion = beginAnnotation;
     [self.overView.mapView addAnnotation:self.beginAnnotataion];
-        
-        //结束地点
+    
+    //结束地点
     MAPointAnnotation *endAnnotation = [[MAPointAnnotation alloc] init];
     RunLocationModel *endModel = self.originalLocationAry.lastObject;
     endAnnotation.coordinate = endModel.location;
     self.endAnnotataion = endAnnotation;
     [self.overView.mapView addAnnotation:self.endAnnotataion];
 }
-    //设置开始、结束位置大头针的样式
+
+ //设置开始、结束位置大头针的样式
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
   if ([annotation isKindOfClass:[MAPointAnnotation class]]){
       if (annotation == self.beginAnnotataion) {
@@ -586,4 +567,3 @@
     }
 }
 @end
-

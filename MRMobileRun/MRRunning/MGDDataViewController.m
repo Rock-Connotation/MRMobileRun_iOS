@@ -5,6 +5,7 @@
 //  Created by 阿栋 on 2020/7/27.
 //
 
+
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <MAMapKit/MAMapKit.h>
@@ -68,6 +69,7 @@
     */
     //初始化原始数据数组和处理后的数组
     self.origTracePoints = [NSArray array];
+    self.smoothedTracePoints = [NSArray array];
     [self loadTrancePoints];
     [self initSmoothedTrace];
    
@@ -196,12 +198,10 @@
     //处理画速度的折线图
   
     NSLog(@"在跑步结束页绘制的速度数组为%@",self.caculatedSpeedAry);
-//    NSArray *array = @[@5,@3,@4.3,@3.2,@3.8,@5.2];
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图
         SZHChart *speedChart = [[SZHChart alloc] init];
-        [speedChart initWithViewsWithBooTomCount:(int)self.caculatedSpeedAry.count AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
-//    [speedChart initWithViewsWithBooTomCount:array.count AndLineDataAry:array AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:self.caculatedSpeedAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
@@ -240,17 +240,6 @@
        self.shareImage = resultImage;
        self.shareView.shotImage.image = self.shareImage;
     }];
-    self->_shareDataView = [[MGDShareDataView alloc] init];
-    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
-    self.shareDataView.userName.text = self.userNmaeStr;
-    self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
-    self.shareDataView.speedLab.text = self.speedStr; //配速赋值
-    self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
-    self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
-    self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
-    self.shareDataView.date.text = self.date; //日期
-    self.shareDataView.currentTime.text = self.time; //时间
-    [self.shareView.dataView addSubview:_shareDataView];
 }
 
 - (void)backevent:(UIGestureRecognizer *)sender {

@@ -140,7 +140,7 @@
         }
         //数据测试
         [self test];
-//        [self ChangeMap];
+        [self changeMapType];
     }
     return self;
 }
@@ -165,9 +165,10 @@
         
         [_weatherImagview mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.mas_top).mas_offset(screenHeigth * 0.0714);
-            make.right.mas_equalTo(self.mas_right).mas_offset(-screenWidth * 0.0693);
+//            make.right.mas_equalTo(self.mas_right).mas_offset(-screenWidth * 0.0693);
             make.left.mas_equalTo(self.mas_left).mas_offset(screenWidth * 0.8666);
-            make.height.mas_equalTo(screenHeigth * 0.0503);
+            make.size.mas_equalTo(CGSizeMake(24, 26.5));
+//            make.height.mas_equalTo(screenHeigth * 0.0503);
         }];
         
         [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -291,9 +292,10 @@
         
         [_weatherImagview mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.mas_top).mas_offset(screenHeigth * 0.0714);
-            make.right.mas_equalTo(self.mas_right).mas_offset(-screenWidth * 0.0693);
+//            make.right.mas_equalTo(self.mas_right).mas_offset(-screenWidth * 0.0693);
             make.left.mas_equalTo(self.mas_left).mas_offset(screenWidth * 0.8666);
-            make.height.mas_equalTo(screenHeigth * 0.0503);
+            make.size.mas_equalTo(CGSizeMake(24, 26.5));
+//            make.height.mas_equalTo(screenHeigth * 0.0503);
         }];
         
         [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -441,37 +443,38 @@
     NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
     NSString *nickName = [user objectForKey:@"nickname"];
     NSString *imageUrl = [user objectForKey:@"avatar_url"];
-    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"logo头像"] options:SDWebImageRefreshCached];
+    [self.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
     self.userName.text = nickName;
 }
-
-////判断系统环境不同时的自定义地图样式
-//- (void)ChangeMap{
-//    if (@available(iOS 13.0, *)) {
-//      UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-//        if (mode == UIUserInterfaceStyleDark) {
-//            NSLog(@"深色模式");
-//            //设置深色模式下的自定义地图样式
-//            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-//                  NSData *data = [NSData dataWithContentsOfFile:path];
-//                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-//                   options.styleData = data;
-//            [self.mapView setCustomMapStyleOptions:options];
-//            [self.mapView setCustomMapStyleEnabled:YES];
-//        } else if (mode == UIUserInterfaceStyleLight) {
-//            NSLog(@"浅色模式");
-//            //设置浅色模式下的自定义地图样式
-//            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
-//               NSData *data = [NSData dataWithContentsOfFile:path];
-//                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-//                options.styleData = data;
-//            [self.mapView setCustomMapStyleOptions:options];
-//            [self.mapView setCustomMapStyleEnabled:YES];
-//        } else {
-//            NSLog(@"未知模式");
-//        }
-//    }
-//}
+//判断系统环境在深色或浅色模式，转换自定义地图的地图样式
+- (void)changeMapType{
+    if (@available(iOS 13.0, *)) {
+    UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+      if (mode == UIUserInterfaceStyleDark) {
+          NSLog(@"深色模式");
+          //设置深色模式下的自定义地图样式
+          NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                NSData *data = [NSData dataWithContentsOfFile:path];
+                 MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                 options.styleData = data;
+          [self.mapView setCustomMapStyleOptions:options];
+          [self.mapView setCustomMapStyleEnabled:YES];
+          
+      } else if (mode == UIUserInterfaceStyleLight) {
+          NSLog(@"浅色模式");
+          //设置浅色模式下的自定义地图样式
+          NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+             NSData *data = [NSData dataWithContentsOfFile:path];
+              MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+              options.styleData = data;
+          [self.mapView setCustomMapStyleOptions:options];
+          [self.mapView setCustomMapStyleEnabled:YES];
+          
+      } else {
+          NSLog(@"未知模式");
+      }
+    }
+}
 
 @end
 

@@ -615,8 +615,8 @@ static AFHTTPSessionManager *manager; //单例的AFN
     
     //路径数组，用于绘制轨迹
     detailDataVC.locationAry = [self DataViewArray:model.pathArray];
-    detailDataVC.userIconStr = [user objectForKey:@"avatar_url"];
-    detailDataVC.userNmaeStr = [user objectForKey:@"nickname"];
+//    detailDataVC.userIconStr = [user objectForKey:@"avatar_url"];
+//    detailDataVC.userNmaeStr = [user objectForKey:@"nickname"];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 
