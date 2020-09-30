@@ -2,11 +2,11 @@
 //  StepManager.h
 //  MRMobileRun
 //
-//  Created by 石子涵 on 2020/9/18.
+//  Created by 石子涵 on 2020/9/30.
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface StepManager : NSObject
@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 //开始计步
 - (void)startWithStep;
 
-- (void)end; //暂停计步
-- (void)continueSteps; //继续计步
+- (void)end;
 
+- (void)continueSteps;
 @end
 
 NS_ASSUME_NONNULL_END

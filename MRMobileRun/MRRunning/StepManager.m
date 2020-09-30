@@ -2,7 +2,7 @@
 //  StepManager.m
 //  MRMobileRun
 //
-//  Created by 石子涵 on 2020/9/18.
+//  Created by 石子涵 on 2020/9/30.
 //
 
 #import "StepManager.h"
@@ -18,6 +18,7 @@
 // 数据库存储步数采集间隔（步）
 #define DB_STEP_INTERVAL 1
 
+
 @interface StepManager ()
 
 {
@@ -32,12 +33,12 @@
 @property (nonatomic, retain) NSMutableArray *arrSteps;         // 步数数组
 @property (nonatomic, retain) NSMutableArray *arrStepsSave;     // 数据库纪录步数数组
 
-@property (nonatomic) CGFloat gpsDistance;                  // GPS轨迹的移动距离（总计）
-@property (nonatomic) CGFloat agoGpsDistance;               // GPS轨迹的移动距离（之前）
-@property (nonatomic) CGFloat agoActionDistance;            // 实际运动的移动距离（之前）
+//@property (nonatomic) CGFloat gpsDistance;                  // GPS轨迹的移动距离（总计）
+//@property (nonatomic) CGFloat agoGpsDistance;               // GPS轨迹的移动距离（之前）
+//@property (nonatomic) CGFloat agoActionDistance;            // 实际运动的移动距离（之前）
 
 @property (nonatomic, retain) NSString *actionId;           // 运动识别ID
-@property (nonatomic) CGFloat distance;                     // 运动里程（总计）
+//@property (nonatomic) CGFloat distance;                     // 运动里程（总计）
 @property (nonatomic) NSInteger calorie;                    // 消耗卡路里（总计）
 @property (nonatomic) NSInteger second;                     // 运动用时（总计）
 
@@ -177,14 +178,14 @@ static CMMotionManager *motionManager;
                             //运动识别id
                             self.actionId = [NSString stringWithFormat:@"%lld",llInter];
                             
-                            self.distance = 0.00f;
+//                            self.distance = 0.00f;
                             self.second = 0;
                             self.calorie = 0;
                             self.step = 0;
                             
-                            self.gpsDistance = 0.00f;
-                            self.agoGpsDistance = 0.00f;
-                            self.agoActionDistance = 0.00f;
+//                            self.gpsDistance = 0.00f;
+//                            self.agoGpsDistance = 0.00f;
+//                            self.agoActionDistance = 0.00f;
                             
                             caidianCurrent.record_no = self->record_no;
                             caidianCurrent.step = (int)self.step;
@@ -277,7 +278,6 @@ static CMMotionManager *motionManager;
 - (void)end{
     [motionManager stopAccelerometerUpdates];
 }
-
 - (void)continueSteps{
     [motionManager startAccelerometerUpdates];
 }

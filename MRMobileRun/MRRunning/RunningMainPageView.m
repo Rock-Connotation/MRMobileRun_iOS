@@ -27,47 +27,6 @@
     [self addMapView];
     [self addViewOnMap];
     [self addViewOnBottomView];
-//    [self addViewOnTopView];
-    if (@available(iOS 13.0, *)) {
-      UIUserInterfaceStyle  mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        if (mode == UIUserInterfaceStyleDark) {
-            NSLog(@"深色模式");
-            //设置深色模式下的自定义地图样式
-            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-                  NSData *data = [NSData dataWithContentsOfFile:path];
-                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                   options.styleData = data;
-            [self.mapView setCustomMapStyleOptions:options];
-            [self.mapView setCustomMapStyleEnabled:YES];
-            //设置深色模式下的svg格式的图片
-                //暂停按钮
-            self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停黑.svg" size:CGSizeMake(30, 30)];
-                //解锁按钮
-            self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(30, 30)];
-                //锁屏按钮
-            self.lockImageView.image = [UIImage svgImgNamed:@"锁定灰.svg" size:CGSizeMake(25, 25)];
-            
-        } else if (mode == UIUserInterfaceStyleLight) {
-            NSLog(@"浅色模式");
-            //设置浅色模式下的自定义地图样式
-            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
-               NSData *data = [NSData dataWithContentsOfFile:path];
-                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                options.styleData = data;
-            [self.mapView setCustomMapStyleOptions:options];
-            [self.mapView setCustomMapStyleEnabled:YES];
-            
-            //设置浅色模式下的svg格式的图片
-                //暂停按钮
-            self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停白.svg" size:CGSizeMake(30, 30)];
-                //解锁按钮
-            self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定白.svg" size:CGSizeMake(30, 30)];
-                //锁屏按钮
-            self.lockImageView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(25, 25)];
-        } else {
-            NSLog(@"未知模式");
-        }
-    }
 }
 
 //添加地图视图
@@ -104,30 +63,7 @@
     [self.mapView updateUserLocationRepresentation:r];
     
     //监听是否是深色模式，并根据模式设置自定义地图样式
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        if (mode == UIUserInterfaceStyleDark) {
-            NSLog(@"深色模式");
-            
-            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
-                  NSData *data = [NSData dataWithContentsOfFile:path];
-                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                   options.styleData = data;
-               [self.mapView setCustomMapStyleOptions:options];
-               [self.mapView setCustomMapStyleEnabled:YES];
-        } else if (mode == UIUserInterfaceStyleLight) {
-            NSLog(@"浅色模式");
-            
-            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
-               NSData *data = [NSData dataWithContentsOfFile:path];
-                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
-                options.styleData = data;
-            [self.mapView setCustomMapStyleOptions:options];
-            [self.mapView setCustomMapStyleEnabled:YES];
-        } else {
-            NSLog(@"未知模式");
-        }
-    }
+    [self changeMapType];
 }
 
 //在地图上添加控件
@@ -299,7 +235,7 @@
     self.energyNumberLbl.font = self.speedNumberLbl.font;
     self.energyNumberLbl.textColor = self.speedNumberLbl.textColor;
     self.energyNumberLbl.textAlignment = NSTextAlignmentCenter;
-    self.energyNumberLbl.text = @"71";
+    self.energyNumberLbl.text = @"0";
             
                 //显示“卡路里”的lable
     self.energyLbl = [[UILabel alloc] init];
@@ -469,7 +405,33 @@
     }];
 }
 
-//在顶部视图上添加控件
+//监听是否是深色模式，并根据模式设置自定义地图样式
+- (void)changeMapType{
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        if (mode == UIUserInterfaceStyleDark) {
+            NSLog(@"深色模式");
+            
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style" ofType:@"data"];
+                  NSData *data = [NSData dataWithContentsOfFile:path];
+                   MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                   options.styleData = data;
+               [self.mapView setCustomMapStyleOptions:options];
+               [self.mapView setCustomMapStyleEnabled:YES];
+        } else if (mode == UIUserInterfaceStyleLight) {
+            NSLog(@"浅色模式");
+            
+            NSString *path =   [[NSBundle mainBundle] pathForResource:@"style2" ofType:@"data"];
+               NSData *data = [NSData dataWithContentsOfFile:path];
+                MAMapCustomStyleOptions *options = [[MAMapCustomStyleOptions alloc] init];
+                options.styleData = data;
+            [self.mapView setCustomMapStyleOptions:options];
+            [self.mapView setCustomMapStyleEnabled:YES];
+        } else {
+            NSLog(@"未知模式");
+        }
+    }
+}
 
 
 

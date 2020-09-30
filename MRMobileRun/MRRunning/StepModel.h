@@ -2,7 +2,7 @@
 //  StepModel.h
 //  MRMobileRun
 //
-//  Created by 石子涵 on 2020/9/18.
+//  Created by 石子涵 on 2020/9/30.
 //
 
 #import <Foundation/Foundation.h>
@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 //g是一个震动幅度的系数,通过一定的判断条件来判断是否计做一步
 @property(nonatomic,assign) double g;
-
 @end
 
 NS_ASSUME_NONNULL_END

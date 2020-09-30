@@ -17,7 +17,7 @@
 #import <AFNetworking.h>
 #import <AMapSearchKit/AMapSearchKit.h>  //搜索库，为获取天气
 
-
+#import "StepManager.h"
 #import "SVGKit.h"
 #import "SVGKImage.h"
 #import "SVGKParser.h"
@@ -500,7 +500,9 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     self.timeString = timeStr;
     //如果有一分钟了执行一下操作来获取步频
     if (self.second%60 == 0) {
-                                            //获取这一分钟内的步数(待写)
+        NSString *stepString = [NSString stringWithFormat:@"%ld",(long)[StepManager sharedManager].step];
+        [self.stepsAry addObject:stepString];
+        [StepManager sharedManager].step = 0; //获取这一分钟内的步数(待写)
     }
     
 }
@@ -529,6 +531,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 - (void)pauseMethod{
     //计时器暂停
     [self.runTimer setFireDate:[NSDate distantFuture]];
+    [[StepManager sharedManager] end]; //计步停止
     //定位暂停
     [self.locationManager stopUpdatingLocation];
     
@@ -545,6 +548,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 - (void)continueMethod{
     //计时器继续
     [self.runTimer setFireDate:[NSDate distantPast]];
+    [[StepManager sharedManager] continueSteps]; //计步继续
     //定位继续
     [self.locationManager startUpdatingLocation];
     

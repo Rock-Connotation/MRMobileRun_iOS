@@ -43,10 +43,11 @@
 //    }else{
 //        self.bottomXCount = (bottomCout - 1)/2;
 //    }
+    self.bottomXCount = 0;
     if ( bottomCout < 6 && bottomCout > 0) {
         self.bottomXCount = 6;
     }else{
-        self.bottomXCount = bottomCout;
+        self.bottomXCount = bottomCout - 1;
     }
     self.lineDataAry = lineDataAry;
     self.YmaxNumber = YmaxNumber;
