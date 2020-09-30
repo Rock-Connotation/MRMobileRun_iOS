@@ -198,11 +198,13 @@
             make.top.mas_equalTo(self.popView.mas_top);
             make.left.mas_equalTo(self.popView.mas_left);
             make.right.mas_equalTo(self.popView.mas_right);
-            make.height.mas_equalTo(screenHeigth * 0.3965);
+//            make.height.mas_equalTo(screenHeigth * 0.3965);
+            make.bottom.mas_equalTo(self.popView.mas_bottom).mas_offset(-screenHeigth * 0.0948);
         }];
         
         [_dataView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shotImage.mas_bottom);
+//            make.top.mas_equalTo(self.shotImage.mas_bottom);
+            make.top.mas_equalTo(self.popView.mas_top).offset(screenHeigth * 0.3965);
             make.left.mas_equalTo(self.popView.mas_left);
             make.right.mas_equalTo(self.popView.mas_right);
             make.bottom.mas_equalTo(self.popView.mas_bottom).mas_offset(-screenHeigth * 0.0948);

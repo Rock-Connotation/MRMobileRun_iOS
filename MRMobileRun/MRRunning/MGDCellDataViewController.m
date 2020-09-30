@@ -15,6 +15,7 @@
 #import <AMapLocationKit/AMapLocationKit.h>
 #import <Photos/Photos.h>
 
+#import "MGDShareDataView.h"
 #import "RunLocationModel.h"
 #import "SZHWaveChart.h" //步频折线图
 #import "SZHChart.h"//速度折线图
@@ -276,19 +277,32 @@
 
 - (void)share {
     _shareView = [[MGDShareView alloc] initWithShotImage:@"" logoImage:@"" QRcodeImage:@""];
-    [self.view addSubview:_shareView];
-    [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [self shareAction];
-   // 分享界面的地图截图
-    CGRect inRect = self.overView.mapView.frame;
-   [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
-       state = 1;
-       self.shareImage = resultImage;
-    self.shareView.shotImage.image = self.shareImage;
-    }];
-    UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
-    self.shareView.QRImage.userInteractionEnabled = YES;
-    [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
+       [self.view addSubview:_shareView];
+       [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+       [self shareAction];
+      // 分享界面的地图截图
+       CGRect inRect = self.overView.mapView.frame;
+      [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
+          state = 1;
+          self.shareImage = resultImage;
+          self.shareView.shotImage.image = self.shareImage;
+       }];
+       self->_shareDataView = [[MGDShareDataView alloc] init];
+       [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
+       self.shareDataView.userName.text = self.userNmaeStr;
+       self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
+       self.shareDataView.speedLab.text = self.speedStr; //配速赋值
+       self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
+       self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
+       self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
+       self.shareDataView.date.text = self.date; //日期
+       self.shareDataView.currentTime.text = self.time; //时间
+       self.shareDataView.speedLab.text = self.MaxSpeed; //最大速度
+       self.shareDataView.paceLab.text = self.MaxStepFrequency; //最大步频
+       [self.shareView.dataView addSubview:_shareDataView];
+       UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
+       self.shareView.QRImage.userInteractionEnabled = YES;
+       [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
 }
 
 //暂时未放二维码

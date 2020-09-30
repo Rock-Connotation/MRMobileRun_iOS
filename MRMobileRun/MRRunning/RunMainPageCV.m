@@ -592,39 +592,34 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     //设置上传的速度数组
     NSMutableArray *mueArySpeed2 = [NSMutableArray array];
     for (int i = 0; i < self.speedAry.count; i++) {
-       
-        double speed = [self.speedAry[i] floatValue];
-        NSNumber *n1 = [NSNumber numberWithDouble:speed];
-        NSNumber *n2 = [NSNumber numberWithInt:i+1];
-//        NSString *string =  [NSString stringWithFormat:@"%0.2f",speed];
-//        NSString *string2 = [NSString stringWithFormat:@"%d",i+1];
-//        float array1[2];
-//        array1[0] = speed;
-//        array1[1] = i;
+//        double speed = [self.speedAry[i] floatValue];
+//        NSNumber *n1 = [NSNumber numberWithDouble:speed];
+//        NSNumber *n2 = [NSNumber numberWithInt:i+1];
+        NSString *speed = self.speedAry[i];
+        NSString *index = [NSString stringWithFormat:@"%d",i+1];
+        NSNumber *n1 = @([speed doubleValue]);
+        NSNumber *n2 = @([index intValue]);
         NSMutableArray *muteArySpeed = [NSMutableArray array];
-//        [muteArySpeed addObject:string];
-//        [muteArySpeed addObject:string2];
         [muteArySpeed addObject:n1];
         [muteArySpeed addObject:n2];
         NSArray *array = muteArySpeed;
         [mueArySpeed2 addObject:array];
     }
-    NSArray *updateSpeedAry = mueArySpeed2;
-    self.updateSpeedAry = updateSpeedAry;
-    NSLog(@"上传的的速度数组为%@",self.updateSpeedAry);
+    self.updateSpeedAry = mueArySpeed2;
+//    NSLog(@"上传的的速度数组为%@",self.updateSpeedAry);
     
      //设置上传的步频数组
        if (self.stepsAry != nil) {
            NSMutableArray *muteStepsArray = [NSMutableArray array];
            for (int i = 0; i < self.stepsAry.count; i++) {
-               int steps = [self.stepsAry[i] intValue];
-               NSString *string1 = [[NSNumber numberWithInt:steps] stringValue];
-               NSString *string2 = [NSString stringWithFormat:@"%d",i+1];
-               NSMutableArray *mutearray = [NSMutableArray array];
-               [mutearray addObject:string1];
-               [mutearray addObject:string2];
-               NSArray *array = mutearray;
-               [muteStepsArray addObject:array];
+               NSString *step = self.stepsAry[i];
+               NSString *stepIndex = [NSString stringWithFormat:@"%d",i + 1];
+               NSNumber *n1 = @([step intValue]);
+               NSNumber *n2 = @([stepIndex intValue]);
+               NSMutableArray *array = [NSMutableArray new];
+               [array addObject:n1];
+               [array addObject:n2];
+               [muteStepsArray addObjectsFromArray:array];
            }
            self.updateStepsAry = muteStepsArray;
        }
@@ -802,100 +797,121 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     
     //创建要传上去的数据字典
     NSMutableDictionary *paramDic = [NSMutableDictionary new];
-    
+
     //获取跑步路径数据
-//    NSMutableArray *muteAry = [NSMutableArray array];
-//    NSArray *path = [NSArray array];
     for (int i = 0; i < self.locationArray.count; i++ ) {
         RunLocationModel *model = self.locationArray[i];
         CLLocationCoordinate2D coordinate = model.location;
-//        double latitude = coordinate.latitude;
-//        double lontitude = coordinate.longitude;
         double latitude = coordinate.latitude;
         double lontitude = coordinate.longitude;
-//        NSString *location = [NSString stringWithFormat:@"%f,%f",latitude,lontitude];
-//        [muteAry addObject:location];
+//        NSString *latitudeStr = [NSString stringWithFormat:@"%f",coordinate.latitude];
+//        NSString *lontitudeStr = [NSString stringWithFormat:@"%f",coordinate.longitude];
         NSMutableArray *sectionPath = [NSMutableArray array];
         NSNumber *lati = [NSNumber numberWithDouble:latitude];
         NSNumber *lonti = [NSNumber numberWithDouble:lontitude];
         [sectionPath addObject:lati];
         [sectionPath addObject:lonti];
-//            path = sectionPath;
         [self.pathMuteAry addObject:sectionPath];
-//        [self.pathMuteAry addObject:sectionPath];
-//        NSString *lat = [NSString stringWithFormat:@"%f",latitude];
-//        NSString *lon = [NSString stringWithFormat:@"%f",lontitude];
-//        [muteAry addObject:lat];
-//        [muteAry addObject:lon];
     }
-//    path = muteAry;
-//    [self.pathMuteAry addObject:path];
     [paramDic setValue:self.pathMuteAry forKey:@"path"]; //跑步沿途路径
-    
+
     //跑步时间必须小于23时59分
     if (self.duration < 1440) {
          NSString *duration = [[NSNumber numberWithDouble:self.duration] stringValue];
-        [paramDic setValue:duration forKey:@"duration"]; //跑步总时间
+        NSNumber *numberDuration = @([duration intValue]);
+        [paramDic setValue:numberDuration forKey:@"duration"]; //跑步总时间
     }
+
+    NSString *mileage = [NSString stringWithFormat:@"%0.2f",self.distance];
+    NSNumber *numberMileage = @([mileage doubleValue]);
+    [paramDic setValue:numberMileage forKey:@"mileage"]; //跑步总距离
+
+    NSString *kcal = [NSString stringWithFormat:@"%0.2f",self.kcal];
+    NSNumber *numberKcal = @([kcal doubleValue]);
+    [paramDic setValue:numberKcal forKey:@"kcal"];//跑步消耗能量
+
+    NSString *averageSpeedStr = [[NSNumber numberWithDouble:self.averageSpeed] stringValue];
+    NSNumber *numberAverageSpeedStr = @([averageSpeedStr doubleValue]);
+    [paramDic setValue:numberAverageSpeedStr forKey:@"averageSpeed"]; //平均速度
     
-//    NSString *mileage = [NSString stringWithFormat:@"%0.2f",self.distance];
-//    [paramDic setValue:mileage forKey:@"mileage"]; //跑步总距离
+    //平均步频
+    NSString *averageStepFrequencyStr = [[NSNumber numberWithInt:self.averageStepFrequency] stringValue];
+    NSNumber *numberAverageStepFrequencyStr = @([averageStepFrequencyStr intValue]);
+    [paramDic setValue:numberAverageStepFrequencyStr forKey:@"averageStepFrequency"];
 //
-//    NSString *kcal = [NSString stringWithFormat:@"%0.2f",self.kcal];
-//    [paramDic setValue:kcal forKey:@"kcal"];//跑步消耗能量
-    
-//    NSString *averageSpeedStr = [[NSNumber numberWithDouble:self.averageSpeed] stringValue];
-//    [paramDic setValue:averageSpeedStr forKey:@"averageSpeed"]; //平均速度
+    NSString *maxSpeedStr = [[NSNumber numberWithDouble:self.maxSpeed] stringValue];
+    NSNumber *numberMaxSpeed = @([maxSpeedStr doubleValue]);
+    [paramDic setValue:numberMaxSpeed forKey:@"maxSpeed"]; //最大速度
 //
-//    NSString *averageStepFrequencyStr = [[NSNumber numberWithInt:self.averageStepFrequency] stringValue];
-//    [paramDic setValue:averageStepFrequencyStr forKey:@"averageStepFrequency"]; //平均步频
+    NSString *maxStepFrequencyStr = [[NSNumber numberWithInt:self.maxStepFrequency] stringValue];
+    NSNumber *maxStep = @([maxStepFrequencyStr intValue]);
+    [paramDic setValue:maxStep forKey:@"maxStepFrequency"]; //最大步频
 //
-//    NSString *maxSpeedStr = [[NSNumber numberWithDouble:self.maxSpeed] stringValue];
-//    [paramDic setValue:maxSpeedStr forKey:@"maxSpeed"]; //最大速度
-//
-//    NSString *maxStepFrequencyStr = [[NSNumber numberWithInt:self.maxStepFrequency] stringValue];
-//    [paramDic setValue:maxStepFrequencyStr forKey:@"maxStepFrequency"]; //最大步频
-//
-    [paramDic setValue:self.finishDate forKey:@"finishDate"]; //完成日期
-    NSLog(@"上传的日期为%@",self.finishDate);
-    
-    
-//    if (self.updateStepsAry.count == 0) {
-//        NSMutableArray *muteAry2 = [NSMutableArray array];
-//        NSString *string = [NSString stringWithFormat:@"%d",0];
-//        NSString *string2 = [NSString stringWithFormat:@"%d",1];
-//        NSMutableArray *muteary = [NSMutableArray array];
+    NSNumber *finishDate = @([self.finishDate intValue]);
+    [paramDic setValue:finishDate forKey:@"finishDate"]; //完成日期
+//    NSLog(@"上传的日期为%@",self.finishDate);
+
+
+    if (self.updateStepsAry.count == 0) {
+        NSMutableArray *muteAry2 = [NSMutableArray array];
+        NSString *string = [NSString stringWithFormat:@"%d",0];
+        NSNumber *number1 = @([string intValue]);
+        NSString *string2 = [NSString stringWithFormat:@"%d",1];
+        NSNumber *number2 = @([string2 intValue]);
+        NSMutableArray *muteary = [NSMutableArray array];
 //        [muteary addObject:string2];
 //        [muteary addObject:string];
-//        NSArray *array = muteary;
-//        [muteAry2 addObject:array];
-//
-//        self.updateStepsAry = muteAry2;
-//        [paramDic setValue:self.updateStepsAry forKey:@"stepFrequency"]; //上传的步频数组
-//    }else{
-//        [paramDic setValue:self.updateStepsAry forKey:@"stepFrequency"]; //上传的步频数组
-//    }
-//
-//    [paramDic setValue:self.updateSpeedAry forKey:@"speed"];//速度分布数组
+        [muteary addObject:number1];
+        [muteary addObject:number2];
+        NSArray *array = muteary;
+        
+        [muteAry2 addObject:array];
+        self.updateStepsAry = muteAry2;
+        [paramDic setValue:self.updateStepsAry forKey:@"stepFrequency"]; //上传的步频数组
+    }else{
+        [paramDic setValue:self.updateStepsAry forKey:@"stepFrequency"]; //上传的步频数组
+    }
     
-//    //天气
-//    if ([self.weather isEqualToString:@"雷阵雨"]) {
-//       [paramDic setValue:@"0" forKey:@"weather"];
-//    }else if ([self.weather isEqualToString:@"晴"]){
-//        [paramDic setValue:@"1" forKey:@"weather"];
-//    }else if ([self.weather isEqualToString:@"雪"]){
-//        [paramDic setValue:@"2" forKey:@"weather"];
-//    }else if ([self.weather isEqualToString:@"阴"] || [self.weather isEqualToString:@"多云"]){
-//       [paramDic setValue:@"3" forKey:@"weather"];
-//    }else if([self.weather isEqualToString:@"雨"]){
-//        [paramDic setValue:@"4" forKey:@"weather"];
-//    }
-    
-//    [paramDic setValue:self.temperature forKey:@"temperature"]; //温度
-    
+    if (self.updateSpeedAry.count == 0) {
+        NSMutableArray *muteAry2 = [NSMutableArray array];
+        NSString *string = [NSString stringWithFormat:@"%f",0.5];
+                NSNumber *number1 = @([string doubleValue]);
+                NSString *string2 = [NSString stringWithFormat:@"%d",1];
+                NSNumber *number2 = @([string2 doubleValue]);
+                NSMutableArray *muteary = [NSMutableArray array];
+        //        [muteary addObject:string2];
+        //        [muteary addObject:string];
+                [muteary addObject:number1];
+                [muteary addObject:number2];
+                NSArray *array = muteary;
+                [muteAry2 addObject:array];
+        [paramDic setValue:muteAry2 forKey:@"speed"];
+    }else{
+         [paramDic setValue:self.updateSpeedAry forKey:@"speed"];//速度分布数组
+    }
+   
+    //天气
+    if ([self.weather isEqualToString:@"雷阵雨"]) {
+       [paramDic setValue:@0 forKey:@"weather"];
+    }else if ([self.weather isEqualToString:@"晴"]){
+        [paramDic setValue:@1 forKey:@"weather"];
+    }else if ([self.weather isEqualToString:@"雪"]){
+        [paramDic setValue:@2 forKey:@"weather"];
+    }else if ([self.weather isEqualToString:@"阴"] || [self.weather isEqualToString:@"多云"]){
+       [paramDic setValue:@3 forKey:@"weather"];
+    }else if([self.weather isEqualToString:@"雨"]){
+        [paramDic setValue:@4 forKey:@"weather"];
+    }
+
+    NSNumber *numberTemperature = @([self.temperature doubleValue]);
+    [paramDic setValue:numberTemperature forKey:@"temperature"]; //温度
+
     NSLog(@"未上传数据时的数据字典为%@",paramDic);
     
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //需要上传json类型的数据
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *token = [user objectForKey:@"token"];
@@ -907,15 +923,13 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     //将token添加进请求头
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
     [manager.requestSerializer setValue:@"application/json;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    NSData *data1 = [NSJSONSerialization dataWithJSONObject:paramDic options:NSJSONWritingPrettyPrinted error:nil];
-NSString * json = [[NSString alloc]initWithData:data1 encoding:NSUTF8StringEncoding];
-    [manager POST:HandUpRunData parameters:json success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+    [manager POST:HandUpRunData parameters:paramDic success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"-----------上传数据成功，得到的结果为%@",responseObject);
-        NSLog(@"---------···上传的数据为%@",paramDic);
+        NSLog(@"-------%@",paramDic);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"上传数据失败，上传的参数为");
         NSLog(@"%@",error);
-
         NSData *data = error.userInfo[@"com.alamofire.serialization.response.error.data"] ;
         NSString *errorStr = [[ NSString alloc ] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"错误信息为%@",errorStr);

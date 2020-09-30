@@ -19,6 +19,7 @@
 #define MAMAP_KEY @"030a8e0b2b3c762f76c33bf8eeb6ce11"
 #define NewKey @"c99a9b7d1464962d9a11a2726f83f670"
 #define YCKey @"f88d0c41a8c63e93cadd7d78901ab5c0"
+#define YCTestKey @"eec603f5701c69575d743998d449d1b0" //杨诚的测试用的key
 @interface AppDelegate ()
 @property (nonatomic, strong) MGDTabBarViewController *tabBarVC;
 @end
@@ -29,7 +30,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
    // [AMapServices sharedServices].apiKey = MAMAP_KEY; //将高德地图的key配置在代码中
-    [AMapServices sharedServices].apiKey = YCKey;
+    [AMapServices sharedServices].apiKey = YCTestKey; //杨诚的测试用的key
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = COLOR_WITH_HEX(0xFAFAFA);
