@@ -28,7 +28,6 @@ API_AVAILABLE(ios(12.0))
 @property (nonatomic, strong) NSString *date; //日期
 @property (nonatomic, strong) NSString *time; //时间
 
-
 @property (nonatomic, strong) NSArray *locationAry; //首页中采集到的所有定位点的数据
 @property (nonatomic, strong) NSArray *drawLineAry; //首页中采集到的所有用来绘制轨迹的数据
 
@@ -56,7 +55,6 @@ API_AVAILABLE(ios(12.0))
 @property (nonatomic, strong) NSString *temperature;
 @property (nonatomic, strong) NSString *weather;
 //@property (nonatomic, strong) UIImageView *weatherImageView; //显示天气图片的图片框
-
 @property (nonatomic ,strong) MGDShareDataView *shareDataView;
 @end
 

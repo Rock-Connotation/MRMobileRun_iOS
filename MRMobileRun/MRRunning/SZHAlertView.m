@@ -13,9 +13,9 @@
 
 - (instancetype)initWithTitle:(NSString *)title{
     if (self = [super init]) {
-/**
-分享的那个小界面
-*/
+        /**
+        分享的那个小界面
+        */
         UIView *AlertView = [[UIView alloc] init];
         if (@available(iOS 11.0, *)) {
             AlertView.backgroundColor = SZHAlertColor;
@@ -27,7 +27,7 @@
 //            make.left.equalTo(self.mas_left).offset(screenWidth * 0.0906);
 //            make.top.equalTo(self.mas_top).offset(screenHeigth * 0.335);
             make.center.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(306, 200));
+            make.size.mas_equalTo(CGSizeMake(screenWidth * 0.816,screenHeigth * 0.2463));
         }];
         AlertView.layer.cornerRadius = 16;
         AlertView.layer.shadowRadius = 6;
@@ -136,11 +136,6 @@
         make.left.top.right.equalTo(self);
         make.bottom.equalTo(self.AlertView.mas_top);
     }];
-    if (@available(iOS 11.0, *)) {
-        topView.backgroundColor = SZHAlertViewColor;
-    } else {
-        // Fallback on earlier versions
-    }
     topView.alpha = 0.05;
     topView.userInteractionEnabled = NO;
     
@@ -152,21 +147,11 @@
         make.right.equalTo(self.AlertView.mas_left);
         make.top.bottom.equalTo(self.AlertView);
     }];
-    if (@available(iOS 11.0, *)) {
-        leftView.backgroundColor = SZHAlertViewColor;
-    } else {
-        // Fallback on earlier versions
-    }
     leftView.alpha = 0.05;
     leftView.userInteractionEnabled = NO;
     
     //右边的蒙板
     UIView *rightView = [[UIView alloc] init];
-    if (@available(iOS 11.0, *)) {
-        rightView.backgroundColor = SZHAlertViewColor;
-    } else {
-        // Fallback on earlier versions
-    }
     [self addSubview:rightView];
     [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.AlertView);
@@ -184,11 +169,11 @@
         make.left.right.bottom.equalTo(self);
         make.top.equalTo(self.AlertView.mas_bottom);
     }];
-    if (@available(iOS 11.0, *)) {
-        rightView.backgroundColor = SZHAlertViewColor;
-    } else {
-        // Fallback on earlier versions
-    }
+    
+    topView.backgroundColor = [UIColor blackColor];
+    leftView.backgroundColor = [UIColor blackColor];
+    rightView.backgroundColor = [UIColor blackColor];
+    bottomView.backgroundColor = [UIColor blackColor];
     bottomView.alpha = 0.05;
     bottomView.userInteractionEnabled = NO;
 }

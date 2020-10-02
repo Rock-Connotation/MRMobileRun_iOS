@@ -5,6 +5,7 @@
 //  Created by 阿栋 on 2020/7/27.
 //
 
+
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <MAMapKit/MAMapKit.h>
@@ -239,6 +240,7 @@
        self.shareImage = resultImage;
        self.shareView.shotImage.image = self.shareImage;
     }];
+    //在地图截图上展示跑步距离、配速、步频、时间等数据
     self->_shareDataView = [[MGDShareDataView alloc] init];
     [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
     self.shareDataView.userName.text = self.userNmaeStr;

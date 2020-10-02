@@ -150,6 +150,8 @@
 		2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25122845E3300779B7B /* AVFoundation.framework */; };
 		2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF4B25322845E3B00779B7B /* Photos.framework */; };
 		A2FBE48C666D5B5BDE81DFAA /* libPods-MRMobileRun.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */; };
+		B87AA7DB25243AD5003E41E2 /* StepModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B87AA7DA25243AD5003E41E2 /* StepModel.m */; };
+		B87AA7DE25243B0A003E41E2 /* StepManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B87AA7DD25243B0A003E41E2 /* StepManager.m */; };
 		B897C29924EE85B900E230EE /* RecordtimeString.m in Sources */ = {isa = PBXBuildFile; fileRef = B897C29824EE85B900E230EE /* RecordtimeString.m */; };
 		B8ACCD9B24D4331B00D9F0D4 /* MASmoothPathTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ACCD9A24D4331B00D9F0D4 /* MASmoothPathTool.m */; };
 		B8BDEE8F24C7F8C20013293B /* RunLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B8BDEE8E24C7F8C20013293B /* RunLocationModel.m */; };
@@ -515,6 +517,10 @@
 		2FF4B25322845E3B00779B7B /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		AE32067601EFD0623CB60126 /* libPods-MRMobileRun.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MRMobileRun.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B02B7E7755F4D843FA333CD9 /* Pods-MRMobileRun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.debug.xcconfig"; sourceTree = "<group>"; };
+		B87AA7D925243AD5003E41E2 /* StepModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StepModel.h; sourceTree = "<group>"; };
+		B87AA7DA25243AD5003E41E2 /* StepModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StepModel.m; sourceTree = "<group>"; };
+		B87AA7DC25243B0A003E41E2 /* StepManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StepManager.h; sourceTree = "<group>"; };
+		B87AA7DD25243B0A003E41E2 /* StepManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StepManager.m; sourceTree = "<group>"; };
 		B897C29724EE85B800E230EE /* RecordtimeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordtimeString.h; sourceTree = "<group>"; };
 		B897C29824EE85B900E230EE /* RecordtimeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordtimeString.m; sourceTree = "<group>"; };
 		B8ACCD9924D4331B00D9F0D4 /* MASmoothPathTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASmoothPathTool.h; sourceTree = "<group>"; };
@@ -847,6 +853,10 @@
 				187C812C24D037B30040A78E /* MGDShareModel.m */,
 				B8BDEE8D24C7F8C20013293B /* RunLocationModel.h */,
 				B8BDEE8E24C7F8C20013293B /* RunLocationModel.m */,
+				B87AA7D925243AD5003E41E2 /* StepModel.h */,
+				B87AA7DA25243AD5003E41E2 /* StepModel.m */,
+				B87AA7DC25243B0A003E41E2 /* StepManager.h */,
+				B87AA7DD25243B0A003E41E2 /* StepManager.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1958,6 +1968,7 @@
 				2F5A1B9B22468A890014B249 /* UIColor+We.m in Sources */,
 				2F7ADC86237C2EB000FE9461 /* ZYLLoginButton.m in Sources */,
 				2FF3BB3C238EB64D00DB9051 /* ZYLRankTableViewCell.m in Sources */,
+				B87AA7DB25243AD5003E41E2 /* StepModel.m in Sources */,
 				2FF3BB0E238D4AFB00DB9051 /* ZYLMediumChineseLabel.m in Sources */,
 				2F495E482282BFDD003DD714 /* LJJInviteSearchResultViewController.m in Sources */,
 				2F0E8142225F309B00D5E511 /* XIGBeforeYou.m in Sources */,
@@ -1985,6 +1996,7 @@
 				184DE3CD251C442D00CFB058 /* MGDShareDataView.m in Sources */,
 				2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
+				B87AA7DE25243B0A003E41E2 /* StepManager.m in Sources */,
 				B8D9633B24E9B2CD0035CF1C /* MGDCellDataViewController.m in Sources */,
 				2FB2110E22807D90000D5A2E /* ZYLBackBtn.m in Sources */,
 				2F5A1B9A22468A890014B249 /* UIButton+We.m in Sources */,
@@ -2167,7 +2179,7 @@
 				CODE_SIGN_ENTITLEMENTS = MRMobileRun/MRMobileRun.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RT6PQ9CYD3;
+				DEVELOPMENT_TEAM = USX8LB59D7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2176,7 +2188,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.r.MRMobileRunyc;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.r.MRMobileRunyc-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2191,7 +2203,7 @@
 				CODE_SIGN_ENTITLEMENTS = MRMobileRun/MRMobileRun.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RT6PQ9CYD3;
+				DEVELOPMENT_TEAM = USX8LB59D7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2200,7 +2212,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.r.MRMobileRunyc;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.r.MRMobileRunyc-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;

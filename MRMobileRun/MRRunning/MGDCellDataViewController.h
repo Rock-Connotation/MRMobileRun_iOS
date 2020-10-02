@@ -11,7 +11,6 @@
 #import "MGDButtonsView.h"
 #import "MGDShareView.h"
 #import "MGDShareDataView.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(ios(12.0))
