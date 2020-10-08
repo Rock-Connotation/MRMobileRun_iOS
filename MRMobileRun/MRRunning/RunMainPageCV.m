@@ -138,11 +138,11 @@
       
 //      [[StepManager sharedManager] startWithStep]; //开始计步
       
-      [self aboutLables]; //添加显示公里数的lable
-      //给拖拽的label添加手势
-       UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
-      [self.Mainview.dragLabel addGestureRecognizer:pan];
-      self.Mainview.dragLabel.userInteractionEnabled = YES;
+//      [self aboutLables]; //添加显示公里数的lable
+//      //给拖拽的label添加手势
+//       UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
+//      [self.Mainview.dragLabel addGestureRecognizer:pan];
+//      self.Mainview.dragLabel.userInteractionEnabled = YES;
       
       [self btnFunction]; //跑步首页关于继续暂停等按钮的方法
       
