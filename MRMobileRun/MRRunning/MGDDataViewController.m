@@ -434,10 +434,32 @@
     CGRect inRect = self.overView.mapView.frame;
     [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
         state = 1;
-        
     }];
+    //截取指定区域的屏幕
+    UIImage *imageRet = [[UIImage alloc]init];
+    UIGraphicsBeginImageContextWithOptions(self.shareView.frame.size, false, 0.0);
+    [self.shareView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    imageRet = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    //保存截图到本地
+    UIImageWriteToSavedPhotosAlbum(imageRet, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 }
-
+// 保存图片到相册的回调方法
+- (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void*) contextInfo{
+    
+    NSString *msg = nil ;
+    if(error != NULL){
+        msg = @"保存图片失败" ;
+    }else{
+        msg = @"保存图片成功";
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"保存图片结果提示" message:msg
+                                                   delegate:self
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
 
 #pragma mark-关于两个位置管理者的定位代理方法:实现后台定位
 

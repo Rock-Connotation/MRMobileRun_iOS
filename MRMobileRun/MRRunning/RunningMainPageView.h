@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) UIImageView *GPSImgView;
 @property (nonatomic, strong) UIImageView *GPSSignal;
-//@property (nonatomic, strong) UILabel *numberLabel;
-//@property (nonatomic, strong) UILabel *milesLabel;
+@property (nonatomic, strong) UILabel *mileNumberLabel;
+@property (nonatomic, strong) UILabel *mileTexteLable;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIView *topView;
 

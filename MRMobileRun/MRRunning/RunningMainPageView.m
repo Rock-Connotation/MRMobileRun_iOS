@@ -19,6 +19,9 @@
 //屏幕的宽和高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHight [UIScreen mainScreen].bounds.size.height
+@interface RunningMainPageView()<UIGestureRecognizerDelegate>
+@property CGPoint containerOrigin;
+@end
 
 @implementation RunningMainPageView
 
@@ -27,6 +30,11 @@
     [self addMapView];
     [self addViewOnMap];
     [self addViewOnBottomView];
+    
+    //给底部视图添加手势
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
+       [self.bottomView addGestureRecognizer:pan];
+       self.bottomView.userInteractionEnabled = YES;
 }
 
 //添加地图视图
@@ -126,6 +134,9 @@
         make.size.mas_equalTo(CGSizeMake(34, 15));
     }];
     self.GPSSignal.backgroundColor = [UIColor clearColor];
+    
+    //公里的相关lable
+    [self aboutMinleLbl];
 }
 
 //在底部视图上添加控件
@@ -405,6 +416,35 @@
     }];
 }
 
+//添加显示公里数的label和显示公里的label
+- (void)aboutMinleLbl{
+    //显示公里数的label
+    self.mileNumberLabel = [[UILabel alloc] init];
+    self.mileNumberLabel.frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
+    [self addSubview:self.mileNumberLabel];
+    self.mileNumberLabel.textAlignment = NSTextAlignmentCenter;
+    self.mileNumberLabel.text = @"0.00"; //文本
+    self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+    if (@available(iOS 11.0, *)) {
+        self.mileNumberLabel.textColor = MilesColor;
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    //显示“公里”的label
+    self.mileTexteLable = [[UILabel alloc] init];
+    self.mileTexteLable.frame = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
+    [self addSubview:self.mileTexteLable];
+    self.mileTexteLable.textAlignment = NSTextAlignmentCenter;
+    self.mileTexteLable.text = @"公里";
+    self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
+    if (@available(iOS 11.0, *)) {
+        self.mileTexteLable.textColor = MilesTxetColor;
+    } else {
+        // Fallback on earlier versions
+    }
+}
+
 //监听是否是深色模式，并根据模式设置自定义地图样式
 - (void)changeMapType{
     if (@available(iOS 13.0, *)) {
@@ -432,6 +472,87 @@
         }
     }
 }
+
+- (void)dragAction:(UIPanGestureRecognizer *)recognizer{
+    CGPoint point = [recognizer translationInView:self.bottomView];
+        if (recognizer.state == UIGestureRecognizerStateBegan) {
+               self.containerOrigin = recognizer.view.frame.origin;
+           }
+        // 手势移动过程中: 在边界处做判断,其他位置
+               if (recognizer.state == UIGestureRecognizerStateChanged) {
+                   
+                   CGRect frame = recognizer.view.frame;
+                   frame.origin.y = self.containerOrigin.y + point.y;
+                   if (frame.origin.y < screenHeigth * 0.6) { // 上边界
+                       frame.origin.y = screenHeigth * 0.6;
+                   }
+                   
+                   if (frame.origin.y > screenHeigth * 0.8) { // 下边界
+                       frame.origin.y = screenHeigth * 0.8;
+                   }
+                  
+                   recognizer.view.frame = frame;
+               }
+         // 手势结束后:有向上趋势,视图直接滑动至上边界, 向下趋势,视图直接滑动至到下边界
+         if (recognizer.state == UIGestureRecognizerStateEnded){
+              if ([recognizer velocityInView:self.bottomView].y < 0) {
+                  NSLog(@"向上");
+                  [UIView animateWithDuration:0.20 animations:^{
+                      CGRect frame = recognizer.view.frame;
+                      frame.origin.y = screenHeigth * 0.6;
+                      recognizer.view.frame = frame;
+                  }];
+    //              [UIView animateWithDuration:0.2 animations:^{
+    //                  self.numberLabel.frame = CGRectMake(0, screenHeigth * 0.2669, screenWidth, 100);
+    //              }];
+                  self.topView.alpha = 0.6; //恢复原来的透明度
+                  //设置draglabel里面的图片
+                  self.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
+                  self.dragimageView.image = nil;
+                //设置显示公里数的label和显示公里的lable
+                  //显示公里数
+                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+                  CGRect frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
+                  [UIView animateWithDuration:0.5 animations:^{
+                      self.mileNumberLabel.frame = frame;
+                  }];
+                  //显示公里
+                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
+                  CGRect frame2 = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
+                  [UIView animateWithDuration:0.5 animations:^{
+                      self.mileTexteLable.frame = frame2;
+                  }];
+
+              }else {
+                  NSLog(@"向下");
+                  [UIView animateWithDuration:0.20 animations:^{
+                      CGRect frame = recognizer.view.frame;
+                      frame.origin.y = screenHeigth * 0.8;
+                      recognizer.view.frame = frame;
+                  }];
+                  self.topView.alpha = 0;
+                  self.dragimageView.backgroundColor = [UIColor clearColor];
+                  self.dragimageView.image = [UIImage imageNamed:@"底部位置"];
+                //更换numberLabel的位置和显示公里的位置
+                  //显示公里数
+                  CGRect originNumberFrame = CGRectMake(screenWidth * 0.64,CGRectGetMinY(self.GPSImgView.frame), 84, 53);
+                  //                self.mileNumberLabel.backgroundColor = [UIColor redColor];
+                  [UIView animateWithDuration:0.5 animations:^{
+                      self.mileNumberLabel.frame = originNumberFrame;
+                  }];
+                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
+                  //显示公里
+                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
+                  CGRect originFrame2 = CGRectMake(screenWidth * 0.64 + 84, CGRectGetMinY(self.mileNumberLabel.frame)+15, 36, 25);
+                  [UIView animateWithDuration:0.5 animations:^{
+                      self.mileTexteLable.frame = originFrame2;
+                  }];
+    //              [UIView animateWithDuration:0.5 animations:^{
+    //                  self.numberLabel.frame = CGRectMake(screenWidth *0.64, screenHeigth * 0.0497, 84, 53);
+    //              }];
+              }
+         }
+    }
 
 
 
