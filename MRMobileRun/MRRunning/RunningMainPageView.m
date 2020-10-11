@@ -418,6 +418,9 @@
 
 //添加显示公里数的label和显示公里的label
 - (void)aboutMinleLbl{
+/*
+ 中间的公里数和公里的label
+ */
     //显示公里数的label
     self.mileNumberLabel = [[UILabel alloc] init];
     self.mileNumberLabel.frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
@@ -443,6 +446,29 @@
     } else {
         // Fallback on earlier versions
     }
+/*
+    右上角的公里数和公里的label
+ */
+    //公里数
+    self.mileNumberLabelRight = [[UILabel alloc] init];
+    self.mileNumberLabelRight.text = self.mileNumberLabel.text;
+    self.mileNumberLabelRight.textAlignment = NSTextAlignmentCenter;
+    self.mileNumberLabelRight.font = [UIFont fontWithName:@"Impact" size: 44];
+    self.mileNumberLabelRight.frame =  CGRectMake(screenWidth * 0.64,screenHeigth * 0.0497, 84, 53);
+    self.mileNumberLabelRight.alpha = 0;
+    self.mileNumberLabelRight.textColor = self.mileNumberLabel.textColor;
+    [self addSubview:self.mileNumberLabelRight];
+//    self.mileNumberLabelRight.backgroundColor = [UIColor whiteColor];
+    
+    //公里
+    self.mileTextLabelRight = [[UILabel alloc] init];
+    self.mileTextLabelRight.text = self.mileTexteLable.text;
+    self.mileTextLabelRight.textAlignment = NSTextAlignmentCenter;
+    self.mileTextLabelRight.textColor = self.mileTextLabelRight.textColor;
+    self.mileTextLabelRight.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
+    self.mileTextLabelRight.alpha = 0;
+    self.mileTextLabelRight.frame =  CGRectMake(screenWidth * 0.64 + 84, screenHeigth * 0.0497 + 5, 36, 25);
+    [self addSubview:self.mileTextLabelRight];
 }
 
 //监听是否是深色模式，并根据模式设置自定义地图样式
@@ -497,59 +523,74 @@
          if (recognizer.state == UIGestureRecognizerStateEnded){
               if ([recognizer velocityInView:self.bottomView].y < 0) {
                   NSLog(@"向上");
-                  [UIView animateWithDuration:0.20 animations:^{
+                  [UIView animateWithDuration:0.50 animations:^{
                       CGRect frame = recognizer.view.frame;
                       frame.origin.y = screenHeigth * 0.6;
                       recognizer.view.frame = frame;
+                      self.mileNumberLabelRight.alpha = 0;
+                      self.mileTextLabelRight.alpha = 0;
+                      self.topView.alpha = 0.6; //恢复原来的透明度
                   }];
-    //              [UIView animateWithDuration:0.2 animations:^{
-    //                  self.numberLabel.frame = CGRectMake(0, screenHeigth * 0.2669, screenWidth, 100);
-    //              }];
-                  self.topView.alpha = 0.6; //恢复原来的透明度
+                    //延迟0.5秒，等右上角的全部消失后中间的label再显示出来
+                  [UIView animateWithDuration:0.5 delay:0.5 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:nil animations:^{
+                      self.mileNumberLabel.alpha = 1;
+                      self.mileTexteLable.alpha = 1;
+                      
+                      
+                  } completion:nil];
+                  
+                 
                   //设置draglabel里面的图片
                   self.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
                   self.dragimageView.image = nil;
-                //设置显示公里数的label和显示公里的lable
-                  //显示公里数
-                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-                  CGRect frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
-                  [UIView animateWithDuration:0.5 animations:^{
-                      self.mileNumberLabel.frame = frame;
-                  }];
-                  //显示公里
-                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
-                  CGRect frame2 = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
-                  [UIView animateWithDuration:0.5 animations:^{
-                      self.mileTexteLable.frame = frame2;
-                  }];
+//                //设置显示公里数的label和显示公里的lable
+//                  //显示公里数
+//                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
+//                  CGRect frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
+//                  [UIView animateWithDuration:0.5 animations:^{
+//                      self.mileNumberLabel.frame = frame;
+//                  }];
+//                  //显示公里
+//                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
+//                  CGRect frame2 = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
+//                  [UIView animateWithDuration:0.5 animations:^{
+//                      self.mileTexteLable.frame = frame2;
+//                  }];
 
               }else {
                   NSLog(@"向下");
-                  [UIView animateWithDuration:0.20 animations:^{
+                  [UIView animateWithDuration:0.50 animations:^{
                       CGRect frame = recognizer.view.frame;
                       frame.origin.y = screenHeigth * 0.8;
                       recognizer.view.frame = frame;
+                      self.mileNumberLabel.alpha = 0;
+                      self.mileTexteLable.alpha = 0;
+                      self.topView.alpha = 0;
+                      
                   }];
-                  self.topView.alpha = 0;
+                  //延迟0.5秒，等右上角的全部消失后中间的label再显示出来
+                  [UIView animateWithDuration:0.5 delay:0.5 usingSpringWithDamping:0.5 initialSpringVelocity:0 options:nil animations:^{
+                      self.mileNumberLabelRight.alpha = 1;
+                      self.mileTextLabelRight.alpha = 1;
+                  } completion:nil];
+                  
+                  
                   self.dragimageView.backgroundColor = [UIColor clearColor];
                   self.dragimageView.image = [UIImage imageNamed:@"底部位置"];
-                //更换numberLabel的位置和显示公里的位置
-                  //显示公里数
-                  CGRect originNumberFrame = CGRectMake(screenWidth * 0.64,CGRectGetMinY(self.GPSImgView.frame), 84, 53);
-                  //                self.mileNumberLabel.backgroundColor = [UIColor redColor];
-                  [UIView animateWithDuration:0.5 animations:^{
-                      self.mileNumberLabel.frame = originNumberFrame;
-                  }];
-                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
-                  //显示公里
-                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
-                  CGRect originFrame2 = CGRectMake(screenWidth * 0.64 + 84, CGRectGetMinY(self.mileNumberLabel.frame)+15, 36, 25);
-                  [UIView animateWithDuration:0.5 animations:^{
-                      self.mileTexteLable.frame = originFrame2;
-                  }];
-    //              [UIView animateWithDuration:0.5 animations:^{
-    //                  self.numberLabel.frame = CGRectMake(screenWidth *0.64, screenHeigth * 0.0497, 84, 53);
-    //              }];
+//                //更换numberLabel的位置和显示公里的位置
+//                  //显示公里数
+//                  CGRect originNumberFrame = CGRectMake(screenWidth * 0.64,CGRectGetMinY(self.GPSImgView.frame), 84, 53);
+//                  //                self.mileNumberLabel.backgroundColor = [UIColor redColor];
+//                  [UIView animateWithDuration:0.5 animations:^{
+//                      self.mileNumberLabel.frame = originNumberFrame;
+//                  }];
+//                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
+//                  //显示公里
+//                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
+//                  CGRect originFrame2 = CGRectMake(screenWidth * 0.64 + 84, CGRectGetMinY(self.mileNumberLabel.frame)+15, 36, 25);
+//                  [UIView animateWithDuration:0.5 animations:^{
+//                      self.mileTexteLable.frame = originFrame2;
+//                  }];
               }
          }
     }
