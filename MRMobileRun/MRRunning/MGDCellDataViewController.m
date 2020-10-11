@@ -344,9 +344,6 @@
 
 }
 
-//- (void)backevent:(UIGestureRecognizer *)sender {
-//    NSLog(@"手势");
-//}
 
 
 - (void)back {
@@ -380,9 +377,18 @@
     NSLog(@"原始的步频数组为%@",self.originalStepsAry);
     
     //    //位置数组
+                //去除其中的(-1,-1)的坐标点
+    NSMutableArray *dealLocationArray = [NSMutableArray arrayWithArray:self.locationAry];
+    for (int i = 0; i < dealLocationArray.count; i++) {
+        NSString *string = dealLocationArray[i];
+        if ([string isEqualToString:@"-1,-1"]) {
+            [dealLocationArray removeObject:string];
+        }
+    }
+            //将字符串转换为坐标
     NSMutableArray *muteLocationAry = [NSMutableArray array];
-    for (int i = 0; i < self.locationAry.count; i++) {
-        NSString *string = self.locationAry[i];
+    for (int i = 0; i < dealLocationArray.count; i++) {
+        NSString *string = dealLocationArray[i];
         NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
         double lat = [array[0] doubleValue];
         double lon = [array[1] doubleValue];
