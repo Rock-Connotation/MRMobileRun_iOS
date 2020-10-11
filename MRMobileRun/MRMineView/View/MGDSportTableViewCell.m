@@ -122,16 +122,33 @@
             make.left.mas_equalTo(self.mas_left).mas_offset(screenWidth * 0.0773);
             make.height.equalTo(@14);
         }];
-        
+    if (kIs_iPhoneX) {
+        [_cellView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView.mas_top);
+            make.left.mas_equalTo(self.contentView.mas_left).mas_offset(screenWidth * 0.2133);
+            make.right.mas_equalTo(self.contentView.mas_right);
+            make.height.mas_equalTo(screenHeigth * 0.078);
+        }];
+    }else {
         [_cellView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentView.mas_top);
             make.left.mas_equalTo(self.contentView.mas_left).mas_offset(screenWidth * 0.2133);
             make.right.mas_equalTo(self.contentView.mas_right);
             make.height.mas_equalTo(screenHeigth * 0.09);
         }];
+    }
     
-        CGFloat w = screenWidth * 0.7867;
-        CGFloat h = screenHeigth * 0.09;
+    CGFloat w = 0;
+    CGFloat h = 0;
+    
+    if (kIs_iPhoneX) {
+        w = screenWidth * 0.7867;
+        h = screenHeigth * 0.0738;
+    }else {
+        w = screenWidth * 0.7867;
+        h = screenHeigth * 0.09;
+    }
+        
         
         [_kmLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.cellView.mas_top).mas_offset(h * 0.2167);
@@ -176,10 +193,10 @@
         }];
         
         [_arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(h * 0.3833);
-            make.bottom.mas_equalTo(self.cellView.mas_bottom).mas_offset(-h * 0.3833);
-            make.right.mas_equalTo(self.cellView.mas_right).mas_offset(-w * 0.0576);
-            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.8949);
+            make.top.mas_equalTo(self.cellView.mas_top).mas_offset(screenHeigth * 0.0329);
+            make.left.mas_equalTo(self.cellView.mas_left).mas_offset(w * 0.8915);
+            make.width.mas_equalTo(w * 0.0479);
+            make.height.mas_equalTo(h * 0.2356);
         }];
 }
 

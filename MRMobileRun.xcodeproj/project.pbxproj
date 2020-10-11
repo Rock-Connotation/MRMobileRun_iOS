@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		182C88A9253151730007F0D9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C88A8253151730007F0D9 /* CoreTelephony.framework */; };
+		182C88AB253151830007F0D9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C88AA253151820007F0D9 /* libc++.tbd */; };
+		182C88B02531518E0007F0D9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C88AF2531518E0007F0D9 /* libz.tbd */; };
+		182C88B5253151A20007F0D9 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C88B4253151A20007F0D9 /* ExternalAccessory.framework */; };
+		182C88CD25329A620007F0D9 /* MGDTimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C88CC25329A620007F0D9 /* MGDTimeTool.m */; };
+		182C88D625329AD90007F0D9 /* MGDDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C88D525329AD90007F0D9 /* MGDDataTool.m */; };
+		182C88DC25329B100007F0D9 /* MGDRefreshTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C88DB25329B100007F0D9 /* MGDRefreshTool.m */; };
 		184DE3CD251C442D00CFB058 /* MGDShareDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184DE3CC251C442D00CFB058 /* MGDShareDataView.m */; };
 		185510C824F02405009D5026 /* MGDTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 185510C724F02405009D5026 /* MGDTabBar.m */; };
 		185510CB24F0241E009D5026 /* MGDTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185510CA24F0241E009D5026 /* MGDTabBarViewController.m */; };
@@ -243,6 +250,17 @@
 
 /* Begin PBXFileReference section */
 		152E1617FE665064308B5999 /* Pods-MRMobileRun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MRMobileRun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MRMobileRun/Pods-MRMobileRun.release.xcconfig"; sourceTree = "<group>"; };
+		182C88A8253151730007F0D9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		182C88AA253151820007F0D9 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		182C88AF2531518E0007F0D9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		182C88B4253151A20007F0D9 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		182C88B9253151ED0007F0D9 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/PrivateFrameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		182C88CB25329A620007F0D9 /* MGDTimeTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTimeTool.h; sourceTree = "<group>"; };
+		182C88CC25329A620007F0D9 /* MGDTimeTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDTimeTool.m; sourceTree = "<group>"; };
+		182C88D425329AD90007F0D9 /* MGDDataTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDDataTool.h; sourceTree = "<group>"; };
+		182C88D525329AD90007F0D9 /* MGDDataTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDDataTool.m; sourceTree = "<group>"; };
+		182C88DA25329B100007F0D9 /* MGDRefreshTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDRefreshTool.h; sourceTree = "<group>"; };
+		182C88DB25329B100007F0D9 /* MGDRefreshTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDRefreshTool.m; sourceTree = "<group>"; };
 		184DE3CB251C442D00CFB058 /* MGDShareDataView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDShareDataView.h; sourceTree = "<group>"; };
 		184DE3CC251C442D00CFB058 /* MGDShareDataView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGDShareDataView.m; sourceTree = "<group>"; };
 		185510C624F02405009D5026 /* MGDTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGDTabBar.h; sourceTree = "<group>"; };
@@ -660,6 +678,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182C88B5253151A20007F0D9 /* ExternalAccessory.framework in Frameworks */,
+				182C88B02531518E0007F0D9 /* libz.tbd in Frameworks */,
+				182C88AB253151830007F0D9 /* libc++.tbd in Frameworks */,
+				182C88A9253151730007F0D9 /* CoreTelephony.framework in Frameworks */,
 				2FF4B25422845E3B00779B7B /* Photos.framework in Frameworks */,
 				2FF4B25222845E3300779B7B /* AVFoundation.framework in Frameworks */,
 				2F60AB48227C934A00109420 /* CoreMotion.framework in Frameworks */,
@@ -686,6 +708,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		182C88CA25329A410007F0D9 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				182C88CB25329A620007F0D9 /* MGDTimeTool.h */,
+				182C88CC25329A620007F0D9 /* MGDTimeTool.m */,
+				182C88D425329AD90007F0D9 /* MGDDataTool.h */,
+				182C88D525329AD90007F0D9 /* MGDDataTool.m */,
+				182C88DA25329B100007F0D9 /* MGDRefreshTool.h */,
+				182C88DB25329B100007F0D9 /* MGDRefreshTool.m */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
 		18CD285824C5B1B70093D396 /* MRTabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -726,6 +761,11 @@
 		2B186BF3715610DC086E3283 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				182C88B9253151ED0007F0D9 /* JavaScriptCore.framework */,
+				182C88B4253151A20007F0D9 /* ExternalAccessory.framework */,
+				182C88AF2531518E0007F0D9 /* libz.tbd */,
+				182C88AA253151820007F0D9 /* libc++.tbd */,
+				182C88A8253151730007F0D9 /* CoreTelephony.framework */,
 				2FF4B25322845E3B00779B7B /* Photos.framework */,
 				2FF4B25122845E3300779B7B /* AVFoundation.framework */,
 				2F60AB47227C934900109420 /* CoreMotion.framework */,
@@ -1399,6 +1439,7 @@
 		B8FE2AD524EBA434009DC23D /* MRMineView */ = {
 			isa = PBXGroup;
 			children = (
+				182C88CA25329A410007F0D9 /* Tool */,
 				B8FE2AD624EBA434009DC23D /* YBPopupMenu */,
 				B8FE2ADD24EBA434009DC23D /* Model */,
 				B8FE2AE224EBA434009DC23D /* View */,
@@ -1831,6 +1872,7 @@
 			files = (
 				18CD286024C5B1B70093D396 /* MRTabBar.m in Sources */,
 				2F4044D62395429200EE93EC /* ZYLSegmentView.m in Sources */,
+				182C88D625329AD90007F0D9 /* MGDDataTool.m in Sources */,
 				2F5A1B84224671920014B249 /* ZYLBackgroundView.m in Sources */,
 				2F5CBE98225F00A000813943 /* AES128Util.m in Sources */,
 				2F495E2B2282BE6F003DD714 /* MRLoginViewController.m in Sources */,
@@ -1917,6 +1959,7 @@
 				B8FE2AFB24EBA434009DC23D /* MGDBaseInfoView.m in Sources */,
 				2F0E8146225F309B00D5E511 /* XIGInviteTableViewCell.m in Sources */,
 				2F5A1B9D22468A890014B249 /* UILabel+We.m in Sources */,
+				182C88CD25329A620007F0D9 /* MGDTimeTool.m in Sources */,
 				2F0E8147225F309B00D5E511 /* XIGClassRankViewController.m in Sources */,
 				2F0E814A225F309B00D5E511 /* XIGClass.m in Sources */,
 				1A16B99624EED4BA00EAD884 /* SportSettingViewController.m in Sources */,
@@ -1995,6 +2038,7 @@
 				B8FE2B0124EBA434009DC23D /* MGDSportTableViewCell.m in Sources */,
 				184DE3CD251C442D00CFB058 /* MGDShareDataView.m in Sources */,
 				2889400F231E2D7B0002EDA8 /* MRRunningHistoryTrackController.m in Sources */,
+				182C88DC25329B100007F0D9 /* MGDRefreshTool.m in Sources */,
 				2F0E818122608BB400D5E511 /* ZYLPersonalInformationView.m in Sources */,
 				B87AA7DE25243B0A003E41E2 /* StepManager.m in Sources */,
 				B8D9633B24E9B2CD0035CF1C /* MGDCellDataViewController.m in Sources */,
@@ -2180,6 +2224,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = USX8LB59D7;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2191,6 +2237,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.r.MRMobileRunyc-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2204,6 +2254,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = USX8LB59D7;
+				EXCLUDED_ARCHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MRMobileRun/PrefixHeader.pch";
 				INFOPLIST_FILE = MRMobileRun/Info.plist;
@@ -2212,9 +2263,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.r.MRMobileRunyc-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

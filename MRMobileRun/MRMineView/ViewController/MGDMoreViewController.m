@@ -5,6 +5,9 @@
 //  Created by 阿栋 on 2020/7/13.
 
 
+#import "MGDDataTool.h"
+#import "MGDTimeTool.h"
+#import "MGDRefreshTool.h"
 #import "MGDMoreViewController.h"
 #import "MGDSportTableViewCell.h"
 #import "MGDColumnChartView.h"
@@ -24,7 +27,7 @@
     BOOL _isShowSec;
     NSArray *_selectArr;
     MJRefreshBackNormalFooter *_footer;
-    MJRefreshNormalHeader *_header;
+       MJRefreshNormalHeader *_header;
 }
 
 //用于展示页面第一次加载出来时的柱形图数据模型的数组
@@ -41,39 +44,35 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 //首次使用网络请求加载数据时的hud
 @property (nonatomic, strong) MBProgressHUD *successHud;
-
+//是否连接网络
+@property (nonatomic, assign) BOOL isConnected;
 @end
 
 @implementation MGDMoreViewController
 
-- (NSMutableArray *)chartArr
-{
+- (NSMutableArray *)chartArr {
     if (_chartArr == nil) {
         _chartArr = [NSMutableArray array];
     }
     return _chartArr;
 }
 
-
 NSString *ID1 = @"Sport_cell";
 static int page = 1;
-static bool isConnected = false;
 static AFHTTPSessionManager *manager; //单例的AFN
 
 -(void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.tabBarController.tabBar.hidden = YES;
+    _isConnected = false;
 }
-
 
 -(void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     self.navigationController.navigationBar.translucent = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -152,10 +151,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     }else {
         NSLog(@"=====使用网络数据=====");
         [self setUpRefresh];
-        _successHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        _successHud.animationType = MBProgressHUDAnimationZoomOut;
-        _successHud.mode = MBProgressHUDModeText;
-        _successHud.label.text = @" 正在加载中... ";
+        [self hud:_successHud setUpHud:@" 正在加载中... "];
         CGFloat margin = 0;
         if (kIs_iPhoneX) {
             margin = 361+20 - self.view.center.y;
@@ -187,14 +183,12 @@ static AFHTTPSessionManager *manager; //单例的AFN
 }
 
 
-- (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan
-{
+- (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
     NSLog(@"右滑返回"); //自定义滑动手势
 }
 
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
-{
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     // 当当前控制器是根控制器时，不可以侧滑返回，所以不能使其触发手势
     if(self.navigationController.childViewControllers.count == 1) {
         return NO;
@@ -222,7 +216,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
     //设置年份
     NSDate *date =[NSDate date];
-    _columnChartView.yearName = [self dateToYear:date];
+    _columnChartView.yearName = [MGDTimeTool dateToYear:date];
     _columnChartView.delegate = self;
     [self.view addSubview:_backView];
     [self.backView addSubview:_columnChartView];
@@ -237,34 +231,21 @@ static AFHTTPSessionManager *manager; //单例的AFN
     
     [self.view addSubview:_divider];
     _isShowSec = false;
-    _selectArr = [self columnYearLabelYear];
+    _selectArr = [MGDTimeTool columnYearLabelYear];
 }
 
 //设置关于列表刷新的相关文字
 - (void)setUpRefresh {
     //上滑加载的设置
     _footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    [_footer setTitle:@"上滑加载更多" forState:MJRefreshStateIdle];
-    [_footer setTitle:@"上滑加载更多" forState:MJRefreshStatePulling];
-    [_footer setTitle:@"正在加载中" forState:MJRefreshStateRefreshing];
-    [_footer setTitle:@"暂无更多数据" forState:MJRefreshStateNoMoreData];
     self.recordTableView.mj_footer = _footer;
     
     //下拉刷新的设置
     _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadnewData)];
-    [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
-    [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
-    [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
     self.recordTableView.mj_header = _header;
     self.recordTableView.estimatedRowHeight = 0;
     
-    //刷新字体的深色模式适配
-    if (@available(iOS 11.0, *)) {
-        _header.stateLabel.textColor = MGDTextColor1;
-        _footer.stateLabel.textColor = MGDTextColor1;
-        } else {
-               // Fallback on earlier versions
-    }
+    [MGDRefreshTool setUPHeader:_header AndFooter:_footer];
 }
 
 /**
@@ -279,8 +260,8 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
     NSDate *currentDate = [NSDate date];
-    NSString *currentDateStr = [self dateToString:currentDate];
-    NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSString *currentDateStr = [MGDTimeTool dateToString:currentDate];
+    NSString *lastDateStr = [MGDTimeTool lastDateTostring:currentDate];
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
     [manager POST:AllSportRecordUrl parameters:param
           success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -304,10 +285,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
         [self->_successHud removeFromSuperview];
-        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self->_hud.mode = MBProgressHUDModeText;
-        self->_hud.label.text = @" 加载失败 ";
-        [self->_hud hideAnimated:YES afterDelay:1.5];
+        [self hud:self->_hud setUpHud:@" 加载失败 "];
     }];
 }
 
@@ -359,7 +337,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
                 self->_userDataModel = [MGDSportData SportDataWithDict:dic];
                 [self->_cellListArray addObject:self.userDataModel];
             }
-            [self cleanZeroData:self->_cellListArray];
+            [MGDDataTool cleanZeroData:self->_cellListArray];
             NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
             [user setObject:arrayData forKey:@"CellData"];
             [user synchronize];
@@ -375,12 +353,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
         [self.recordTableView.mj_footer endRefreshing];
-        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self->_hud.animationType = MBProgressHUDAnimationZoomOut;
-        self->_hud.mode = MBProgressHUDModeText;
-        self->_hud.label.text = @" 加载失败 ";
-        [self->_hud setOffset:CGPointMake(0, 25)];
-        [self->_hud hideAnimated:YES afterDelay:1.2];
+        [self hud:self->_hud setUpHud:@" 加载失败 "];
     }];
 }
 
@@ -409,7 +382,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
                 self->_userDataModel = [MGDSportData SportDataWithDict:dic];
                 [self->_cellListArray addObject:self.userDataModel];
             }
-            [self cleanZeroData:self->_cellListArray];
+            [MGDDataTool cleanZeroData:self->_cellListArray];
             NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:self->_cellListArray];
             [user setObject:arrayData forKey:@"CellData"];
             [user synchronize];
@@ -426,12 +399,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"=====%@", error);
         [self.recordTableView.mj_header endRefreshing];
-        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self->_hud.animationType = MBProgressHUDAnimationZoomOut;
-        self->_hud.mode = MBProgressHUDModeText;
-        self->_hud.label.text = @" 刷新失败 ";
-        [self->_hud setOffset:CGPointMake(0, 25)];
-        [self->_hud hideAnimated:YES afterDelay:1.2];
+        [self hud:self->_hud setUpHud:@"刷新失败"];
     }];
 }
 
@@ -449,8 +417,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [self.recordTableView.mj_footer endRefreshing];
 }
 
-- (void)changeYearClick:(MGDColumnChartView *)chartView sender:(UIButton *)sender
-{
+- (void)changeYearClick:(MGDColumnChartView *)chartView sender:(UIButton *)sender {
     [self showYearSelect:sender];
 }
 
@@ -479,19 +446,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
     }else {
         return [monthArray copy];
     }
-}
-
-//获取当前的年份，并且设置列表的年份为 上一年，本年，下一年
-- (NSArray *)columnYearLabelYear {
-    NSMutableArray *yearArray = [NSMutableArray new];
-    NSDate *date =[NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy"];
-    NSInteger currentYear=[[formatter stringFromDate:date] integerValue];
-    for (int i = 2;i >= 0; i--) {
-        [yearArray addObject:[NSString stringWithFormat:@"%ld",(long)(currentYear  - i)]];
-    }
-    return [yearArray copy];
 }
 
 //获取柱形图的数据，无数据设为0
@@ -524,7 +478,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     NSString *year = _selectArr[index];
     NSLog(@"这是当前的年份----%@",year);
     NSDate *mydate=[NSDate date];
-    NSString *currentYear = [self dateToYear:mydate];
+    NSString *currentYear = [MGDTimeTool dateToYear:mydate];
     if ([year isEqualToString:currentYear]) {
          NSLog(@"%@-------%@",year,currentYear);
     }
@@ -557,12 +511,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     });
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@",error);
-        self->_hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self->_hud.animationType = MBProgressHUDAnimationZoomOut;
-        self->_hud.mode = MBProgressHUDModeText;
-        self->_hud.label.text = @" 无网络连接 ";
-        [self->_hud setOffset:CGPointMake(0, 25)];
-        [self->_hud hideAnimated:YES afterDelay:1.2];
+        [self hud:self->_hud setUpHud:@"无网络连接"];
     }];
     self.columnChartView.yearName = year;
     [self.columnChartView reloadData];
@@ -582,57 +531,23 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 //转到杨诚的界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     MGDSportData *model = _cellListArray[indexPath.row];
-
-    MGDCellDataViewController *detailDataVC = [[MGDCellDataViewController alloc] init];
-        //距离
-    detailDataVC.distanceStr = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]/1000];
-    //日期
-    detailDataVC.date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
-    //时间
-    detailDataVC.time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
-    //速度
-    detailDataVC.speedStr = [self getAverageSpeed:[NSString stringWithFormat:@"%0.2f",[model.AverageSpeed floatValue]]];
-    //步频
-    detailDataVC.stepFrequencyStr = [NSString stringWithFormat:@"%d",[model.AverageStepFrequency intValue]];
-    //跑步时长
-    detailDataVC.timeStr = [self getRunTimeFromSS:model.totalTime];
-    //卡路里
-    detailDataVC.energyStr = [NSString stringWithFormat:@"%d",[model.cal intValue]];
-    //最大速度
-    detailDataVC.MaxSpeed = [NSString stringWithFormat:@"%0.2f",[model.MaxSpeed floatValue]];
-    //最大步频
-    detailDataVC.MaxStepFrequency = [NSString stringWithFormat:@"%d",[model.MaxStepFrequency intValue]];
-    //温度
-    detailDataVC.degree = [NSString stringWithFormat:@"%d°C",[model.Temperature intValue]];
-
-    //步频数组，用于画图
-    detailDataVC.stepFrequencyArray = [self DataViewArray:model.StepFrequencyArray];
-    
-    //速度数组，用于画图
-    detailDataVC.speedArray = [self DataViewArray:model.SpeedArray];
-    
-    //路径数组，用于绘制轨迹
-    detailDataVC.locationAry = [self DataViewArray:model.pathArray];
-//    detailDataVC.userIconStr = [user objectForKey:@"avatar_url"];
-//    detailDataVC.userNmaeStr = [user objectForKey:@"nickname"];
+    MGDCellDataViewController *detailDataVC = [MGDDataTool DataToMGDCellDataVC:model];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     //创建单元格（用复用池）
     MGDSportTableViewCell* cell = nil;
     cell.backgroundColor = [UIColor clearColor];
     cell = [tableView dequeueReusableCellWithIdentifier:ID1];
     if (_recordArray != nil && ![_recordArray isKindOfClass:[NSNull class]] && _recordArray.count != 0) {
         MGDSportData *model = _cellListArray[indexPath.row];
-        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
+        NSString *date = [MGDTimeTool getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
         //获取当前时间来判断，如果是昨天或者今天的数据则显示为文字，否则显示为日期
         NSDate *currentDate = [NSDate date];
-        NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
-        NSString *lastDay = [[self yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
+        NSString *currentDateStr = [[MGDTimeTool dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
+        NSString *lastDay = [[MGDTimeTool yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
         if ([date isEqualToString:currentDateStr]) {
             cell.dayLab.text = @"今天";
         }else if ([date isEqualToString:lastDay]) {
@@ -641,18 +556,16 @@ static AFHTTPSessionManager *manager; //单例的AFN
             cell.dayLab.text = date;
         }
         //展示cell上的数据
-        NSString *time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
+        NSString *time = [MGDTimeTool getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
         cell.timeLab.text = time;
         cell.kmLab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]/1000];
-        cell.minLab.text = [NSString stringWithFormat:@"%@",[self getMMSSFromSS:[NSString stringWithFormat:@"%@", model.totalTime]]];
+        cell.minLab.text = [NSString stringWithFormat:@"%@",[MGDTimeTool getMMSSFromSS:[NSString stringWithFormat:@"%@", model.totalTime]]];
         cell.calLab.text = [NSString stringWithFormat:@"%d",[model.cal intValue]];
-        
         return cell;
     }else {
       return cell;
     }
 }
-
 
 /**
  通过缓存获取柱形图的数据
@@ -666,102 +579,6 @@ static AFHTTPSessionManager *manager; //单例的AFN
         });
 }
 
-//返回当前的时间（网络请求时返回的字典内容）
-- (NSString *) dateToString:(NSDate *)date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *dateStr = [dateFormatter stringFromDate:date];
-    return dateStr;
-}
-
-- (NSString *) dateToYear:(NSDate *)date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"yyyy"];
-    NSString *dateStr = [dateFormatter stringFromDate:date];
-    return dateStr;
-}
-
-//返回去年的时间（网络请求时返回的字典内容）
-- (NSString *) lastDateTostring:(NSDate *)date {
-    NSDate *mydate=[NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *comps = nil;
-    comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
-    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-    [adcomps setYear:-1];
-    [adcomps setMonth:0];
-    [adcomps setDay:0];
-    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
-    return [self dateToString:newdate];
-}
-
-//返回昨天
-- (NSString *) yesterdayTostring:(NSDate *)date {
-    NSDate *mydate=[NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *comps = nil;
-    comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
-    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-    [adcomps setYear:0];
-    [adcomps setMonth:0];
-    [adcomps setDay:-1];
-    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
-    return [self dateToString:newdate];
-}
-
-//秒数转换成时分秒
--(NSString *)getMMSSFromSS:(NSString *)totalTime{
-    NSInteger seconds = [totalTime integerValue];
-    NSString *str_minute = [[NSString alloc] init];
-    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    if (seconds >= 6000) {
-        str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
-    }else {
-        str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
-    }
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
-    return format_time;
-}
-
-//跑步时间的字符串
--(NSString *)getRunTimeFromSS:(NSString *)totalTime{
-    NSInteger seconds = [totalTime integerValue];
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
-    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
-    return format_time;
-}
-
-//时间戳换成日期
-- (NSString *)getDateStringWithTimeStr:(NSString *)str{
-    NSTimeInterval time=[str doubleValue];
-    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设定时间格式,这里可以设置成自己需要的格式
-    [dateFormatter setDateFormat:@"MM-dd"];
-    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
-    return currentDateStr;
-}
-
-
-//时间戳换成具体的时间
-- (NSString *)getTimeStringWithTimeStr:(NSString *)str {
-    NSTimeInterval time=[str doubleValue];
-    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设定时间格式,这里可以设置成自己需要的格式
-    [dateFormatter setDateFormat:@"HH:mm"];
-    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
-    return currentDateStr;
-}
-
-//配速的字符串
-- (NSString *)getAverageSpeed:(NSString *)averagespeed {
-    NSArray  *array = [averagespeed componentsSeparatedByString:@"."];
-    NSString *speed = [NSString stringWithFormat:@"%@'%@''",array[0],array[1]];
-    return speed;
-}
-
 /**
  用于展示柱形图的柱子，从月份获取到天，累加每一天的数据，没有数据设置为0
  */
@@ -772,7 +589,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
         [dataArr addObject:[NSMutableDictionary dictionary]];
     }
     for (MGDSportData *model in array) {
-        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
+        NSString *date = [MGDTimeTool getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
         //以-符号来分割字符串
         NSArray *arr = [date componentsSeparatedByString:@"-"];
         if (arr.count > 1) {
@@ -792,38 +609,10 @@ static AFHTTPSessionManager *manager; //单例的AFN
                 monthDic[dayNum] = [NSString stringWithFormat:@"%.2f",[model.distance floatValue]/1000];
             }
         }
-
     }
     [self.chartArr removeAllObjects];
     [self.chartArr addObjectsFromArray:dataArr];
     [self.columnChartView reloadData];
-}
-
-//拆去获取到的杨诚所需的数组的中括号
-- (NSArray *)DataViewArray:(NSArray *)dataArr {
-    NSString *CLASS = [NSString stringWithFormat:@"%@",[dataArr class]];
-    if ([CLASS isEqualToString:@"__NSSingleObjectArrayI"]) {
-        return @[];
-    }else {
-        NSMutableArray *test = [dataArr mutableCopy];
-        NSString *s = test.lastObject;
-        [test removeLastObject];
-        s = [s substringToIndex:s.length - 2];
-        [test addObject:s];
-        return [test copy];
-    }
-}
-
-//解决杨诚上传的空数组的BUG，如果时间戳为0的话，去除该数据
-- (NSMutableArray *)cleanZeroData:(NSMutableArray *)array {
-   NSArray * TempArray = [NSArray arrayWithArray:array];
-    for (MGDSportData *model in TempArray) {
-        NSString *date = [NSString stringWithFormat:@"%@",model.FinishDate];
-        if ([date isEqualToString:@"0"]) {
-            [array removeObject:model];
-        }
-    }
-    return array;
 }
 
 //判断当前网络连接的情况，如果此时有网络，且是第一次打开该程序，则自动刷新，否则不刷新
@@ -832,26 +621,26 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [managerAF setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
-                isConnected = true;
-                if (isConnected) {
+                self->_isConnected = true;
+                if (self->_isConnected) {
                     [self loadnewData];
                 }
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                isConnected = true;
-                if (isConnected) {
+                self->_isConnected = true;
+                if (self->_isConnected) {
                     [self loadnewData];
                 }
                 NSLog(@"使用WIFI");
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                isConnected = true;
-                if (isConnected) {
+                self->_isConnected = true;
+                if (self->_isConnected) {
                     [self loadnewData];
                 }
                 break;
             case AFNetworkReachabilityStatusNotReachable:
-                isConnected = false;
+                self->_isConnected = false;
                 NSLog(@"没有连接网络");
                 break;
         }
@@ -859,5 +648,19 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [managerAF startMonitoring];
 }
 
-@end
+- (void) hud:(MBProgressHUD *)hud setUpHud:(NSString *)remindLabel {
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.animationType = MBProgressHUDAnimationZoomOut;
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = remindLabel;
+    CGFloat margin = 0;
+    if (kIs_iPhoneX) {
+        margin = 361+20 - self.view.center.y;
+    }else {
+        margin = 361+20 - self.view.center.y;
+    }
+    [hud setOffset:CGPointMake(0, margin)];
+    [hud hideAnimated:YES afterDelay:1.2];
+}
 
+@end
