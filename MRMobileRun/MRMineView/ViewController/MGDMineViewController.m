@@ -5,6 +5,9 @@
 //  Created by 阿栋 on 2020/7/10.
 //
 
+#import "MGDDataTool.h"
+#import "MGDTimeTool.h"
+#import "MGDRefreshTool.h"
 #import "MGDMineViewController.h"
 #import "MGDTopView.h"
 #import "MGDBaseInfoView.h"
@@ -34,17 +37,17 @@
 @property (nonatomic, strong) NSMutableArray *userSportArray; //装运动列表的模型的数组
 @property (nonatomic, strong) MBProgressHUD *hud; //失败时的HUD
 @property (nonatomic, strong) MBProgressHUD *successHud;  //首次使用网络请求加载数据时的HUD
-
+@property (nonatomic, assign) BOOL isConnected;  //是否连接了网络
 
 @end
 
 @implementation MGDMineViewController
 
 NSString *ID = @"Recored_cell";
-static bool isConnected = false; //是否连接了网络
 static AFHTTPSessionManager *manager; //单例的AFN
 
 - (void)viewWillAppear:(BOOL)animated {
+    _isConnected = false;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
@@ -177,17 +180,9 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 - (void)setUpRefresh {
     _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    //_header.lastUpdatedTimeLabel.hidden = YES;
-    if (@available(iOS 11.0, *)) {
-        _header.stateLabel.textColor = MGDTextColor1;
-        } else {
-               // Fallback on earlier versions
-    }
-    [_header setTitle:@"正在刷新中………"forState:MJRefreshStateRefreshing];
-    [_header setTitle:@"松开刷新" forState:MJRefreshStatePulling];
-    [_header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
     self.sportTableView.mj_header = _header;
     self.sportTableView.estimatedRowHeight = 0;
+    [MGDRefreshTool setUPHeader:_header];
 }
 
 - (void)loadNewData {
@@ -213,38 +208,8 @@ static AFHTTPSessionManager *manager; //单例的AFN
 
 //转到杨诚的界面
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     MGDSportData *model = _userSportArray[indexPath.row];
-    
-    MGDCellDataViewController *detailDataVC = [[MGDCellDataViewController alloc] init];
-    //距离
-    detailDataVC.distanceStr = [NSString stringWithFormat:@"%.2f",[model.distance floatValue] / 1000];
-    //日期
-    detailDataVC.date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
-    //时间
-    detailDataVC.time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
-    //速度
-    detailDataVC.speedStr = [self getAverageSpeed:[NSString stringWithFormat:@"%0.2f",[model.AverageSpeed floatValue]]];
-    //步频
-    detailDataVC.stepFrequencyStr = [NSString stringWithFormat:@"%d",[model.AverageStepFrequency intValue]];
-    //跑步时长
-    detailDataVC.timeStr = [self getRunTimeFromSS:model.totalTime];
-    //卡路里
-    detailDataVC.energyStr = [NSString stringWithFormat:@"%d",[model.cal intValue]];
-    //最大速度
-    detailDataVC.MaxSpeed = [NSString stringWithFormat:@"%0.2f",[model.MaxSpeed floatValue]];
-    //最大步频
-    detailDataVC.MaxStepFrequency = [NSString stringWithFormat:@"%d",[model.MaxStepFrequency intValue]];
-    //温度
-    detailDataVC.degree = [NSString stringWithFormat:@"%d°C",[model.Temperature intValue]];
-    //步频数组，用于画图
-    detailDataVC.stepFrequencyArray = [self DataViewArray:model.StepFrequencyArray];
-    //速度数组，用于画图
-    detailDataVC.speedArray = [self DataViewArray:model.SpeedArray];
-    //路径数组，用于绘制轨迹
-    detailDataVC.locationAry = [self DataViewArray:model.pathArray];
-    detailDataVC.userIconStr = [user objectForKey:@"avatar_url"];
-    detailDataVC.userNmaeStr = [user objectForKey:@"nickname"];
+    MGDCellDataViewController *detailDataVC = [MGDDataTool DataToMGDCellDataVC:model];
     [self.navigationController pushViewController:detailDataVC animated:YES];
 }
 
@@ -258,10 +223,10 @@ static AFHTTPSessionManager *manager; //单例的AFN
     //展示cell的数据
     if (_userSportArray != nil && ![_userSportArray isKindOfClass:[NSNull class]] && _userSportArray.count != 0) {
         MGDSportData *model = _userSportArray[indexPath.row];
-        NSString *date = [self getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
+        NSString *date = [MGDTimeTool getDateStringWithTimeStr:[NSString stringWithFormat:@"%@", model.FinishDate]];
         NSDate *currentDate = [NSDate date];
-        NSString *currentDateStr = [[self dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
-        NSString *lastDay = [[self yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
+        NSString *currentDateStr = [[MGDTimeTool dateToString:currentDate] substringWithRange:NSMakeRange(5,5)];
+        NSString *lastDay = [[MGDTimeTool yesterdayTostring:currentDate] substringWithRange:NSMakeRange(5, 5)];
         if ([date isEqualToString:currentDateStr]) {
             cell.dayLab.text = @"今天";
         }else if ([date isEqualToString:lastDay]) {
@@ -269,10 +234,10 @@ static AFHTTPSessionManager *manager; //单例的AFN
         }else {
             cell.dayLab.text = date;
         }
-        NSString *time = [self getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
+        NSString *time = [MGDTimeTool getTimeStringWithTimeStr:[NSString stringWithFormat:@"%@",model.FinishDate]];
         cell.timeLab.text = time;
         cell.kmLab.text = [NSString stringWithFormat:@"%.2f",[model.distance floatValue] / 1000];
-        cell.minLab.text = [NSString stringWithFormat:@"%@",[self getMMSSFromSS:[NSString stringWithFormat:@"%@", model.totalTime]]];
+        cell.minLab.text = [NSString stringWithFormat:@"%@",[MGDTimeTool getMMSSFromSS:[NSString stringWithFormat:@"%@", model.totalTime]]];
         cell.calLab.text = [NSString stringWithFormat:@"%d",[model.cal intValue]];
     }else {
 
@@ -359,8 +324,7 @@ static AFHTTPSessionManager *manager; //单例的AFN
     [manager setResponseSerializer:responseSerializer];
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"%@",token] forHTTPHeaderField:@"token"];
     NSDate *currentDate = [NSDate date];
-    NSString *currentDateStr = [self dateToString:currentDate];
-    //NSString *lastDateStr = [self lastDateTostring:currentDate];
+    NSString *currentDateStr = [MGDTimeTool dateToString:currentDate];
     NSString *lastDateStr = @"2020-01-01 00:00:00";
     NSDictionary *param = @{@"from_time":lastDateStr,@"to_time":currentDateStr};
     [manager POST:AllSportRecordUrl parameters:param
@@ -402,132 +366,36 @@ static AFHTTPSessionManager *manager; //单例的AFN
     }];
 }
 
-//返回当前的时间
-- (NSString *) dateToString:(NSDate *)date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *dateStr = [dateFormatter stringFromDate:date];
-    return dateStr;
-}
-
-//返回昨天
-- (NSString *) yesterdayTostring:(NSDate *)date {
-     NSDate *mydate=[NSDate date];
-     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-     NSDateComponents *comps = nil;
-     comps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:mydate];
-     NSDateComponents *adcomps = [[NSDateComponents alloc] init];
-     [adcomps setYear:0];
-     [adcomps setMonth:0];
-     [adcomps setDay:-1];
-     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:mydate options:0];
-     return [self dateToString:newdate];
-}
-
-//配速的字符串
-- (NSString *)getAverageSpeed:(NSString *)averagespeed {
-    NSArray  *array = [averagespeed componentsSeparatedByString:@"."];
-    NSString *speed = [NSString stringWithFormat:@"%@'%@''",array[0],array[1]];
-    return speed;
-}
-
-//跑步时间的字符串
--(NSString *)getRunTimeFromSS:(NSString *)totalTime{
-    NSInteger seconds = [totalTime integerValue];
-    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
-    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
-    return format_time;
-}
-
-//秒数转换成时分秒
--(NSString *)getMMSSFromSS:(NSString *)totalTime{
-    NSInteger seconds = [totalTime integerValue];
-    NSString *str_minute = [[NSString alloc] init];
-    NSString *str_second = [NSString stringWithFormat:@"%02ld",(long)seconds%60];
-    if (seconds >= 6000) {
-        str_minute = [NSString stringWithFormat:@"%03ld",(long)(seconds%3600)/60];
-    }else {
-        str_minute = [NSString stringWithFormat:@"%02ld",(long)(seconds%3600)/60];
-    }
-    NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
-    return format_time;
-}
-
-//时间戳换成日期
-- (NSString *)getDateStringWithTimeStr:(NSString *)str{
-    NSTimeInterval time=[str doubleValue];
-    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"MM-dd"];
-    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
-    return currentDateStr;
-}
-
-//时间戳换成具体的时间
-- (NSString *)getTimeStringWithTimeStr:(NSString *)str {
-    NSTimeInterval time=[str doubleValue];
-    NSDate *detailDate=[NSDate dateWithTimeIntervalSince1970:time];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //设定时间格式,这里可以设置成自己需要的格式
-        [dateFormatter setDateFormat:@"HH:mm"];
-    NSString *currentDateStr = [dateFormatter stringFromDate: detailDate];
-    return currentDateStr;
-}
-
-- (NSArray *)DataViewArray:(NSArray *)dataArr {
-    NSString *CLASS = [NSString stringWithFormat:@"%@",[dataArr class]];
-    if ([CLASS isEqualToString:@"__NSSingleObjectArrayI"]) {
-        return @[];
-    }else {
-        NSLog(@"%@",[dataArr class]);
-        NSMutableArray *test = [dataArr mutableCopy];
-        NSString *s = test.lastObject;
-        [test removeLastObject];
-        s = [s substringToIndex:s.length - 2];
-        [test addObject:s];
-        return [test copy];
-    }
-}
-
-//判断当前网络连接的情况，如果此时有网络，且是第一次打开该程序，则自动刷新，否则不刷新
 - (void)checkNetWorkTrans {
     AFNetworkReachabilityManager *managerAF = [AFNetworkReachabilityManager sharedManager];
     [managerAF startMonitoring];
     [managerAF setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:
-                isConnected = true;
-                if (isConnected) {
+                self->_isConnected = true;
+                if (self->_isConnected) {
                     [self loadNewData];
                 }
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                isConnected = true;
-                if (isConnected) {
+                self->_isConnected = true;
+                if (self->_isConnected) {
                     [self loadNewData];
                 }
                 NSLog(@"使用WIFI");
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
-                isConnected = true;
-                if (isConnected) {
+                self->_isConnected = true;
+                if (self->_isConnected) {
                     [self loadNewData];
                 }
                 break;
             case AFNetworkReachabilityStatusNotReachable:
-                isConnected = false;
+                self->_isConnected = false;
                 NSLog(@"没有连接网络");
                 break;
         }
     }];
 }
 
-
-
 @end
-
-
-
-
