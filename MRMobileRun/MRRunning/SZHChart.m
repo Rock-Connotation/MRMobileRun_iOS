@@ -35,7 +35,7 @@
     self.lineColor = [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0];
     self.lineWidth = 6;
     self.lineColor = [UIColor redColor];
-//    self.bottomXCount = 0;          //初始的X轴lable的个数为0
+    self.bottomXCount = 0;          //初始的X轴lable的个数为0
     NSLog(@"传进来的速度数组为%@",lineDataAry);
 //    self.bottomXCount = bottomCout - 1;
 //    if ((bottomCout - 1 == 0 && bottomCout - 1 > 0) || (bottomCout - 1) < 6) {
@@ -43,8 +43,7 @@
 //    }else{
 //        self.bottomXCount = (bottomCout - 1)/2;
 //    }
-    self.bottomXCount = 0;
-    if ( bottomCout < 6 && bottomCout > 0) {
+    if (bottomCout - 1 < 6) {
         self.bottomXCount = 6;
     }else{
         self.bottomXCount = bottomCout - 1;
@@ -177,7 +176,12 @@
             NSNumber * tempNum = self.lineDataAry[i];
             CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
     //               NSLog(@"%f",ratio);
-               CGFloat Y = (6 * _spaceY ) * ratio; //关键点的竖直位置
+            CGFloat Y = 0;
+//            if (tempNum.floatValue < 2) {
+//               Y = ((6 * _spaceY ) * ratio)/2; //关键点的竖直位置
+//            }else{
+                Y = (6 * _spaceY ) * ratio; //关键点的竖直位置
+//            }
           
     //        NSLog(@"%f",Y)
             //关键点的横向位置;
@@ -187,6 +191,7 @@
                        }else{
                 X = (8 + i*_spaceX + (i-1)*15)/2;
                        }
+            
             //绘制折线
             if (pointAry.count == 0) {
                 NSValue *firstvalue = [NSValue valueWithCGPoint:CGPointMake(X, _spaceY * 6 - Y + _spaceY)];
