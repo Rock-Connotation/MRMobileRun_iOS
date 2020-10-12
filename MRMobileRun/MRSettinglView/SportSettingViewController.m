@@ -94,7 +94,7 @@
     [lable2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(25*kRateY);
         make.right.equalTo(self.view).offset(-25*kRateY);
-        make.top.equalTo(self.view).offset(150*kRateY);
+        make.top.equalTo(self.view).offset(163*kRateY);
         make.height.equalTo(@(100*kRateY));
     }];
     

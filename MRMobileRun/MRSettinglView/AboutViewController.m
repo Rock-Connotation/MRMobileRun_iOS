@@ -63,7 +63,7 @@
     imageView.image = [UIImage imageNamed:@"约跑"];
     imageView.layer.shadowColor = [UIColor blackColor].CGColor;
     imageView.layer.shadowOffset= CGSizeMake(0,0);//偏移距离
-    imageView.layer.shadowOpacity=0.3;//不透明度
+    imageView.layer.shadowOpacity=0.03;//不透明度
     imageView.layer.shadowRadius=10.0;//半径
     [self.view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
