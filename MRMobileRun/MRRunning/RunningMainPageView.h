@@ -17,8 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) MAMapView *mapView;
 @property (nonatomic, strong) UIImageView *GPSImgView;
 @property (nonatomic, strong) UIImageView *GPSSignal;
+//中间的公里数和公里Label
 @property (nonatomic, strong) UILabel *mileNumberLabel;
 @property (nonatomic, strong) UILabel *mileTexteLable;
+//右上角的公里数和公里Label
+@property (nonatomic, strong) UILabel *mileNumberLabelRight;
+@property (nonatomic, strong) UILabel *mileTextLabelRight;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIView *topView;
 
