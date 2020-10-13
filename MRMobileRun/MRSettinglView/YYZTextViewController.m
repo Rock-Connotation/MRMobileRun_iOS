@@ -82,9 +82,10 @@
            NSLog(@"%d : %@",i,objcName);
        }
   UITextView *tf = [[UITextView alloc]initWithFrame:CGRectMake(18, 110, 342, 100)];
-  tf.layer.cornerRadius = 13;
+  tf.layer.cornerRadius = 13;//设置边框圆角
   tf.layer.masksToBounds = YES;
-   // [tf setFont:[UIFont systemFontOfSize:20]];
+  tf.textContainerInset = UIEdgeInsetsMake(15, 10, 10, 10);//设置边界间距
+    
     if (self.changeNickname) {
         [self.navigationItem setTitle:@"修改昵称"];
        [saveBtn setTitle:@"保存昵称" forState:UIControlStateNormal];
