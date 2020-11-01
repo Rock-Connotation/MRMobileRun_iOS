@@ -177,7 +177,7 @@
     //画步频的波浪图
     if (self.cacultedStepsAry.count != 0) {
         //步频的波浪图
-//        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
+        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
         SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
         [paceWaveChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.cacultedStepsAry AndYMaxNumber:250];
 //        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
@@ -201,6 +201,11 @@
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图
         SZHChart *speedChart = [[SZHChart alloc] init];
+        /*
+         测试用
+//        NSArray *array = @[@3,@4.8,@4,@3.8,@4,@4.3,@4.5,@3.7];
+//        [speedChart initWithViewsWithBooTomCount:array.count AndLineDataAry:array AndYMaxNumber:6];
+       */
         [speedChart initWithViewsWithBooTomCount:self.caculatedSpeedAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -234,7 +239,8 @@
    // 分享界面的地图截图
 //    CGRect inRect = self.overView.mapView.frame;
 
-    CGRect inRect = self.shareView.popView.frame;
+//    CGRect inRect = self.shareView.popView.frame;
+    CGRect inRect = self.overView.mapView.frame;
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
        self.shareImage = resultImage;

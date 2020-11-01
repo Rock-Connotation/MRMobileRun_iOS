@@ -44,9 +44,8 @@
 @property (nonatomic, strong) NSTimer *runTimer;
 @property (nonatomic, strong) NSDate *beginTime;  //开始的时间（系统时间）
 @property (nonatomic, strong) NSDate *endTime;    //结束时间（系统时间）
-@property (nonatomic, strong) NSString *timeString; //跑步的时间（经历过格式转换后的）
-@property (nonatomic) int hour;
-@property (nonatomic) int minute;
+//@property (nonatomic, strong) NSString *timeString; //跑步的时间（经历过格式转换后的）
+
 @property (nonatomic) int second;
 
 //数组
@@ -135,124 +134,14 @@
       self.Mainview.mapView.delegate = self; //设置地图代理
       
       [self initAMapLocation]; //初始化位置管理者
-      
-//      [[StepManager sharedManager] startWithStep]; //开始计步
-      
-//      [self aboutLables]; //添加显示公里数的lable
-//      //给拖拽的label添加手势
-//       UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragAction:)];
-//      [self.Mainview.dragLabel addGestureRecognizer:pan];
-//      self.Mainview.dragLabel.userInteractionEnabled = YES;
-      
       [self btnFunction]; //跑步首页关于继续暂停等按钮的方法
       
       
       //关于天气
-      self.search = [[AMapSearchAPI alloc] init];
-      self.search.delegate = self;
-    
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
+    self.second = 0;
     self.runTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startTimer) userInfo:nil repeats:YES];
-     self.second = self.minute = self.hour = 0;
-}
-
-//关于显示公里数的label和显示“公里”的lable
-- (void)aboutLables{
-    //显示公里数的label
-    self.mileNumberLabel = [[UILabel alloc] init];
-    self.mileNumberLabel.frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
-    [self.view addSubview:self.mileNumberLabel];
-    self.mileNumberLabel.textAlignment = NSTextAlignmentCenter;
-    self.mileNumberLabel.text = @"0.00"; //文本
-    self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-    if (@available(iOS 11.0, *)) {
-        self.mileNumberLabel.textColor = MilesColor;
-    } else {
-        // Fallback on earlier versions
-    }
-    
-    //显示“公里”的label
-    self.mileTexteLable = [[UILabel alloc] init];
-    self.mileTexteLable.frame = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
-    [self.view addSubview:self.mileTexteLable];
-    self.mileTexteLable.textAlignment = NSTextAlignmentCenter;
-    self.mileTexteLable.text = @"公里";
-    self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
-    if (@available(iOS 11.0, *)) {
-        self.mileTexteLable.textColor = MilesTxetColor;
-    } else {
-        // Fallback on earlier versions
-    }
-}
-
-//    //拖动label来动态改变底部bottomView的高度
-- (void)dragAction:(UIPanGestureRecognizer *)pan{
-     if ((pan.state == UIGestureRecognizerStateBegan)) {
-         if (_yyy == 0) {
-             _yyy = CGRectGetMaxY(self.Mainview.dragLabel.frame);
-                       }
-        }else if (pan.state == UIGestureRecognizerStateChanged){
-            //获取手势的偏移量
-            
-            CGPoint point = [pan translationInView:self.Mainview.dragLabel];
-    //        NSLog(@"%f",point.y);
-            
-            CGFloat y = _yyy + point.y; //手势偏移量+初始量为改变量
-            if (point.y < -screenHeigth * 0.05) {
-                self.Mainview.topView.alpha = 0.6; //恢复原来的透明度
-                //设置draglabel里面的图片
-    self.Mainview.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
-        self.Mainview.dragimageView.image = nil;
-      //设置底部视图的高度
-        [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.bottom.equalTo(self.view);
-                make.top.equalTo(self.Mainview.mas_top).offset(screenHeigth * 0.5369);
-                }];
-    //设置显示公里数的label和显示公里的lable
-                //显示公里数
-            self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-             CGRect frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
-                [UIView animateWithDuration:0.5 animations:^{
-                    self.mileNumberLabel.frame = frame;
-                }];
-                //显示公里
-                self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
-                CGRect frame2 = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
-                [UIView animateWithDuration:0.5 animations:^{
-                    self.mileTexteLable.frame = frame2;
-                }];
-                //设置用户小蓝点和定位轨迹隐藏
-//                self.Mainview.mapView.showsUserLocation = NO;
-            }
-            if(y > screenHeigth * 0.15) {
-                    
-                       y = screenHeigth * 0.3;
-                self.Mainview.topView.alpha = 0;
-                    self.Mainview.dragimageView.backgroundColor = [UIColor clearColor];
-                self.Mainview.dragimageView.image = [UIImage imageNamed:@"底部位置"];
-                                   
-                //更新对bottomView的约束，使得它的高度变化
-                [self.Mainview.bottomView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.bottom.equalTo(self.view);
-                    make.top.equalTo(self.Mainview.mas_top).offset(screenHeigth * 0.4869 + y);
-                }];
-                    //更换numberLabel的位置和显示公里的位置
-    //显示公里数
-                CGRect originNumberFrame = CGRectMake(screenWidth * 0.64,CGRectGetMinY(self.Mainview.GPSImgView.frame), 84, 53);
-//                self.mileNumberLabel.backgroundColor = [UIColor redColor];
-    [UIView animateWithDuration:0.5 animations:^{
-        self.mileNumberLabel.frame = originNumberFrame;
-        }];
-self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
-    //显示公里
-                     self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
-                CGRect originFrame2 = CGRectMake(screenWidth * 0.64 + 84, CGRectGetMinY(self.mileNumberLabel.frame)+15, 36, 25);
-                    [UIView animateWithDuration:0.5 animations:^{
-                        self.mileTexteLable.frame = originFrame2;
-            }];
-                //设置用户位置小蓝点和地图轨迹显示
-                self.Mainview.mapView.showsUserLocation = YES;
-        }
-    }
 }
                  
 
@@ -353,7 +242,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                  NSLog(@"%d",self.second);
                  if (self.second % 30 == 0) {
                      double speed = location.speed;
-                     if (speed >=0 && speed < 9.97) {
+                     if (speed >=0 && speed < 9.97) { //进行速度筛选
                          NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
                          [self.speedAry addObject:speedStr];
                      }
@@ -361,6 +250,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                  //计算配速
                  int speedMinutes = (int)(1000/currentModel.speed)/60;
                  int speedSeconds = (int)(1000/currentModel.speed)%60;
+                 
                  if (speedMinutes > /* DISABLES CODE */ (99) && speedMinutes < 0) {
                      self.Mainview.speedNumberLbl.text = @"--'--''";
                  }else if(speedMinutes > 0){
@@ -369,19 +259,9 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                      self.kcal = 60 * self.distance * 1.036;
                      self.Mainview.energyNumberLbl.text = [NSString stringWithFormat:@"%0.1f",self.kcal];
                  }
-     //            NSLog(@"速度数组内的数目为%lu",(unsigned long)self.speedAry.count);
-                 //计算距离
                  [self distanceWithLocation:LastlocationModel andLastButOneModel:currentModel];
              }
           }
-    //获取实时天气
-//    NSLog(@"逆地理编码为%@",reGeocode);
-//    if (reGeocode != nil) {
-//        AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
-//        request.city = reGeocode.city;
-//        request.type = AMapWeatherTypeLive; //天气类型为实时天气
-//        [self.search AMapWeatherSearch:request];
-//    }
     AMapWeatherSearchRequest *request = [[AMapWeatherSearchRequest alloc] init];
     request.city = @"重庆";
     request.type = AMapWeatherTypeLive; //天气类型为实时天气
@@ -403,7 +283,8 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
          Meters = newdistance;
         double KMeters = Meters/1000;
         self.distance = self.distance + KMeters;
-        self.mileNumberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+//        self.mileNumberLabel.text = [NSString stringWithFormat:@"%.02f",self.distance];
+        self.Mainview.mileNumberLabel.text = [NSString stringWithFormat:@"%0.2f",self.distance];
         [self.locationArray addObject:lastButOneModel];
         //如果两点间的距离大于10米，就添加至绘制轨迹数组内
         if (Meters > 10) {
@@ -445,7 +326,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 }
 
 #pragma mark- 轨迹线的设置
-//绘制轨迹线:全图只绘制一条轨迹线
+//绘制轨迹线:为保证性能全图只绘制一条轨迹线
 - (void)drawRunLineAction{
     CLLocationCoordinate2D commonPolylineCoords[self.drawLineArray.count];
     for (int i = 0; i < self.drawLineArray.count; i++) {
@@ -497,12 +378,13 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
     }
     //获取跑步时间
     self.Mainview.timeNumberLbl.text = timeStr;
-    self.timeString = timeStr;
+//    self.timeString = timeStr;
     //如果有一分钟了执行一下操作来获取步频
     if (self.second%60 == 0) {
+        //获取这一分钟内的步数
         NSString *stepString = [NSString stringWithFormat:@"%ld",(long)[StepManager sharedManager].step];
         [self.stepsAry addObject:stepString];
-        [StepManager sharedManager].step = 0; //获取这一分钟内的步数(待写)
+        [StepManager sharedManager].step = 0;
     }
     
 }
@@ -628,9 +510,9 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
            self.updateStepsAry = muteStepsArray;
        }
     
-    [self averageSpeedAndSteps];           //找出平均速度和平均步频
     //为跑步结束页的图表处理步频和速度数组并且找出处理后的最大数组和最大步频
     [self caculateSpeedAndStpesArray];
+    [self averageSpeedAndSteps];           //找出平均速度和平均步频
     
 //    //获取当前日期
     NSDate *date = [NSDate date];
@@ -670,6 +552,9 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 - (void)shortEndRun{
 
     [self.navigationController popToRootViewControllerAnimated:YES];
+//    MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
+//    [self.navigationController pushViewController:overVC animated:YES];
+    
     //停止定时器
     [self.runTimer invalidate];
 }
@@ -692,8 +577,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
            if (@available(iOS 12.0, *)) {
                MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
                //属性传值
-               overVC.distanceStr = self.mileNumberLabel.text; //跑步距离
-               
+               overVC.distanceStr = self.Mainview.mileNumberLabel.text; //跑步距离
                overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
                
                overVC.caculatedSpeedAry = self.caculatedSpeedAry;//为绘制速度图处理的数组
@@ -704,7 +588,7 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
                overVC.averageStepFrequency = self.averageStepFrequency; //平均步频
                overVC.maxStepFrequencyLastest = self.maxStepLast; //最大步频
                
-               overVC.timeStr = self.timeString; //时间
+//               overVC.timeStr = self.timeString; //时间
                overVC.energyStr = self.Mainview.energyNumberLbl.text; //千卡
                overVC.drawLineAry = self.drawLineArray;
                overVC.locationAry = self.locationArray;
@@ -728,8 +612,6 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
 }
 
 #pragma mark-步频和配速
-//计算步频
-   
 
 //找出平均步频和平均速度
 - (void)averageSpeedAndSteps{
@@ -781,17 +663,17 @@ self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
         NSMutableArray *speedMuteAry = [NSMutableArray array];
             //两分半记录一个点
         for (int i = 0; i < self.speedAry.count; i += 5) {
-            RunLocationModel *Model = self.locationArray[i];
-            double speed = Model.speed;
-            NSString *speedStr = [NSString stringWithFormat:@"%0.2f",speed];
+            NSString *speedStr = self.speedAry[i];
             [speedMuteAry addObject:speedStr];
             //找出处理后的数组里最大的速度
+            double speed = [speedStr doubleValue];
+            
             if (self.maxSpeedLast < speed) {
                 self.maxSpeedLast = speed;
                 }
             }
             self.caculatedSpeedAry = speedMuteAry;
-            NSLog(@"处理后的速度数组为%@,处理后最大的速度为%f",self.caculatedSpeedAry,self.maxSpeedLast);
+//            NSLog(@"处理后的速度数组为%@,处理后最大的速度为%f",self.caculatedSpeedAry,self.maxSpeedLast);
     }
     
 }

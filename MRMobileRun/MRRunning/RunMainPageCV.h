@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
  // 当前跑步距离
 @property(nonatomic,assign)double distance;
 
-@property (nonatomic, strong) UILabel *mileNumberLabel;
-@property (nonatomic, strong) UILabel *mileTexteLable;
 @end
 
 NS_ASSUME_NONNULL_END
