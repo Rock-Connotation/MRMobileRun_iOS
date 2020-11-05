@@ -85,46 +85,42 @@
     self.overView.mapView.delegate = self; //设置地图代理
     
     /**
-         处理速度、步频、位置数组
-         */
-        [self separateString];
-        [self discardPointsProcess]; //将速度、步频点进行丢弃处理
+     处理速度、步频、位置数组
+     */
+    [self separateString];
+    [self discardPointsProcess]; //将速度、步频点进行丢弃处理
+    
+    // 步频、速度两个图表
+    [self addTwoCharts];
+    
+    /**
+     绘制轨迹
+     */
+    //初始化原始数据数组和处理后的数组
+    self.origTracePoints = [NSArray array];
+    [self loadTrancePoints];
         
-        /*
-        步频、速度两个图表
-        */
-        [self addTwoCharts];
-        
-    /*
-    绘制轨迹
-        */
-        //初始化原始数据数组和处理后的数组
-        self.origTracePoints = [NSArray array];
-    //    self.smoothedTracePoints = [NSArray array];
-        [self loadTrancePoints];
-    //    [self initSmoothedTrace];
-        
-        //绘制始终位置大头针
-        [self initBeginAndEndAnnotations];
-        
-        // 给分享界面添加手势
-        UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
-        backGesture.delegate = self;
-        [self.shareView.backView addGestureRecognizer:backGesture];
-        
-        //设置地图中心
-        RunLocationModel *model3 = self.originalLocationAry.lastObject;
-        CLLocationCoordinate2D centerCL = model3.location;
-        [self.overView.mapView setCenterCoordinate:centerCL];
-        self.overView.mapView.zoomLevel = 15;
-        self.overView.mapView.userInteractionEnabled = YES;
-        
-        //设置右滑返回的手势
-        id target = self.navigationController.interactivePopGestureRecognizer.delegate;
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-        panGesture.delegate = self; //设置手势代理，拦截手势触发
-        [self.view addGestureRecognizer:panGesture];
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
+    //绘制始终位置大头针
+    [self initBeginAndEndAnnotations];
+    
+    // 给分享界面添加手势
+    UITapGestureRecognizer *backGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backevent:)];
+    backGesture.delegate = self;
+    [self.shareView.backView addGestureRecognizer:backGesture];
+    
+    //设置地图中心
+    RunLocationModel *model3 = self.originalLocationAry.lastObject;
+    CLLocationCoordinate2D centerCL = model3.location;
+    [self.overView.mapView setCenterCoordinate:centerCL];
+    self.overView.mapView.zoomLevel = 15;
+    self.overView.mapView.userInteractionEnabled = YES;
+    
+    //设置右滑返回的手势
+    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+    panGesture.delegate = self; //设置手势代理，拦截手势触发
+    [self.view addGestureRecognizer:panGesture];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
 }
 
 - (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
@@ -334,8 +330,8 @@
         //步频的波浪图
         NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
         SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
-//        [paceWaveChart initWithViewsWithBooTomCount:self.caculateStepsAry.count AndLineDataAry:self.caculateStepsAry AndYMaxNumber:250];
-        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
+        [paceWaveChart initWithViewsWithBooTomCount:self.caculateStepsAry.count AndLineDataAry:self.caculateStepsAry AndYMaxNumber:250];
+//        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
         [self.dataView.paceBackView addSubview:paceWaveChart];
         [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.paceBackView);
@@ -399,6 +395,7 @@
        self.shareDataView.speedLab.text = self.MaxSpeed; //最大速度
        self.shareDataView.paceLab.text = self.MaxStepFrequency; //最大步频
        [self.shareView.dataView addSubview:_shareDataView];
+    
        UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
        self.shareView.QRImage.userInteractionEnabled = YES;
        [self.shareView.QRImage addGestureRecognizer:QrCodeTap];

@@ -543,19 +543,7 @@
                   //设置draglabel里面的图片
                   self.dragimageView.backgroundColor = [UIColor colorWithRed:219/255.0 green:219/255.0 blue:219/255.0 alpha:1.0];
                   self.dragimageView.image = nil;
-//                //设置显示公里数的label和显示公里的lable
-//                  //显示公里数
-//                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size: 82];
-//                  CGRect frame = CGRectMake(0, screenHeigth * 0.2696, screenWidth, 100);
-//                  [UIView animateWithDuration:0.5 animations:^{
-//                      self.mileNumberLabel.frame = frame;
-//                  }];
-//                  //显示公里
-//                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 22];
-//                  CGRect frame2 = CGRectMake(screenWidth * 0.4427, screenHeigth * 0.2696 + 100, 44, 30);
-//                  [UIView animateWithDuration:0.5 animations:^{
-//                      self.mileTexteLable.frame = frame2;
-//                  }];
+
 
               }else {
                   NSLog(@"向下");
@@ -577,20 +565,7 @@
                   
                   self.dragimageView.backgroundColor = [UIColor clearColor];
                   self.dragimageView.image = [UIImage imageNamed:@"底部位置"];
-//                //更换numberLabel的位置和显示公里的位置
-//                  //显示公里数
-//                  CGRect originNumberFrame = CGRectMake(screenWidth * 0.64,CGRectGetMinY(self.GPSImgView.frame), 84, 53);
-//                  //                self.mileNumberLabel.backgroundColor = [UIColor redColor];
-//                  [UIView animateWithDuration:0.5 animations:^{
-//                      self.mileNumberLabel.frame = originNumberFrame;
-//                  }];
-//                  self.mileNumberLabel.font = [UIFont fontWithName:@"Impact" size:44];
-//                  //显示公里
-//                  self.mileTexteLable.font = [UIFont fontWithName:@"PingFangSC-Semibold" size: 18];
-//                  CGRect originFrame2 = CGRectMake(screenWidth * 0.64 + 84, CGRectGetMinY(self.mileNumberLabel.frame)+15, 36, 25);
-//                  [UIView animateWithDuration:0.5 animations:^{
-//                      self.mileTexteLable.frame = originFrame2;
-//                  }];
+
               }
          }
     }
