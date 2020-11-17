@@ -2,12 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>保存到系统相册</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>MobileRun</string>
+	<string>MobileRun-1</string>
 	<key>CFBundleDocumentTypes</key>
 	<array/>
 	<key>CFBundleExecutable</key>
@@ -67,6 +65,8 @@
 	<string></string>
 	<key>NSMotionUsageDescription</key>
 	<string>用来获取用户跑步状态</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>保存到系统相册</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Impact.ttf</string>

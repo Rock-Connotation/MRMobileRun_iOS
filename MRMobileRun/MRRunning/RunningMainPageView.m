@@ -19,7 +19,7 @@
 //屏幕的宽和高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHight [UIScreen mainScreen].bounds.size.height
-@interface RunningMainPageView()<UIGestureRecognizerDelegate>
+@interface RunningMainPageView()<UIGestureRecognizerDelegate,UITraitEnvironment>
 @property CGPoint containerOrigin;
 @end
 
@@ -54,9 +54,8 @@
         }];
     //设置地图相关属性
     self.mapView.zoomLevel = 17;
-    self.mapView.showsUserLocation = NO; //不显示用户小蓝点
+    self.mapView.showsUserLocation = YES; //显示用户小蓝点
     self.mapView.rotateEnabled = NO; //不旋转
-    
     self.mapView.pausesLocationUpdatesAutomatically = NO;
     self.mapView.showsCompass = NO;
     self.mapView.showsScale = NO;
@@ -290,6 +289,8 @@
     [self.lockImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.lockBtn);
     }];
+    //锁屏按钮
+    self.lockImageView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(25, 25)];
 
     #pragma mark- 暂停按钮
     self.pauseBtn = [[RunMainBtn alloc] init];
@@ -388,6 +389,7 @@
     
     //图片
 //    self.unlockLongPressView.imgView.image = [UIImage imageNamed:@"BigLockBtnImage"];
+    self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定白.svg" size:CGSizeMake(30, 30)];
     self.unlockLongPressView.layer.cornerRadius = 51;
     self.unlockLongPressView.layer.masksToBounds = YES;
   
@@ -484,6 +486,14 @@
                    options.styleData = data;
                [self.mapView setCustomMapStyleOptions:options];
                [self.mapView setCustomMapStyleEnabled:YES];
+            //设置深色模式下的svg格式的图片
+                //暂停按钮
+            self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停黑.svg" size:CGSizeMake(30, 30)];
+                //解锁按钮
+            self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(30, 30)];
+                //锁屏按钮
+            self.lockImageView.image = [UIImage svgImgNamed:@"锁定灰.svg" size:CGSizeMake(25, 25)];
+            
         } else if (mode == UIUserInterfaceStyleLight) {
             NSLog(@"浅色模式");
             
@@ -493,6 +503,15 @@
                 options.styleData = data;
             [self.mapView setCustomMapStyleOptions:options];
             [self.mapView setCustomMapStyleEnabled:YES];
+            
+            //设置浅色模式下的svg格式的图片
+                //暂停按钮
+            self.pauseBtn.logoImg.image = [UIImage svgImgNamed:@"暂停白.svg" size:CGSizeMake(30, 30)];
+                //解锁按钮
+            self.unlockLongPressView.imgView.image = [UIImage svgImgNamed:@"锁定白.svg" size:CGSizeMake(30, 30)];
+                //锁屏按钮
+            self.lockImageView.image = [UIImage svgImgNamed:@"锁定黑.svg" size:CGSizeMake(25, 25)];
+            
         } else {
             NSLog(@"未知模式");
         }

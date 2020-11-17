@@ -56,7 +56,7 @@
 - (void)getStepCountIsToday:(BOOL)isToday completion:(void(^)(double value, NSError *error))completion{
     //1.确定类型 HKQuantityTypeIdentifierStepCount
     HKQuantityType *stepType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-    //2.确定检索
+    //2.确定检索s
     NSSortDescriptor *start = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:NO];
     NSSortDescriptor *end = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierEndDate ascending:NO];
  
@@ -81,37 +81,50 @@
 /**
  * 跑步页面获取步数来计算吧步频
  */
-- (void)getStepCountFromBeginTime:(NSDate *)begin ToEndTime:(NSDate *)end completion:(void(^)(double stepValue, NSError *error))completion{
-    //1.确定类型 HKQuantityTypeIdentifierStepCount
-       HKQuantityType *stepType = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
-       //2.确定检索
-       NSSortDescriptor *start2 = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:NO];
-       NSSortDescriptor *end2 = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierEndDate ascending:NO];
-    HKSampleQuery *query = [[HKSampleQuery alloc] initWithSampleType:stepType predicate:[GYYHealthManager getStepPredicateForSampleFromBeginTime:begin ToEndTime:end] limit:HKObjectQueryNoLimit sortDescriptors:@[start2,end2] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
-        if(error){
-                   completion(0,error);
-               }else{
-                   NSInteger runTotleSteps = 0;
-                   for(HKQuantitySample *quantitySample in results){
-                       HKQuantity *quantity = quantitySample.quantity;
-                       HKUnit *heightUnit = [HKUnit countUnit];
-                       double usersHeight = [quantity doubleValueForUnit:heightUnit];
-                       runTotleSteps += usersHeight;
-                   }
-//                   NSString *totleSteps = [NSString stringWithFormat:@"%ld",(long)runTotleSteps];
-                   completion(runTotleSteps, error);
-               }
+- (void)getStepsRunningCompletion:(void(^)(int value, NSError *error))completion{
+    //获取这一分钟内的步数
+    //1.查询采样信息
+    HKSampleType *sampleType = [HKSampleType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
+    
+    //NSSortDescriptors用来告诉healthStore怎么样将结果排序。
+    NSSortDescriptor *start = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierStartDate ascending:NO];
+    NSSortDescriptor *end = [NSSortDescriptor sortDescriptorWithKey:HKSampleSortIdentifierEndDate ascending:NO];
+    
+    NSDate *now = [NSDate date]; //现在的时间
+    //一分钟之前的时间
+    NSDate *laterOneMinut = [NSDate dateWithTimeIntervalSinceNow:-60];
+    
+    NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:laterOneMinut endDate:now options:HKQueryOptionNone];
+    
+    
+   
+    HKSampleQuery *sampQuery = [[HKSampleQuery alloc] initWithSampleType:sampleType predicate:predicate limit:0 sortDescriptors:@[start,end] resultsHandler:^(HKSampleQuery * _Nonnull query, NSArray<__kindof HKSample *> * _Nullable results, NSError * _Nullable error) {
+        NSLog(@"resultCount = %lu result = %@",(unsigned long)results.count,results);
+        
+        //设置一个int型变量来作为步数统计
+        int allStepCount = 0;
+        if (error) {
+            completion(0,error);
+        }else{
+            for (int i = 0; i < results.count; i++) {
+                //把结果转换为字符串类型
+                HKQuantitySample *result = results[i];
+                HKQuantity *quantity = result.quantity;
+                NSMutableString *stepCount = (NSMutableString *)quantity;
+                NSString *stepStr =[ NSString stringWithFormat:@"%@",stepCount];
+                //获取51 count此类字符串前面的数字
+                NSString *str = [stepStr componentsSeparatedByString:@" "][0];
+                int stepNum = [str intValue];
+                NSLog(@"%d",stepNum);
+                //把这一分钟内的所有步数加起来
+                allStepCount = allStepCount + stepNum;
+            }
+            completion(allStepCount,error);
+        }
     }];
-    [self.healthStore executeQuery:query];
+    //执行查询
+    [self.healthStore executeQuery:sampQuery];
 }
-//跑步界面步数的时段
-+ (NSPredicate *)getStepPredicateForSampleFromBeginTime:(NSDate *)begin ToEndTime:(NSDate *)end{
-    NSDate * startDate = begin;
-    NSDate * endDate = end;
-    NSPredicate *predicate = [HKQuery predicateForSamplesWithStartDate:startDate endDate:endDate options:HKQueryOptionNone];
-    return predicate;
-}
-
 
 //获取阶梯数
 - (void)getStairIsToday:(BOOL)isToday completion:(void(^)(double value, NSError *error))completion{

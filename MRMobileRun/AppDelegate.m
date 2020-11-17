@@ -29,7 +29,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-   // [AMapServices sharedServices].apiKey = MAMAP_KEY; //将高德地图的key配置在代码中
+//    [AMapServices sharedServices].apiKey = YCKey; //将高德地图的key配置在代码中
     [AMapServices sharedServices].apiKey = YCTestKey; //杨诚的测试用的key
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

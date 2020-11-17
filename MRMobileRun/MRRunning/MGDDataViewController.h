@@ -19,7 +19,7 @@ API_AVAILABLE(ios(12.0))
 
 @property (nonatomic, strong) NSString *userIconStr;
 @property (nonatomic, strong) NSString *userNmaeStr;
-@property (nonatomic, strong) NSString *distanceStr;
+@property (nonatomic, strong) NSString *distanceStr;        //跑步距离
 @property (nonatomic, strong) NSString *speedStr; //配速
 @property (nonatomic, strong) NSString *stepFrequencyStr; //步频
 @property (nonatomic, strong) NSString *timeStr; //跑步时间

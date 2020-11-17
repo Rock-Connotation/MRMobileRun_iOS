@@ -114,6 +114,8 @@
     [self.overView.mapView setCenterCoordinate:centerCL];
     self.overView.mapView.zoomLevel = 15;
     self.overView.mapView.userInteractionEnabled = YES;
+    [self.ALocationManager stopUpdatingLocation]; //最后停止定位
+    self.overView.mapView.showsUserLocation = NO; //不显示用户的位置
     
     //设置右滑返回的手势
     id target = self.navigationController.interactivePopGestureRecognizer.delegate;
@@ -121,6 +123,8 @@
     panGesture.delegate = self; //设置手势代理，拦截手势触发
     [self.view addGestureRecognizer:panGesture];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO; //禁止系统自带的滑动手势
+    
+    
 }
 
 - (void)handleNavigationTransition:(UIPanGestureRecognizer *)pan {
