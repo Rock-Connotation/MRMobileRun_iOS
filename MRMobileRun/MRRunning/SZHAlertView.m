@@ -29,16 +29,43 @@
             make.center.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(screenWidth * 0.816,screenHeigth * 0.2463));
         }];
-        AlertView.layer.cornerRadius = 16;
-        AlertView.layer.shadowRadius = 6;
-/*
-结束按钮
-            */
+//        AlertView.layer.cornerRadius = 16;
+//        AlertView.layer.shadowRadius = 6;
+//        AlertView.layer.shadowOpacity = 1;
+        self.AlertView = AlertView;
+        self.AlertView.layer.cornerRadius = 16;
+        self.AlertView.layer.shadowRadius = 6;
+        
+        /*
+                       中间的label文本
+                                       */
+        self.messageLbl = [[UILabel alloc] init];
+        [AlertView addSubview:self.messageLbl];
+        [self.messageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.width.mas_equalTo(216);
+            make.top.equalTo(AlertView.mas_top).offset(47);
+//            make.bottom.equalTo(self.endBtn.mas_top);
+                       }];
+        self.messageLbl.numberOfLines = 0;
+        self.messageLbl.textAlignment = NSTextAlignmentCenter;
+        if (@available(iOS 11.0, *)) {
+            self.messageLbl.textColor = bottomTitleColor;
+        } else {
+            // Fallback on earlier versions
+        }
+        self.messageLbl.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
+        self.messageLbl.text = title;
+        
+        
+        /*
+         结束按钮
+         */
         self.endBtn = [[UIButton alloc] init];
         [AlertView addSubview:_endBtn];
         [self.endBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(AlertView.mas_left).offset(18);
-            make.top.equalTo(AlertView.mas_top).offset(136);
+            make.top.equalTo(self.messageLbl.mas_bottom).offset(20);
             make.size.mas_equalTo(CGSizeMake(130, 44));
         }];
         if (@available(iOS 11.0, *)) {
@@ -71,6 +98,7 @@
             make.width.mas_equalTo(self.endBtn.mas_width);
         }];
         
+      
                        
                    /*
                         继续跑步按钮
@@ -82,6 +110,7 @@
             make.size.centerY.equalTo(self.endBtn);
         }];
         self.ContinueRunBtn.titleLabel.backgroundColor = [UIColor redColor];
+        
         //给继续跑步按钮添加lable
         UILabel *continueBtnTitleLbl = [[UILabel alloc] init];
         continueBtnTitleLbl.textColor = [UIColor whiteColor];
@@ -98,29 +127,7 @@
         self.ContinueRunBtn.backgroundColor = [UIColor colorWithRed:0/255.0 green:197/255.0 blue:217/255.0 alpha:1.0];
         self.ContinueRunBtn.layer.cornerRadius = 12;
                 
-        /*
-                       中间的label文本
-                                       */
-        self.messageLbl = [[UILabel alloc] init];
-        [AlertView addSubview:self.messageLbl];
-        [self.messageLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self);
-            make.width.mas_equalTo(216);
-            make.top.equalTo(AlertView.mas_top).offset(47);
-//            make.bottom.equalTo(self.endBtn.mas_top);
-                       }];
-        self.messageLbl.numberOfLines = 0;
-        self.messageLbl.textAlignment = NSTextAlignmentCenter;
-        if (@available(iOS 11.0, *)) {
-            self.messageLbl.textColor = bottomTitleColor;
-        } else {
-            // Fallback on earlier versions
-        }
-        self.messageLbl.font = [UIFont fontWithName:@"PingFangSC-Medium" size: 16];
-        
-        self.messageLbl.text = title;
        
-        self.AlertView = AlertView;
         
         [self addUnabledViews];
     }

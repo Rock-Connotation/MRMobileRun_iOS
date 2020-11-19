@@ -85,6 +85,8 @@
     RunLocationModel *model3 = self.locationAry.lastObject;
     CLLocationCoordinate2D centerCoordinate = model3.location;
     [self.overView.mapView setCenterCoordinate:centerCoordinate ];
+    self.overView.mapView.showsUserLocation = NO;
+    [self.ALocationManager stopUpdatingLocation]; //停止定位
 }
     //适配各个View的深色模式以及页面布局
 - (void)fit{
@@ -149,10 +151,11 @@
     }
     self.overView.kmLab.text = self.distanceStr; //跑步距离赋值
     self.overView.speedLab.text = self.speedStr; //配速赋值
-    if (self.averageStepFrequency >0 && self.averageStepFrequency < 300) {
+//    if (self.averageStepFrequency >0 && self.averageStepFrequency < 300) {
+    if (self.averageStepFrequency < 300) {
         self.overView.paceLab.text = [NSString stringWithFormat:@"%d",self.averageStepFrequency]; //平均步频赋值
-        
     }
+//    }
         //天气框图片
     if ([self.weather isEqualToString:@"雷阵雨"]) {
         self.overView.weatherImagview.image = [UIImage imageNamed:@"雷阵雨白"];
@@ -167,6 +170,7 @@
     }
     _overView.timeLab.text = self.timeStr;   //跑步时间赋值
     self.overView.calLab.text = self.energyStr; //燃烧千卡赋值
+    self.overView.paceLab.text = [NSString stringWithFormat:@"%d",self.averageStepFrequency]; //平均步频
     self.dataView.paceLab.text = [NSString stringWithFormat:@"%d",self.maxStepFrequencyLastest];   //最大步频
     self.dataView.speedLab.text = [NSString stringWithFormat:@"%.02f",self.maxSpeedLastest]; //最大速度
     
@@ -175,13 +179,30 @@
 //添加两个图表
 - (void)addTwoCharts{
     //画步频的波浪图
+        //如果步频数组不为0则正常绘制
     if (self.cacultedStepsAry.count != 0) {
         //步频的波浪图
-        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
         SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
         [paceWaveChart initWithViewsWithBooTomCount:self.cacultedStepsAry.count AndLineDataAry:self.cacultedStepsAry AndYMaxNumber:250];
-//        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
         
+                //图标添加到视图上并进行位置约束
+        [self.dataView.paceBackView addSubview:paceWaveChart];
+        [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.dataView.paceBackView);
+            make.height.mas_equalTo(245);
+        }];
+        paceWaveChart.topYlabel.text = @"步/分";
+        paceWaveChart.bottomXLabel.text = @"分钟";
+        
+                //创建左边的数字label
+        for (int i = 0; i < paceWaveChart.leftLblAry.count; i++) {
+            UILabel *label = paceWaveChart.leftLblAry[i];
+            label.text = [NSString stringWithFormat:@"%d",(i+1) * 50];
+        }
+    }else if (self.cacultedStepsAry.count == 0) {
+        NSArray *paceArray = @[@130,@140,@152,@180,@200,@148,@132,@98];
+        SZHWaveChart *paceWaveChart = [[SZHWaveChart alloc] init];
+        [paceWaveChart initWithViewsWithBooTomCount:paceArray.count AndLineDataAry:paceArray AndYMaxNumber:250];
         [self.dataView.paceBackView addSubview:paceWaveChart];
         [paceWaveChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.paceBackView);
@@ -197,16 +218,33 @@
     
     //处理画速度的折线图
   
-    NSLog(@"在跑步结束页绘制的速度数组为%@",self.caculatedSpeedAry);
+//    NSLog(@"在跑步结束页绘制的速度数组为%@",self.caculatedSpeedAry);
+    //如果速度数组不为空则正常显示，否则就显示固定的数组
     if (self.caculatedSpeedAry.count != 0) {
         //速度的折线图
         SZHChart *speedChart = [[SZHChart alloc] init];
-        /*
-         测试用
-//        NSArray *array = @[@3,@4.8,@4,@3.8,@4,@4.3,@4.5,@3.7];
-//        [speedChart initWithViewsWithBooTomCount:array.count AndLineDataAry:array AndYMaxNumber:6];
-       */
-        [speedChart initWithViewsWithBooTomCount:self.caculatedSpeedAry.count/5 AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+        [speedChart initWithViewsWithBooTomCount:self.caculatedSpeedAry.count AndLineDataAry:self.caculatedSpeedAry AndYMaxNumber:6];
+            
+            //约束并添加到视图上
+        [self.dataView.speedBackView addSubview:speedChart];
+        [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.dataView.speedBackView);
+            make.height.mas_equalTo(245);
+        }];
+        speedChart.topYlabel.text = @"米/秒";
+        speedChart.bottomXLabel.text = @"分钟";
+        
+            //创建左边的数字label
+        for (int i = 0; i < speedChart.leftLblAry.count; i++) {
+            UILabel *label = speedChart.leftLblAry[i];
+            label.text = [NSString stringWithFormat:@"%d", i + 2];
+        }
+    }else if (self.caculatedSpeedAry.count == 0){
+        //速度的折线图
+        SZHChart *speedChart = [[SZHChart alloc] init];
+         //测试用
+        NSArray *array = @[@3,@4.8,@4,@3.8,@4,@4.3,@4.5,@3.7];
+        [speedChart initWithViewsWithBooTomCount:array.count AndLineDataAry:array AndYMaxNumber:6];
         [self.dataView.speedBackView addSubview:speedChart];
         [speedChart mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.dataView.speedBackView);
