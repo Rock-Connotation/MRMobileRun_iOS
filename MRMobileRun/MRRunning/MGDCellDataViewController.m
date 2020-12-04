@@ -376,33 +376,38 @@
 
 - (void)share {
     _shareView = [[MGDShareView alloc] initWithShotImage:@"" logoImage:@"" QRcodeImage:@""];
-       [self.view addSubview:_shareView];
-       [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-       [self shareAction];
-      // 分享界面的地图截图
-       CGRect inRect = self.overView.mapView.frame;
-      [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
-          state = 1;
-          self.shareImage = resultImage;
-          self.shareView.shotImage.image = self.shareImage;
-       }];
-       self->_shareDataView = [[MGDShareDataView alloc] init];
-       [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
-       self.shareDataView.userName.text = self.userNmaeStr;
-       self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
-       self.shareDataView.speedLab.text = self.speedStr; //配速赋值
-       self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
-       self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
-       self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
-       self.shareDataView.date.text = self.date; //日期
-       self.shareDataView.currentTime.text = self.time; //时间
-       self.shareDataView.speedLab.text = self.MaxSpeed; //最大速度
-       self.shareDataView.paceLab.text = self.MaxStepFrequency; //最大步频
-       [self.shareView.dataView addSubview:_shareDataView];
+    [self.view addSubview:_shareView];
+    [_shareView.cancelBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self shareAction];
+    // 分享界面的地图截图
+    CGRect inRect = self.overView.mapView.frame;
+    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
+        state = 1;
+        self.shareImage = resultImage;
+        self.shareView.shotImage.image = self.shareImage;
+    }];
+    self->_shareDataView = [[MGDShareDataView alloc] init];
+        //头像
+    NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+    NSString *imageUrl = [user objectForKey:@"avatar_url"];
+    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
     
-       UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
-       self.shareView.QRImage.userInteractionEnabled = YES;
-       [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
+    //       [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
+    self.shareDataView.userName.text = self.userNmaeStr;    //昵称
+    self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
+    self.shareDataView.speedLab.text = self.speedStr; //配速赋值
+    self.shareDataView.timeLab.text = self.timeStr;   //跑步时间赋值
+    self.shareDataView.calLab.text = self.energyStr; //燃烧千卡赋值
+    self.shareDataView.paceLab.text = self.stepFrequencyStr; //步频
+    self.shareDataView.date.text = self.date; //日期
+    self.shareDataView.currentTime.text = self.time; //时间
+    self.shareDataView.speedLab.text = self.MaxSpeed; //最大速度
+    self.shareDataView.paceLab.text = self.MaxStepFrequency; //最大步频
+    [self.shareView.dataView addSubview:_shareDataView];
+    
+    UILongPressGestureRecognizer *QrCodeTap = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(qrCodeLongPress:)];
+    self.shareView.QRImage.userInteractionEnabled = YES;
+    [self.shareView.QRImage addGestureRecognizer:QrCodeTap];
 }
 
 //暂时未放二维码
@@ -452,54 +457,6 @@
     }];
 }
 
-////处理从毛国栋传过来的位置、步频、速度数组
-//- (void)separateString{
-//    //速度数组
-//    NSMutableArray *muteSpeedAry = [NSMutableArray array];
-//    for (int i = 0; i < self.speedArray.count; i++) {
-//        NSString *string = self.speedArray[i];
-//        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-//        NSString *string2 = array[1];
-//        [muteSpeedAry addObject:string2];
-//    }
-//    self.originalSpeedAry = muteSpeedAry;
-//    NSLog(@"原始的速度数组为%@",self.originalSpeedAry);
-//
-//    //步频数组
-//    NSMutableArray *muteStepsAry = [NSMutableArray array];
-//    for (int i = 0; i < self.stepFrequencyArray.count; i++) {
-//        NSString *string = self.stepFrequencyArray[i];
-//        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-//        NSString *string2 = array[1];
-//        [muteStepsAry addObject:string2];
-//    }
-//    self.originalStepsAry = muteStepsAry;
-//    NSLog(@"原始的步频数组为%@",self.originalStepsAry);
-//
-//    //    //位置数组
-//                //去除其中的(-1,-1)的坐标点
-//    NSMutableArray *dealLocationArray = [NSMutableArray arrayWithArray:self.locationAry];
-//    for (int i = 0; i < dealLocationArray.count; i++) {
-//        NSString *string = dealLocationArray[i];
-//        if ([string isEqualToString:@"-1,-1"]) {
-//            [dealLocationArray removeObject:string];
-//        }
-//    }
-//            //将字符串转换为坐标
-//    NSMutableArray *muteLocationAry = [NSMutableArray array];
-//    for (int i = 0; i < dealLocationArray.count; i++) {
-//        NSString *string = dealLocationArray[i];
-//        NSArray *array = [string componentsSeparatedByString:@","];//根据逗号分割字符串
-//        double lat = [array[0] doubleValue];
-//        double lon = [array[1] doubleValue];
-//        RunLocationModel *model = [[RunLocationModel alloc] init];
-//        model.location = CLLocationCoordinate2DMake(lat, lon);
-//        [muteLocationAry addObject:model];
-//    }
-//    self.originalLocationAry = muteLocationAry;
-//
-//    NSLog(@"未处理的位置数组为%@",self.locationAry);
-//}
 
 #pragma mark- 位置管理者
 - (void)initLocationManager{

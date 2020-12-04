@@ -477,11 +477,15 @@
     for (int i = 0; i < self.speedAry.count; i++) {
         NSString *speed = self.speedAry[i];
         NSString *index = [NSString stringWithFormat:@"%d",i+1];
-        NSNumber *n1 = @([speed doubleValue]);
-        NSNumber *n2 = @([index intValue]);
+        NSNumber *n1 = @([speed doubleValue]); //具体数值
+        NSNumber *n2 = @([index intValue]); //序号
         NSMutableArray *muteArySpeed = [NSMutableArray array];
-        [muteArySpeed addObject:n1];
+//        [muteArySpeed addObject:n1];
+//        [muteArySpeed addObject:n2];
+        //序号排列在前面，具体数值排在后面
         [muteArySpeed addObject:n2];
+        [muteArySpeed insertObject:n1 atIndex:1];
+        
         NSArray *array = muteArySpeed;
         [mueArySpeed2 addObject:array];
     }
@@ -497,8 +501,11 @@
                NSNumber *n1 = @([step intValue]);
                NSNumber *n2 = @([stepIndex intValue]);
                NSMutableArray *array = [NSMutableArray new];
-               [array addObject:n1];
+//               [array addObject:n1];
+//               [array addObject:n2];
+               //序号排列在前面，具体数值排在后面
                [array addObject:n2];
+               [array insertObject:n1 atIndex:1];
                [muteStepsArray addObjectsFromArray:array];
            }
            self.updateStepsAry = muteStepsArray;
@@ -569,7 +576,6 @@
            if (@available(iOS 12.0, *)) {
                MGDDataViewController *overVC = [[MGDDataViewController alloc] init];
                //属性传值
-//               overVC.distanceStr = self.Mainview.mileNumberLabel.text; //跑步距离
                overVC.distanceStr = [NSString stringWithFormat:@"%0.2f",self.distance];
                overVC.speedStr = self.Mainview.speedNumberLbl.text; //配速
                
@@ -656,9 +662,6 @@
         }
         
         self.cacultedStepsAry = stepsMuteAry;
-//        if (self.cacultedStepsAry.count != 0) {
-//        NSLog(@"处理后的步频数组为%@,处理后最大的步频为%f",self.cacultedStepsAry,self.maxStepLast);
-//        }
     }
     
     
@@ -695,8 +698,6 @@
         CLLocationCoordinate2D coordinate = model.location;
         double latitude = coordinate.latitude;
         double lontitude = coordinate.longitude;
-//        NSString *latitudeStr = [NSString stringWithFormat:@"%f",coordinate.latitude];
-//        NSString *lontitudeStr = [NSString stringWithFormat:@"%f",coordinate.longitude];
         NSMutableArray *sectionPath = [NSMutableArray array];
         NSNumber *lati = [NSNumber numberWithDouble:latitude];
         NSNumber *lonti = [NSNumber numberWithDouble:lontitude];
@@ -740,7 +741,6 @@
 //
     NSNumber *finishDate = @([self.finishDate intValue]);
     [paramDic setValue:finishDate forKey:@"finishDate"]; //完成日期
-//    NSLog(@"上传的日期为%@",self.finishDate);
 
 
     if (self.updateStepsAry.count == 0) {
@@ -750,8 +750,6 @@
         NSString *string2 = [NSString stringWithFormat:@"%d",1];
         NSNumber *number2 = @([string2 intValue]);
         NSMutableArray *muteary = [NSMutableArray array];
-//        [muteary addObject:string2];
-//        [muteary addObject:string];
         [muteary addObject:number1];
         [muteary addObject:number2];
         NSArray *array = muteary;

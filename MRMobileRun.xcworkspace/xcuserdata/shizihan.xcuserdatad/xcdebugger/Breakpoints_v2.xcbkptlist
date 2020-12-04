@@ -42,8 +42,8 @@
             filePath = "MRMobileRun/MRRunning/RunMainPageCV.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
             landmarkName = "-averageSpeedAndSteps"
             landmarkType = "7">
          </BreakpointContent>
@@ -92,8 +92,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "271"
             endingLineNumber = "271"
-            landmarkName = "RunMainPageCV"
-            landmarkType = "3">
+            landmarkName = "-distanceWithLocation:andLastButOneModel:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -157,6 +157,22 @@
             startingLineNumber = "201"
             endingLineNumber = "201"
             landmarkName = "-amapLocationManager:didUpdateLocation:reGeocode:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "60FB07B2-1008-4366-9FFC-16FCB3761B44"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MRMobileRun/MRRunning/RunMainPageCV.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
+            landmarkName = "-endRun"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

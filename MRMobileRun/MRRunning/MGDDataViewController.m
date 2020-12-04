@@ -88,7 +88,9 @@
     self.overView.mapView.showsUserLocation = NO;
     [self.ALocationManager stopUpdatingLocation]; //停止定位
 }
-    //适配各个View的深色模式以及页面布局
+
+
+//适配各个View的深色模式以及页面布局
 - (void)fit{
     //适配深色模式
        _backScrollView = [[UIScrollView alloc] init];
@@ -141,8 +143,6 @@
         
         //绘制统计图的View
        [self.backScrollView addSubview:_dataView];
-    
-    
     
     //赋值
         //温度赋值
@@ -275,18 +275,20 @@
     [self shareAction];
     
    // 分享界面的地图截图
-//    CGRect inRect = self.overView.mapView.frame;
-
-//    CGRect inRect = self.shareView.popView.frame;
     CGRect inRect = self.overView.mapView.frame;
    [self.overView.mapView takeSnapshotInRect:inRect withCompletionBlock:^(UIImage *resultImage, NSInteger state) {
        state = 1;
        self.shareImage = resultImage;
        self.shareView.shotImage.image = self.shareImage;
     }];
+    
     //在地图截图上展示跑步距离、配速、步频、时间等数据
     self->_shareDataView = [[MGDShareDataView alloc] init];
-    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
+        //头像
+    NSUserDefaults  *user = [NSUserDefaults standardUserDefaults];
+    NSString *imageUrl = [user objectForKey:@"avatar_url"];
+    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+//    [self.shareDataView.userIcon sd_setImageWithURL:[NSURL URLWithString:self.userIconStr] placeholderImage:[UIImage imageNamed:@"logo头像"]];
     self.shareDataView.userName.text = self.userNmaeStr;
     self.shareDataView.kmLab.text = self.distanceStr; //跑步距离赋值
     self.shareDataView.speedLab.text = self.speedStr; //配速赋值
