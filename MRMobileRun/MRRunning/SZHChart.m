@@ -174,16 +174,16 @@
         for (int i = 0; i < self.lineDataAry.count; i++) {
         //绘制关键点
             NSNumber * tempNum = self.lineDataAry[i];
-            CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
-    //               NSLog(@"%f",ratio);
-            CGFloat Y = 0;
-//            if (tempNum.floatValue < 2) {
-//               Y = ((6 * _spaceY ) * ratio)/2; //关键点的竖直位置
-//            }else{
-                Y = (6 * _spaceY ) * ratio; //关键点的竖直位置
-//            }
-          
-    //        NSLog(@"%f",Y)
+            CGFloat Y = 0;                          //坐标点的Y值
+            //如果数值超过峰值，那么该坐标点的的坐标就为峰值
+            if (tempNum.floatValue > self.maxY) {
+                Y = self.maxY;
+            }else{
+                CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
+        //               NSLog(@"%f",ratio);
+                Y = (5 * _spaceY ) * ratio; //关键点的竖直位置
+        //        NSLog(@"%f",Y);
+            }
             //关键点的横向位置;
             CGFloat X = 0;
              if (i == 0) {

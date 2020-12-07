@@ -181,23 +181,28 @@
         for (int i = 0; i < self.lineDataAry.count; i++) {
         //绘制关键点
             NSNumber * tempNum = self.lineDataAry[i];
-            CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
-    //               NSLog(@"%f",ratio);
-            CGFloat Y = (5 * _spaceY ) * ratio; //关键点的竖直位置
-    //        NSLog(@"%f",Y);
+            CGFloat Y = 0;                          //坐标点的Y值
+            //如果数值超过峰值，那么该坐标点的的坐标就为峰值
+            if (tempNum.floatValue > self.maxY) {
+                Y = self.maxY;
+            }else{
+                CGFloat ratio = tempNum.floatValue/self.YmaxNumber;
+        //               NSLog(@"%f",ratio);
+                Y = (5 * _spaceY ) * ratio; //关键点的竖直位置
+        //        NSLog(@"%f",Y);
+            }
             if (i == 0) {
                 X = 0;
             }else{
-//                 X = 8 + i*_spaceX + (i-1)*15; //关键点的横向位置(此处为五分钟绘制一个点)
-                X = 8 + (i * _spaceX + (i - 1)*5)/5; //此处为每一分钟绘制一个点
+                 X = 8 + i*_spaceX + (i-1)*15; //关键点的横向位置(此处为五分钟绘制一个点)
+//                X = 8 + (i * _spaceX + (i - 1) * 5)/5; //此处为每五分钟绘制一个点
             }
            
             //绘制折线 和 遮罩层
-         
             if (pointAry.count == 0) {
                 NSValue *firstvalue = [NSValue valueWithCGPoint:CGPointMake(X, _spaceY * 6 - Y )];
                 self.startPoint = [firstvalue CGPointValue];
-               
+                
                 NSLog(@"开始点的坐标%f,%f",self.startPoint.x,self.startPoint.y);
                 [pointAry addObject:firstvalue];
                 NSLog(@"添加了一个元素%lu",(unsigned long)pointAry.count);
@@ -212,26 +217,26 @@
                 NSValue *currentValue = [NSValue valueWithCGPoint:CGPointMake(X, _spaceY * 6 - Y )];
                 CGPoint currentpoint = [currentValue CGPointValue];
                 NSLog(@"现在的坐标点的坐标%f,%f",currentpoint.x,currentpoint.y);
-
+                
                 //设置两个控制点
                 CGFloat controlX = (lastPoint.x + currentpoint.x)/2;
-//                NSLog(@"%f",controlX);
+                //                NSLog(@"%f",controlX);
                 CGPoint controlPoint1 = CGPointMake(controlX, lastPoint.y);
-//                NSLog(@"控制点1的横纵坐标为---%f,------%f",controlPoint1.x,controlPoint1.y);
+                //                NSLog(@"控制点1的横纵坐标为---%f,------%f",controlPoint1.x,controlPoint1.y);
                 CGPoint controlPoint2 = CGPointMake(controlX, currentpoint.y);
-//                 NSLog(@"控制点2的横纵坐标为---%f,------%f",controlPoint2.x,controlPoint2.y);
+                //                 NSLog(@"控制点2的横纵坐标为---%f,------%f",controlPoint2.x,controlPoint2.y);
                 
                 //绘制折线
                 [linePath addCurveToPoint:currentpoint controlPoint1:controlPoint1 controlPoint2:controlPoint2];
                 //将折线添加到scroll上
                 CAShapeLayer *lineLayer = [CAShapeLayer layer];
-                                  lineLayer.path = linePath.CGPath;
+                lineLayer.path = linePath.CGPath;
                 lineLayer.strokeColor = [UIColor clearColor].CGColor;
-                                  lineLayer.fillColor = [UIColor clearColor].CGColor;
-                                  lineLayer.lineWidth = 1;
-                                  lineLayer.lineCap = kCALineCapRound;
-                                  lineLayer.lineJoin = kCALineJoinRound;
-                                  lineLayer.contentsScale = [UIScreen mainScreen].scale;
+                lineLayer.fillColor = [UIColor clearColor].CGColor;
+                lineLayer.lineWidth = 1;
+                lineLayer.lineCap = kCALineCapRound;
+                lineLayer.lineJoin = kCALineJoinRound;
+                lineLayer.contentsScale = [UIScreen mainScreen].scale;
                 [self.chartScroll.layer addSublayer:lineLayer];
                 
                 //绘制遮罩层
@@ -243,7 +248,7 @@
                     
                     [self dralineWithShelterVezier:shelterBezier AndSTartP:self.startPoint];
                 }
-//                NSLog(@"元素个数为%lu",(unsigned long)pointAry.count);
+                //                NSLog(@"元素个数为%lu",(unsigned long)pointAry.count);
             }
         }
      
@@ -255,50 +260,45 @@
  * 设置颜色渐变
  */
 //绘制遮罩层轨迹
-
-
 - (void)dralineWithShelterVezier:(UIBezierPath *)shelterBezier AndSTartP:(CGPoint )startP{
     CGFloat bgHeight = 6 * _spaceY;  //得到在X轴上
     //获取最后一个点的X值
     CGFloat lastPointX = self.lastestPoint.x;
-    //最后一个点对应的x轴的位置
+    //最后一个点对应的x轴的位置的点
     CGPoint lastPointX1 = CGPointMake(lastPointX, bgHeight);
-    [shelterBezier addLineToPoint:lastPointX1]; //遮罩层轨迹绘制
-    //回到原点
+    //遮罩层轨轨迹添加
+    [shelterBezier addLineToPoint:lastPointX1];
+    //回到原点的那个点
     [shelterBezier addLineToPoint:CGPointMake(startP.x, bgHeight)];
-   
-    [shelterBezier addLineToPoint:startP]; //密闭
-//    CAShapeLayer *shelterlineLayer = [CAShapeLayer layer];
-//                         shelterlineLayer.path = shelterBezier.CGPath;
-//                         shelterlineLayer.strokeColor = [UIColor greenColor].CGColor;
-//                         shelterlineLayer.fillColor = [UIColor clearColor].CGColor;
-//                         shelterlineLayer.lineWidth = 8;
-//                         shelterlineLayer.lineCap = kCALineCapRound;
-//                         shelterlineLayer.lineJoin = kCALineJoinRound;
-//                         shelterlineLayer.contentsScale = [UIScreen mainScreen].scale;
-//       [self.chartScroll.layer addSublayer:shelterlineLayer];
+    //使遮罩层密闭（就是将原点和起始点连接起来）
+    [shelterBezier addLineToPoint:startP];
+    
+    //向遮罩层内填充渐变颜色
     [self addGradientWithBezierPath:shelterBezier];
 }
 
 //渐变图层
 -(void)addGradientWithBezierPath:(UIBezierPath *)beizer{
-    //遮罩层
-       CAShapeLayer *shadeLayer = [CAShapeLayer layer];
-       shadeLayer.path = beizer.CGPath;
-       shadeLayer.fillColor = [UIColor greenColor].CGColor;
-       CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    //将上面得到的轮廓曲线转化为CAShapelayer的的曲线属性，方便添加到屏幕等操作
+    CAShapeLayer *shadeLayer = [CAShapeLayer layer];
+    shadeLayer.path = beizer.CGPath;
+    shadeLayer.fillColor = [UIColor greenColor].CGColor;
+    
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     gradientLayer.frame = CGRectMake(CGRectGetMinX(self.chartScroll.frame), CGRectGetMinY(self.chartScroll.frame), self.chartScroll.contentSize.width, 6 * _spaceY);
-       gradientLayer.startPoint = CGPointMake(0, 0);
-       gradientLayer.endPoint = CGPointMake(0, 1);
-       gradientLayer.cornerRadius = 5;
-       gradientLayer.masksToBounds = YES;
+    gradientLayer.startPoint = CGPointMake(0, 0);        //颜色绘制开始的点
+    gradientLayer.endPoint = CGPointMake(0, 1);          //颜色绘制结束的点
+    gradientLayer.cornerRadius = 5;
+    gradientLayer.masksToBounds = YES;
+    
+    //渐变的颜色数组
     gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:56/255.0 green:190/255.0 blue:216/255.0 alpha:0.8].CGColor,(__bridge id)[UIColor colorWithRed:106/255.0 green:207/255.0 blue:191/255.0 alpha:0.1].CGColor];
-//
-    gradientLayer.locations = @[@(0.5)];
-       CALayer *baseLayer = [CALayer layer];
-       [baseLayer addSublayer:gradientLayer];
-       [baseLayer setMask:shadeLayer];
-       [self.chartScroll.layer addSublayer:baseLayer];
+    
+    gradientLayer.locations = @[@(0.5)];        //绘制颜色分割
+    CALayer *baseLayer = [CALayer layer];
+    [baseLayer addSublayer:gradientLayer];
+    [baseLayer setMask:shadeLayer];             //将之前取得的轮廓作为CAGradientLayer的遮罩
+    [self.chartScroll.layer addSublayer:baseLayer];
 }
 
 
